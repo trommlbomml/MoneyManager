@@ -153,5 +153,21 @@ namespace MoneyManager.Model.Tests
             Assert.That(createdRequest.Description, Is.EqualTo(requestData.Description));
             Assert.That(createdRequest.Value, Is.EqualTo(requestData.Value));
         }
+
+        [Test]
+        public void DeleteRequest()
+        {
+            CreateRequestsInRepository(new[] { new DateTime(2014, 1, 1) }, new[] { 10 });
+
+            var allRequestIdsBeforeDelete = Repository.QueryRequestsForSingleMonth(2014, 1).Select(r => r.PersistentId).ToArray();
+            var requestPersistentIdToDelete = allRequestIdsBeforeDelete.First();
+
+            Repository.DeleteRequest(requestPersistentIdToDelete);
+
+            var persistentIdsAfterDelete = Repository.QueryRequestsForSingleMonth(2014, 1).Select(r => r.PersistentId).ToArray();
+
+            Assert.That(persistentIdsAfterDelete.Length, Is.EqualTo(9));
+            CollectionAssert.AreEquivalent(allRequestIdsBeforeDelete.Except(new[]{requestPersistentIdToDelete}), persistentIdsAfterDelete);
+        }
     }
 }
