@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
+using Ionic.Zip;
 using MoneyManager.Interfaces;
 
 namespace MoneyManager.Model
@@ -60,6 +65,17 @@ namespace MoneyManager.Model
         {
             return _allRequests.Where(r => r.Date.Year <= year && r.Date.Month <= month)
                                .Sum(r => r.Value);
+        }
+
+        public void Save(string fileName)
+        {
+            var xmlDocument = new XDocument(
+                                    new XElement("MoneyManagerAccount",
+                                            new XElement("Requests", _allRequests.Select(r => r.Serialize()))
+                                            )
+                                    );
+
+            xmlDocument.Save(fileName);
         }
 
         public void UpdateRequest(string persistentId, RequestEntityData data)

@@ -24,10 +24,16 @@ namespace MoneyManager.ViewModels
             
             AddRequestCommand = new CommandViewModel(OnAddRequestCommand);
             DeleteRequestCommand = new CommandViewModel(OnDeleteRequestCommand);
+            SaveCommand = new CommandViewModel(OnSaveCommand);
 
             UpdateCurrentMonth();
             UpdateSaldoForCurrentMonth();
             UpdateCommandStates();
+        }
+
+        private void OnSaveCommand()
+        {
+            Application.Repository.Save("Test.xml");
         }
 
         private void OnDeleteRequestCommand()
@@ -56,6 +62,7 @@ namespace MoneyManager.ViewModels
 
         public CommandViewModel AddRequestCommand { get; private set; }
         public CommandViewModel DeleteRequestCommand { get; private set; }
+        public CommandViewModel SaveCommand { get; private set; }
 
         public int Year
         {

@@ -16,6 +16,7 @@
             <StackPanel Orientation="Horizontal">
                 <Button Height="64" Width="64" Content="Add" Command="{Binding AddRequestCommand}" />
                 <Button Height="64" Width="64" Content="Remove" Command="{Binding DeleteRequestCommand}" />
+                <Button Height="64" Width="64" Content="Remove" Command="{Binding SaveCommand}" />
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" Grid.Row="1">

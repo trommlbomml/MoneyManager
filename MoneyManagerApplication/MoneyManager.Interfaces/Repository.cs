@@ -43,6 +43,18 @@ namespace MoneyManager.Interfaces
         /// <param name="persistentId"></param>
         void DeleteRequest(string persistentId);
 
+        /// <summary>
+        /// Calculates the sum of Requests up to month.
+        /// </summary>
+        /// <param name="year">Year</param>
+        /// <param name="month">Month</param>
+        /// <returns>Sum of Requests</returns>
         double CalculateSaldoForMonth(int year, int month);
+
+        /// <summary>
+        /// Writes Repository to file.
+        /// </summary>
+        /// <param name="fileName">filename</param>
+        void Save(string fileName);
     }
 }
