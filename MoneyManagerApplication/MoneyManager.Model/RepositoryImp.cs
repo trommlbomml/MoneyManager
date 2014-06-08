@@ -51,6 +51,17 @@ namespace MoneyManager.Model
             return request.PersistentId;
         }
 
+        public void DeleteRequest(string persistentId)
+        {
+            _allRequests.Remove(_allRequests.Single(r => r.PersistentId == persistentId));
+        }
+
+        public double CalculateSaldoForMonth(int year, int month)
+        {
+            return _allRequests.Where(r => r.Date.Year <= year && r.Date.Month <= month)
+                               .Sum(r => r.Value);
+        }
+
         public void UpdateRequest(string persistentId, RequestEntityData data)
         {
             var request = _allRequests.SingleOrDefault(r => r.PersistentId == persistentId);

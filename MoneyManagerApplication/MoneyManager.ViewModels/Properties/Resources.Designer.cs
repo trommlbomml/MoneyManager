@@ -68,5 +68,23 @@ namespace MoneyManager.ViewModels.Properties {
                 return ResourceManager.GetString("ApplicationMainWindowTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0:0.00} €.
+        /// </summary>
+        public static string MoneyValueFormat {
+            get {
+                return ResourceManager.GetString("MoneyValueFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0:dd.MM.yyyy}.
+        /// </summary>
+        public static string RequestDateFormat {
+            get {
+                return ResourceManager.GetString("RequestDateFormat", resourceCulture);
+            }
+        }
     }
 }

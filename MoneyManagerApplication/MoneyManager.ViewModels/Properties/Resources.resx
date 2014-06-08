@@ -120,4 +120,10 @@
   <data name="ApplicationMainWindowTitle" xml:space="preserve">
     <value>MoneyManager</value>
   </data>
+  <data name="MoneyValueFormat" xml:space="preserve">
+    <value>{0:0.00} €</value>
+  </data>
+  <data name="RequestDateFormat" xml:space="preserve">
+    <value>{0:dd.MM.yyyy}</value>
+  </data>
 </root>

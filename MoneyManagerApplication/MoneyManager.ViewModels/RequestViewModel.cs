@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels
@@ -12,6 +9,8 @@ namespace MoneyManager.ViewModels
         private DateTime _date;
         private string _description;
         private double _value;
+        private string _valueAsString;
+        private string _dateAsString;
 
         public RequestViewModel(ApplicationViewModel application, string entityId) : base(application, entityId)
         {
@@ -20,7 +19,12 @@ namespace MoneyManager.ViewModels
         public DateTime Date
         {
             get { return _date; }
-            set { SetBackingField("Date", ref _date, value); }
+            set { SetBackingField("Date", ref _date, value, o => OnDateChanged()); }
+        }
+
+        private void OnDateChanged()
+        {
+            DateAsString = string.Format(Properties.Resources.RequestDateFormat, Date);
         }
 
         public string Description
@@ -32,17 +36,42 @@ namespace MoneyManager.ViewModels
         public double Value
         {
             get { return _value; }
-            set { SetBackingField("Value", ref _value, value); }
+            set { SetBackingField("Value", ref _value, value, o => OnValueChanged()); }
+        }
+
+        private void OnValueChanged()
+        {
+            ValueAsString = string.Format(Properties.Resources.MoneyValueFormat, Value);
+        }
+
+        public string ValueAsString
+        {
+            get { return _valueAsString; }
+            set { SetBackingField("ValueAsString", ref _valueAsString, value); }
+        }
+
+        public string DateAsString
+        {
+            get { return _dateAsString; }
+            private set { SetBackingField("DateAsString", ref _dateAsString, value); }
         }
 
         public override void Refresh()
         {
-            throw new NotImplementedException();
+            var entity = Application.Repository.QueryRequest(EntityId);
+            Date = entity.Date;
+            Description = entity.Description;
+            Value = entity.Value;
         }
 
         public override void Save()
         {
-            throw new NotImplementedException();
+            Application.Repository.UpdateRequest(EntityId, new RequestEntityData
+            {
+                Date = Date,
+                Description = Description,
+                Value = Value
+            });
         }
     }
 }

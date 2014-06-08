@@ -36,5 +36,13 @@ namespace MoneyManager.Interfaces
         /// <param name="data">Data of Request</param>
         /// <returns>PersistentId of Request.</returns>
         string CreateRequest(RequestEntityData data);
+
+        /// <summary>
+        /// Deletes Request Entry.
+        /// </summary>
+        /// <param name="persistentId"></param>
+        void DeleteRequest(string persistentId);
+
+        double CalculateSaldoForMonth(int year, int month);
     }
 }
