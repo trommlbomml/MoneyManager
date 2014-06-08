@@ -11,7 +11,5 @@ namespace MoneyManager.ViewModels
         {
             Application = application;
         }
-
-
     }
 }

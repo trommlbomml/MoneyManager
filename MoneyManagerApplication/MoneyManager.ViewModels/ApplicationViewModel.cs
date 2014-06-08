@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
 
@@ -18,8 +17,6 @@ namespace MoneyManager.ViewModels
             Repository = repository;
 
             WindowTitle = Properties.Resources.ApplicationMainWindowTitle;
-
-            ActivateRequestmanagementScreen();
         }
 
         public void ActivateRequestmanagementScreen()

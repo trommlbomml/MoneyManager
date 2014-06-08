@@ -12,7 +12,10 @@ namespace MoneyManagerApplication
         protected override void OnStartup(StartupEventArgs e)
         {
             var repository = RepositoryFactory.CreateRepository();
+
             var applicationViewModel = new ApplicationViewModel(repository);
+            applicationViewModel.ActivateRequestmanagementScreen();
+
             var mainWindow = new MainWindow {DataContext = applicationViewModel};
 
             MainWindow = mainWindow;
