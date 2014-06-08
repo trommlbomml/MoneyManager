@@ -39,8 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryFactory.cs" />
     <Compile Include="RepositoryImp.cs" />
+    <Compile Include="RequestEntityImp.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MoneyManager.Interfaces\MoneyManager.Interfaces.csproj">
