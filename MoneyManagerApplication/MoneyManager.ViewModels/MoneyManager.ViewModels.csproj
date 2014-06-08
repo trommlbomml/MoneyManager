@@ -42,6 +42,8 @@
     <Compile Include="ApplicationViewModel.cs" />
     <Compile Include="Framework\CommandViewModel.cs" />
     <Compile Include="Framework\EntityViewModel.cs" />
+    <Compile Include="Framework\EnumeratedSingleValuedProperty.cs" />
+    <Compile Include="MonthNameViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\ViewModel.cs" />
     <Compile Include="RequestManagementScreenModel.cs" />

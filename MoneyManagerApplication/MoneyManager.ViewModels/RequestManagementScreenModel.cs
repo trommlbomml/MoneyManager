@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
@@ -8,27 +8,98 @@ namespace MoneyManager.ViewModels
 {
     public class RequestManagementScreenModel : ScreenModel
     {
-        private readonly ObservableCollection<RequestViewModel> _requests;
         private int _year;
-        private int _month;
         private double _saldo;
         private string _saldoAsString;
-        private RequestViewModel _selectedRequest;
+        private bool _preventUpdateCurrentMonth;
+
+        public EnumeratedSingleValuedProperty<RequestViewModel> Requests { get; private set; } 
+        public EnumeratedSingleValuedProperty<MonthNameViewModel> Months { get; private set; }
 
         public RequestManagementScreenModel(ApplicationViewModel application, int year, int month) : base(application)
         {
-            _requests = new ObservableCollection<RequestViewModel>();
-            Requests = new ReadOnlyObservableCollection<RequestViewModel>(_requests);
+            Months = new EnumeratedSingleValuedProperty<MonthNameViewModel>();
+            Months.AddValue(new MonthNameViewModel("Januar", 0));
+            Months.AddValue(new MonthNameViewModel("Februar", 1));
+            Months.AddValue(new MonthNameViewModel("März", 2));
+            Months.AddValue(new MonthNameViewModel("April", 3));
+            Months.AddValue(new MonthNameViewModel("Mai", 4));
+            Months.AddValue(new MonthNameViewModel("Juni", 5));
+            Months.AddValue(new MonthNameViewModel("Juli", 6));
+            Months.AddValue(new MonthNameViewModel("August", 7));
+            Months.AddValue(new MonthNameViewModel("September", 8));
+            Months.AddValue(new MonthNameViewModel("Oktober", 9));
+            Months.AddValue(new MonthNameViewModel("November", 10));
+            Months.AddValue(new MonthNameViewModel("Dezember", 11));
+
+            Requests = new EnumeratedSingleValuedProperty<RequestViewModel>();
+            
             _year = year;
-            _month = month;
+            Months.SelectedValue = Months.SelectableValues[month];
             
             AddRequestCommand = new CommandViewModel(OnAddRequestCommand);
             DeleteRequestCommand = new CommandViewModel(OnDeleteRequestCommand);
             SaveCommand = new CommandViewModel(OnSaveCommand);
+            PreviousMonthCommand = new CommandViewModel(OnPreviousMonthCommand);
+            NextMonthCommand = new CommandViewModel(OnNextMonthCommand);
+
+            Months.PropertyChanged += OnMonthsPropertyChanged;
+            Requests.PropertyChanged += OnSelectedRequestChanged;
 
             UpdateCurrentMonth();
             UpdateSaldoForCurrentMonth();
             UpdateCommandStates();
+        }
+
+        private void OnSelectedRequestChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != "SelectedValue") return;
+            UpdateCommandStates();
+        }
+
+        private void OnMonthsPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (_preventUpdateCurrentMonth) return;
+
+            UpdateCurrentMonth();
+            UpdateSaldoForCurrentMonth();
+        }
+
+        private void OnNextMonthCommand()
+        {
+            _preventUpdateCurrentMonth = true;
+
+            if (Month == 11)
+            {
+                Year++;
+                Months.SelectedValue = Months.SelectableValues.First();
+            }
+            else
+            {
+                Months.SelectedValue = Months.SelectableValues[Month+1];
+            }
+            _preventUpdateCurrentMonth = false;
+
+            UpdateCurrentMonth();
+            UpdateSaldoForCurrentMonth();
+        }
+
+        private void OnPreviousMonthCommand()
+        {
+            _preventUpdateCurrentMonth = true;
+            if (Month == 0)
+            {
+                Year--;
+                Months.SelectedValue = Months.SelectableValues.Last();
+            }
+            else
+            {
+                Months.SelectedValue = Months.SelectableValues[Month-1];
+            }
+            _preventUpdateCurrentMonth = false;
+
+            UpdateCurrentMonth();
+            UpdateSaldoForCurrentMonth();
         }
 
         private void OnSaveCommand()
@@ -38,8 +109,8 @@ namespace MoneyManager.ViewModels
 
         private void OnDeleteRequestCommand()
         {
-            Application.Repository.DeleteRequest(SelectedRequest.EntityId);
-            SelectedRequest = null;
+            Application.Repository.DeleteRequest(Requests.SelectedValue.EntityId);
+            Requests.SelectedValue = null;
             UpdateCurrentMonth();
         }
 
@@ -54,15 +125,15 @@ namespace MoneyManager.ViewModels
 
             var requestViewModel = new RequestViewModel(Application, requestEntityId);
             requestViewModel.Refresh();
-            _requests.Add(requestViewModel);
+            Requests.AddValue(requestViewModel);
             UpdateSaldoForCurrentMonth();
         }
-
-        public ReadOnlyObservableCollection<RequestViewModel> Requests { get; private set; }
 
         public CommandViewModel AddRequestCommand { get; private set; }
         public CommandViewModel DeleteRequestCommand { get; private set; }
         public CommandViewModel SaveCommand { get; private set; }
+        public CommandViewModel PreviousMonthCommand { get; private set; }
+        public CommandViewModel NextMonthCommand { get; private set; }
 
         public int Year
         {
@@ -72,8 +143,7 @@ namespace MoneyManager.ViewModels
 
         public int Month
         {
-            get { return _month; }
-            set { SetBackingField("Month", ref _month, value, o => UpdateCurrentMonth()); }
+            get { return Months.SelectedValue.Index; }
         }
 
         public double Saldo
@@ -93,19 +163,15 @@ namespace MoneyManager.ViewModels
             private set { SetBackingField("SaldoAsString", ref _saldoAsString, value); }
         }
 
-        public RequestViewModel SelectedRequest
-        {
-            get { return _selectedRequest; }
-            set { SetBackingField("SelectedRequest", ref _selectedRequest, value, o => UpdateCommandStates()); }
-        }
-
         private void UpdateCommandStates()
         {
-            DeleteRequestCommand.IsEnabled = SelectedRequest != null;
+            DeleteRequestCommand.IsEnabled = Requests.SelectedValue != null;
         }
 
         private void UpdateCurrentMonth()
         {
+            if (_preventUpdateCurrentMonth) return;
+
             var requests = Application.Repository.QueryRequestsForSingleMonth(Year, Month)
                                                  .Select(requestEntity => new RequestViewModel(Application, requestEntity.PersistentId)
                                                     {
@@ -115,13 +181,7 @@ namespace MoneyManager.ViewModels
                                                     })
                                                  .OrderBy(r => r.Date);
 
-            _requests.Clear();
-            foreach (var requestViewModel in requests)
-            {
-                _requests.Add(requestViewModel);
-            }
-
-            SelectedRequest = null;
+            Requests.SetRange(requests);
 
             UpdateSaldoForCurrentMonth();
         }

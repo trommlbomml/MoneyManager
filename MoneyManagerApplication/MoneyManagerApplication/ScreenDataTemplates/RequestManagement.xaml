@@ -16,23 +16,31 @@
             <StackPanel Orientation="Horizontal">
                 <Button Height="64" Width="64" Content="Add" Command="{Binding AddRequestCommand}" />
                 <Button Height="64" Width="64" Content="Remove" Command="{Binding DeleteRequestCommand}" />
-                <Button Height="64" Width="64" Content="Remove" Command="{Binding SaveCommand}" />
+                <Button Height="64" Width="64" Content="Save" Command="{Binding SaveCommand}" />
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" Grid.Row="1">
-                
-                <Label Content="Jahr:" Margin="2" />
-                <xctk:LongUpDown Value="{Binding Year}" Width="150" Margin="2" />
 
-                <Label Content="Monat:" Margin="2" />
-                <xctk:LongUpDown Value="{Binding Month}" Width="150" Margin="2" Minimum="0" Maximum="11" />
+                <Button Command="{Binding PreviousMonthCommand}" Content="&lt;" />
+                
+                <ComboBox ItemsSource="{Binding Months.SelectableValues}"
+                          SelectedItem="{Binding Months.SelectedValue}" 
+                          DisplayMemberPath="Name" 
+                          Margin="2"
+                          Width="120" />
+                
+                <xctk:LongUpDown Value="{Binding Year}" 
+                                 Width="60" 
+                                 Margin="2" />
+
+                <Button Command="{Binding NextMonthCommand}" Content="&gt;" />
 
             </StackPanel>
             
             <DataGrid Grid.Row="2" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding Requests}"
-                      SelectedItem="{Binding SelectedRequest}"
+                      ItemsSource="{Binding Requests.SelectableValues}"
+                      SelectedItem="{Binding Requests.SelectedValue, Mode=TwoWay}"
                       SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Datum" 
@@ -47,7 +55,15 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <TextBox Grid.Row="3" IsReadOnly ="True" Text="{Binding SaldoAsString}" HorizontalAlignment="Right" Width="80" />
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Content="Monatssaldo:" Margin="2,1" />
+                <TextBox IsReadOnly="True" 
+                         Text="{Binding SaldoAsString}" 
+                         HorizontalAlignment="Right" 
+                         Width="80"
+                         HorizontalContentAlignment="Right"/>
+            </StackPanel>
+            
         </Grid>
         
     </DataTemplate>
