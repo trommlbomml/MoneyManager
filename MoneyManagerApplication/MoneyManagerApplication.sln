@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyManager.Model", "Money
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyManager.Model.Tests", "MoneyManager.Model.Tests\MoneyManager.Model.Tests.csproj", "{E3585A50-EB4D-48D6-A752-DB4A3C77447A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{AB15E429-3A09-45FF-BE7E-280F283F5425}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyManager.ViewModels", "MoneyManager.ViewModels\MoneyManager.ViewModels.csproj", "{1E41FFBF-3A92-4275-AB5C-CE02002392AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyManager.ViewModels.Tests", "MoneyManager.ViewModels.Tests\MoneyManager.ViewModels.Tests.csproj", "{81635061-15BE-4E96-ACB0-5B44B10DD699}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,8 +37,20 @@ Global
 		{E3585A50-EB4D-48D6-A752-DB4A3C77447A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3585A50-EB4D-48D6-A752-DB4A3C77447A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3585A50-EB4D-48D6-A752-DB4A3C77447A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E41FFBF-3A92-4275-AB5C-CE02002392AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E41FFBF-3A92-4275-AB5C-CE02002392AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E41FFBF-3A92-4275-AB5C-CE02002392AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E41FFBF-3A92-4275-AB5C-CE02002392AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81635061-15BE-4E96-ACB0-5B44B10DD699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81635061-15BE-4E96-ACB0-5B44B10DD699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81635061-15BE-4E96-ACB0-5B44B10DD699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81635061-15BE-4E96-ACB0-5B44B10DD699}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E3585A50-EB4D-48D6-A752-DB4A3C77447A} = {AB15E429-3A09-45FF-BE7E-280F283F5425}
+		{81635061-15BE-4E96-ACB0-5B44B10DD699} = {AB15E429-3A09-45FF-BE7E-280F283F5425}
 	EndGlobalSection
 EndGlobal

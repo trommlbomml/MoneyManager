@@ -14,16 +14,6 @@ namespace MoneyManager.Model
             _allRequests = new List<RequestEntityImp>();
         }
 
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Load(string fileName)
-        {
-            throw new NotImplementedException();
-        }
-
         internal void AddRequest(RequestEntityImp requestEntityImp)
         {
             if (requestEntityImp == null) throw new ArgumentNullException("requestEntityImp");
@@ -42,12 +32,30 @@ namespace MoneyManager.Model
 
         public RequestEntity QueryRequest(string persistentId)
         {
-            return _allRequests.Single(r => r.PersistentId == persistentId);
+            var entity = _allRequests.SingleOrDefault(r => r.PersistentId == persistentId);
+            if (entity == null) throw new ArgumentException("Entity with Id does not exist", persistentId);
+
+            return entity;
+        }
+
+        public string CreateRequest(RequestEntityData data)
+        {
+            var request = new RequestEntityImp
+            {
+                Date = data.Date.Date,
+                Description = data.Description,
+                Value = data.Value
+            };
+            _allRequests.Add(request);
+
+            return request.PersistentId;
         }
 
         public void UpdateRequest(string persistentId, RequestEntityData data)
         {
-            var request = _allRequests.Single(r => r.PersistentId == persistentId);
+            var request = _allRequests.SingleOrDefault(r => r.PersistentId == persistentId);
+            if (request == null) throw new ArgumentException("Entity with Id does not exist", persistentId);
+
             request.Date = data.Date;
             request.Description = data.Description;
             request.Value = data.Value;

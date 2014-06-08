@@ -28,13 +28,9 @@ namespace MoneyManager.Model.Tests
         {
             for (var i = 0; i < monthsToCreate.Length; i++)
             {
-                var requests = Enumerable.Range(1, requestsPerMonth[i])
-                    .Select(r => new RequestEntityImp { Date = monthsToCreate[i] })
-                    .ToArray();
-
-                foreach (var requestEntityImp in requests)
+                for (var j = 0; j < requestsPerMonth[i]; j++)
                 {
-                    Repository.AddRequest(requestEntityImp);
+                    Repository.CreateRequest(new RequestEntityData {Date = monthsToCreate[i]});
                 }
             }
         }
@@ -123,6 +119,39 @@ namespace MoneyManager.Model.Tests
 
             Assert.That(queriedRequest.Description, Is.EqualTo("New Description"));
             Assert.That(queriedRequest.Value, Is.EqualTo(11.11));
+        }
+
+        [Test]
+        public void UpdateRequestOfNonExistingEntityThrowsException()
+        {
+            Assert.That(() => Repository.UpdateRequest("InvalidId", new RequestEntityData()), Throws.ArgumentException);
+        }
+
+        [Test]
+        public void QueryRequestOfNonExistingEntityThrowsException()
+        {
+            Assert.That(() => Repository.QueryRequest("InvalidId"), Throws.ArgumentException);
+        }
+
+        [Test]
+        public void CreateRequest()
+        {
+            CreateRequestsInRepository(new [] { new DateTime(2014, 1, 1) }, new [] {10});
+
+            var requestData = new RequestEntityData
+            {
+                Date = new DateTime(2014, 6, 1),
+                Description = "My Description",
+                Value = -11
+            };
+
+            var persistentId = Repository.CreateRequest(requestData);
+
+            var createdRequest = Repository.QueryRequest(persistentId);
+
+            Assert.That(createdRequest.PersistentId, Is.EqualTo(persistentId));
+            Assert.That(createdRequest.Description, Is.EqualTo(requestData.Description));
+            Assert.That(createdRequest.Value, Is.EqualTo(requestData.Value));
         }
     }
 }
