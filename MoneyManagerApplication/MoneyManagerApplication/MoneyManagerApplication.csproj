@@ -65,6 +65,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ScreenDataTemplates\RequestManagement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -92,6 +96,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MoneyManager.Interfaces\MoneyManager.Interfaces.csproj">
+      <Project>{85bf5734-64b3-4964-871e-426f7467dd66}</Project>
+      <Name>MoneyManager.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MoneyManager.Model\MoneyManager.Model.csproj">
+      <Project>{caa2b613-d18d-43d8-99f0-e7af5d2fe4ab}</Project>
+      <Name>MoneyManager.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MoneyManager.ViewModels\MoneyManager.ViewModels.csproj">
+      <Project>{1e41ffbf-3a92-4275-ab5c-ce02002392ad}</Project>
+      <Name>MoneyManager.ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

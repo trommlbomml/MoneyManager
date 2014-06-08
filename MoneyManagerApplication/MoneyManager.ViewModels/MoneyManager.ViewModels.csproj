@@ -39,9 +39,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationViewModel.cs" />
     <Compile Include="Framework\CommandViewModel.cs" />
+    <Compile Include="Framework\EntityViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\ViewModel.cs" />
+    <Compile Include="RequestManagementScreenModel.cs" />
+    <Compile Include="RequestViewModel.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ScreenModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MoneyManager.Interfaces\MoneyManager.Interfaces.csproj">
+      <Project>{85bf5734-64b3-4964-871e-426f7467dd66}</Project>
+      <Name>MoneyManager.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

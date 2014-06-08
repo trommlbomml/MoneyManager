@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using MoneyManager.Model;
+using MoneyManager.ViewModels;
 
 namespace MoneyManagerApplication
 {
@@ -9,9 +11,11 @@ namespace MoneyManagerApplication
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            var mainWindow = new MainWindow();
-            MainWindow = mainWindow;
+            var repository = RepositoryFactory.CreateRepository();
+            var applicationViewModel = new ApplicationViewModel(repository);
+            var mainWindow = new MainWindow {DataContext = applicationViewModel};
 
+            MainWindow = mainWindow;
             MainWindow.Show();
         }
     }
