@@ -48,6 +48,7 @@ namespace MoneyManager.ViewModels
 
             UpdateCurrentMonth();
             UpdateCommandStates();
+            UpdateSaldoAsString();
         }
 
         private void OnSelectedRequestChanged(object sender, PropertyChangedEventArgs e)

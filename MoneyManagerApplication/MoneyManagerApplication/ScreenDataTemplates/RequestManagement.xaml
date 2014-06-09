@@ -58,7 +58,7 @@
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label Content="Monatssaldo:" Margin="2,1" />
                 <TextBox IsReadOnly="True" 
-                         Text="{Binding SaldoAsString}" 
+                         Text="{Binding SaldoAsString, UpdateSourceTrigger=PropertyChanged}" 
                          HorizontalAlignment="Right" 
                          Width="80"
                          HorizontalContentAlignment="Right"/>

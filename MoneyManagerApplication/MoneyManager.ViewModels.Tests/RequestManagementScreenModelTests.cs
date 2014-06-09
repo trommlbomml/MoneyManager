@@ -8,12 +8,11 @@ namespace MoneyManager.ViewModels.Tests
     [TestFixture]
     public class RequestManagementScreenModelTests : ViewModelTestsBase
     {
-        [Test]
-        public void InitalState()
+        [TestCase(0)]
+        [TestCase(12)]
+        public void InitalState(double expectedSaldo)
         {
-            const double saldoForCurrentMonth = 12.52;
-
-            Repository.CalculateSaldoForMonth(2014, 3).Returns(saldoForCurrentMonth);
+            Repository.CalculateSaldoForMonth(2014, 3).Returns(expectedSaldo);
 
             var screenModel = new RequestManagementScreenModel(Application, 2014, 3);
 
@@ -29,8 +28,8 @@ namespace MoneyManager.ViewModels.Tests
             Assert.That(screenModel.Months.SelectableValues.Count, Is.EqualTo(12));
             Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == 3)));
 
-            Assert.That(screenModel.Saldo, Is.EqualTo(saldoForCurrentMonth));
-            Assert.That(screenModel.SaldoAsString, Is.EqualTo(string.Format(Properties.Resources.MoneyValueFormat,saldoForCurrentMonth)));
+            Assert.That(screenModel.Saldo, Is.EqualTo(expectedSaldo));
+            Assert.That(screenModel.SaldoAsString, Is.EqualTo(string.Format(Properties.Resources.MoneyValueFormat, expectedSaldo)));
 
             Repository.Received(1).CalculateSaldoForMonth(2014, 3);
             Repository.Received(1).QueryRequestsForSingleMonth(2014, 3);
