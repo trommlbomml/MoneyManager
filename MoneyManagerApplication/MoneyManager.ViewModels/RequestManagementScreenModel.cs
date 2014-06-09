@@ -47,7 +47,6 @@ namespace MoneyManager.ViewModels
             Requests.PropertyChanged += OnSelectedRequestChanged;
 
             UpdateCurrentMonth();
-            UpdateSaldoForCurrentMonth();
             UpdateCommandStates();
         }
 
@@ -62,7 +61,6 @@ namespace MoneyManager.ViewModels
             if (_preventUpdateCurrentMonth) return;
 
             UpdateCurrentMonth();
-            UpdateSaldoForCurrentMonth();
         }
 
         private void OnNextMonthCommand()
@@ -81,7 +79,6 @@ namespace MoneyManager.ViewModels
             _preventUpdateCurrentMonth = false;
 
             UpdateCurrentMonth();
-            UpdateSaldoForCurrentMonth();
         }
 
         private void OnPreviousMonthCommand()
@@ -99,7 +96,6 @@ namespace MoneyManager.ViewModels
             _preventUpdateCurrentMonth = false;
 
             UpdateCurrentMonth();
-            UpdateSaldoForCurrentMonth();
         }
 
         private void OnSaveCommand()
