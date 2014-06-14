@@ -50,7 +50,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             UpdateCommandStates();
             UpdateSaldoAsString();
 
-            Caption = Properties.Resources.RequestManagementPageCaption;
+            Caption = string.Format(Properties.Resources.RequestManagementPageCaptionFormat, Application.Repository.Name);
         }
 
         private void OnSelectedRequestChanged(object sender, PropertyChangedEventArgs e)

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MoneyManager.Interfaces;
+﻿using MoneyManager.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -20,6 +15,8 @@ namespace MoneyManager.ViewModels.Tests
         public virtual void Setup()
         {
             Repository = Substitute.For<Repository>();
+            Repository.Name.Returns("DefaultRepositoryName");
+
             ApplicationSettings = Substitute.For<ApplicationSettings>();
 
             Application = new ApplicationViewModel(Repository, ApplicationSettings, WindowManager);

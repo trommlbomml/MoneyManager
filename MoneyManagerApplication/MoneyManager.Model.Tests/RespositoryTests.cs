@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using MoneyManager.Interfaces;
 using NUnit.Framework;
@@ -12,16 +13,25 @@ namespace MoneyManager.Model.Tests
     {
         RepositoryImp Repository { get; set; }
 
+        private string _databaseFile;
+
+        public static string GetUniqueFilePath()
+        {
+            return Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        }
+
         [SetUp]
         public void Setup()
         {
             Repository = (RepositoryImp)RepositoryFactory.CreateRepository();
+            _databaseFile = GetUniqueFilePath();
+            Repository.Create(_databaseFile, "DefaultName");
         }
 
         [TearDown]
         public void TearDown()
         {
-            Repository.ClearAll();
+            if (Repository.IsOpen) Repository.Close();
         }
 
         private void CreateRequestsInRepository(DateTime[] monthsToCreate, int[] requestsPerMonth)
@@ -51,6 +61,22 @@ namespace MoneyManager.Model.Tests
                                           new[] { 7, 6 },
                                           2014, 6,
                                           7).SetName("Query some Entites of different years of single month");
+        }
+
+        [Test]
+        public void OpenWhenRepositoryAlreadyOpenedThrowsException()
+        {
+            Assume.That(Repository.IsOpen, "Repository must be opened to test.");
+
+            Assert.That(() => Repository.Open("C:\test.mmbd"), Throws.InstanceOf<ApplicationException>());
+        }
+
+        [Test]
+        public void CreateWhenRepositoryAlreadyOpenedThrowsException()
+        {
+            Assume.That(Repository.IsOpen, "Repository must be opened to test.");
+
+            Assert.That(() => Repository.Create("C:\test.mmbd", "DefaultName"), Throws.InstanceOf<ApplicationException>());
         }
 
         [TestCaseSource("QueryRequestsForSingleMonthTestCases")]

@@ -65,6 +65,7 @@ namespace MoneyManager.ViewModels.AccountManagement
 
         private void OnCreateAccountDialogOk(CreateAccountDialogViewModel dlg)
         {
+            Application.Repository.Create(dlg.Path, dlg.Name);
             Application.ActivateRequestmanagementPage();
         }
 

@@ -129,7 +129,7 @@
   <data name="RequestDateFormat" xml:space="preserve">
     <value>{0:dd.MM.yyyy}</value>
   </data>
-  <data name="RequestManagementPageCaption" xml:space="preserve">
-    <value>Transaktionsverwaltung</value>
+  <data name="RequestManagementPageCaptionFormat" xml:space="preserve">
+    <value>Transaktionsverwaltung - {0}</value>
   </data>
 </root>

@@ -97,11 +97,11 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Transaktionsverwaltung.
+        ///   Looks up a localized string similar to Transaktionsverwaltung - {0}.
         /// </summary>
-        public static string RequestManagementPageCaption {
+        public static string RequestManagementPageCaptionFormat {
             get {
-                return ResourceManager.GetString("RequestManagementPageCaption", resourceCulture);
+                return ResourceManager.GetString("RequestManagementPageCaptionFormat", resourceCulture);
             }
         }
     }

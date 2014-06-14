@@ -9,6 +9,31 @@ namespace MoneyManager.Interfaces
     public interface Repository
     {
         /// <summary>
+        /// Erzeugt eine neue Datenbank im angegeben Pfad.
+        /// </summary>
+        void Create(string path, string name);
+
+        /// <summary>
+        /// Öffnet ein Repository.
+        /// </summary>
+        void Open(string path);
+
+        /// <summary>
+        /// Ob das Repository geöffnet ist.
+        /// </summary>
+        bool IsOpen { get; }
+
+        /// <summary>
+        /// Name des geöffneten Repository. Liefert einen Leestring, wenn keine Datenbank geöffnet ist.
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
+        /// Schließt das Repository.
+        /// </summary>
+        void Close();
+
+        /// <summary>
         /// Queries all Requests for a Single Month of a Year.
         /// </summary>
         /// <param name="year">Year</param>

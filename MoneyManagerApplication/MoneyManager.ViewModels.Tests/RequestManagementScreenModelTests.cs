@@ -32,7 +32,7 @@ namespace MoneyManager.ViewModels.Tests
             Assert.That(screenModel.Saldo, Is.EqualTo(expectedSaldo));
             Assert.That(screenModel.SaldoAsString, Is.EqualTo(string.Format(Properties.Resources.MoneyValueFormat, expectedSaldo)));
 
-            Assert.That(screenModel.Caption, Is.EqualTo(Properties.Resources.RequestManagementPageCaption));
+            Assert.That(screenModel.Caption, Is.EqualTo(string.Format(Properties.Resources.RequestManagementPageCaptionFormat, Repository.Name)));
 
             Repository.Received(1).CalculateSaldoForMonth(2014, 3);
             Repository.Received(1).QueryRequestsForSingleMonth(2014, 3);
