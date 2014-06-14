@@ -1,6 +1,6 @@
 ﻿using MoneyManager.ViewModels.Framework;
 
-namespace MoneyManager.ViewModels
+namespace MoneyManager.ViewModels.RequestManagement
 {
     public class MonthNameViewModel : ViewModel
     {

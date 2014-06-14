@@ -1,5 +1,6 @@
 ﻿using System;
 using MoneyManager.Interfaces;
+using MoneyManager.ViewModels.RequestManagement;
 using NSubstitute;
 using NUnit.Framework;
 

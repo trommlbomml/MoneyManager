@@ -2,7 +2,7 @@
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
 
-namespace MoneyManager.ViewModels
+namespace MoneyManager.ViewModels.RequestManagement
 {
     public class RequestViewModel : EntityViewModel
     {

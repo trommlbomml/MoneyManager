@@ -61,11 +61,11 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MoneyManager.
+        ///   Looks up a localized string similar to Moneymanager - Accountverwaltung.
         /// </summary>
-        public static string ApplicationMainWindowTitle {
+        public static string AccountManagementPageCaption {
             get {
-                return ResourceManager.GetString("ApplicationMainWindowTitle", resourceCulture);
+                return ResourceManager.GetString("AccountManagementPageCaption", resourceCulture);
             }
         }
         
@@ -93,6 +93,15 @@ namespace MoneyManager.ViewModels.Properties {
         public static string RequestDateFormat {
             get {
                 return ResourceManager.GetString("RequestDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaktionsverwaltung.
+        /// </summary>
+        public static string RequestManagementPageCaption {
+            get {
+                return ResourceManager.GetString("RequestManagementPageCaption", resourceCulture);
             }
         }
     }

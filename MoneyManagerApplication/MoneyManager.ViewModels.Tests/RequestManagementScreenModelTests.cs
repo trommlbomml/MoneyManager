@@ -1,5 +1,6 @@
 ﻿
 using System.Linq;
+using MoneyManager.ViewModels.RequestManagement;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -30,6 +31,8 @@ namespace MoneyManager.ViewModels.Tests
 
             Assert.That(screenModel.Saldo, Is.EqualTo(expectedSaldo));
             Assert.That(screenModel.SaldoAsString, Is.EqualTo(string.Format(Properties.Resources.MoneyValueFormat, expectedSaldo)));
+
+            Assert.That(screenModel.Caption, Is.EqualTo(Properties.Resources.RequestManagementPageCaption));
 
             Repository.Received(1).CalculateSaldoForMonth(2014, 3);
             Repository.Received(1).QueryRequestsForSingleMonth(2014, 3);

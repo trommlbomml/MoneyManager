@@ -1,7 +1,6 @@
 ﻿
 using System;
-using MoneyManager.Interfaces;
-using NSubstitute;
+using MoneyManager.ViewModels.RequestManagement;
 using NUnit.Framework;
 
 namespace MoneyManager.ViewModels.Tests
@@ -12,17 +11,18 @@ namespace MoneyManager.ViewModels.Tests
         [Test]
         public void InitialState()
         {
-            var application = new ApplicationViewModel(Repository, ApplicationSettings);
+            var application = new ApplicationViewModel(Repository, ApplicationSettings, WindowManager);
 
-            Assert.That(application.WindowTitle, Is.EqualTo(Properties.Resources.ApplicationMainWindowTitle));
             Assert.That(application.Repository, Is.SameAs(Repository));
+            Assert.That(application.ApplicationSettings, Is.SameAs(ApplicationSettings));
+            Assert.That(application.WindowManager, Is.SameAs(WindowManager));
             Assert.That(application.ActivePage, Is.Null);
         }
 
         [Test]
         public void ActivateRequestManagementScreen()
         {
-            var application = new ApplicationViewModel(Repository, ApplicationSettings);
+            var application = new ApplicationViewModel(Repository, ApplicationSettings, WindowManager);
 
             application.ActivateRequestmanagementPage();
 

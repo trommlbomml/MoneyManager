@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using MoneyManager.ViewModels.Framework;
 
-namespace MoneyManager.ViewModels
+namespace MoneyManager.ViewModels.AccountManagement
 {
     public class AccountManagementPageViewModel : PageViewModel
     {
@@ -17,6 +17,8 @@ namespace MoneyManager.ViewModels
             OpenAccountCommand = new CommandViewModel(OnOpenAccountCommand);
 
             UpdateCommandStates();
+
+            Caption = Properties.Resources.AccountManagementPageCaption;
 
             Accounts.PropertyChanged += OnAccountsChanged;
         }
@@ -56,6 +58,12 @@ namespace MoneyManager.ViewModels
         }
 
         private void OnCreateNewAccountCommand()
+        {
+            var newAccountDialog = new CreateAccountDialogViewModel(o => { }, OnCreateAccountDialogOk);
+            Application.WindowManager.ShowDialog(newAccountDialog);
+        }
+
+        private void OnCreateAccountDialogOk(CreateAccountDialogViewModel dlg)
         {
             Application.ActivateRequestmanagementPage();
         }

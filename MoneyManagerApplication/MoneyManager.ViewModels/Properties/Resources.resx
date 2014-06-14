@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ApplicationMainWindowTitle" xml:space="preserve">
-    <value>MoneyManager</value>
+  <data name="AccountManagementPageCaption" xml:space="preserve">
+    <value>Moneymanager - Accountverwaltung</value>
   </data>
   <data name="LastAccesDateFormat" xml:space="preserve">
     <value>{0:dddd, dd. MMMM yyyy}</value>
@@ -128,5 +128,8 @@
   </data>
   <data name="RequestDateFormat" xml:space="preserve">
     <value>{0:dd.MM.yyyy}</value>
+  </data>
+  <data name="RequestManagementPageCaption" xml:space="preserve">
+    <value>Transaktionsverwaltung</value>
   </data>
 </root>

@@ -1,26 +1,27 @@
 ﻿using System;
 using MoneyManager.Interfaces;
+using MoneyManager.ViewModels.AccountManagement;
 using MoneyManager.ViewModels.Framework;
+using MoneyManager.ViewModels.RequestManagement;
 
 namespace MoneyManager.ViewModels
 {
     public class ApplicationViewModel : ViewModel
     {
-        private string _windowTitle;
         private PageViewModel _activePage;
 
         public Repository Repository { get; private set; }
+        public WindowManager WindowManager { get; private set; }
         public ApplicationSettings ApplicationSettings { get; private set; }
 
-        public ApplicationViewModel(Repository repository, ApplicationSettings applicationSettings)
+        public ApplicationViewModel(Repository repository, ApplicationSettings applicationSettings, WindowManager windowManager)
         {
             if (repository == null) throw new ArgumentNullException("repository");
             if (applicationSettings == null) throw new ArgumentNullException("applicationSettings");
 
             Repository = repository;
+            WindowManager = windowManager;
             ApplicationSettings = applicationSettings;
-
-            WindowTitle = Properties.Resources.ApplicationMainWindowTitle;
         }
 
         public void ActivateRequestmanagementPage()
@@ -35,12 +36,6 @@ namespace MoneyManager.ViewModels
         {
             var accountManagementScreen = new AccountManagementPageViewModel(this);
             ActivePage = accountManagementScreen;
-        }
-
-        public string WindowTitle
-        {
-            get { return _windowTitle; }
-            set { SetBackingField("WindowTitle", ref _windowTitle, value); }
         }
 
         public PageViewModel ActivePage

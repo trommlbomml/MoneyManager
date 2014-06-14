@@ -45,6 +45,7 @@
     <Compile Include="Repository.cs" />
     <Compile Include="RequestEntityData.cs" />
     <Compile Include="RequestEntity.cs" />
+    <Compile Include="WindowManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

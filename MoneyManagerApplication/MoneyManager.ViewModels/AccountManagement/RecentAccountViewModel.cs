@@ -1,7 +1,7 @@
 ﻿using System;
 using MoneyManager.ViewModels.Framework;
 
-namespace MoneyManager.ViewModels
+namespace MoneyManager.ViewModels.AccountManagement
 {
     public class RecentAccountViewModel : ViewModel
     {
@@ -22,13 +22,13 @@ namespace MoneyManager.ViewModels
         public string LastAccessDateAsString
         {
             get { return _lastAccessDateAsString; }
-            private set { SetBackingField("LastAccessDateAsString", ref _lastAccessDateAsString, value, o => UpdateLocalizedProperties()); }
+            private set { SetBackingField("LastAccessDateAsString", ref _lastAccessDateAsString, value); }
         }
 
         public DateTime LastAccessDate
         {
             get { return _lastAccessDate; }
-            set { SetBackingField("LastAccessDate", ref _lastAccessDate, value); }
+            set { SetBackingField("LastAccessDate", ref _lastAccessDate, value, o => UpdateLocalizedProperties()); }
         }
 
         public string Path

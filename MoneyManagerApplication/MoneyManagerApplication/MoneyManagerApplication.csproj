@@ -56,7 +56,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\CreateAccountDialog.xaml.cs">
+      <DependentUpon>CreateAccountDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RecentAccountInformationImp.cs" />
+    <Compile Include="WindowManagerImp.cs" />
+    <Page Include="Dialogs\CreateAccountDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

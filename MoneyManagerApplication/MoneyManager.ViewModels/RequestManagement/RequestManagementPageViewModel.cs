@@ -4,7 +4,7 @@ using System.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
 
-namespace MoneyManager.ViewModels
+namespace MoneyManager.ViewModels.RequestManagement
 {
     public class RequestManagementPageViewModel : PageViewModel
     {
@@ -49,6 +49,8 @@ namespace MoneyManager.ViewModels
             UpdateCurrentMonth();
             UpdateCommandStates();
             UpdateSaldoAsString();
+
+            Caption = Properties.Resources.RequestManagementPageCaption;
         }
 
         private void OnSelectedRequestChanged(object sender, PropertyChangedEventArgs e)
