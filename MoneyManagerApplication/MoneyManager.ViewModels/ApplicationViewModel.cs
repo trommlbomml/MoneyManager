@@ -7,24 +7,34 @@ namespace MoneyManager.ViewModels
     public class ApplicationViewModel : ViewModel
     {
         private string _windowTitle;
-        private ScreenModel _activeScreen;
-        public Repository Repository { get; private set; }
+        private PageViewModel _activePage;
 
-        public ApplicationViewModel(Repository repository)
+        public Repository Repository { get; private set; }
+        public ApplicationSettings ApplicationSettings { get; private set; }
+
+        public ApplicationViewModel(Repository repository, ApplicationSettings applicationSettings)
         {
             if (repository == null) throw new ArgumentNullException("repository");
+            if (applicationSettings == null) throw new ArgumentNullException("applicationSettings");
 
             Repository = repository;
+            ApplicationSettings = applicationSettings;
 
             WindowTitle = Properties.Resources.ApplicationMainWindowTitle;
         }
 
-        public void ActivateRequestmanagementScreen()
+        public void ActivateRequestmanagementPage()
         {
             var currentDateTime = DateTime.Now;
 
-            var requestManagementScreen = new RequestManagementScreenModel(this, currentDateTime.Year, currentDateTime.Month);
-            ActiveScreen = requestManagementScreen;
+            var requestManagementScreen = new RequestManagementPageViewModel(this, currentDateTime.Year, currentDateTime.Month);
+            ActivePage = requestManagementScreen;
+        }
+
+        public void ActivateAccountManagementPage()
+        {
+            var accountManagementScreen = new AccountManagementPageViewModel(this);
+            ActivePage = accountManagementScreen;
         }
 
         public string WindowTitle
@@ -33,10 +43,10 @@ namespace MoneyManager.ViewModels
             set { SetBackingField("WindowTitle", ref _windowTitle, value); }
         }
 
-        public ScreenModel ActiveScreen
+        public PageViewModel ActivePage
         {
-            get { return _activeScreen; }
-            private set { SetBackingField("ActiveScreen", ref _activeScreen, value); }
+            get { return _activePage; }
+            private set { SetBackingField("ActivePage", ref _activePage, value); }
         }
     }
 }

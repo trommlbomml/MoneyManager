@@ -14,7 +14,7 @@ namespace MoneyManager.ViewModels.Tests
         {
             Repository.CalculateSaldoForMonth(2014, 3).Returns(expectedSaldo);
 
-            var screenModel = new RequestManagementScreenModel(Application, 2014, 3);
+            var screenModel = new RequestManagementPageViewModel(Application, 2014, 3);
 
             Assert.That(screenModel.AddRequestCommand.IsEnabled, Is.True);
             Assert.That(screenModel.DeleteRequestCommand.IsEnabled, Is.False);
@@ -39,7 +39,7 @@ namespace MoneyManager.ViewModels.Tests
         [TestCase(2014, 11, 2015, 0)]
         public void NextMonthCommandCallsRepositoryAndUpdatesProperties(int currentYear, int currentMonth, int nextYear, int nextMonth)
         {
-            var screenModel = new RequestManagementScreenModel(Application, currentYear, currentMonth);
+            var screenModel = new RequestManagementPageViewModel(Application, currentYear, currentMonth);
 
             Repository.ClearReceivedCalls();
 
@@ -55,7 +55,7 @@ namespace MoneyManager.ViewModels.Tests
         [TestCase(2014, 0, 2013, 11)]
         public void PreviousMonthCommandCallsRepositoryAndUpdatesProperties(int currentYear, int currentMonth, int nextYear, int nextMonth)
         {
-            var screenModel = new RequestManagementScreenModel(Application, currentYear, currentMonth);
+            var screenModel = new RequestManagementPageViewModel(Application, currentYear, currentMonth);
 
             Repository.ClearReceivedCalls();
 

@@ -3,7 +3,7 @@
                     xmlns:viewModels="clr-namespace:MoneyManager.ViewModels;assembly=MoneyManager.ViewModels"
                     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
     
-    <DataTemplate DataType="{x:Type viewModels:RequestManagementScreenModel}">
+    <DataTemplate DataType="{x:Type viewModels:RequestManagementPageViewModel}">
         
         <Grid>
             <Grid.RowDefinitions>

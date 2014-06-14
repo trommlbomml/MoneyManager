@@ -6,7 +6,7 @@ using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels
 {
-    public class RequestManagementScreenModel : ScreenModel
+    public class RequestManagementPageViewModel : PageViewModel
     {
         private int _year;
         private double _saldo;
@@ -16,7 +16,7 @@ namespace MoneyManager.ViewModels
         public EnumeratedSingleValuedProperty<RequestViewModel> Requests { get; private set; } 
         public EnumeratedSingleValuedProperty<MonthNameViewModel> Months { get; private set; }
 
-        public RequestManagementScreenModel(ApplicationViewModel application, int year, int month) : base(application)
+        public RequestManagementPageViewModel(ApplicationViewModel application, int year, int month) : base(application)
         {
             Months = new EnumeratedSingleValuedProperty<MonthNameViewModel>();
             Months.AddValue(new MonthNameViewModel("Januar", 0));

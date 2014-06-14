@@ -7,38 +7,30 @@ using NUnit.Framework;
 namespace MoneyManager.ViewModels.Tests
 {
     [TestFixture]
-    public class ApplicationViewModelTests
+    public class ApplicationViewModelTests : ViewModelTestsBase
     {
-        private Repository Repository { get; set; }
-
-        [SetUp]
-        public void Setup()
-        {
-            Repository = Substitute.For<Repository>();
-        }
-
         [Test]
         public void InitialState()
         {
-            var application = new ApplicationViewModel(Repository);
+            var application = new ApplicationViewModel(Repository, ApplicationSettings);
 
             Assert.That(application.WindowTitle, Is.EqualTo(Properties.Resources.ApplicationMainWindowTitle));
             Assert.That(application.Repository, Is.SameAs(Repository));
-            Assert.That(application.ActiveScreen, Is.Null);
+            Assert.That(application.ActivePage, Is.Null);
         }
 
         [Test]
         public void ActivateRequestManagementScreen()
         {
-            var application = new ApplicationViewModel(Repository);
+            var application = new ApplicationViewModel(Repository, ApplicationSettings);
 
-            application.ActivateRequestmanagementScreen();
+            application.ActivateRequestmanagementPage();
 
             var currentDateTime = DateTime.Now;
 
-            Assert.That(application.ActiveScreen, Is.InstanceOf<RequestManagementScreenModel>());
+            Assert.That(application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
 
-            var activeScreen = (RequestManagementScreenModel) application.ActiveScreen;
+            var activeScreen = (RequestManagementPageViewModel) application.ActivePage;
             Assert.That(activeScreen.Year, Is.EqualTo(currentDateTime.Year));
             Assert.That(activeScreen.Month, Is.EqualTo(currentDateTime.Month));
         }

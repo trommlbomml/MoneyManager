@@ -13,13 +13,15 @@ namespace MoneyManager.ViewModels.Tests
     {
         protected ApplicationViewModel Application { get; private set; }
         protected Repository Repository { get; private set; }
+        protected ApplicationSettings ApplicationSettings { get; private set; }
 
         [SetUp]
         public virtual void Setup()
         {
             Repository = Substitute.For<Repository>();
+            ApplicationSettings = Substitute.For<ApplicationSettings>();
 
-            Application = new ApplicationViewModel(Repository);
+            Application = new ApplicationViewModel(Repository, ApplicationSettings);
         }
     }
 }

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountManagementPageViewModel.cs" />
     <Compile Include="ApplicationViewModel.cs" />
     <Compile Include="Framework\CommandViewModel.cs" />
     <Compile Include="Framework\EntityViewModel.cs" />
@@ -46,14 +47,15 @@
     <Compile Include="MonthNameViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\ViewModel.cs" />
-    <Compile Include="RequestManagementScreenModel.cs" />
+    <Compile Include="RecentAccountViewModel.cs" />
+    <Compile Include="RequestManagementPageViewModel.cs" />
     <Compile Include="RequestViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ScreenModel.cs" />
+    <Compile Include="PageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MoneyManager.Interfaces\MoneyManager.Interfaces.csproj">

@@ -11,10 +11,11 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ScreenDataTemplates/RequestManagement.xaml" />
+                <ResourceDictionary Source="ScreenDataTemplates/AccountManagement.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     
-    <ContentControl Content="{Binding ActiveScreen}" />
+    <ContentControl Content="{Binding ActivePage}" />
     
 </Window>

@@ -70,6 +70,15 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0:dddd, dd. MMMM yyyy}.
+        /// </summary>
+        public static string LastAccesDateFormat {
+            get {
+                return ResourceManager.GetString("LastAccesDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0:0.00} €.
         /// </summary>
         public static string MoneyValueFormat {
