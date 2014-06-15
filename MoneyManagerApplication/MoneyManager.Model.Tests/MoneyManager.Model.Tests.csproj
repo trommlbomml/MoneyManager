@@ -49,6 +49,7 @@
     <Compile Include="RepositoryFactoryTests.cs" />
     <Compile Include="RepositoryPerformanceTests.cs" />
     <Compile Include="RepositoryStateTests.cs" />
+    <Compile Include="RequestEntityImpTests.cs" />
     <Compile Include="RespositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>

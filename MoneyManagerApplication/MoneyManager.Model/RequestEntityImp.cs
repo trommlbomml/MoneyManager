@@ -9,6 +9,8 @@ namespace MoneyManager.Model
     {
         public RequestEntityImp()
         {
+            Description = string.Empty;
+            Date = DateTime.Now.Date;
         }
 
         public double Value { get; set; }

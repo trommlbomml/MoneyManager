@@ -24,7 +24,7 @@ namespace MoneyManager.Model.Tests
         public void Setup()
         {
             Repository = (RepositoryImp)RepositoryFactory.CreateRepository();
-            _databaseFile = GetUniqueFilePath();
+            _databaseFile = GetUniqueFilePath() + SystemConstants.DatabaseExtension;
             Repository.Create(_databaseFile, "DefaultName");
         }
 
@@ -194,6 +194,22 @@ namespace MoneyManager.Model.Tests
 
             Assert.That(persistentIdsAfterDelete.Length, Is.EqualTo(9));
             CollectionAssert.AreEquivalent(allRequestIdsBeforeDelete.Except(new[]{requestPersistentIdToDelete}), persistentIdsAfterDelete);
+        }
+
+        [Test]
+        public void SaveNotOpenedDatabaseThrowsExceptio()
+        {
+            var repository = RepositoryFactory.CreateRepository();
+            Assert.That(repository.Save, Throws.InstanceOf<ApplicationException>());
+        }
+
+        [Test]
+        public void Save()
+        {
+            CreateRequestsInRepository(new[] { new DateTime(2014, 1, 1) }, new[] { 10 });
+
+            Repository.Save();
+            RepositoryStateTests.AssertFileContentIsCorrect(_databaseFile, Repository.Name, Repository.AllRequests);
         }
     }
 }

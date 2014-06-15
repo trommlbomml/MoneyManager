@@ -18,6 +18,8 @@ namespace MoneyManager.Model
             _allRequests = new List<RequestEntityImp>();
         }
 
+        internal List<RequestEntityImp> AllRequests {get { return _allRequests; }}
+
         internal void AddRequest(RequestEntityImp requestEntityImp)
         {
             if (requestEntityImp == null) throw new ArgumentNullException("requestEntityImp");

@@ -1,6 +1,8 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using MoneyManager.Interfaces;
 using NUnit.Framework;
@@ -67,7 +69,7 @@ namespace MoneyManager.Model.Tests
             Assert.That(() => repository.Create("", "DefaultName"), Throws.InstanceOf<ApplicationException>());
         }
 
-        private static void AssertFileContentIsCorrect(string file, string repositoryName)
+        internal static void AssertFileContentIsCorrect(string file, string repositoryName, List<RequestEntityImp> allRequests = null)
         {
             var document = new XmlDocument();
             document.Load(file);
@@ -83,6 +85,23 @@ namespace MoneyManager.Model.Tests
 
             var requestsElement = documentElement.SelectSingleNode("Requests");
             Assert.That(requestsElement, Is.Not.Null);
+
+            if (allRequests != null)
+            {
+// ReSharper disable PossibleNullReferenceException
+                Assert.That(requestsElement.ChildNodes.Count, Is.EqualTo(allRequests.Count));
+
+                foreach (XmlElement requestElement in requestsElement.ChildNodes)
+                {
+                    Assert.That(requestElement.Attributes.Count, Is.EqualTo(4));
+
+                    var id = requestElement.GetAttribute("Id");
+                    Assert.That(id, Is.Not.Null.Or.Empty);
+
+                    Assert.That(allRequests.SingleOrDefault(r => r.PersistentId == id), Is.Not.Null);
+                }
+// ReSharper restore PossibleNullReferenceException
+            }
         }
 
         [TestCase(true)]
