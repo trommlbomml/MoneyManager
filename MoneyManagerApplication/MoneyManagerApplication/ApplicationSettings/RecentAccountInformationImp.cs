@@ -1,7 +1,7 @@
 ﻿using System;
 using MoneyManager.Interfaces;
 
-namespace MoneyManagerApplication
+namespace MoneyManagerApplication.ApplicationSettings
 {
     class RecentAccountInformationImp : RecentAccountInformation
     {

@@ -55,7 +55,16 @@ namespace MoneyManager.ViewModels.AccountManagement
 
         private void OnOpenRecentAccountCommand()
         {
-            Application.ActivateRequestmanagementPage();
+            try
+            {
+                Application.Repository.Open(Accounts.SelectedValue.Path);
+                Application.ApplicationSettings.UpdateRecentAccountInformation(Accounts.SelectedValue.Path, DateTime.Now);
+                Application.ActivateRequestmanagementPage();
+            }
+            catch (Exception ex)
+            {
+                Application.WindowManager.ShowError("Error", ex.Message);
+            }
         }
 
         private void OnCreateNewAccountCommand()
@@ -69,6 +78,7 @@ namespace MoneyManager.ViewModels.AccountManagement
             try
             {
                 Application.Repository.Create(dlg.Path, dlg.Name);
+                Application.ApplicationSettings.UpdateRecentAccountInformation(dlg.Path, DateTime.Now);
                 Application.ActivateRequestmanagementPage();
             }
             catch (Exception ex)

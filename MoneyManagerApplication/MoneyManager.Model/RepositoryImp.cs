@@ -56,7 +56,7 @@ namespace MoneyManager.Model
 
         public void Open(string path)
         {
-            if (!string.IsNullOrEmpty(path)) throw new ApplicationException("Repository already open. Close first to open.");
+            if (!string.IsNullOrEmpty(_currentRepositoryFilePath)) throw new ApplicationException("Repository already open. Close first to open.");
 
             _currentRepositoryFilePath = path;
             _currentRepositoryName = "Test";

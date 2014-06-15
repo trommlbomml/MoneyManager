@@ -4,6 +4,7 @@ using System.IO;
 using System.Xml;
 using MoneyManager.Interfaces;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace MoneyManager.Model.Tests
 {
@@ -128,6 +129,38 @@ namespace MoneyManager.Model.Tests
             var targetFilePathWithExtension = RespositoryTests.GetUniqueFilePath() + SystemConstants.DatabaseExtension;
 
             Assert.That(() => repository.Create(targetFilePathWithExtension, name), Throws.InstanceOf<ArgumentException>());
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void OpenCreatedRepository(bool close)
+        {
+            var repository = RepositoryFactory.CreateRepository();
+            var uniqueFilePath = RespositoryTests.GetUniqueFilePath() + SystemConstants.DatabaseExtension;
+            repository.Create(uniqueFilePath, "Test");
+            if (close) repository.Close();
+
+            Assert.That(() => repository.Open(uniqueFilePath), close ? (IResolveConstraint) Throws.Nothing : Throws.InstanceOf<ApplicationException>());
+        }
+
+        [Test]
+        public void OpenTwiceThrowsException()
+        {
+            var repository = RepositoryFactory.CreateRepository();
+            var uniqueFilePath = RespositoryTests.GetUniqueFilePath() + SystemConstants.DatabaseExtension;
+            repository.Create(uniqueFilePath, "Test");
+            repository.Close();
+
+            repository.Open(uniqueFilePath);
+
+            Assert.That(() => repository.Open(uniqueFilePath), Throws.InstanceOf<ApplicationException>());
+        }
+
+        [Test]
+        public void OpenRepositoryWhereFileDoesNotExistThrowsException()
+        {
+            var repository = RepositoryFactory.CreateRepository();
+            Assert.That(() => repository.Open(@"X:\test.mmdb"), Throws.InstanceOf<ApplicationException>());
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Windows;
 using MoneyManager.Model;
 using MoneyManager.ViewModels;
+using MoneyManagerApplication.ApplicationSettings;
 
 namespace MoneyManagerApplication
 {
@@ -15,8 +16,6 @@ namespace MoneyManagerApplication
             var repository = RepositoryFactory.CreateRepository();
 
             var applicationSettingsImp = new ApplicationSettingsImp();
-            applicationSettingsImp.UpdateRecentAccountInformation(@"C:\Test\lalala.test", DateTime.Now);
-            applicationSettingsImp.UpdateRecentAccountInformation(@"C:\asdasdsad\lalala.test", DateTime.Now.AddDays(-10));
 
             var applicationViewModel = new ApplicationViewModel(repository, applicationSettingsImp, new WindowManagerImp());
             applicationViewModel.ActivateAccountManagementPage();

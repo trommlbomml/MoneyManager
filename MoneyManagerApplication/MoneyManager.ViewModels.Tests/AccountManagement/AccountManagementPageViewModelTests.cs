@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.AccountManagement;
 using MoneyManager.ViewModels.RequestManagement;
@@ -103,6 +104,48 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             var requestManagementPage = (RequestManagementPageViewModel) Application.ActivePage;
             Assert.That(requestManagementPage.Month, Is.EqualTo(DateTime.Now.Month));
             Assert.That(requestManagementPage.Year, Is.EqualTo(DateTime.Now.Year));
+
+            ApplicationSettings.Received(1).UpdateRecentAccountInformation("Test", Arg.Any<DateTime>());
+        }
+
+        [Test]
+        public void OpenRecentAccount()
+        {
+            var values = new List<RecentAccountInformation>
+            {
+                CreateRecentAccountInformation(@"C:\test\test.txt", new DateTime(2014, 4, 1)),
+            };
+            ApplicationSettings.RecentAccounts.Returns(values.AsReadOnly());
+
+            var viewModel = new AccountManagementPageViewModel(Application);
+            viewModel.Accounts.SelectedValue = viewModel.Accounts.SelectableValues.First();
+
+            viewModel.OpenRecentAccountCommand.Execute(null);
+
+            Repository.Received(1).Open(@"C:\test\test.txt");
+            ApplicationSettings.Received(1).UpdateRecentAccountInformation(@"C:\test\test.txt", Arg.Any<DateTime>());
+            Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
+        }
+
+        [Test]
+        public void OpenRecentAccountWithException()
+        {
+            var values = new List<RecentAccountInformation>
+            {
+                CreateRecentAccountInformation(@"C:\test\test.txt", new DateTime(2014, 4, 1)),
+            };
+            ApplicationSettings.RecentAccounts.Returns(values.AsReadOnly());
+            Repository.When(r => r.Open(Arg.Any<string>())).Do(c => {throw new Exception("Text");});
+
+            var viewModel = new AccountManagementPageViewModel(Application);
+            viewModel.Accounts.SelectedValue = viewModel.Accounts.SelectableValues.First();
+
+            viewModel.OpenRecentAccountCommand.Execute(null);
+
+            Repository.Received(1).Open(@"C:\test\test.txt");
+            ApplicationSettings.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
+            Assert.That(Application.ActivePage, Is.Not.InstanceOf<AccountManagementPageViewModel>());
+            WindowManager.Received(1).ShowError("Error", "Text");
         }
     }
 }
