@@ -25,7 +25,7 @@ namespace MoneyManager.Model.Tests
 
             var stopwatch = Stopwatch.StartNew();
 
-            repository.Save("D:\\test.mmdb");
+            repository.Save();
 
             var elapsedTime = stopwatch.Elapsed;
 

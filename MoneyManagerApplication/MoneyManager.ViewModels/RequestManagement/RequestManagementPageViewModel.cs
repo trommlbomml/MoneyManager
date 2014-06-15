@@ -103,7 +103,7 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void OnSaveCommand()
         {
-            Application.Repository.Save("Test.xml");
+            Application.Repository.Save();
         }
 
         private void OnDeleteRequestCommand()

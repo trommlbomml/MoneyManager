@@ -42,10 +42,18 @@ namespace MoneyManager.Model
         public void Create(string path, string name)
         {
             if (IsOpen) throw new ApplicationException("Repository already open. Close first to create new.");
-            
-            _currentRepositoryFilePath = path + RepositoryExtension;
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid repository name. Must contain visible characters", "name");
+
+            var targetFilePath = !RepositoryExtension.Equals(Path.GetExtension(path))
+                                            ? path + RepositoryExtension
+                                            : path;
+
+            if (File.Exists(targetFilePath)) throw new ApplicationException("File already exists.");
+
+            InternalSafe(targetFilePath, name);
+
             _currentRepositoryName = name;
-            File.Create(_currentRepositoryFilePath).Close();
+            _currentRepositoryFilePath = targetFilePath;
         }
 
         public void Open(string path)
@@ -119,15 +127,21 @@ namespace MoneyManager.Model
                                .Sum(r => r.Value);
         }
 
-        public void Save(string fileName)
+        public void Save()
         {
             EnsureRepositoryOpen("Save");
 
+            InternalSafe(_currentRepositoryFilePath, _currentRepositoryName);
+        }
+
+        private void InternalSafe(string fileName, string name)
+        {
             var xmlDocument = new XDocument(
-                                    new XElement("MoneyManagerAccount",
-                                            new XElement("Requests", _allRequests.Select(r => r.Serialize()))
-                                            )
-                                    );
+                new XElement("MoneyManagerAccount",
+                    new XAttribute("Name", name),
+                    new XElement("Requests", _allRequests.Select(r => r.Serialize()))
+                    )
+                );
 
             xmlDocument.Save(fileName);
         }

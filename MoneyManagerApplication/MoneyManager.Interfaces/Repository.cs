@@ -79,7 +79,6 @@ namespace MoneyManager.Interfaces
         /// <summary>
         /// Writes Repository to file.
         /// </summary>
-        /// <param name="fileName">filename</param>
-        void Save(string fileName);
+        void Save();
     }
 }
