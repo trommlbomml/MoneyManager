@@ -120,14 +120,11 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             screenModel.AddRequestCommand.Execute(null);
 
             var requestDialogViewModel = (RequestDialogViewModel)dialogViewModel;
-            
             requestDialogViewModel.Description = expectedDescription;
-            
             requestDialogViewModel.Value = expectedValue;
             requestDialogViewModel.Date = expectedDate;
 
             Repository.CalculateSaldoForMonth(2014, 6).Returns(99.99);
-            
             Repository.CreateRequest(Arg.Any<RequestEntityData>()).Returns(entityIdOfRequest);
             Repository.QueryRequest(entityIdOfRequest).Returns(c =>
             {
@@ -152,6 +149,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Repository.Received(1).CalculateSaldoForMonth(2014, 6);
             Assert.That(screenModel.Requests.SelectableValues.Count, Is.EqualTo(requestsBeforeUpdate + 1));
             Assert.That(requestViewModel, Is.Not.Null);
+            Assert.That(screenModel.Saldo, Is.EqualTo(99.99));
 // ReSharper disable PossibleNullReferenceException
             Assert.That(requestViewModel.Description, Is.EqualTo(expectedDescription));
             Assert.That(requestViewModel.Date, Is.EqualTo(expectedDate));
