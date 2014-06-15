@@ -9,7 +9,6 @@ namespace MoneyManager.Model
 {
     internal class RepositoryImp : Repository
     {
-        private string _currentRepositoryFilePath;
         private string _currentRepositoryName;
         private readonly List<RequestEntityImp> _allRequests;
 
@@ -53,16 +52,16 @@ namespace MoneyManager.Model
             InternalSafe(targetFilePath, name);
 
             _currentRepositoryName = name;
-            _currentRepositoryFilePath = targetFilePath;
+            FilePath = targetFilePath;
         }
 
         public void Open(string path)
         {
-            if (!string.IsNullOrEmpty(_currentRepositoryFilePath)) throw new ApplicationException("Repository already open. Close first to open.");
+            if (!string.IsNullOrEmpty(FilePath)) throw new ApplicationException("Repository already open. Close first to open.");
 
             if (!File.Exists(path)) throw new ApplicationException("Path does not exist.");
 
-            _currentRepositoryFilePath = path;
+            FilePath = path;
 
             var document = XDocument.Load(path);
 // ReSharper disable PossibleNullReferenceException
@@ -73,18 +72,20 @@ namespace MoneyManager.Model
 // ReSharper restore PossibleNullReferenceException
         }
 
-        public bool IsOpen { get { return !string.IsNullOrEmpty(_currentRepositoryFilePath); } }
+        public bool IsOpen { get { return !string.IsNullOrEmpty(FilePath); } }
 
         public string Name 
         {
             get { return IsOpen ? _currentRepositoryName : string.Empty; }
         }
 
+        public string FilePath { get; private set; }
+
         public void Close()
         {
             EnsureRepositoryOpen("Close");
 
-            _currentRepositoryFilePath = null;
+            FilePath = null;
             ClearAll();
         }
 
@@ -139,7 +140,7 @@ namespace MoneyManager.Model
         {
             EnsureRepositoryOpen("Save");
 
-            InternalSafe(_currentRepositoryFilePath, _currentRepositoryName);
+            InternalSafe(FilePath, _currentRepositoryName);
         }
 
         private void InternalSafe(string fileName, string name)

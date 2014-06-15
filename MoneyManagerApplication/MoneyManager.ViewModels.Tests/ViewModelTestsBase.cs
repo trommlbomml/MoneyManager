@@ -16,6 +16,7 @@ namespace MoneyManager.ViewModels.Tests
         {
             Repository = Substitute.For<Repository>();
             Repository.Name.Returns("DefaultRepositoryName");
+            Repository.FilePath.Returns(@"C:\Test.mmdb");
 
             ApplicationSettings = Substitute.For<ApplicationSettings>();
             WindowManager = Substitute.For<WindowManager>();

@@ -29,6 +29,11 @@ namespace MoneyManager.Interfaces
         string Name { get; }
 
         /// <summary>
+        /// Pfad zur Datei.
+        /// </summary>
+        string FilePath { get; }
+
+        /// <summary>
         /// Schließt das Repository.
         /// </summary>
         void Close();

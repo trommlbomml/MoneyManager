@@ -17,16 +17,16 @@ namespace MoneyManager.Model.Tests
 
         private string _databaseFile;
 
-        public static string GetUniqueFilePath()
+        public static string GetUniqueFilePath(bool withExtension = false)
         {
-            return Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+            return Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")) + (withExtension ? SystemConstants.DatabaseExtension : string.Empty);
         }
 
         [SetUp]
         public void Setup()
         {
             Repository = (RepositoryImp)RepositoryFactory.CreateRepository();
-            _databaseFile = GetUniqueFilePath() + SystemConstants.DatabaseExtension;
+            _databaseFile = GetUniqueFilePath(true);
             Repository.Create(_databaseFile, "DefaultName");
         }
 
@@ -71,6 +71,7 @@ namespace MoneyManager.Model.Tests
             Assume.That(Repository.IsOpen, "Repository must be opened to test.");
 
             Assert.That(() => Repository.Open("C:\test.mmbd"), Throws.InstanceOf<ApplicationException>());
+            Assert.That(Repository.FilePath, Is.EqualTo(_databaseFile));
         }
 
         [Test]
@@ -79,6 +80,7 @@ namespace MoneyManager.Model.Tests
             Assume.That(Repository.IsOpen, "Repository must be opened to test.");
 
             Assert.That(() => Repository.Create("C:\test.mmbd", "DefaultName"), Throws.InstanceOf<ApplicationException>());
+            Assert.That(Repository.FilePath, Is.EqualTo(_databaseFile));
         }
 
         [TestCaseSource("QueryRequestsForSingleMonthTestCases")]
@@ -212,6 +214,7 @@ namespace MoneyManager.Model.Tests
 
             Repository.Save();
             RepositoryStateTests.AssertFileContentIsCorrect(_databaseFile, Repository.Name, Repository.AllRequests);
+            Assert.That(Repository.FilePath, Is.EqualTo(_databaseFile));
         }
 
         [Test]
@@ -224,6 +227,7 @@ namespace MoneyManager.Model.Tests
             Assert.That(Repository.AllRequests, Is.Empty);
             Assert.That(Repository.Name, Is.Null.Or.Empty);
             Assert.That(Repository.IsOpen, Is.False);
+            Assert.That(Repository.FilePath, Is.Null.Or.Empty);
         }
 
         [Test]
@@ -235,6 +239,7 @@ namespace MoneyManager.Model.Tests
 
             Repository.Open(_databaseFile);
             AssertRepositoryEqualsFileContent(_databaseFile);
+            Assert.That(Repository.FilePath, Is.EqualTo(_databaseFile));
         }
 
         private void AssertRepositoryEqualsFileContent(string databaseFile)

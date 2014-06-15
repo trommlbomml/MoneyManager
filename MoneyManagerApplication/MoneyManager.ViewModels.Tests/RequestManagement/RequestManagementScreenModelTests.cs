@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MoneyManager.ViewModels.RequestManagement;
 using NSubstitute;
 using NUnit.Framework;
@@ -67,6 +68,18 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(screenModel.Month, Is.EqualTo(nextMonth));
             Assert.That(screenModel.Year, Is.EqualTo(nextYear));
             Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == nextMonth)));
+        }
+
+        [Test]
+        public void SaveCommand()
+        {
+            var screenModel = new RequestManagementPageViewModel(Application, 2014, 6);
+
+            Repository.ClearReceivedCalls();
+
+            screenModel.SaveCommand.Execute(null);
+            Repository.Received(1).Save();
+            ApplicationSettings.Received(1).UpdateRecentAccountInformation(Repository.FilePath, Arg.Any<DateTime>());
         }
     }
 }
