@@ -98,9 +98,9 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             var requestDialogViewModel = (RequestDialogViewModel) dialogViewModel;
             
             Assert.That(requestDialogViewModel.CreateRequestCommand.IsEnabled, Is.True);
-            Assert.That(requestDialogViewModel.Date, Is.EqualTo(new DateTime(2014, 6, 1)));
-            Assert.That(requestDialogViewModel.FirstPossibleDate, Is.EqualTo(new DateTime(2014, 6, 1)));
-            Assert.That(requestDialogViewModel.LastPossibleDate, Is.EqualTo(new DateTime(2014, 6, 30)));
+            Assert.That(requestDialogViewModel.Date, Is.EqualTo(new DateTime(2014, 7, 1)));
+            Assert.That(requestDialogViewModel.FirstPossibleDate, Is.EqualTo(new DateTime(2014, 7, 1)));
+            Assert.That(requestDialogViewModel.LastPossibleDate, Is.EqualTo(new DateTime(2014, 7, 31)));
             Assert.That(requestDialogViewModel.Value, Is.EqualTo(0.0d));
         }
 

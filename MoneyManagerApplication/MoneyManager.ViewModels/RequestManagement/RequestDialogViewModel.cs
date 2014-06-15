@@ -12,8 +12,9 @@ namespace MoneyManager.ViewModels.RequestManagement
         private DateTime _lastPossibleDate;
         private string _dateAsString;
 
-        public RequestDialogViewModel(int year, int month, Action<RequestDialogViewModel> onOk)
+        public RequestDialogViewModel(int year, int monthIndex, Action<RequestDialogViewModel> onOk)
         {
+            var month = monthIndex+1;
             Date = new DateTime(year, month, 1);
             FirstPossibleDate = new DateTime(year, month, 1);
             LastPossibleDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
