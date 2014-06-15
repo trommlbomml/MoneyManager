@@ -180,6 +180,7 @@ namespace MoneyManager.Model.Tests
         {
             var repository = RepositoryFactory.CreateRepository();
             Assert.That(() => repository.Open(@"X:\test.mmdb"), Throws.InstanceOf<ApplicationException>());
+            Assert.That(repository.IsOpen, Is.False);
         }
     }
 }

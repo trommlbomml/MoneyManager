@@ -60,9 +60,17 @@ namespace MoneyManager.Model
         {
             if (!string.IsNullOrEmpty(_currentRepositoryFilePath)) throw new ApplicationException("Repository already open. Close first to open.");
 
-            _currentRepositoryFilePath = path;
-            _currentRepositoryName = "Test";
             if (!File.Exists(path)) throw new ApplicationException("Path does not exist.");
+
+            _currentRepositoryFilePath = path;
+
+            var document = XDocument.Load(path);
+// ReSharper disable PossibleNullReferenceException
+            _currentRepositoryName = document.Root.Attribute("Name").Value;
+
+            _allRequests.AddRange(document.Root.Element("Requests").Elements("Request").Select(e => new RequestEntityImp(e)));
+
+// ReSharper restore PossibleNullReferenceException
         }
 
         public bool IsOpen { get { return !string.IsNullOrEmpty(_currentRepositoryFilePath); } }

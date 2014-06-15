@@ -1,8 +1,10 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using MoneyManager.Interfaces;
 using NUnit.Framework;
 
@@ -210,6 +212,55 @@ namespace MoneyManager.Model.Tests
 
             Repository.Save();
             RepositoryStateTests.AssertFileContentIsCorrect(_databaseFile, Repository.Name, Repository.AllRequests);
+        }
+
+        [Test]
+        public void Close()
+        {
+            CreateRequestsInRepository(new[] { new DateTime(2014, 1, 1) }, new[] { 10 });
+            Repository.Save();
+            Repository.Close();
+
+            Assert.That(Repository.AllRequests, Is.Empty);
+            Assert.That(Repository.Name, Is.Null.Or.Empty);
+            Assert.That(Repository.IsOpen, Is.False);
+        }
+
+        [Test]
+        public void Open()
+        {
+            CreateRequestsInRepository(new[] { new DateTime(2014, 1, 1) }, new[] { 10 });
+            Repository.Save();
+            Repository.Close();
+
+            Repository.Open(_databaseFile);
+            AssertRepositoryEqualsFileContent(_databaseFile);
+        }
+
+        private void AssertRepositoryEqualsFileContent(string databaseFile)
+        {
+            var xmlDocument = new XmlDocument();
+            xmlDocument.Load(databaseFile);
+
+// ReSharper disable PossibleNullReferenceException
+            var name = xmlDocument.DocumentElement.GetAttribute("Name");
+            Assert.That(Repository.Name, Is.EqualTo(name));
+
+            var requestsElement = xmlDocument.DocumentElement.SelectSingleNode("Requests");
+            Assert.That(Repository.AllRequests.Count, Is.EqualTo(requestsElement.ChildNodes.Count));
+            
+            foreach (XmlElement element in requestsElement.ChildNodes)
+            {
+                var id = element.GetAttribute("Id");
+                var request = Repository.AllRequests.SingleOrDefault(r => r.PersistentId == id);
+                Assert.That(request, Is.Not.Null);
+
+                Assert.That(request.PersistentId, Is.EqualTo(id));
+                Assert.That(request.Date, Is.EqualTo(DateTime.Parse(element.GetAttribute("Date"), CultureInfo.InvariantCulture)));
+                Assert.That(request.Description, Is.EqualTo(element.GetAttribute("Description")));
+                Assert.That(request.Value, Is.EqualTo(Double.Parse(element.GetAttribute("Value"), CultureInfo.InvariantCulture)));
+            }
+// ReSharper restore PossibleNullReferenceException
         }
     }
 }

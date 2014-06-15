@@ -13,6 +13,14 @@ namespace MoneyManager.Model
             Date = DateTime.Now.Date;
         }
 
+        public RequestEntityImp(XElement requestElement):
+            base(requestElement.Attribute("Id").Value)
+        {
+            Description = requestElement.Attribute("Description").Value;
+            Value = Double.Parse(requestElement.Attribute("Value").Value, CultureInfo.InvariantCulture);
+            Date = DateTime.Parse(requestElement.Attribute("Date").Value, CultureInfo.InvariantCulture);
+        }
+
         public double Value { get; set; }
 
         public string Description { get; set; }

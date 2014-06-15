@@ -10,5 +10,10 @@ namespace MoneyManager.Model
         {
             PersistentId = Guid.NewGuid().ToString("D");
         }
+
+        protected Entity(string id)
+        {
+            PersistentId = id;
+        }
     }
 }
