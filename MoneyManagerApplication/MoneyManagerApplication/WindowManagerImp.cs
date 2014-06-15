@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
@@ -26,6 +27,11 @@ namespace MoneyManagerApplication
         public void ShowError(string caption, string text)
         {
             MessageBox.Show(text, caption, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+        }
+
+        public void ShowQuestion(string caption, string text, Action yes)
+        {
+            if (MessageBox.Show(text, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) yes();
         }
 
         public string ShowSaveFileDialog(string initialDirectory, string fileName)

@@ -126,6 +126,13 @@
   <data name="MoneyValueFormat" xml:space="preserve">
     <value>{0:0.00} €</value>
   </data>
+  <data name="RemoveRecentAccountMessageCaption" xml:space="preserve">
+    <value>Verweis entfernen</value>
+  </data>
+  <data name="RemoveRecentAccountMessageFormat" xml:space="preserve">
+    <value>Der angegebene Account unter '{0}' kann nicht geöffnet werden.
+Möchten Sie den Verweis aus der Liste entfernen?</value>
+  </data>
   <data name="RequestDateFormat" xml:space="preserve">
     <value>{0:dd.MM.yyyy}</value>
   </data>

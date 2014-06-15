@@ -88,6 +88,25 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Verweis entfernen.
+        /// </summary>
+        public static string RemoveRecentAccountMessageCaption {
+            get {
+                return ResourceManager.GetString("RemoveRecentAccountMessageCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Der angegebene Account unter &apos;{0}&apos; kann nicht geöffnet werden.
+        ///Möchten Sie den Verweis aus der Liste entfernen?.
+        /// </summary>
+        public static string RemoveRecentAccountMessageFormat {
+            get {
+                return ResourceManager.GetString("RemoveRecentAccountMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0:dd.MM.yyyy}.
         /// </summary>
         public static string RequestDateFormat {

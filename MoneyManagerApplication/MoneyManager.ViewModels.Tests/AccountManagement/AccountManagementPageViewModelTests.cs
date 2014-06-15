@@ -128,27 +128,6 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
         }
 
-        [Test]
-        public void OpenRecentAccountWithException()
-        {
-            var values = new List<RecentAccountInformation>
-            {
-                CreateRecentAccountInformation(@"C:\test\test.txt", new DateTime(2014, 4, 1)),
-            };
-            ApplicationSettings.RecentAccounts.Returns(values.AsReadOnly());
-            Repository.When(r => r.Open(Arg.Any<string>())).Do(c => {throw new Exception("Text");});
-
-            var viewModel = new AccountManagementPageViewModel(Application);
-            viewModel.Accounts.SelectedValue = viewModel.Accounts.SelectableValues.First();
-
-            viewModel.OpenRecentAccountCommand.Execute(null);
-
-            Repository.Received(1).Open(@"C:\test\test.txt");
-            ApplicationSettings.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
-            Assert.That(Application.ActivePage, Is.Not.InstanceOf<AccountManagementPageViewModel>());
-            WindowManager.Received(1).ShowError("Error", "Text");
-        }
-
         [TestCase(true)]
         [TestCase(false)]
         public void OpenCommand(bool accept)
@@ -197,6 +176,52 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             Repository.Received(1).Open(Arg.Any<string>());
             ApplicationSettings.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
             Assert.That(Application.ActivePage, Is.Not.InstanceOf<RequestManagementPageViewModel>());
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void OpenRecentAccountWithException(bool answerYes)
+        {
+            const string accountPath = @"C:\test\test.txt";
+            var values = new List<RecentAccountInformation>
+            {
+                CreateRecentAccountInformation(accountPath, new DateTime(2014, 4, 1)),
+            };
+            ApplicationSettings.RecentAccounts.Returns(values.AsReadOnly());
+            Repository.When(r => r.Open(Arg.Any<string>())).Do(c => { throw new Exception("Text"); });
+            
+            if (answerYes) 
+            {
+                WindowManager.When(w => w.ShowQuestion(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<Action>()))
+                             .Do(c => ((Action)c[2]).Invoke());
+            }
+
+            var viewModel = new AccountManagementPageViewModel(Application);
+            viewModel.Accounts.SelectedValue = viewModel.Accounts.SelectableValues.First();
+
+            viewModel.OpenRecentAccountCommand.Execute(null);
+
+            Repository.Received(1).Open(accountPath);
+            ApplicationSettings.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
+
+            WindowManager.Received(1).ShowQuestion(Properties.Resources.RemoveRecentAccountMessageCaption, 
+                                                   string.Format(Properties.Resources.RemoveRecentAccountMessageFormat, accountPath), 
+                                                   Arg.Any<Action>());
+
+            if (answerYes)
+            {
+                ApplicationSettings.Received(1).DeleteRecentAccountInformation(accountPath);
+                Assert.That(viewModel.Accounts.SelectableValues.Count, Is.EqualTo(0));
+                Assert.That(viewModel.Accounts.SelectedValue, Is.Null);
+            }
+            else
+            {
+                ApplicationSettings.DidNotReceiveWithAnyArgs().DeleteRecentAccountInformation(Arg.Any<string>());
+                Assert.That(viewModel.Accounts.SelectableValues.Count, Is.EqualTo(1));
+                Assert.That(viewModel.Accounts.SelectedValue, Is.EqualTo(viewModel.Accounts.SelectableValues.First()));
+            }
+
+            Assert.That(Application.ActivePage, Is.Not.InstanceOf<AccountManagementPageViewModel>());
         }
     }
 }

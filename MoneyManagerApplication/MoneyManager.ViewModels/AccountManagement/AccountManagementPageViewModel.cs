@@ -48,7 +48,7 @@ namespace MoneyManager.ViewModels.AccountManagement
             OpenAccountCommand.IsEnabled = true;
         }
 
-        private void ExecuteWithErrorHandling(Action action)
+        private void ExecuteWithErrorHandling(Action action, Action onError = null)
         {
             try
             {
@@ -56,7 +56,14 @@ namespace MoneyManager.ViewModels.AccountManagement
             }
             catch (Exception ex)
             {
-                Application.WindowManager.ShowError("Error", ex.Message);
+                if (onError == null)
+                {
+                    Application.WindowManager.ShowError("Error", ex.Message);
+                }
+                else
+                {
+                    onError();
+                }
             }
         }
 
@@ -78,8 +85,19 @@ namespace MoneyManager.ViewModels.AccountManagement
             {
                 Application.Repository.Open(Accounts.SelectedValue.Path);
                 Application.ApplicationSettings.UpdateRecentAccountInformation(Accounts.SelectedValue.Path, DateTime.Now);
-                Application.ActivateRequestmanagementPage();
-            });
+                Application.ActivateRequestmanagementPage(); 
+            }, HandleOpenRecentFailed);
+        }
+
+        private void HandleOpenRecentFailed()
+        {
+            Application.WindowManager.ShowQuestion(Properties.Resources.RemoveRecentAccountMessageCaption,
+                string.Format(Properties.Resources.RemoveRecentAccountMessageFormat, Accounts.SelectedValue.Path),
+                () =>
+                {
+                    Application.ApplicationSettings.DeleteRecentAccountInformation(Accounts.SelectedValue.Path);
+                    Accounts.RemoveValueSelectedValue();
+                });
         }
 
         private void OnCreateNewAccountCommand()
