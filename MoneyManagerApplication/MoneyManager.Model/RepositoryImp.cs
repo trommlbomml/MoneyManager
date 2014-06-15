@@ -13,8 +13,6 @@ namespace MoneyManager.Model
         private string _currentRepositoryName;
         private readonly List<RequestEntityImp> _allRequests;
 
-        internal const string RepositoryExtension = ".mmdb";
-
         public RepositoryImp()
         {
             _allRequests = new List<RequestEntityImp>();
@@ -44,8 +42,8 @@ namespace MoneyManager.Model
             if (IsOpen) throw new ApplicationException("Repository already open. Close first to create new.");
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid repository name. Must contain visible characters", "name");
 
-            var targetFilePath = !RepositoryExtension.Equals(Path.GetExtension(path))
-                                            ? path + RepositoryExtension
+            var targetFilePath = !SystemConstants.DatabaseExtension.Equals(Path.GetExtension(path))
+                                            ? path + SystemConstants.DatabaseExtension
                                             : path;
 
             if (File.Exists(targetFilePath)) throw new ApplicationException("File already exists.");

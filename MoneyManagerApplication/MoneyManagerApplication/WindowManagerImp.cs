@@ -1,5 +1,7 @@
 ﻿
+using System.IO;
 using System.Windows;
+using Microsoft.Win32;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.AccountManagement;
 using MoneyManagerApplication.Dialogs;
@@ -24,6 +26,19 @@ namespace MoneyManagerApplication
         public void ShowError(string caption, string text)
         {
             MessageBox.Show(text, caption, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+        }
+
+        public string ShowSaveFileDialog(string initialDirectory, string fileName)
+        {
+            var saveFileDialog = new SaveFileDialog
+            {
+                AddExtension = true,
+                DefaultExt = SystemConstants.DatabaseExtension,
+                InitialDirectory = initialDirectory,
+                FileName = fileName
+            };
+
+            return saveFileDialog.ShowDialog() == true ? saveFileDialog.FileName : string.Empty;
         }
     }
 }

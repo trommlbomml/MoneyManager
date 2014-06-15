@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Xml;
+using MoneyManager.Interfaces;
 using NUnit.Framework;
 
 namespace MoneyManager.Model.Tests
@@ -15,7 +16,7 @@ namespace MoneyManager.Model.Tests
         {
             foreach (var file in Directory.GetFiles(Path.GetTempPath()))
             {
-                if (RepositoryImp.RepositoryExtension.Equals(Path.GetExtension(file)))
+                if (SystemConstants.DatabaseExtension.Equals(Path.GetExtension(file)))
                 {
                     try
                     {
@@ -90,7 +91,7 @@ namespace MoneyManager.Model.Tests
             var repository = RepositoryFactory.CreateRepository();
 
             var targetFilePathWithoutExtension = RespositoryTests.GetUniqueFilePath();
-            var targetFilePathWithExtension = targetFilePathWithoutExtension + RepositoryImp.RepositoryExtension;
+            var targetFilePathWithExtension = targetFilePathWithoutExtension + SystemConstants.DatabaseExtension;
 
             repository.Create(withExtension ? targetFilePathWithExtension : targetFilePathWithoutExtension, "MyRepository");
 
@@ -107,7 +108,7 @@ namespace MoneyManager.Model.Tests
             var repository = RepositoryFactory.CreateRepository();
 
             var targetFilePathWithoutExtension = RespositoryTests.GetUniqueFilePath();
-            var targetFilePathWithExtension = targetFilePathWithoutExtension + RepositoryImp.RepositoryExtension;
+            var targetFilePathWithExtension = targetFilePathWithoutExtension + SystemConstants.DatabaseExtension;
 
             File.WriteAllText(targetFilePathWithExtension, "Test");
 
@@ -124,7 +125,7 @@ namespace MoneyManager.Model.Tests
         {
             var repository = RepositoryFactory.CreateRepository();
 
-            var targetFilePathWithExtension = RespositoryTests.GetUniqueFilePath() + RepositoryImp.RepositoryExtension;
+            var targetFilePathWithExtension = RespositoryTests.GetUniqueFilePath() + SystemConstants.DatabaseExtension;
 
             Assert.That(() => repository.Create(targetFilePathWithExtension, name), Throws.InstanceOf<ArgumentException>());
         }

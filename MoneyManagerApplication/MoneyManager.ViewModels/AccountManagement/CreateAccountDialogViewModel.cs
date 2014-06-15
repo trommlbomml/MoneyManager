@@ -7,17 +7,31 @@ namespace MoneyManager.ViewModels.AccountManagement
     {
         private string _path;
         private string _name;
+        private readonly ApplicationViewModel _applicationViewModel;
 
-        public CreateAccountDialogViewModel(Action<CreateAccountDialogViewModel> cancel,
+        public CreateAccountDialogViewModel(ApplicationViewModel application, 
+                                            Action<CreateAccountDialogViewModel> cancel,
                                             Action<CreateAccountDialogViewModel> ok)
         {
+            _applicationViewModel = application;
+
             CreateAccountCommand = new CommandViewModel(() => ok(this));
             CancelCommand = new CommandViewModel(() => cancel(this));
+            SelectFileCommand = new CommandViewModel(OnSelectFileCommand);
 
             Name = "Mein Konto";
             Path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Konto.mmdb");
 
             UpdateCommandStates();
+        }
+
+        private void OnSelectFileCommand()
+        {
+            var result = _applicationViewModel.WindowManager.ShowSaveFileDialog(System.IO.Path.GetDirectoryName(Path), Path);
+            if (!string.IsNullOrEmpty(result))
+            {
+                Path = result;
+            }
         }
 
         private void UpdateCommandStates()
@@ -28,11 +42,12 @@ namespace MoneyManager.ViewModels.AccountManagement
 
         public CommandViewModel CreateAccountCommand { get; private set; }
         public CommandViewModel CancelCommand { get; private set; }
+        public CommandViewModel SelectFileCommand { get; private set; }
 
         public string Path
         {
             get { return _path; }
-            set { SetBackingField("Path", ref _path, value, o => UpdateCommandStates()); }
+            internal set { SetBackingField("Path", ref _path, value, o => UpdateCommandStates()); }
         }
 
         public string Name

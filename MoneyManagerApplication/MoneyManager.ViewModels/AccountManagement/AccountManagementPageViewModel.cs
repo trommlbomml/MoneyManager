@@ -60,7 +60,7 @@ namespace MoneyManager.ViewModels.AccountManagement
 
         private void OnCreateNewAccountCommand()
         {
-            var newAccountDialog = new CreateAccountDialogViewModel(o => { }, OnCreateAccountDialogOk);
+            var newAccountDialog = new CreateAccountDialogViewModel(Application, o => { }, OnCreateAccountDialogOk);
             Application.WindowManager.ShowDialog(newAccountDialog);
         }
 

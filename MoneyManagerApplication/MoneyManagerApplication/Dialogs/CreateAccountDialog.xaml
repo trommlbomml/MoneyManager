@@ -36,11 +36,13 @@
                Grid.Column="0"/>
         <TextBox Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5"
+                 IsReadOnly="True"
                  Grid.Row="1"
                  Grid.Column="1" />
         <Button Content="..."
                 Margin="0,5,5,5"
                 Grid.Row="1"
+                Command="{Binding SelectFileCommand}"
                 Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}"
                 Grid.Column="2" />
 
