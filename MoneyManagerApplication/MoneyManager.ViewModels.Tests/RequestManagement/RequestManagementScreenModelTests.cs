@@ -1,10 +1,9 @@
-﻿
-using System.Linq;
+﻿using System.Linq;
 using MoneyManager.ViewModels.RequestManagement;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace MoneyManager.ViewModels.Tests
+namespace MoneyManager.ViewModels.Tests.RequestManagement
 {
     [TestFixture]
     public class RequestManagementScreenModelTests : ViewModelTestsBase

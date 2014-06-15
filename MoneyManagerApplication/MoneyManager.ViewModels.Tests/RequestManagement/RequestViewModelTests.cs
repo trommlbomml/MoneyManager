@@ -4,7 +4,7 @@ using MoneyManager.ViewModels.RequestManagement;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace MoneyManager.ViewModels.Tests
+namespace MoneyManager.ViewModels.Tests.RequestManagement
 {
     [TestFixture]
     public class RequestViewModelTests : ViewModelTestsBase

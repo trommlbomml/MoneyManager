@@ -18,6 +18,7 @@ namespace MoneyManager.ViewModels.Tests
             Repository.Name.Returns("DefaultRepositoryName");
 
             ApplicationSettings = Substitute.For<ApplicationSettings>();
+            WindowManager = Substitute.For<WindowManager>();
 
             Application = new ApplicationViewModel(Repository, ApplicationSettings, WindowManager);
         }

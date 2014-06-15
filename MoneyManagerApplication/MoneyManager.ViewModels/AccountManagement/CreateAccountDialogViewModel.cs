@@ -14,6 +14,9 @@ namespace MoneyManager.ViewModels.AccountManagement
             CreateAccountCommand = new CommandViewModel(() => ok(this));
             CancelCommand = new CommandViewModel(() => cancel(this));
 
+            Name = "Mein Konto";
+            Path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Konto.mmdb");
+
             UpdateCommandStates();
         }
 

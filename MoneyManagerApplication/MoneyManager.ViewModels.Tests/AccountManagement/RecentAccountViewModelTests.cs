@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MoneyManager.ViewModels.AccountManagement;
 using NUnit.Framework;
 
-namespace MoneyManager.ViewModels.Tests
+namespace MoneyManager.ViewModels.Tests.AccountManagement
 {
     [TestFixture]
     public class RecentAccountViewModelTests : ViewModelTestsBase

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels.AccountManagement
@@ -65,8 +66,15 @@ namespace MoneyManager.ViewModels.AccountManagement
 
         private void OnCreateAccountDialogOk(CreateAccountDialogViewModel dlg)
         {
-            Application.Repository.Create(dlg.Path, dlg.Name);
-            Application.ActivateRequestmanagementPage();
+            try
+            {
+                Application.Repository.Create(dlg.Path, dlg.Name);
+                Application.ActivateRequestmanagementPage();
+            }
+            catch (Exception ex)
+            {
+                Application.WindowManager.ShowError("Error", ex.Message);
+            }
         }
 
         public CommandViewModel CreateNewAccountCommand { get; private set; }
