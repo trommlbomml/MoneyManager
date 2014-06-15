@@ -116,6 +116,15 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0:dd. MMMM yyyy}.
+        /// </summary>
+        public static string RequestDayOfMonthFormat {
+            get {
+                return ResourceManager.GetString("RequestDayOfMonthFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Transaktionsverwaltung - {0}.
         /// </summary>
         public static string RequestManagementPageCaptionFormat {

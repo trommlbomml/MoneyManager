@@ -116,11 +116,17 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void OnAddRequestCommand()
         {
+            var viewModel = new RequestDialogViewModel(Year, Month, OnCreateRequest);
+            Application.WindowManager.ShowDialog(viewModel);
+        }
+
+        private void OnCreateRequest(RequestDialogViewModel requestDialog)
+        {
             var requestEntityId = Application.Repository.CreateRequest(new RequestEntityData
             {
-                Date = new DateTime(Year, Month, 15),
-                Description = "My Description",
-                Value = 12.95
+                Date = requestDialog.Date,
+                Description = requestDialog.Description,
+                Value = requestDialog.Value
             });
 
             var requestViewModel = new RequestViewModel(Application, requestEntityId);

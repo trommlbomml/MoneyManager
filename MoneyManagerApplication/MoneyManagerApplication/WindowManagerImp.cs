@@ -5,23 +5,33 @@ using System.Windows;
 using Microsoft.Win32;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.AccountManagement;
+using MoneyManager.ViewModels.RequestManagement;
 using MoneyManagerApplication.Dialogs;
 
 namespace MoneyManagerApplication
 {
     class WindowManagerImp : WindowManager
     {
+        private static Window GetWindowFromViewModelType(Type type)
+        {
+            if (type == typeof (CreateAccountDialogViewModel))
+            {
+                return new CreateAccountDialog();
+            }
+            if (type == typeof (RequestDialogViewModel))
+            {
+                return new RequestDialog();
+            }
+
+            throw new InvalidOperationException(string.Format("There is no Window for type {0}", type.FullName));
+        }
+
         public void ShowDialog(object dataContext)
         {
-            if (dataContext.GetType() == typeof (CreateAccountDialogViewModel))
-            {
-                var window = new CreateAccountDialog
-                {
-                    DataContext = dataContext,
-                    Owner = Application.Current.MainWindow
-                };
-                window.ShowDialog();
-            }
+            var window = GetWindowFromViewModelType(dataContext.GetType());
+            window.DataContext = dataContext;
+            window.Owner = Application.Current.MainWindow;
+            window.ShowDialog();
         }
 
         public void ShowError(string caption, string text)

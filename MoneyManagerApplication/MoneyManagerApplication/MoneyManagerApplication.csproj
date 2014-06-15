@@ -60,8 +60,15 @@
       <DependentUpon>CreateAccountDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ApplicationSettings\RecentAccountInformationImp.cs" />
+    <Compile Include="Dialogs\RequestDialog.xaml.cs">
+      <DependentUpon>RequestDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowManagerImp.cs" />
     <Page Include="Dialogs\CreateAccountDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RequestDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
