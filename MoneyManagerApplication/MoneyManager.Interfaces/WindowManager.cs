@@ -8,5 +8,7 @@ namespace MoneyManager.Interfaces
         void ShowError(string caption, string text);
 
         string ShowSaveFileDialog(string initialDirectory, string fileName);
+
+        string ShowOpenFileDialog(string initialDirectory);
     }
 }

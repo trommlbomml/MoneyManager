@@ -40,5 +40,17 @@ namespace MoneyManagerApplication
 
             return saveFileDialog.ShowDialog() == true ? saveFileDialog.FileName : string.Empty;
         }
+
+        public string ShowOpenFileDialog(string initialDirectory)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                AddExtension = true,
+                DefaultExt = SystemConstants.DatabaseExtension,
+                InitialDirectory = initialDirectory
+            };
+
+            return openFileDialog.ShowDialog() == true ? openFileDialog.FileName : string.Empty;
+        }
     }
 }

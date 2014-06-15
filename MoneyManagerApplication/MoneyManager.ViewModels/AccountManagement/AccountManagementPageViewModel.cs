@@ -48,23 +48,38 @@ namespace MoneyManager.ViewModels.AccountManagement
             OpenAccountCommand.IsEnabled = true;
         }
 
-        private void OnOpenAccountCommand()
-        {
-            Application.ActivateRequestmanagementPage();
-        }
-
-        private void OnOpenRecentAccountCommand()
+        private void ExecuteWithErrorHandling(Action action)
         {
             try
             {
-                Application.Repository.Open(Accounts.SelectedValue.Path);
-                Application.ApplicationSettings.UpdateRecentAccountInformation(Accounts.SelectedValue.Path, DateTime.Now);
-                Application.ActivateRequestmanagementPage();
+                action();
             }
             catch (Exception ex)
             {
                 Application.WindowManager.ShowError("Error", ex.Message);
             }
+        }
+
+        private void OnOpenAccountCommand()
+        {
+            ExecuteWithErrorHandling(() =>
+            {
+                var result = Application.WindowManager.ShowOpenFileDialog(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                if (string.IsNullOrEmpty(result)) return;
+                Application.Repository.Open(result);
+                Application.ApplicationSettings.UpdateRecentAccountInformation(result, DateTime.Now);
+                Application.ActivateRequestmanagementPage();
+            });
+        }
+
+        private void OnOpenRecentAccountCommand()
+        {
+            ExecuteWithErrorHandling(() =>
+            {
+                Application.Repository.Open(Accounts.SelectedValue.Path);
+                Application.ApplicationSettings.UpdateRecentAccountInformation(Accounts.SelectedValue.Path, DateTime.Now);
+                Application.ActivateRequestmanagementPage();
+            });
         }
 
         private void OnCreateNewAccountCommand()
@@ -75,16 +90,12 @@ namespace MoneyManager.ViewModels.AccountManagement
 
         private void OnCreateAccountDialogOk(CreateAccountDialogViewModel dlg)
         {
-            try
+            ExecuteWithErrorHandling(() =>
             {
                 Application.Repository.Create(dlg.Path, dlg.Name);
                 Application.ApplicationSettings.UpdateRecentAccountInformation(dlg.Path, DateTime.Now);
                 Application.ActivateRequestmanagementPage();
-            }
-            catch (Exception ex)
-            {
-                Application.WindowManager.ShowError("Error", ex.Message);
-            }
+            });
         }
 
         public CommandViewModel CreateNewAccountCommand { get; private set; }

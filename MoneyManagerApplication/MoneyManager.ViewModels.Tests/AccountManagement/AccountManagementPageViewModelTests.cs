@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.AccountManagement;
@@ -146,6 +147,56 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             ApplicationSettings.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
             Assert.That(Application.ActivePage, Is.Not.InstanceOf<AccountManagementPageViewModel>());
             WindowManager.Received(1).ShowError("Error", "Text");
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void OpenCommand(bool accept)
+        {
+            var expectedPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Konto.mmdb");
+
+            if (accept)
+            {
+                WindowManager.ShowOpenFileDialog(Arg.Any<string>()).Returns(expectedPath);
+            }
+            else
+            {
+                WindowManager.ShowOpenFileDialog(Arg.Any<string>()).Returns("");
+                expectedPath = "";
+            }
+
+            var viewModel = new AccountManagementPageViewModel(Application);
+            viewModel.OpenAccountCommand.Execute(null);
+
+            WindowManager.Received(1).ShowOpenFileDialog(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+
+            if (accept)
+            {
+                Repository.Received(1).Open(expectedPath);
+                ApplicationSettings.Received(1).UpdateRecentAccountInformation(expectedPath, Arg.Any<DateTime>());
+                Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
+            }
+            else
+            {
+                Repository.DidNotReceiveWithAnyArgs().Open(Arg.Any<string>());
+                ApplicationSettings.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
+                Assert.That(Application.ActivePage, Is.Not.InstanceOf<RequestManagementPageViewModel>());
+            }
+        }
+
+        [Test]
+        public void OpenCommandWithException()
+        {
+            WindowManager.ShowOpenFileDialog(Arg.Any<string>()).Returns("TestPath");
+            Repository.When(r => r.Open(Arg.Any<string>())).Do(c => {throw new ApplicationException("TestMessage");});
+
+            var viewModel = new AccountManagementPageViewModel(Application);
+            viewModel.OpenAccountCommand.Execute(null);
+            
+            WindowManager.Received(1).ShowError("Error", "TestMessage");
+            Repository.Received(1).Open(Arg.Any<string>());
+            ApplicationSettings.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
+            Assert.That(Application.ActivePage, Is.Not.InstanceOf<RequestManagementPageViewModel>());
         }
     }
 }
