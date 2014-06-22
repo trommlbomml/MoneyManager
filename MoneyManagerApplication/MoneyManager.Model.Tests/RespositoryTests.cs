@@ -200,6 +200,25 @@ namespace MoneyManager.Model.Tests
             CollectionAssert.AreEquivalent(allRequestIdsBeforeDelete.Except(new[]{requestPersistentIdToDelete}), persistentIdsAfterDelete);
         }
 
+        [TestCase(2012, 8, 0.0)]
+        [TestCase(2012, 9, 50.55)]
+        [TestCase(2013, 5, 50.55)]
+        [TestCase(2013, 6, 50.55 + 12.5)]
+        [TestCase(2013, 11, 50.55 + 12.5)]
+        [TestCase(2013, 12, 50.55 + 12.5 + 11.2)]
+        [TestCase(2014, 1, 50.55 + 12.5 + 11.2)]
+        [TestCase(2014, 2, 50.55 + 12.5 + 11.2 + 7.77)]
+        public void CalculateSaldoForMonth(int year, int month, double expectedSaldo)
+        {
+            Repository.CreateRequest(new RequestEntityData { Date = new DateTime(2012, 9, 6), Value = 50.55 });
+            Repository.CreateRequest(new RequestEntityData {Date = new DateTime(2013, 6, 1), Value = 12.5});
+            Repository.CreateRequest(new RequestEntityData { Date = new DateTime(2013, 12, 15), Value = 11.20 });
+            Repository.CreateRequest(new RequestEntityData { Date = new DateTime(2014, 2, 1), Value = 7.77 });
+
+            var saldo = Repository.CalculateSaldoForMonth(year, month);
+            Assert.That(saldo, Is.EqualTo(expectedSaldo));
+        }
+
         [Test]
         public void SaveNotOpenedDatabaseThrowsExceptio()
         {

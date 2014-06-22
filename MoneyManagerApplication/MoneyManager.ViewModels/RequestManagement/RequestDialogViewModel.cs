@@ -12,9 +12,10 @@ namespace MoneyManager.ViewModels.RequestManagement
         private DateTime _lastPossibleDate;
         private string _dateAsString;
 
-        public RequestDialogViewModel(int year, int monthIndex, Action<RequestDialogViewModel> onOk)
+        public RequestDialogViewModel(int year, int month, Action<RequestDialogViewModel> onOk)
         {
-            var month = monthIndex+1;
+            if (month < 1 || month > 12) throw new ArgumentException(@"Month index must be in range 1 to 12", "month");
+
             Date = new DateTime(year, month, 1);
             FirstPossibleDate = new DateTime(year, month, 1);
             LastPossibleDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));

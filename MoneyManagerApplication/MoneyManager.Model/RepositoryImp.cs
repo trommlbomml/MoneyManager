@@ -132,7 +132,7 @@ namespace MoneyManager.Model
         {
             EnsureRepositoryOpen("CalculateSaldoForMonth");
 
-            return _allRequests.Where(r => r.Date.Year <= year && r.Date.Month <= month)
+            return _allRequests.Where(r => r.Date.Year <= year && (r.Date.Month <= month || r.Date.Year < year))
                                .Sum(r => r.Value);
         }
 

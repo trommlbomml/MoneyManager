@@ -29,6 +29,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
 
             Assert.That(screenModel.Months.SelectableValues.Count, Is.EqualTo(12));
             Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == 3)));
+            Assert.That(screenModel.Months.SelectableValues.Select(m => m.Index).ToArray(), Is.EquivalentTo(Enumerable.Range(1,12).ToArray()));
 
             Assert.That(screenModel.Saldo, Is.EqualTo(expectedSaldo));
             Assert.That(screenModel.SaldoAsString, Is.EqualTo(string.Format(Properties.Resources.MoneyValueFormat, expectedSaldo)));
@@ -40,7 +41,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         }
 
         [TestCase(2014, 3, 2014, 4)]
-        [TestCase(2014, 11, 2015, 0)]
+        [TestCase(2014, 12, 2015, 1)]
         public void NextMonthCommandCallsRepositoryAndUpdatesProperties(int currentYear, int currentMonth, int nextYear, int nextMonth)
         {
             var screenModel = new RequestManagementPageViewModel(Application, currentYear, currentMonth);
@@ -56,7 +57,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         }
 
         [TestCase(2014, 4, 2014, 3 )]
-        [TestCase(2014, 0, 2013, 11)]
+        [TestCase(2014, 1, 2013, 12)]
         public void PreviousMonthCommandCallsRepositoryAndUpdatesProperties(int currentYear, int currentMonth, int nextYear, int nextMonth)
         {
             var screenModel = new RequestManagementPageViewModel(Application, currentYear, currentMonth);
@@ -98,9 +99,9 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             var requestDialogViewModel = (RequestDialogViewModel) dialogViewModel;
             
             Assert.That(requestDialogViewModel.CreateRequestCommand.IsEnabled, Is.True);
-            Assert.That(requestDialogViewModel.Date, Is.EqualTo(new DateTime(2014, 7, 1)));
-            Assert.That(requestDialogViewModel.FirstPossibleDate, Is.EqualTo(new DateTime(2014, 7, 1)));
-            Assert.That(requestDialogViewModel.LastPossibleDate, Is.EqualTo(new DateTime(2014, 7, 31)));
+            Assert.That(requestDialogViewModel.Date, Is.EqualTo(new DateTime(2014, 6, 1)));
+            Assert.That(requestDialogViewModel.FirstPossibleDate, Is.EqualTo(new DateTime(2014, 6, 1)));
+            Assert.That(requestDialogViewModel.LastPossibleDate, Is.EqualTo(new DateTime(2014, 6, 30)));
             Assert.That(requestDialogViewModel.Value, Is.EqualTo(0.0d));
         }
 

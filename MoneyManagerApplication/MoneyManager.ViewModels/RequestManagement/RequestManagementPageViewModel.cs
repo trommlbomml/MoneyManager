@@ -19,23 +19,23 @@ namespace MoneyManager.ViewModels.RequestManagement
         public RequestManagementPageViewModel(ApplicationViewModel application, int year, int month) : base(application)
         {
             Months = new EnumeratedSingleValuedProperty<MonthNameViewModel>();
-            Months.AddValue(new MonthNameViewModel("Januar", 0));
-            Months.AddValue(new MonthNameViewModel("Februar", 1));
-            Months.AddValue(new MonthNameViewModel("März", 2));
-            Months.AddValue(new MonthNameViewModel("April", 3));
-            Months.AddValue(new MonthNameViewModel("Mai", 4));
-            Months.AddValue(new MonthNameViewModel("Juni", 5));
-            Months.AddValue(new MonthNameViewModel("Juli", 6));
-            Months.AddValue(new MonthNameViewModel("August", 7));
-            Months.AddValue(new MonthNameViewModel("September", 8));
-            Months.AddValue(new MonthNameViewModel("Oktober", 9));
-            Months.AddValue(new MonthNameViewModel("November", 10));
-            Months.AddValue(new MonthNameViewModel("Dezember", 11));
+            Months.AddValue(new MonthNameViewModel("Januar", 1));
+            Months.AddValue(new MonthNameViewModel("Februar", 2));
+            Months.AddValue(new MonthNameViewModel("März", 3));
+            Months.AddValue(new MonthNameViewModel("April", 4));
+            Months.AddValue(new MonthNameViewModel("Mai", 5));
+            Months.AddValue(new MonthNameViewModel("Juni", 6));
+            Months.AddValue(new MonthNameViewModel("Juli", 7));
+            Months.AddValue(new MonthNameViewModel("August", 8));
+            Months.AddValue(new MonthNameViewModel("September", 9));
+            Months.AddValue(new MonthNameViewModel("Oktober", 10));
+            Months.AddValue(new MonthNameViewModel("November", 11));
+            Months.AddValue(new MonthNameViewModel("Dezember", 12));
 
             Requests = new EnumeratedSingleValuedProperty<RequestViewModel>();
             
             _year = year;
-            Months.SelectedValue = Months.SelectableValues[month];
+            Months.SelectedValue = Months.SelectableValues.Single(m => m.Index == month);
             
             AddRequestCommand = new CommandViewModel(OnAddRequestCommand);
             DeleteRequestCommand = new CommandViewModel(OnDeleteRequestCommand);
@@ -70,14 +70,14 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             _preventUpdateCurrentMonth = true;
 
-            if (Month == 11)
+            if (Month == 12)
             {
                 Year++;
                 Months.SelectedValue = Months.SelectableValues.First();
             }
             else
             {
-                Months.SelectedValue = Months.SelectableValues[Month+1];
+                Months.SelectedValue = Months.SelectableValues.Single(m => m.Index == Month+1);
             }
             _preventUpdateCurrentMonth = false;
 
@@ -87,14 +87,14 @@ namespace MoneyManager.ViewModels.RequestManagement
         private void OnPreviousMonthCommand()
         {
             _preventUpdateCurrentMonth = true;
-            if (Month == 0)
+            if (Month == 1)
             {
                 Year--;
                 Months.SelectedValue = Months.SelectableValues.Last();
             }
             else
             {
-                Months.SelectedValue = Months.SelectableValues[Month-1];
+                Months.SelectedValue = Months.SelectableValues.Single(m => m.Index == Month-1);
             }
             _preventUpdateCurrentMonth = false;
 
@@ -108,6 +108,13 @@ namespace MoneyManager.ViewModels.RequestManagement
         }
 
         private void OnDeleteRequestCommand()
+        {
+            Application.WindowManager.ShowQuestion("Eintrag löschen",
+                "Sind sie sicher, dass sie den ausgewählten Eintrag löschen möchten?",
+                DeleteRequest);
+        }
+
+        private void DeleteRequest()
         {
             Application.Repository.DeleteRequest(Requests.SelectedValue.EntityId);
             Requests.SelectedValue = null;
