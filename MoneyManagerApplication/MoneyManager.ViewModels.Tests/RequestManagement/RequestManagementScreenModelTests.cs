@@ -142,7 +142,9 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
 
             var requestViewModel = screenModel.Requests.SelectableValues.SingleOrDefault(r => r.EntityId == entityIdOfRequest);
 
+// ReSharper disable ImplicitlyCapturedClosure
             Repository.Received(1).CreateRequest(Arg.Is<RequestEntityData>(r => r.Date == expectedDate
+// ReSharper restore ImplicitlyCapturedClosure
                                                                              && Math.Abs(r.Value - expectedValue) < double.Epsilon
                                                                              && r.Description == expectedDescription));
 
@@ -156,6 +158,59 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(requestViewModel.Date, Is.EqualTo(expectedDate));
             Assert.That(requestViewModel.Value, Is.EqualTo(expectedValue));
 // ReSharper restore PossibleNullReferenceException
+        }
+
+        private void DefineRequestsForMonth(int year, int month, int requestCount)
+        {
+            var list = Enumerable.Range(1, requestCount).Select(i =>
+            {
+                var entity = Substitute.For<RequestEntity>();
+                entity.PersistentId.Returns(string.Format("Entity={0}", i));
+                entity.Date.Returns(new DateTime(year, month, 5));
+                entity.Description.Returns("Description");
+                entity.Value.Returns(i*2.56);
+
+                return entity;
+            }).ToList();
+
+            Repository.QueryRequestsForSingleMonth(Arg.Any<int>(), Arg.Any<int>()).Returns(list);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void DeleteRequest(bool confirmDelete)
+        {
+            DefineRequestsForMonth(2014, 6, 3);
+            var screenModel = new RequestManagementPageViewModel(Application, 2014, 6);
+
+            Application.WindowManager
+                       .When(w => w.ShowQuestion(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<Action>()))
+                       .Do(c => { if (confirmDelete) ((Action)c[2]).Invoke(); });
+
+            screenModel.Requests.SelectedValue = screenModel.Requests.SelectableValues.First();
+            var persistentId = screenModel.Requests.SelectedValue.EntityId;
+            
+            Repository.ClearReceivedCalls();
+            DefineRequestsForMonth(2014, 6, 2);
+
+            screenModel.DeleteRequestCommand.Execute(null);
+
+            if (confirmDelete)
+            {
+                Repository.Received(1).QueryRequestsForSingleMonth(2014, 6);
+                Repository.Received(1).CalculateSaldoForMonth(2014, 6);
+                Repository.Received(1).DeleteRequest(persistentId);
+                Assert.That(screenModel.Requests.SelectableValues.Count, Is.EqualTo(2));
+                Assert.That(screenModel.Requests.SelectedValue, Is.Null);    
+            }
+            else
+            {
+                Repository.DidNotReceiveWithAnyArgs().QueryRequestsForSingleMonth(Arg.Any<int>(), Arg.Any<int>());
+                Repository.DidNotReceiveWithAnyArgs().CalculateSaldoForMonth(Arg.Any<int>(), Arg.Any<int>());
+                Repository.DidNotReceiveWithAnyArgs().DeleteRequest(Arg.Any<string>());
+                Assert.That(screenModel.Requests.SelectableValues.Count, Is.EqualTo(3));
+                Assert.That(screenModel.Requests.SelectedValue, Is.EqualTo(screenModel.Requests.SelectableValues.First()));    
+            }
         }
     }
 }
