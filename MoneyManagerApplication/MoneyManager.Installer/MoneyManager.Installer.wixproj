@@ -19,6 +19,8 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <Cultures>de-DE</Cultures>
+    <LinkerAdditionalOptions>-dWixUILicenseRtf=Copyright.rtf</LinkerAdditionalOptions>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />
@@ -28,6 +30,9 @@
       <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
       <Name>WixUIExtension</Name>
     </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Copyright.rtf" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
