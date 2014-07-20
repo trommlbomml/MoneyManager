@@ -15,6 +15,7 @@
             
             <StackPanel Orientation="Horizontal">
                 <Button Height="64" Width="64" Content="Add" Command="{Binding AddRequestCommand}" />
+                <Button Height="64" Width="64" Content="Edit" Command="{Binding EditRequestCommand}" />
                 <Button Height="64" Width="64" Content="Remove" Command="{Binding DeleteRequestCommand}" />
                 <Button Height="64" Width="64" Content="Save" Command="{Binding SaveCommand}" />
             </StackPanel>
@@ -41,15 +42,19 @@
                       AutoGenerateColumns="False" 
                       ItemsSource="{Binding Requests.SelectableValues}"
                       SelectedItem="{Binding Requests.SelectedValue, Mode=TwoWay}"
+                      IsReadOnly="True"
                       SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Datum" 
+                                        IsReadOnly="True"
                                         Binding="{Binding DateAsString}" 
                                         Width="Auto" />
                     <DataGridTextColumn Header="Beschreibung" 
+                                        IsReadOnly="True"
                                         Binding="{Binding Description}"
                                         Width="*"/>
                     <DataGridTextColumn Header="Betrag" 
+                                        IsReadOnly="True"
                                         Binding="{Binding ValueAsString}"
                                         Width="Auto"/>
                 </DataGrid.Columns>

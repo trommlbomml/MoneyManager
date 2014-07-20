@@ -97,7 +97,8 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(dialogViewModel, Is.InstanceOf<RequestDialogViewModel>());
 
             var requestDialogViewModel = (RequestDialogViewModel) dialogViewModel;
-            
+
+            Assert.That(requestDialogViewModel.Caption, Is.EqualTo("Neue Transaktion"));
             Assert.That(requestDialogViewModel.CreateRequestCommand.IsEnabled, Is.True);
             Assert.That(requestDialogViewModel.Date, Is.EqualTo(new DateTime(2014, 6, 1)));
             Assert.That(requestDialogViewModel.FirstPossibleDate, Is.EqualTo(new DateTime(2014, 6, 1)));
@@ -144,9 +145,9 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
 
 // ReSharper disable ImplicitlyCapturedClosure
             Repository.Received(1).CreateRequest(Arg.Is<RequestEntityData>(r => r.Date == expectedDate
-// ReSharper restore ImplicitlyCapturedClosure
                                                                              && Math.Abs(r.Value - expectedValue) < double.Epsilon
                                                                              && r.Description == expectedDescription));
+// ReSharper restore ImplicitlyCapturedClosure
 
             Repository.Received(1).QueryRequest(entityIdOfRequest);
             Repository.Received(1).CalculateSaldoForMonth(2014, 6);
@@ -211,6 +212,62 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                 Assert.That(screenModel.Requests.SelectableValues.Count, Is.EqualTo(3));
                 Assert.That(screenModel.Requests.SelectedValue, Is.EqualTo(screenModel.Requests.SelectableValues.First()));    
             }
+        }
+
+        [Test]
+        public void EditRequestCommandShowsDialog()
+        {
+            DefineRequestsForMonth(2014, 6, 1);
+            var screenModel = new RequestManagementPageViewModel(Application, 2014, 6);
+
+            object dialogViewModel = null;
+            Application.WindowManager
+                       .When(w => w.ShowDialog(Arg.Any<object>()))
+                       .Do(c => { dialogViewModel = c[0]; });
+
+            screenModel.Requests.SelectedValue = screenModel.Requests.SelectableValues.First();
+            screenModel.EditRequestCommand.Execute(null);
+
+            WindowManager.Received(1).ShowDialog(Arg.Any<object>());
+            Assert.That(dialogViewModel, Is.InstanceOf<RequestDialogViewModel>());
+
+            var requestDialogViewModel = (RequestDialogViewModel)dialogViewModel;
+
+            Assert.That(requestDialogViewModel.Caption, Is.EqualTo("Transaktion bearbeiten"));
+            Assert.That(requestDialogViewModel.CreateRequestCommand.IsEnabled, Is.True);
+        }
+
+        [Test]
+        public void EditRequest()
+        {
+            DefineRequestsForMonth(2014, 6, 1);
+            var screenModel = new RequestManagementPageViewModel(Application, 2014, 6);
+            var currentRequestEntityId = screenModel.Requests.SelectableValues.First().EntityId;
+
+            object dialogViewModel = null;
+            Application.WindowManager
+                       .When(w => w.ShowDialog(Arg.Any<object>()))
+                       .Do(c => { dialogViewModel = c[0]; });
+
+            screenModel.Requests.SelectedValue = screenModel.Requests.SelectableValues.First();
+            screenModel.EditRequestCommand.Execute(null);
+
+            Assert.That(dialogViewModel, Is.InstanceOf<RequestDialogViewModel>());
+
+            var dialog = (RequestDialogViewModel) dialogViewModel;
+
+            var newDate = dialog.Date.AddDays(2);
+            dialog.Date = newDate;
+            dialog.Description = "New Description added";
+            dialog.Value = 77.77;
+
+            Application.Repository.ClearReceivedCalls();
+            dialog.CreateRequestCommand.Execute(null);
+
+            Application.Repository.Received(1).UpdateRequest(currentRequestEntityId, 
+                Arg.Is<RequestEntityData>(r => r.Description == "New Description added" && Math.Abs(r.Value - 77.77) < double.Epsilon && dialog.Date == newDate));
+
+            Application.Repository.Received(1).CalculateSaldoForMonth(2014, 6);
         }
     }
 }

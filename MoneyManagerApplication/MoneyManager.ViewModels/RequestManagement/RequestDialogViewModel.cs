@@ -11,6 +11,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         private DateTime _firstPossibleDate;
         private DateTime _lastPossibleDate;
         private string _dateAsString;
+        private string _caption;
 
         public RequestDialogViewModel(int year, int month, Action<RequestDialogViewModel> onOk)
         {
@@ -66,6 +67,12 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             get { return _lastPossibleDate; }
             set { SetBackingField("LastPossibleDate", ref _lastPossibleDate, value); }
+        }
+
+        public string Caption
+        {
+            get { return _caption; }
+            set { SetBackingField("Caption", ref _caption, value); }
         }
     }
 }

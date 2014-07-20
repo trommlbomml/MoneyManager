@@ -42,6 +42,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             SaveCommand = new CommandViewModel(OnSaveCommand);
             PreviousMonthCommand = new CommandViewModel(OnPreviousMonthCommand);
             NextMonthCommand = new CommandViewModel(OnNextMonthCommand);
+            EditRequestCommand = new CommandViewModel(OnEditRequestCommand);
 
             Months.PropertyChanged += OnMonthsPropertyChanged;
             Requests.PropertyChanged += OnSelectedRequestChanged;
@@ -51,6 +52,35 @@ namespace MoneyManager.ViewModels.RequestManagement
             UpdateSaldoAsString();
 
             Caption = string.Format(Properties.Resources.RequestManagementPageCaptionFormat, Application.Repository.Name);
+        }
+
+        private void OnEditRequestCommand()
+        {
+            var currentRequest = Requests.SelectedValue;
+
+            var viewModel = new RequestDialogViewModel(Year, Month, OnEditRequest)
+            {
+                Caption = "Transaktion bearbeiten",
+                Date = currentRequest.Date,
+                Description = currentRequest.Description,
+                Value = currentRequest.Value
+            };
+            Application.WindowManager.ShowDialog(viewModel);
+        }
+
+        private void OnEditRequest(RequestDialogViewModel requestDialog)
+        {
+            var currentRequestEntityId = Requests.SelectedValue.EntityId;
+            var requestEntityData = new RequestEntityData
+            {
+                Date = requestDialog.Date,
+                Description = requestDialog.Description,
+                Value = requestDialog.Value
+            };
+            Application.Repository.UpdateRequest(currentRequestEntityId, requestEntityData);
+
+            Requests.SelectedValue.Refresh();
+            UpdateSaldoForCurrentMonth();
         }
 
         private void OnSelectedRequestChanged(object sender, PropertyChangedEventArgs e)
@@ -123,7 +153,10 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void OnAddRequestCommand()
         {
-            var viewModel = new RequestDialogViewModel(Year, Month, OnCreateRequest);
+            var viewModel = new RequestDialogViewModel(Year, Month, OnCreateRequest)
+            {
+                Caption = "Neue Transaktion"
+            };
             Application.WindowManager.ShowDialog(viewModel);
         }
 
@@ -147,6 +180,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         public CommandViewModel SaveCommand { get; private set; }
         public CommandViewModel PreviousMonthCommand { get; private set; }
         public CommandViewModel NextMonthCommand { get; private set; }
+        public CommandViewModel EditRequestCommand { get; private set; }
 
         public int Year
         {
@@ -178,7 +212,9 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void UpdateCommandStates()
         {
-            DeleteRequestCommand.IsEnabled = Requests.SelectedValue != null;
+            var isRequestSelected = Requests.SelectedValue != null;
+            DeleteRequestCommand.IsEnabled = isRequestSelected;
+            EditRequestCommand.IsEnabled = isRequestSelected;
         }
 
         private void UpdateCurrentMonth()
