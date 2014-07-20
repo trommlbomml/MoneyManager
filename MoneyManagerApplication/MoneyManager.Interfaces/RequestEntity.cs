@@ -8,5 +8,6 @@ namespace MoneyManager.Interfaces
         string Description { get; }
         DateTime Date { get; }
         string PersistentId { get; }
+        CategoryEntity Category { get; }
     }
 }

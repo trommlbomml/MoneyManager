@@ -74,6 +74,32 @@ namespace MoneyManager.Interfaces
         void DeleteRequest(string persistentId);
 
         /// <summary>
+        /// Liefert alle Kategorien.
+        /// </summary>
+        /// <returns>Liste aller Kategorien.</returns>
+        IEnumerable<CategoryEntity> QueryAllCategories();
+
+        /// <summary>
+        /// Creates a new category.
+        /// </summary>
+        /// <param name="name">Name of category</param>
+        /// <returns>PersistentId of Category</returns>
+        string CreateCategory(string name);
+
+        /// <summary>
+        /// Updates a category.
+        /// </summary>
+        /// <param name="persistentId">EntityId</param>
+        /// <param name="name">Name</param>
+        void UpdateCategory(string persistentId, string name);
+
+        /// <summary>
+        /// Deletes a Category.
+        /// </summary>
+        /// <param name="persistentId">PersistentId</param>
+        void DeleteCategory(string persistentId);
+
+        /// <summary>
         /// Calculates the sum of Requests up to month.
         /// </summary>
         /// <param name="year">Year</param>

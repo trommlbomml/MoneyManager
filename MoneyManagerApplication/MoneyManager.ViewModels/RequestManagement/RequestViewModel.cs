@@ -11,6 +11,8 @@ namespace MoneyManager.ViewModels.RequestManagement
         private double _value;
         private string _valueAsString;
         private string _dateAsString;
+        private string _category;
+        private string _categoryPersistentId;
 
         public RequestViewModel(ApplicationViewModel application, string entityId) : base(application, entityId)
         {
@@ -56,12 +58,26 @@ namespace MoneyManager.ViewModels.RequestManagement
             private set { SetBackingField("DateAsString", ref _dateAsString, value); }
         }
 
+        public string Category
+        {
+            get { return _category; }
+            private set { SetBackingField("Category", ref _category, value); }
+        }
+
         public override void Refresh()
         {
             var entity = Application.Repository.QueryRequest(EntityId);
             Date = entity.Date;
             Description = entity.Description;
             Value = entity.Value;
+
+            Category = "";
+            _categoryPersistentId = null;
+            if (entity.Category != null)
+            {
+                Category = entity.Category.Name;
+                _categoryPersistentId = entity.Category.PersistentId;
+            }
         }
 
         public override void Save()
@@ -70,7 +86,8 @@ namespace MoneyManager.ViewModels.RequestManagement
             {
                 Date = Date,
                 Description = Description,
-                Value = Value
+                Value = Value,
+                CategoryPersistentId = _categoryPersistentId
             });
         }
     }

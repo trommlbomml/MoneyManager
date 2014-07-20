@@ -97,7 +97,7 @@ namespace MoneyManager.Model.Tests
 
                 foreach (XmlElement requestElement in requestsElement.ChildNodes)
                 {
-                    Assert.That(requestElement.Attributes.Count, Is.EqualTo(4));
+                    Assert.That(requestElement.Attributes.Count, Is.EqualTo(5));
 
                     var id = requestElement.GetAttribute("Id");
                     Assert.That(id, Is.Not.Null.Or.Empty);

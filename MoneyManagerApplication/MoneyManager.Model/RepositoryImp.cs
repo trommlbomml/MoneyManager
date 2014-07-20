@@ -11,10 +11,12 @@ namespace MoneyManager.Model
     {
         private string _currentRepositoryName;
         private readonly List<RequestEntityImp> _allRequests;
+        private readonly List<CategoryEntityImp> _allCategories; 
 
         public RepositoryImp()
         {
             _allRequests = new List<RequestEntityImp>();
+            _allCategories = new List<CategoryEntityImp>();
         }
 
         internal List<RequestEntityImp> AllRequests {get { return _allRequests; }}
@@ -67,7 +69,9 @@ namespace MoneyManager.Model
 // ReSharper disable PossibleNullReferenceException
             _currentRepositoryName = document.Root.Attribute("Name").Value;
 
-            _allRequests.AddRange(document.Root.Element("Requests").Elements("Request").Select(e => new RequestEntityImp(e)));
+            _allCategories.AddRange(document.Root.Element("Categories").Elements("Category").Select(e => new CategoryEntityImp(e)));
+
+            _allRequests.AddRange(document.Root.Element("Requests").Elements("Request").Select(e => new RequestEntityImp(e, _allCategories)));
 
 // ReSharper restore PossibleNullReferenceException
         }
@@ -128,6 +132,40 @@ namespace MoneyManager.Model
             _allRequests.Remove(_allRequests.Single(r => r.PersistentId == persistentId));
         }
 
+        public IEnumerable<CategoryEntity> QueryAllCategories()
+        {
+            EnsureRepositoryOpen("CreateRequest");
+
+            return _allCategories;
+        }
+
+        public string CreateCategory(string name)
+        {
+            EnsureRepositoryOpen("CreateRequest");
+
+            var categoryImp = new CategoryEntityImp { Name = name };
+            _allCategories.Add(categoryImp);
+
+            return categoryImp.PersistentId;
+        }
+
+        public void UpdateCategory(string persistentId, string name)
+        {
+            EnsureRepositoryOpen("CreateRequest");
+
+            var category = _allCategories.SingleOrDefault(c => c.PersistentId == persistentId);
+            if (category == null) throw new ArgumentException("The category does not exist or more than once", "persistentId");
+
+            category.Name = name;
+        }
+
+        public void DeleteCategory(string persistentId)
+        {
+            EnsureRepositoryOpen("CreateRequest");
+
+            _allCategories.Remove(_allCategories.Single(r => r.PersistentId == persistentId));
+        }
+
         public double CalculateSaldoForMonth(int year, int month)
         {
             EnsureRepositoryOpen("CalculateSaldoForMonth");
@@ -148,6 +186,7 @@ namespace MoneyManager.Model
             var xmlDocument = new XDocument(
                 new XElement("MoneyManagerAccount",
                     new XAttribute("Name", name),
+                    new XElement("Categories", _allCategories.Select(c => c.Serialize())),
                     new XElement("Requests", _allRequests.Select(r => r.Serialize()))
                     )
                 );
@@ -165,11 +204,13 @@ namespace MoneyManager.Model
             request.Date = data.Date;
             request.Description = data.Description;
             request.Value = data.Value;
+            request.Category = _allCategories.SingleOrDefault(c => c.PersistentId == data.CategoryPersistentId);
         }
 
         internal void ClearAll()
         {
             _allRequests.Clear();
+            _allCategories.Clear();
         }
     }
 }
