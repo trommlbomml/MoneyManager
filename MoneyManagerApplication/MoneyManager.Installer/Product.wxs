@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+	<Product Id="B1A0E656-E129-4F02-98A5-967A57AC8981"
+           Name="MoneyManager" 
+           Language="1033" 
+           Version="1.0.0.0" 
+           Manufacturer="Peter Friedland" 
+           UpgradeCode="1b451bfc-2890-46b9-9087-6314238fb2d0">
+
+    <Package InstallerVersion="200" 
+             InstallScope="perMachine" />
+
+    <Media Id="1" Cabinet="MoneyManagerSetup.cab" EmbedCab="yes" CompressionLevel="high" />
+
+    <UIRef Id="WixUI_InstallDir" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
+
+    <!-- Defines Directory Structure -->
+      <Directory Id="TARGETDIR" Name="SourceDir">
+        <Directory Id="ProgramFilesFolder">
+          <Directory Id="INSTALLLOCATION" Name="MoneyManager" />
+        </Directory>
+      </Directory>
+
+    <!-- Add Files for Installer Package -->
+      <DirectoryRef Id="INSTALLLOCATION">
+        <Component Id="MoneyManagerApplication.exe" Guid="8C88FEE9-42E1-455C-A47F-39789B0271A7">
+          <File Id="MoneyManagerApplication.exe" Source="..\MoneyManagerApplication\bin\Release\MoneyManagerApplication.exe" KeyPath="yes" Checksum="yes" Compressed="yes" />
+        </Component>
+
+        <Component Id="MoneyManager.Interfaces.dll" Guid="34B0C53F-8F07-414A-8A0D-4982F481126E">
+          <File Id="MoneyManager.Interfaces.dll" Source="..\MoneyManagerApplication\bin\Release\MoneyManager.Interfaces.dll" KeyPath="yes" Checksum="yes" Compressed="yes" />
+        </Component>
+
+        <Component Id="MoneyManager.Model.dll" Guid="BD55D781-96AE-4EE0-9380-C7DF55E89217">
+          <File Id="MoneyManager.Model.dll" Source="..\MoneyManagerApplication\bin\Release\MoneyManager.Model.dll" KeyPath="yes" Checksum="yes" Compressed="yes" />
+        </Component>
+
+        <Component Id="MoneyManager.ViewModels.dll" Guid="9D3916FD-6209-43BB-8EE5-A827C968B4C3">
+          <File Id="MoneyManager.ViewModels.dll" Source="..\MoneyManagerApplication\bin\Release\MoneyManager.ViewModels.dll" KeyPath="yes" Checksum="yes" Compressed="yes" />
+        </Component>
+
+        <Component Id="Xceed.Wpf.Toolkit.dll" Guid="755E7C20-B0C6-47E9-B994-B9D302569914">
+          <File Id="Xceed.Wpf.Toolkit.dll" Source="..\MoneyManagerApplication\bin\Release\Xceed.Wpf.Toolkit.dll" KeyPath="yes" Checksum="yes" Compressed="yes" />
+        </Component>
+
+        <Component Id="MoneyManagerApplication.exe.config" Guid="4DC63174-E024-4B96-ADBC-C9B3A34D25CC">
+          <File Id="MoneyManagerApplication.exe.config" Source="..\MoneyManagerApplication\bin\Release\MoneyManagerApplication.exe.config" KeyPath="yes" Checksum="yes" Compressed="yes" />
+        </Component>
+      </DirectoryRef>
+
+    <Feature Id="MoneyManagerApplication" Title="MoneyManager Application" Level="1">
+      <ComponentRef Id="MoneyManagerApplication.exe" />
+      <ComponentRef Id="MoneyManager.Interfaces.dll" />
+      <ComponentRef Id="MoneyManager.Model.dll" />
+      <ComponentRef Id="MoneyManager.ViewModels.dll" />
+      <ComponentRef Id="Xceed.Wpf.Toolkit.dll" />
+      <ComponentRef Id="MoneyManagerApplication.exe.config" />
+    </Feature>
+  
+  </Product>
+
+</Wix>
