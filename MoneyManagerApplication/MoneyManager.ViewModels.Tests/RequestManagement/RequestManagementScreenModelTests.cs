@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using MoneyManager.Interfaces;
+using MoneyManager.ViewModels.AccountManagement;
 using MoneyManager.ViewModels.RequestManagement;
 using NSubstitute;
 using NUnit.Framework;
@@ -18,8 +19,11 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
 
             var screenModel = new RequestManagementPageViewModel(Application, 2014, 3);
 
+            Assert.That(screenModel.SwitchAccountCommand.IsEnabled, Is.True);
             Assert.That(screenModel.AddRequestCommand.IsEnabled, Is.True);
             Assert.That(screenModel.DeleteRequestCommand.IsEnabled, Is.False);
+            Assert.That(screenModel.EditRequestCommand.IsEnabled, Is.False);
+            Assert.That(screenModel.SwitchAccountCommand.IsEnabled, Is.True);
             Assert.That(screenModel.NextMonthCommand.IsEnabled, Is.True);
             Assert.That(screenModel.PreviousMonthCommand.IsEnabled, Is.True);
             Assert.That(screenModel.SaveCommand.IsEnabled, Is.True);
@@ -185,7 +189,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             var screenModel = new RequestManagementPageViewModel(Application, 2014, 6);
 
             Application.WindowManager
-                       .When(w => w.ShowQuestion(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<Action>()))
+                       .When(w => w.ShowQuestion(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<Action>(), Arg.Any<Action>()))
                        .Do(c => { if (confirmDelete) ((Action)c[2]).Invoke(); });
 
             screenModel.Requests.SelectedValue = screenModel.Requests.SelectableValues.First();
@@ -268,6 +272,34 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                 Arg.Is<RequestEntityData>(r => r.Description == "New Description added" && Math.Abs(r.Value - 77.77) < double.Epsilon && dialog.Date == newDate));
 
             Application.Repository.Received(1).CalculateSaldoForMonth(2014, 6);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void SwitchAccountCommand(bool saveOnExit)
+        {
+            var screenModel = new RequestManagementPageViewModel(Application, 2014, 6);
+
+            WindowManager.When(w => w.ShowQuestion(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<Action>(), Arg.Any<Action>()))
+                         .Do(c => { if (saveOnExit) ((Action)c[2]).Invoke(); else ((Action)c[3]).Invoke(); });
+
+            
+            Application.Repository.ClearReceivedCalls();
+            screenModel.SwitchAccountCommand.Execute(null);
+
+            Application.Repository.Received(1).Close();
+            Assert.That(Application.ActivePage, Is.InstanceOf<AccountManagementPageViewModel>());
+
+            if (saveOnExit)
+            {
+                Application.Repository.Received(1).Save();
+            }
+            else
+            {
+                Application.Repository.DidNotReceive().Save();
+            }
+
+            WindowManager.Received(1).ShowQuestion("Account wechseln", "Möchten Sie vor dem Wechseln des Accounts ihre Änderungen speichern?", Arg.Any<Action>(), Arg.Any<Action>());
         }
     }
 }

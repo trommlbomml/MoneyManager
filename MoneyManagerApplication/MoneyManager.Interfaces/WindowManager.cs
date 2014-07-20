@@ -9,7 +9,7 @@ namespace MoneyManager.Interfaces
 
         void ShowError(string caption, string text);
 
-        void ShowQuestion(string caption, string text, Action yes);
+        void ShowQuestion(string caption, string text, Action yes, Action no);
 
         string ShowSaveFileDialog(string initialDirectory, string fileName);
 

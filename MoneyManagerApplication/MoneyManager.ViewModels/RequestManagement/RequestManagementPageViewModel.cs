@@ -43,6 +43,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             PreviousMonthCommand = new CommandViewModel(OnPreviousMonthCommand);
             NextMonthCommand = new CommandViewModel(OnNextMonthCommand);
             EditRequestCommand = new CommandViewModel(OnEditRequestCommand);
+            SwitchAccountCommand = new CommandViewModel(OnSwitchAccountCommand);
 
             Months.PropertyChanged += OnMonthsPropertyChanged;
             Requests.PropertyChanged += OnSelectedRequestChanged;
@@ -52,6 +53,22 @@ namespace MoneyManager.ViewModels.RequestManagement
             UpdateSaldoAsString();
 
             Caption = string.Format(Properties.Resources.RequestManagementPageCaptionFormat, Application.Repository.Name);
+        }
+
+        private void OnSwitchAccountCommand()
+        {
+            Action quitAction = () =>
+            {
+                Application.Repository.Close();
+                Application.ActivateAccountManagementPage();
+            };
+
+            Application.WindowManager.ShowQuestion("Account wechseln", "Möchten Sie vor dem Wechseln des Accounts ihre Änderungen speichern?",
+                () => 
+                {
+                    OnSaveCommand();
+                    quitAction();
+                }, quitAction);
         }
 
         private void OnEditRequestCommand()
@@ -141,7 +158,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             Application.WindowManager.ShowQuestion("Eintrag löschen",
                 "Sind sie sicher, dass sie den ausgewählten Eintrag löschen möchten?",
-                DeleteRequest);
+                DeleteRequest, () => {});
         }
 
         private void DeleteRequest()
@@ -181,6 +198,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         public CommandViewModel PreviousMonthCommand { get; private set; }
         public CommandViewModel NextMonthCommand { get; private set; }
         public CommandViewModel EditRequestCommand { get; private set; }
+        public CommandViewModel SwitchAccountCommand { get; private set; }
 
         public int Year
         {

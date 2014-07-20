@@ -192,7 +192,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             
             if (answerYes) 
             {
-                WindowManager.When(w => w.ShowQuestion(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<Action>()))
+                WindowManager.When(w => w.ShowQuestion(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<Action>(), Arg.Any<Action>()))
                              .Do(c => ((Action)c[2]).Invoke());
             }
 
@@ -206,7 +206,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
 
             WindowManager.Received(1).ShowQuestion(Properties.Resources.RemoveRecentAccountMessageCaption, 
                                                    string.Format(Properties.Resources.RemoveRecentAccountMessageFormat, accountPath), 
-                                                   Arg.Any<Action>());
+                                                   Arg.Any<Action>(), Arg.Any<Action>());
 
             if (answerYes)
             {

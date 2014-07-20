@@ -39,9 +39,17 @@ namespace MoneyManagerApplication
             MessageBox.Show(text, caption, MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
 
-        public void ShowQuestion(string caption, string text, Action yes)
+        public void ShowQuestion(string caption, string text, Action yes, Action no)
         {
-            if (MessageBox.Show(text, caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) yes();
+            var result = MessageBox.Show(text, caption, MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                yes();
+            }
+            else if (result == MessageBoxResult.No)
+            {
+                no();
+            }
         }
 
         public string ShowSaveFileDialog(string initialDirectory, string fileName)
