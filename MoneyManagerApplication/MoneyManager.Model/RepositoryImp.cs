@@ -32,6 +32,17 @@ namespace MoneyManager.Model
             _allRequests.Add(requestEntityImp);
         }
 
+        internal void AddCategory(CategoryEntityImp categoryEntity)
+        {
+            if (categoryEntity == null) throw new ArgumentNullException("categoryEntity");
+            if (_allCategories.Any(r => r.PersistentId == categoryEntity.PersistentId))
+            {
+                throw new InvalidOperationException(string.Format("Entity with Id {0} alread exists.", categoryEntity.PersistentId));
+            }
+
+            _allCategories.Add(categoryEntity);
+        }
+
         private void EnsureRepositoryOpen(string action)
         {
             if (!IsOpen)
