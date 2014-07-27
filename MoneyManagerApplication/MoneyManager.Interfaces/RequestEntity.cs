@@ -2,12 +2,34 @@
 
 namespace MoneyManager.Interfaces
 {
+    /// <summary>
+    /// Represents a Reqest Entity.
+    /// </summary>
     public interface RequestEntity
     {
-        double Value { get; }
-        string Description { get; }
-        DateTime Date { get; }
+        /// <summary>
+        /// PersistentId of Entity.
+        /// </summary>
         string PersistentId { get; }
+
+        /// <summary>
+        /// Value of Money.
+        /// </summary>
+        double Value { get; }
+
+        /// <summary>
+        /// Description.
+        /// </summary>
+        string Description { get; }
+
+        /// <summary>
+        /// Date of Value booking.
+        /// </summary>
+        DateTime Date { get; }
+
+        /// <summary>
+        /// Category.
+        /// </summary>
         CategoryEntity Category { get; }
     }
 }

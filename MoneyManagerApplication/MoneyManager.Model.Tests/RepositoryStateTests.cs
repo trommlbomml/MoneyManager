@@ -10,7 +10,6 @@ using NUnit.Framework.Constraints;
 
 namespace MoneyManager.Model.Tests
 {
-    //Todo: Tests für OpenTwice, CreateOpened.
     [TestFixture]
     public class RepositoryStateTests
     {

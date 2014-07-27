@@ -9,32 +9,35 @@ namespace MoneyManager.Interfaces
     public interface Repository
     {
         /// <summary>
-        /// Erzeugt eine neue Datenbank im angegeben Pfad.
+        /// Creates a new database at a specific path and name,
         /// </summary>
+        /// <param name="path">Absolute path of the file to create.</param>
+        /// <param name="name">Name of the file.</param>
         void Create(string path, string name);
 
         /// <summary>
-        /// Öffnet ein Repository.
+        /// Opens the repository.
         /// </summary>
+        /// <param name="path">Absolute path of the file.</param>
         void Open(string path);
 
         /// <summary>
-        /// Ob das Repository geöffnet ist.
+        /// Checks whether the repository is open.
         /// </summary>
         bool IsOpen { get; }
 
         /// <summary>
-        /// Name des geöffneten Repository. Liefert einen Leestring, wenn keine Datenbank geöffnet ist.
+        /// The name of the opened repository.
         /// </summary>
         string Name { get; }
 
         /// <summary>
-        /// Pfad zur Datei.
+        /// Absolute Path to the file.
         /// </summary>
         string FilePath { get; }
 
         /// <summary>
-        /// Schließt das Repository.
+        /// Closes an opened repository.
         /// </summary>
         void Close();
 
@@ -74,9 +77,9 @@ namespace MoneyManager.Interfaces
         void DeleteRequest(string persistentId);
 
         /// <summary>
-        /// Liefert alle Kategorien.
+        /// Gets all categories.
         /// </summary>
-        /// <returns>Liste aller Kategorien.</returns>
+        /// <returns>Collection of all categories.</returns>
         IEnumerable<CategoryEntity> QueryAllCategories();
 
         /// <summary>
