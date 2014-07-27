@@ -61,7 +61,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         public string Category
         {
             get { return _category; }
-            private set { SetBackingField("Category", ref _category, value); }
+            set { SetBackingField("Category", ref _category, value); }
         }
 
         public override void Refresh()
@@ -71,7 +71,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             Description = entity.Description;
             Value = entity.Value;
 
-            Category = "";
+            Category = "<No Category>";
             _categoryPersistentId = null;
             if (entity.Category != null)
             {

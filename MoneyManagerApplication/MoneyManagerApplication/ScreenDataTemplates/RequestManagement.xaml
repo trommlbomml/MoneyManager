@@ -50,6 +50,10 @@
                                         IsReadOnly="True"
                                         Binding="{Binding DateAsString}" 
                                         Width="Auto" />
+                    <DataGridTextColumn Header="Kategorie" 
+                                        IsReadOnly="True"
+                                        Binding="{Binding Category}"
+                                        Width="Auto"/>
                     <DataGridTextColumn Header="Beschreibung" 
                                         IsReadOnly="True"
                                         Binding="{Binding Description}"

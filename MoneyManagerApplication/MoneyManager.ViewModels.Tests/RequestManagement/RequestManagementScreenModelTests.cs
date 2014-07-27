@@ -15,6 +15,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         [TestCase(12)]
         public void InitalState(double expectedSaldo)
         {
+            DefineRequestsForMonth(2014, 3, 3);
             Repository.CalculateSaldoForMonth(2014, 3).Returns(expectedSaldo);
 
             var screenModel = new RequestManagementPageViewModel(Application, 2014, 3);
@@ -42,6 +43,11 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
 
             Repository.Received(1).CalculateSaldoForMonth(2014, 3);
             Repository.Received(1).QueryRequestsForSingleMonth(2014, 3);
+
+            Assert.That(screenModel.Requests.SelectableValues.Count, Is.EqualTo(3));
+            Assert.That(screenModel.Requests.SelectableValues[0].Category, Is.EqualTo("<No Category>"));
+            Assert.That(screenModel.Requests.SelectableValues[1].Category, Is.EqualTo("Category2"));
+            Assert.That(screenModel.Requests.SelectableValues[2].Category, Is.EqualTo("<No Category>"));
         }
 
         [TestCase(2014, 3, 2014, 4)]
@@ -174,6 +180,17 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                 entity.Date.Returns(new DateTime(year, month, 5));
                 entity.Description.Returns("Description");
                 entity.Value.Returns(i*2.56);
+
+                if (i%2 == 0)
+                {
+                    var category = Substitute.For<CategoryEntity>();
+                    category.Name.Returns("Category" + i);
+                    entity.Category.Returns(category);
+                }
+                else
+                {
+                    entity.Category.Returns(c => null);
+                }
 
                 return entity;
             }).ToList();

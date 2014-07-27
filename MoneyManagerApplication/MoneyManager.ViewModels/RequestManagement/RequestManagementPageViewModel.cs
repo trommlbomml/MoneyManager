@@ -240,17 +240,23 @@ namespace MoneyManager.ViewModels.RequestManagement
             if (_preventUpdateCurrentMonth) return;
 
             var requests = Application.Repository.QueryRequestsForSingleMonth(Year, Month)
-                                                 .Select(requestEntity => new RequestViewModel(Application, requestEntity.PersistentId)
-                                                    {
-                                                        Date = requestEntity.Date,
-                                                        Description = requestEntity.Description,
-                                                        Value = requestEntity.Value
-                                                    })
+                                                 .Select(CreateRequestViewModelFromEntity)
                                                  .OrderBy(r => r.Date);
 
             Requests.SetRange(requests);
 
             UpdateSaldoForCurrentMonth();
+        }
+
+        private RequestViewModel CreateRequestViewModelFromEntity(RequestEntity requestEntity)
+        {
+            return new RequestViewModel(Application, requestEntity.PersistentId)
+            {
+                Date = requestEntity.Date,
+                Description = requestEntity.Description,
+                Value = requestEntity.Value,
+                Category = requestEntity.Category != null ? requestEntity.Category.Name : "<No Category>"
+            };
         }
 
         private void UpdateSaldoForCurrentMonth()
