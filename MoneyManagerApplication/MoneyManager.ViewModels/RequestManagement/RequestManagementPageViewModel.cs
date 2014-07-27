@@ -75,7 +75,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             var currentRequest = Requests.SelectedValue;
 
-            var viewModel = new RequestDialogViewModel(Year, Month, OnEditRequest)
+            var viewModel = new RequestDialogViewModel(Application, currentRequest.EntityId, OnEditRequest)
             {
                 Caption = "Transaktion bearbeiten",
                 Date = currentRequest.Date,
@@ -92,7 +92,8 @@ namespace MoneyManager.ViewModels.RequestManagement
             {
                 Date = requestDialog.Date,
                 Description = requestDialog.Description,
-                Value = requestDialog.Value
+                Value = requestDialog.Value,
+                CategoryPersistentId = requestDialog.Categories.SelectedValue != null ? requestDialog.Categories.SelectedValue.EntityId : null
             };
             Application.Repository.UpdateRequest(currentRequestEntityId, requestEntityData);
 
@@ -170,7 +171,7 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void OnAddRequestCommand()
         {
-            var viewModel = new RequestDialogViewModel(Year, Month, OnCreateRequest)
+            var viewModel = new RequestDialogViewModel(Application, Year, Month, OnCreateRequest)
             {
                 Caption = "Neue Transaktion"
             };
@@ -183,7 +184,8 @@ namespace MoneyManager.ViewModels.RequestManagement
             {
                 Date = requestDialog.Date,
                 Description = requestDialog.Description,
-                Value = requestDialog.Value
+                Value = requestDialog.Value,
+                CategoryPersistentId = requestDialog.Categories.SelectedValue != null ? requestDialog.Categories.SelectedValue.EntityId : null
             });
 
             var requestViewModel = new RequestViewModel(Application, requestEntityId);

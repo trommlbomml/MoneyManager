@@ -40,6 +40,7 @@
     <Compile Include="Framework\CommandViewModel.cs" />
     <Compile Include="Framework\EntityViewModel.cs" />
     <Compile Include="Framework\EnumeratedSingleValuedProperty.cs" />
+    <Compile Include="RequestManagement\CategoryViewModel.cs" />
     <Compile Include="RequestManagement\MonthNameViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\ViewModel.cs" />

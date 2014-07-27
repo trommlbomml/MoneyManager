@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace MoneyManager.ViewModels.Tests.RequestManagement
 {
     [TestFixture]
-    public class RequestDialogViewModelTests
+    public class RequestDialogViewModelTests : ViewModelTestsBase
     {
         protected IEnumerable<TestCaseData> InitialStateTestCases()
         {
@@ -19,7 +19,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         [TestCaseSource("InitialStateTestCases")]
         public void InitialState(int year, int month)
         {
-            var requestDialog = new RequestDialogViewModel(year, month, d => { });
+            var requestDialog = new RequestDialogViewModel(Application, year, month, d => { });
             Assert.That(requestDialog.FirstPossibleDate, Is.EqualTo(new DateTime(year, month, 1)));
             Assert.That(requestDialog.LastPossibleDate, Is.EqualTo(new DateTime(year, month, DateTime.DaysInMonth(year, month))));
             Assert.That(requestDialog.Date, Is.EqualTo(new DateTime(year, month, 1)));
@@ -34,14 +34,14 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         [TestCase(14)]
         public void InvalidMonthThrowsException(int month)
         {
-            Assert.That(()=> new RequestDialogViewModel(2014, month, d => {}), Throws.InstanceOf<ArgumentException>());
+            Assert.That(() => new RequestDialogViewModel(Application, 2014, month, d => { }), Throws.InstanceOf<ArgumentException>());
         }
 
         [Test]
         public void CreateRequestCommandCallsAction()
         {
             var action = Substitute.For<Action<RequestDialogViewModel>>();
-            var requestDialog = new RequestDialogViewModel(2014, 6, action);
+            var requestDialog = new RequestDialogViewModel(Application, 2014, 6, action);
             
             requestDialog.CreateRequestCommand.Execute(null);
             action.Received(1).Invoke(requestDialog);
@@ -50,7 +50,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         [Test]
         public void UpdateDateAsString()
         {
-            var requestDialog = new RequestDialogViewModel(2014, 6, o => {});
+            var requestDialog = new RequestDialogViewModel(Application, 2014, 6, o => { });
 
             requestDialog.Date = requestDialog.Date + TimeSpan.FromDays(1);
             Assert.That(requestDialog.DateAsString, Is.EqualTo(string.Format(Properties.Resources.RequestDayOfMonthFormat, new DateTime(2014, 6, 2))));

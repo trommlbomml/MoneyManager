@@ -160,6 +160,16 @@ namespace MoneyManager.Model
             return categoryImp.PersistentId;
         }
 
+        public CategoryEntity QueryCategory(string persistentId)
+        {
+            EnsureRepositoryOpen("QueryCategory");
+
+            var entity = _allCategories.SingleOrDefault(c => c.PersistentId == persistentId);
+            if (entity == null) throw new ArgumentException("Entity with Id does not exist", persistentId);
+
+            return entity;
+        }
+
         public void UpdateCategory(string persistentId, string name)
         {
             EnsureRepositoryOpen("CreateRequest");

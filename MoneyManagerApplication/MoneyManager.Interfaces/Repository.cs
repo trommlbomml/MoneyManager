@@ -90,6 +90,13 @@ namespace MoneyManager.Interfaces
         string CreateCategory(string name);
 
         /// <summary>
+        /// Queries a single Category.
+        /// </summary>
+        /// <param name="persistentId">PersistentId</param>
+        /// <returns>Category</returns>
+        CategoryEntity QueryCategory(string persistentId);
+
+        /// <summary>
         /// Updates a category.
         /// </summary>
         /// <param name="persistentId">EntityId</param>
