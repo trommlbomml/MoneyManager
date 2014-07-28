@@ -21,7 +21,7 @@ namespace MoneyManager.ViewModels.Framework
             _selectableValues.Add(value);
         }
 
-        public void RemoveValueSelectedValue()
+        public void RemoveSelectedValue()
         {
             _selectableValues.Remove(_selectedValue);
             SelectedValue = default(TPropertyType);

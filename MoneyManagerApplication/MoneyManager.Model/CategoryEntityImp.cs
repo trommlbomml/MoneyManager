@@ -21,7 +21,7 @@ namespace MoneyManager.Model
         public XElement Serialize()
         {
             return new XElement("Category", new XAttribute("Id", PersistentId),
-                                            new XAttribute("Description", Name ?? ""));
+                                            new XAttribute("Name", Name ?? ""));
         }
     }
 }

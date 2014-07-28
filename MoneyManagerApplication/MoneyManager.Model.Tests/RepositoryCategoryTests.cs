@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Linq;
 using NUnit.Framework;
 
@@ -63,6 +64,19 @@ namespace MoneyManager.Model.Tests
 
             Assert.That(persistentIdsAfterDelete.Length, Is.EqualTo(4));
             CollectionAssert.AreEquivalent(allCategoryIdsBeforeDelete.Except(new[] { categoryPersistentIdToDelete }), persistentIdsAfterDelete);
+        }
+
+        [Test]
+        public void DeleteCategoryReferencedByRequestRemovesCategoryFromRequest()
+        {
+            var category = new CategoryEntityImp { Name = "My Category" };
+            Repository.AddCategory(category);
+
+            var request = CreateRequestInRepository(DateTime.Now, "Test", 12.0);
+            request.Category = category;
+
+            Repository.DeleteCategory(category.PersistentId);
+            Assert.That(request.Category, Is.Null);
         }
     }
 }

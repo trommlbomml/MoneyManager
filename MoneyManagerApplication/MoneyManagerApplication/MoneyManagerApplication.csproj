@@ -52,6 +52,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\CategoriesManagementDialog.xaml.cs">
+      <DependentUpon>CategoriesManagementDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\CreateAccountDialog.xaml.cs">
       <DependentUpon>CreateAccountDialog.xaml</DependentUpon>
     </Compile>
@@ -60,6 +63,10 @@
       <DependentUpon>RequestDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowManagerImp.cs" />
+    <Page Include="Dialogs\CategoriesManagementDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\CreateAccountDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

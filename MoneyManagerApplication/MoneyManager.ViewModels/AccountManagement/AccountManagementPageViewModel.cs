@@ -96,7 +96,7 @@ namespace MoneyManager.ViewModels.AccountManagement
                 () =>
                 {
                     Application.ApplicationSettings.DeleteRecentAccountInformation(Accounts.SelectedValue.Path);
-                    Accounts.RemoveValueSelectedValue();
+                    Accounts.RemoveSelectedValue();
                 }, () => {});
         }
 

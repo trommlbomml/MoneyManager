@@ -184,7 +184,13 @@ namespace MoneyManager.Model
         {
             EnsureRepositoryOpen("CreateRequest");
 
-            _allCategories.Remove(_allCategories.Single(r => r.PersistentId == persistentId));
+            var categoryEntityImp = _allCategories.Single(r => r.PersistentId == persistentId);
+            _allCategories.Remove(categoryEntityImp);
+
+            foreach (var request in _allRequests.Where(r => r.Category != null && r.Category.PersistentId == categoryEntityImp.PersistentId))
+            {
+                request.Category = null;
+            }
         }
 
         public double CalculateSaldoForMonth(int year, int month)

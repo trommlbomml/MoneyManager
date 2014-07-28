@@ -1,6 +1,8 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net.Mail;
 using System.Windows;
 using Microsoft.Win32;
 using MoneyManager.Interfaces;
@@ -12,15 +14,20 @@ namespace MoneyManagerApplication
 {
     class WindowManagerImp : WindowManager
     {
+        private static Dictionary<Type, Func<Window>> CreateWindowFromDataContextType = new Dictionary
+            <Type, Func<Window>>
+        {
+            {typeof (CreateAccountDialogViewModel), () => new CreateAccountDialog()},
+            {typeof (RequestDialogViewModel), () => new RequestDialog()},
+            {typeof (CategoryManagementDialogViewModel), () => new CategoriesManagementDialog()},
+        };
+
         private static Window GetWindowFromViewModelType(Type type)
         {
-            if (type == typeof (CreateAccountDialogViewModel))
+            Func<Window> createFunc;
+            if (CreateWindowFromDataContextType.TryGetValue(type, out createFunc))
             {
-                return new CreateAccountDialog();
-            }
-            if (type == typeof (RequestDialogViewModel))
-            {
-                return new RequestDialog();
+                return createFunc();
             }
 
             throw new InvalidOperationException(string.Format("There is no Window for type {0}", type.FullName));

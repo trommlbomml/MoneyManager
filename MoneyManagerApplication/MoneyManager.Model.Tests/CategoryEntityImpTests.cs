@@ -26,7 +26,7 @@ namespace MoneyManager.Model.Tests
             Assert.That(serialized.Name.LocalName, Is.EqualTo("Category"));
             Assert.That(serialized.Attributes().Count(), Is.EqualTo(2));
             Assert.That(serialized.Attribute("Id").Value, Is.EqualTo(category.PersistentId));
-            Assert.That(serialized.Attribute("Description").Value, Is.EqualTo(nameisNull ? "" : category.Name));
+            Assert.That(serialized.Attribute("Name").Value, Is.EqualTo(nameisNull ? "" : category.Name));
         }
 
         [TestCase(true)]

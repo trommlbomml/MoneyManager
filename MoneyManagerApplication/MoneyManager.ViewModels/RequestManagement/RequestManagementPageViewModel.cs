@@ -44,6 +44,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             NextMonthCommand = new CommandViewModel(OnNextMonthCommand);
             EditRequestCommand = new CommandViewModel(OnEditRequestCommand);
             SwitchAccountCommand = new CommandViewModel(OnSwitchAccountCommand);
+            EditCategoriesCommand = new CommandViewModel(OnEditCategoriesCommand);
 
             Months.PropertyChanged += OnMonthsPropertyChanged;
             Requests.PropertyChanged += OnSelectedRequestChanged;
@@ -53,6 +54,33 @@ namespace MoneyManager.ViewModels.RequestManagement
             UpdateSaldoAsString();
 
             Caption = string.Format(Properties.Resources.RequestManagementPageCaptionFormat, Application.Repository.Name);
+        }
+
+        private void OnEditCategoriesCommand()
+        {
+            Application.WindowManager.ShowDialog(new CategoryManagementDialogViewModel(Application, OnEditCategoriesOk));
+        }
+
+        private void OnEditCategoriesOk(CategoryManagementDialogViewModel categoryManagement)
+        {
+            foreach (var currentCategory in categoryManagement.Categories.SelectableValues)
+            {
+                if (!string.IsNullOrEmpty(currentCategory.EntityId))
+                {
+                    Application.Repository.UpdateCategory(currentCategory.EntityId, currentCategory.Name);
+                }
+                else
+                {
+                    Application.Repository.CreateCategory(currentCategory.Name);
+                }
+            }
+
+            foreach (var categoryToDelete in categoryManagement.CategoriesToDelete)
+            {
+                Application.Repository.DeleteCategory(categoryToDelete.EntityId);
+            }
+
+            UpdateCurrentMonth();
         }
 
         private void OnSwitchAccountCommand()
@@ -201,6 +229,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         public CommandViewModel NextMonthCommand { get; private set; }
         public CommandViewModel EditRequestCommand { get; private set; }
         public CommandViewModel SwitchAccountCommand { get; private set; }
+        public CommandViewModel EditCategoriesCommand { get; private set; }
 
         public int Year
         {
