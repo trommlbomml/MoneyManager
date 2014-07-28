@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:accountManagement="clr-namespace:MoneyManager.ViewModels.AccountManagement;assembly=MoneyManager.ViewModels">
+                    xmlns:accountManagement="clr-namespace:MoneyManager.ViewModels.AccountManagement;assembly=MoneyManager.ViewModels"
+                    xmlns:properties="clr-namespace:MoneyManagerApplication.Properties">
 
     <DataTemplate x:Key="RecentAccountsItemTemplate" DataType="{x:Type accountManagement:RecentAccountViewModel}">
         <Grid>
@@ -24,17 +25,17 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal">
-                <Button Content="New" 
+                <Button Content="{x:Static properties:Resources.AccountManagementPage_CreateNewAccountCommandCaption}" 
                     Command="{Binding CreateNewAccountCommand}"
                     Margin="5"
                     Width="100"
                     Height="100" />
-                <Button Content="Open Recent" 
+                <Button Content="{x:Static properties:Resources.AccountManagementPage_OpenRecentAccountCommandCaption}" 
                     Command="{Binding OpenRecentAccountCommand}"
                     Margin="5"
                     Width="100"
                     Height="100"/>
-                <Button Content="Open" 
+                <Button Content="{x:Static properties:Resources.AccountManagementPage_OpenAccountCommandCaption}" 
                     Command="{Binding OpenAccountCommand}"
                     Margin="5"
                     Width="100"

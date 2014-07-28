@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MoneyManagerApplication.Properties
-{
-
-
+namespace MoneyManagerApplication.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,49 +22,230 @@ namespace MoneyManagerApplication.Properties
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    public class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
+        public static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MoneyManagerApplication.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        public static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neu.
+        /// </summary>
+        public static string AccountManagementPage_CreateNewAccountCommandCaption {
+            get {
+                return ResourceManager.GetString("AccountManagementPage_CreateNewAccountCommandCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Öffnen.
+        /// </summary>
+        public static string AccountManagementPage_OpenAccountCommandCaption {
+            get {
+                return ResourceManager.GetString("AccountManagementPage_OpenAccountCommandCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bestehend öffnen.
+        /// </summary>
+        public static string AccountManagementPage_OpenRecentAccountCommandCaption {
+            get {
+                return ResourceManager.GetString("AccountManagementPage_OpenRecentAccountCommandCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Erstellen.
+        /// </summary>
+        public static string AccountManagementWindow_CreateCommandCaption {
+            get {
+                return ResourceManager.GetString("AccountManagementWindow_CreateCommandCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dateispeicherort.
+        /// </summary>
+        public static string AccountManagementWindow_LabelFilePath {
+            get {
+                return ResourceManager.GetString("AccountManagementWindow_LabelFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string AccountManagementWindow_LabelName {
+            get {
+                return ResourceManager.GetString("AccountManagementWindow_LabelName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ....
+        /// </summary>
+        public static string AccountManagementWindow_SelectFileText {
+            get {
+                return ResourceManager.GetString("AccountManagementWindow_SelectFileText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neuen Account anlegen.
+        /// </summary>
+        public static string AccountManagementWindow_Title {
+            get {
+                return ResourceManager.GetString("AccountManagementWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kategorieverwaltung.
+        /// </summary>
+        public static string CategoryManagementWindow_Title {
+            get {
+                return ResourceManager.GetString("CategoryManagementWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Erstellen.
+        /// </summary>
+        public static string RequestDialog_CreateCommandCaption {
+            get {
+                return ResourceManager.GetString("RequestDialog_CreateCommandCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kategorie.
+        /// </summary>
+        public static string RequestDialog_LabelCategory {
+            get {
+                return ResourceManager.GetString("RequestDialog_LabelCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag des Monats.
+        /// </summary>
+        public static string RequestDialog_LabelDayOfMonth {
+            get {
+                return ResourceManager.GetString("RequestDialog_LabelDayOfMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beschreibung.
+        /// </summary>
+        public static string RequestDialog_LabelDescription {
+            get {
+                return ResourceManager.GetString("RequestDialog_LabelDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Betrag.
+        /// </summary>
+        public static string RequestDialog_LabelValue {
+            get {
+                return ResourceManager.GetString("RequestDialog_LabelValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kategorie.
+        /// </summary>
+        public static string RequestManagementPage_DataGridColumnCategory {
+            get {
+                return ResourceManager.GetString("RequestManagementPage_DataGridColumnCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Datum.
+        /// </summary>
+        public static string RequestManagementPage_DataGridColumnDate {
+            get {
+                return ResourceManager.GetString("RequestManagementPage_DataGridColumnDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beschreibung.
+        /// </summary>
+        public static string RequestManagementPage_DataGridColumnDescription {
+            get {
+                return ResourceManager.GetString("RequestManagementPage_DataGridColumnDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Betrag.
+        /// </summary>
+        public static string RequestManagementPage_DataGridColumnValue {
+            get {
+                return ResourceManager.GetString("RequestManagementPage_DataGridColumnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monatssaldo.
+        /// </summary>
+        public static string RequestManagementPage_LabelMonthSaldo {
+            get {
+                return ResourceManager.GetString("RequestManagementPage_LabelMonthSaldo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abbrechen.
+        /// </summary>
+        public static string Window_CancelCommandCaption {
+            get {
+                return ResourceManager.GetString("Window_CancelCommandCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string Window_OkCommandCaption {
+            get {
+                return ResourceManager.GetString("Window_OkCommandCaption", resourceCulture);
             }
         }
     }
