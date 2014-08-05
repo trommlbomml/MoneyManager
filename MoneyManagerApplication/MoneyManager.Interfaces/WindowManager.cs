@@ -30,6 +30,16 @@ namespace MoneyManager.Interfaces
         /// <param name="no">Action to do when chossing no</param>
         void ShowQuestion(string caption, string text, Action yes, Action no);
 
+        /// <summary>
+        /// Shows a confirmation Dialog.
+        /// </summary>
+        /// <param name="caption">Caption of MessageBox</param>
+        /// <param name="text">Text of MessageBox</param>
+        /// <param name="yes">Action to do when choosing yes</param>
+        /// <param name="no">Action to do when choosing no</param>
+        /// <param name="cancel">Action to do when cancelling</param>
+        void ShowConfirmation(string caption, string text, Action yes, Action no, Action cancel);
+
         string ShowSaveFileDialog(string initialDirectory, string fileName);
 
         string ShowOpenFileDialog(string initialDirectory);

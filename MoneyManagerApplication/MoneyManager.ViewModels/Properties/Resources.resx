@@ -202,6 +202,12 @@ Möchten Sie den Verweis aus der Liste entfernen?</value>
   <data name="RequestManagementDeleteRequestQuestionMessage" xml:space="preserve">
     <value>Sind sie sicher, dass sie den ausgewählten Eintrag löschen möchten?</value>
   </data>
+  <data name="RequestManagementOnClosingRequestConfirmationCaption" xml:space="preserve">
+    <value>Programm beenden</value>
+  </data>
+  <data name="RequestManagementOnClosingRequestConfirmationMessage" xml:space="preserve">
+    <value>Möchten Sie ihre Änderungen speichen, bevor Sie das Programm beenden?</value>
+  </data>
   <data name="RequestManagementPageCaptionFormat" xml:space="preserve">
     <value>Transaktionsverwaltung - {0}</value>
   </data>

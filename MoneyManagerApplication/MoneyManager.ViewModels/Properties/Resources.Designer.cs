@@ -314,6 +314,24 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Programm beenden.
+        /// </summary>
+        public static string RequestManagementOnClosingRequestConfirmationCaption {
+            get {
+                return ResourceManager.GetString("RequestManagementOnClosingRequestConfirmationCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Möchten Sie ihre Änderungen speichen, bevor Sie das Programm beenden?.
+        /// </summary>
+        public static string RequestManagementOnClosingRequestConfirmationMessage {
+            get {
+                return ResourceManager.GetString("RequestManagementOnClosingRequestConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Transaktionsverwaltung - {0}.
         /// </summary>
         public static string RequestManagementPageCaptionFormat {

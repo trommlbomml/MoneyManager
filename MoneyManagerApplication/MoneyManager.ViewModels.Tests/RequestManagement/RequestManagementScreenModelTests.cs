@@ -421,5 +421,34 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             WindowManager.Received(1).ShowQuestion(Properties.Resources.RequestManagementChangeAccountQuestionCaption, 
                                                    Properties.Resources.RequestManagementChangeAccountQuestionMessage, Arg.Any<Action>(), Arg.Any<Action>());
         }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        [TestCase(null)]
+        public void OnCloseRequestShowsMessageBox(bool? yesNoCancel)
+        {
+            WindowManager.When(w => w.ShowConfirmation(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<Action>(), Arg.Any<Action>(), Arg.Any<Action>()))
+                         .Do(c =>
+                         {
+                             if (yesNoCancel == true) ((Action)c[2]).Invoke();
+                             else if (yesNoCancel == false)((Action)c[3]).Invoke();
+                             else ((Action)c[4]).Invoke();
+                         });
+
+            var screenModel = new RequestManagementPageViewModel(Application, 2014, 6);
+
+            screenModel.OnClosingRequest();
+
+            WindowManager.Received(1).ShowConfirmation(Properties.Resources.RequestManagementOnClosingRequestConfirmationCaption, 
+                                                       Properties.Resources.RequestManagementOnClosingRequestConfirmationMessage, 
+                                                       Arg.Any<Action>(), Arg.Any<Action>(), Arg.Any<Action>());
+
+            if (yesNoCancel == null || yesNoCancel == false)
+            {
+                Repository.DidNotReceive().Save();
+            }
+
+            Repository.Received(1).Close();
+        }
     }
 }

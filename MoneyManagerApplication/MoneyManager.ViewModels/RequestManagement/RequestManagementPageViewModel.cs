@@ -320,5 +320,17 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             Saldo = Application.Repository.CalculateSaldoForMonth(Year, Month);
         }
+
+        public override bool OnClosingRequest()
+        {
+            var cancel = false;
+            Application.WindowManager.ShowConfirmation(Properties.Resources.RequestManagementOnClosingRequestConfirmationCaption,
+                                                       Properties.Resources.RequestManagementOnClosingRequestConfirmationMessage,
+                                                       OnSaveCommand, () => {}, () => { cancel = true; });
+
+            Application.Repository.Close();
+
+            return cancel;
+        }
     }
 }

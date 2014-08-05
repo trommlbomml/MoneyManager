@@ -18,5 +18,10 @@ namespace MoneyManager.ViewModels
             get { return _caption; }
             protected set { SetBackingField("Caption", ref _caption, value); }
         }
+
+        public virtual bool OnClosingRequest()
+        {
+            return false;
+        }
     }
 }

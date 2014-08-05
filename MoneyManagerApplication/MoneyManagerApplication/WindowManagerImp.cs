@@ -56,6 +56,23 @@ namespace MoneyManagerApplication
             }
         }
 
+        public void ShowConfirmation(string caption, string text, Action yes, Action no, Action cancel)
+        {
+            var result = MessageBox.Show(text, caption, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            switch (result)
+            {
+                case MessageBoxResult.Cancel:
+                    cancel();
+                    break;
+                case MessageBoxResult.Yes:
+                    yes();
+                    break;
+                case MessageBoxResult.No:
+                    no();
+                    break;
+            }
+        }
+
         public string ShowSaveFileDialog(string initialDirectory, string fileName)
         {
             var saveFileDialog = new SaveFileDialog

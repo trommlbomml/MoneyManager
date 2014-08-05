@@ -41,7 +41,12 @@ namespace MoneyManager.ViewModels
         public PageViewModel ActivePage
         {
             get { return _activePage; }
-            private set { SetBackingField("ActivePage", ref _activePage, value); }
+            internal set { SetBackingField("ActivePage", ref _activePage, value); }
+        }
+
+        public bool OnClosingRequest()
+        {
+            return ActivePage != null && ActivePage.OnClosingRequest();
         }
     }
 }

@@ -51,6 +51,7 @@
     <Compile Include="Framework\CommandViewModelTests.cs" />
     <Compile Include="Framework\TestViewModel.cs" />
     <Compile Include="Framework\ViewModelTests.cs" />
+    <Compile Include="PageTestViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AccountManagement\RecentAccountViewModelTests.cs" />
     <Compile Include="RequestManagement\RequestDialogViewModelTests.cs" />

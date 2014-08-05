@@ -34,5 +34,23 @@ namespace MoneyManager.ViewModels.Tests
             Assert.That(activeScreen.Year, Is.EqualTo(currentDateTime.Year));
             Assert.That(activeScreen.Month, Is.EqualTo(currentDateTime.Month));
         }
+
+        [Test]
+        public void OnCloseRequestWithNoPage()
+        {
+            var application = new ApplicationViewModel(Repository, ApplicationSettings, WindowManager);
+
+            Assert.That(application.OnClosingRequest(), Is.False);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void OnCloseRequestDelegatesFromActivePage(bool expectCancel)
+        {
+            var application = new ApplicationViewModel(Repository, ApplicationSettings, WindowManager);
+            application.ActivePage = new PageTestViewModel(application) {IsCancelOnClose = expectCancel};
+            
+            Assert.That(application.OnClosingRequest(), Is.EqualTo(expectCancel));
+        }
     }
 }
