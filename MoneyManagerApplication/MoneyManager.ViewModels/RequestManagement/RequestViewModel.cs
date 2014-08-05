@@ -71,7 +71,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             Description = entity.Description;
             Value = entity.Value;
 
-            Category = "<No Category>";
+            Category = Properties.Resources.NoCategory;
             _categoryPersistentId = null;
             if (entity.Category != null)
             {

@@ -16,21 +16,31 @@ namespace MoneyManager.ViewModels.RequestManagement
         public EnumeratedSingleValuedProperty<RequestViewModel> Requests { get; private set; } 
         public EnumeratedSingleValuedProperty<MonthNameViewModel> Months { get; private set; }
 
+        public CommandViewModel AddRequestCommand { get; private set; }
+        public CommandViewModel DeleteRequestCommand { get; private set; }
+        public CommandViewModel SaveCommand { get; private set; }
+        public CommandViewModel PreviousMonthCommand { get; private set; }
+        public CommandViewModel NextMonthCommand { get; private set; }
+        public CommandViewModel EditRequestCommand { get; private set; }
+        public CommandViewModel SwitchAccountCommand { get; private set; }
+        public CommandViewModel EditCategoriesCommand { get; private set; }
+        public CommandViewModel GotoCurrentMonthCommand { get; private set; }
+
         public RequestManagementPageViewModel(ApplicationViewModel application, int year, int month) : base(application)
         {
             Months = new EnumeratedSingleValuedProperty<MonthNameViewModel>();
-            Months.AddValue(new MonthNameViewModel("Januar", 1));
-            Months.AddValue(new MonthNameViewModel("Februar", 2));
-            Months.AddValue(new MonthNameViewModel("März", 3));
-            Months.AddValue(new MonthNameViewModel("April", 4));
-            Months.AddValue(new MonthNameViewModel("Mai", 5));
-            Months.AddValue(new MonthNameViewModel("Juni", 6));
-            Months.AddValue(new MonthNameViewModel("Juli", 7));
-            Months.AddValue(new MonthNameViewModel("August", 8));
-            Months.AddValue(new MonthNameViewModel("September", 9));
-            Months.AddValue(new MonthNameViewModel("Oktober", 10));
-            Months.AddValue(new MonthNameViewModel("November", 11));
-            Months.AddValue(new MonthNameViewModel("Dezember", 12));
+            Months.AddValue(new MonthNameViewModel(Properties.Resources.MonthNameJanuary, 1));
+            Months.AddValue(new MonthNameViewModel(Properties.Resources.MonthNameFebuary, 2));
+            Months.AddValue(new MonthNameViewModel(Properties.Resources.MonthNameMarch, 3));
+            Months.AddValue(new MonthNameViewModel(Properties.Resources.MonthNameApril, 4));
+            Months.AddValue(new MonthNameViewModel(Properties.Resources.MonthNameMay, 5));
+            Months.AddValue(new MonthNameViewModel(Properties.Resources.MonthNameJune, 6));
+            Months.AddValue(new MonthNameViewModel(Properties.Resources.MonthNameJuly, 7));
+            Months.AddValue(new MonthNameViewModel(Properties.Resources.MonthNameAugust, 8));
+            Months.AddValue(new MonthNameViewModel(Properties.Resources.MonthNameSeptember, 9));
+            Months.AddValue(new MonthNameViewModel(Properties.Resources.MonthNameOctober, 10));
+            Months.AddValue(new MonthNameViewModel(Properties.Resources.MonthNameNovember, 11));
+            Months.AddValue(new MonthNameViewModel(Properties.Resources.MonthNameDecember, 12));
 
             Requests = new EnumeratedSingleValuedProperty<RequestViewModel>();
             
@@ -45,6 +55,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             EditRequestCommand = new CommandViewModel(OnEditRequestCommand);
             SwitchAccountCommand = new CommandViewModel(OnSwitchAccountCommand);
             EditCategoriesCommand = new CommandViewModel(OnEditCategoriesCommand);
+            GotoCurrentMonthCommand = new CommandViewModel(OnGotoCurrentMonthCommand);
 
             Months.PropertyChanged += OnMonthsPropertyChanged;
             Requests.PropertyChanged += OnSelectedRequestChanged;
@@ -54,6 +65,53 @@ namespace MoneyManager.ViewModels.RequestManagement
             UpdateSaldoAsString();
 
             Caption = string.Format(Properties.Resources.RequestManagementPageCaptionFormat, Application.Repository.Name);
+        }
+
+        private void OnGotoCurrentMonthCommand()
+        {
+            var currentDate = DateTime.Now.Date;
+            _preventUpdateCurrentMonth = true;
+            Year = currentDate.Year;
+            Months.SelectedValue = Months.SelectableValues.Single(m => m.Index == currentDate.Month);
+            _preventUpdateCurrentMonth = false;
+
+            UpdateCurrentMonth();
+            UpdateCommandStates();
+        }
+
+        public int Year
+        {
+            get { return _year; }
+            set 
+            { 
+                SetBackingField("Year", ref _year, value, o =>
+                {
+                    UpdateCurrentMonth();
+                    UpdateCommandStates();
+                }); 
+            }
+        }
+
+        public int Month
+        {
+            get { return Months.SelectedValue.Index; }
+        }
+
+        public double Saldo
+        {
+            get { return _saldo; }
+            private set { SetBackingField("Saldo", ref _saldo, value, o => UpdateSaldoAsString()); }
+        }
+
+        public string SaldoAsString
+        {
+            get { return _saldoAsString; }
+            private set { SetBackingField("SaldoAsString", ref _saldoAsString, value); }
+        }
+
+        private void UpdateSaldoAsString()
+        {
+            SaldoAsString = string.Format(Properties.Resources.MoneyValueFormat, Saldo);
         }
 
         private void OnEditCategoriesCommand()
@@ -91,12 +149,13 @@ namespace MoneyManager.ViewModels.RequestManagement
                 Application.ActivateAccountManagementPage();
             };
 
-            Application.WindowManager.ShowQuestion("Account wechseln", "Möchten Sie vor dem Wechseln des Accounts ihre Änderungen speichern?",
-                () => 
-                {
-                    OnSaveCommand();
-                    quitAction();
-                }, quitAction);
+            Application.WindowManager.ShowQuestion(Properties.Resources.RequestManagementChangeAccountQuestionCaption, 
+                                                   Properties.Resources.RequestManagementChangeAccountQuestionMessage,
+                                                   () => 
+                                                   {
+                                                       OnSaveCommand();
+                                                       quitAction();
+                                                   }, quitAction);
         }
 
         private void OnEditRequestCommand()
@@ -105,7 +164,7 @@ namespace MoneyManager.ViewModels.RequestManagement
 
             var viewModel = new RequestDialogViewModel(Application, currentRequest.EntityId, OnEditRequest)
             {
-                Caption = "Transaktion bearbeiten",
+                Caption = Properties.Resources.RequestDialogCaptionEdit,
                 Date = currentRequest.Date,
                 Description = currentRequest.Description,
                 Value = currentRequest.Value
@@ -140,6 +199,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             if (_preventUpdateCurrentMonth) return;
 
             UpdateCurrentMonth();
+            UpdateCommandStates();
         }
 
         private void OnNextMonthCommand()
@@ -158,6 +218,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             _preventUpdateCurrentMonth = false;
 
             UpdateCurrentMonth();
+            UpdateCommandStates();
         }
 
         private void OnPreviousMonthCommand()
@@ -175,6 +236,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             _preventUpdateCurrentMonth = false;
 
             UpdateCurrentMonth();
+            UpdateCommandStates();
         }
 
         private void OnSaveCommand()
@@ -185,9 +247,9 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void OnDeleteRequestCommand()
         {
-            Application.WindowManager.ShowQuestion("Eintrag löschen",
-                "Sind sie sicher, dass sie den ausgewählten Eintrag löschen möchten?",
-                DeleteRequest, () => {});
+            Application.WindowManager.ShowQuestion(Properties.Resources.RequestManagementDeleteRequestQuestionCaption,
+                                                   Properties.Resources.RequestManagementDeleteRequestQuestionMessage,
+                                                   DeleteRequest, () => {});
         }
 
         private void DeleteRequest()
@@ -201,7 +263,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             var viewModel = new RequestDialogViewModel(Application, Year, Month, OnCreateRequest)
             {
-                Caption = "Neue Transaktion"
+                Caption = Properties.Resources.RequestDialogCaptionCreate
             };
             Application.WindowManager.ShowDialog(viewModel);
         }
@@ -222,48 +284,12 @@ namespace MoneyManager.ViewModels.RequestManagement
             UpdateSaldoForCurrentMonth();
         }
 
-        public CommandViewModel AddRequestCommand { get; private set; }
-        public CommandViewModel DeleteRequestCommand { get; private set; }
-        public CommandViewModel SaveCommand { get; private set; }
-        public CommandViewModel PreviousMonthCommand { get; private set; }
-        public CommandViewModel NextMonthCommand { get; private set; }
-        public CommandViewModel EditRequestCommand { get; private set; }
-        public CommandViewModel SwitchAccountCommand { get; private set; }
-        public CommandViewModel EditCategoriesCommand { get; private set; }
-
-        public int Year
-        {
-            get { return _year; }
-            set { SetBackingField("Year", ref _year, value, o => UpdateCurrentMonth()); }
-        }
-
-        public int Month
-        {
-            get { return Months.SelectedValue.Index; }
-        }
-
-        public double Saldo
-        {
-            get { return _saldo; }
-            private set { SetBackingField("Saldo", ref _saldo, value, o => UpdateSaldoAsString()); }
-        }
-
-        private void UpdateSaldoAsString()
-        {
-            SaldoAsString = string.Format(Properties.Resources.MoneyValueFormat, Saldo);
-        }
-
-        public string SaldoAsString
-        {
-            get { return _saldoAsString; }
-            private set { SetBackingField("SaldoAsString", ref _saldoAsString, value); }
-        }
-
         private void UpdateCommandStates()
         {
             var isRequestSelected = Requests.SelectedValue != null;
             DeleteRequestCommand.IsEnabled = isRequestSelected;
             EditRequestCommand.IsEnabled = isRequestSelected;
+            GotoCurrentMonthCommand.IsEnabled = DateTime.Now.Month != Month || DateTime.Now.Year != Year;
         }
 
         private void UpdateCurrentMonth()
@@ -286,7 +312,7 @@ namespace MoneyManager.ViewModels.RequestManagement
                 Date = requestEntity.Date,
                 Description = requestEntity.Description,
                 Value = requestEntity.Value,
-                Category = requestEntity.Category != null ? requestEntity.Category.Name : "<No Category>"
+                Category = requestEntity.Category != null ? requestEntity.Category.Name : Properties.Resources.NoCategory
             };
         }
 

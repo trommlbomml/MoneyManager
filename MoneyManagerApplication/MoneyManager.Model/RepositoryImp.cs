@@ -129,7 +129,8 @@ namespace MoneyManager.Model
             {
                 Date = data.Date.Date,
                 Description = data.Description,
-                Value = data.Value
+                Value = data.Value,
+                Category = string.IsNullOrEmpty(data.CategoryPersistentId) ? null : _allCategories.Single(c => c.PersistentId == data.CategoryPersistentId)
             };
             _allRequests.Add(request);
 

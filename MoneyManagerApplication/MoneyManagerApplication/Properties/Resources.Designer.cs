@@ -70,6 +70,15 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Zum aktuellen Monat.
+        /// </summary>
+        public static string AccountManagementPage_GotoCurrentMonthCommandCaption {
+            get {
+                return ResourceManager.GetString("AccountManagementPage_GotoCurrentMonthCommandCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Öffnen.
         /// </summary>
         public static string AccountManagementPage_OpenAccountCommandCaption {

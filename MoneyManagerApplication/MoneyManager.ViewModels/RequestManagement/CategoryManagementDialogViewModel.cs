@@ -8,14 +8,12 @@ namespace MoneyManager.ViewModels.RequestManagement
 {
     public class CategoryManagementDialogViewModel : ViewModel
     {
-        private readonly ApplicationViewModel _application;
         public EnumeratedSingleValuedProperty<CategoryEditViewModel> Categories { get; private set; }
 
         public List<CategoryEditViewModel> CategoriesToDelete { get; private set; }
 
         public CategoryManagementDialogViewModel(ApplicationViewModel application, Action<CategoryManagementDialogViewModel> ok)
         {
-            _application = application;
             CategoriesToDelete = new List<CategoryEditViewModel>();
             Categories = new EnumeratedSingleValuedProperty<CategoryEditViewModel>();
             Categories.PropertyChanged += CategoriesOnPropertyChanged;
@@ -53,7 +51,7 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void OnNewCategoryCommand()
         {
-            Categories.AddValue(new CategoryEditViewModel("<New Category>"));
+            Categories.AddValue(new CategoryEditViewModel(Properties.Resources.CategoryManagementNewCategoryDefaultName));
         }
 
         public CommandViewModel OkCommand { get; private set; }

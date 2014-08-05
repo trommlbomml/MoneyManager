@@ -94,16 +94,20 @@ namespace MoneyManager.Model.Tests
             Assert.That(() => Repository.QueryRequest("InvalidId"), Throws.ArgumentException);
         }
 
-        [Test]
-        public void CreateRequest()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void CreateRequest(bool withCategory)
         {
+            CreateCategoriesInRepository(3);
             CreateRequestsInRepository(new[] { new DateTime(2014, 1, 1) }, new[] { 10 });
 
+            var categoryEntity = Repository.QueryAllCategories().First();
             var requestData = new RequestEntityData
             {
                 Date = new DateTime(2014, 6, 1),
                 Description = "My Description",
-                Value = -11
+                Value = -11,
+                CategoryPersistentId = withCategory ? categoryEntity.PersistentId : null
             };
 
             var persistentId = Repository.CreateRequest(requestData);
@@ -113,6 +117,15 @@ namespace MoneyManager.Model.Tests
             Assert.That(createdRequest.PersistentId, Is.EqualTo(persistentId));
             Assert.That(createdRequest.Description, Is.EqualTo(requestData.Description));
             Assert.That(createdRequest.Value, Is.EqualTo(requestData.Value));
+
+            if (withCategory)
+            {
+                Assert.That(createdRequest.Category.PersistentId, Is.EqualTo(categoryEntity.PersistentId));
+            }
+            else
+            {
+                Assert.That(createdRequest.Category, Is.Null);
+            }
         }
 
         [Test]

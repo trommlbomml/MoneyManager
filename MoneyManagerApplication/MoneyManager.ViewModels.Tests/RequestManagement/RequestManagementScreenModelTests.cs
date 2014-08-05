@@ -15,10 +15,11 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         [TestCase(12)]
         public void InitalState(double expectedSaldo)
         {
-            DefineRequestsForMonth(2014, 3, 3);
-            Repository.CalculateSaldoForMonth(2014, 3).Returns(expectedSaldo);
+            var currentDate = DateTime.Now;
+            DefineRequestsForMonth(currentDate.Year, currentDate.Month, 3);
+            Repository.CalculateSaldoForMonth(currentDate.Year, currentDate.Month).Returns(expectedSaldo);
 
-            var screenModel = new RequestManagementPageViewModel(Application, 2014, 3);
+            var screenModel = new RequestManagementPageViewModel(Application, currentDate.Year, currentDate.Month);
 
             Assert.That(screenModel.SwitchAccountCommand.IsEnabled, Is.True);
             Assert.That(screenModel.AddRequestCommand.IsEnabled, Is.True);
@@ -28,12 +29,13 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(screenModel.NextMonthCommand.IsEnabled, Is.True);
             Assert.That(screenModel.PreviousMonthCommand.IsEnabled, Is.True);
             Assert.That(screenModel.SaveCommand.IsEnabled, Is.True);
+            Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.False);
 
-            Assert.That(screenModel.Month, Is.EqualTo(3));
-            Assert.That(screenModel.Year, Is.EqualTo(2014));
+            Assert.That(screenModel.Month, Is.EqualTo(currentDate.Month));
+            Assert.That(screenModel.Year, Is.EqualTo(currentDate.Year));
 
             Assert.That(screenModel.Months.SelectableValues.Count, Is.EqualTo(12));
-            Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == 3)));
+            Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == currentDate.Month)));
             Assert.That(screenModel.Months.SelectableValues.Select(m => m.Index).ToArray(), Is.EquivalentTo(Enumerable.Range(1,12).ToArray()));
 
             Assert.That(screenModel.Saldo, Is.EqualTo(expectedSaldo));
@@ -41,17 +43,17 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
 
             Assert.That(screenModel.Caption, Is.EqualTo(string.Format(Properties.Resources.RequestManagementPageCaptionFormat, Repository.Name)));
 
-            Repository.Received(1).CalculateSaldoForMonth(2014, 3);
-            Repository.Received(1).QueryRequestsForSingleMonth(2014, 3);
+            Repository.Received(1).CalculateSaldoForMonth(currentDate.Year, currentDate.Month);
+            Repository.Received(1).QueryRequestsForSingleMonth(currentDate.Year, currentDate.Month);
 
             Assert.That(screenModel.Requests.SelectableValues.Count, Is.EqualTo(3));
-            Assert.That(screenModel.Requests.SelectableValues[0].Category, Is.EqualTo("<No Category>"));
+            Assert.That(screenModel.Requests.SelectableValues[0].Category, Is.EqualTo(Properties.Resources.NoCategory));
             Assert.That(screenModel.Requests.SelectableValues[1].Category, Is.EqualTo("Category2"));
-            Assert.That(screenModel.Requests.SelectableValues[2].Category, Is.EqualTo("<No Category>"));
+            Assert.That(screenModel.Requests.SelectableValues[2].Category, Is.EqualTo(Properties.Resources.NoCategory));
         }
 
-        [TestCase(2014, 3, 2014, 4)]
-        [TestCase(2014, 12, 2015, 1)]
+        [TestCase(2012, 3, 2012, 4)]
+        [TestCase(2012, 12, 2013, 1)]
         public void NextMonthCommandCallsRepositoryAndUpdatesProperties(int currentYear, int currentMonth, int nextYear, int nextMonth)
         {
             var screenModel = new RequestManagementPageViewModel(Application, currentYear, currentMonth);
@@ -64,10 +66,58 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(screenModel.Month, Is.EqualTo(nextMonth));
             Assert.That(screenModel.Year, Is.EqualTo(nextYear));
             Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == nextMonth)));
+            Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.True);
         }
 
-        [TestCase(2014, 4, 2014, 3 )]
-        [TestCase(2014, 1, 2013, 12)]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void NextMonthCommandUpdatesGotoCurrentMonthState(bool nextCommandGoesToCurrentMonth)
+        {
+            var currentDate = DateTime.Now.Date;
+            if (nextCommandGoesToCurrentMonth) currentDate = currentDate.AddMonths(-1);
+
+            var screenModel = new RequestManagementPageViewModel(Application, currentDate.Year, currentDate.Month);
+            
+            Repository.ClearReceivedCalls();
+
+            screenModel.NextMonthCommand.Execute(null);
+            Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.EqualTo(!nextCommandGoesToCurrentMonth));
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void PreviousMonthCommandUpdatesGotoCurrentMonthState(bool previousCommandGoesToCurrentMonth)
+        {
+            var currentDate = DateTime.Now.Date;
+            if (previousCommandGoesToCurrentMonth) currentDate = currentDate.AddMonths(1);
+
+            var screenModel = new RequestManagementPageViewModel(Application, currentDate.Year, currentDate.Month);
+
+            Repository.ClearReceivedCalls();
+
+            screenModel.PreviousMonthCommand.Execute(null);
+            Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.EqualTo(!previousCommandGoesToCurrentMonth));
+        }
+
+        [Test]
+        public void GotoCurrentMonthCommand()
+        {
+            var currentDate = DateTime.Now.Date;
+            var screenModel = new RequestManagementPageViewModel(Application, 2013, 5);
+
+            Repository.ClearReceivedCalls();
+
+            screenModel.GotoCurrentMonthCommand.Execute(null);
+            Repository.Received(1).CalculateSaldoForMonth(currentDate.Year, currentDate.Month);
+            Repository.Received(1).QueryRequestsForSingleMonth(currentDate.Year, currentDate.Month);
+            Assert.That(screenModel.Month, Is.EqualTo(currentDate.Month));
+            Assert.That(screenModel.Year, Is.EqualTo(currentDate.Year));
+            Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == currentDate.Month)));
+            Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.False);
+        }
+
+        [TestCase(2013, 4, 2013, 3 )]
+        [TestCase(2013, 1, 2012, 12)]
         public void PreviousMonthCommandCallsRepositoryAndUpdatesProperties(int currentYear, int currentMonth, int nextYear, int nextMonth)
         {
             var screenModel = new RequestManagementPageViewModel(Application, currentYear, currentMonth);
@@ -80,6 +130,31 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(screenModel.Month, Is.EqualTo(nextMonth));
             Assert.That(screenModel.Year, Is.EqualTo(nextYear));
             Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == nextMonth)));
+            Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.True);
+        }
+
+        [Test]
+        public void ChangeYearUpdatesGotoCurrentMonthCommand()
+        {
+            var screenModel = new RequestManagementPageViewModel(Application, DateTime.Now.Year, DateTime.Now.Month);
+            screenModel.Year -= 1;
+            Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.True);
+
+            screenModel.Year += 1;
+            Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.False);
+        }
+
+        [Test]
+        public void MonthYearUpdatesGotoCurrentMonthCommand()
+        {
+            var screenModel = new RequestManagementPageViewModel(Application, DateTime.Now.Year, DateTime.Now.Month);
+            
+            var currentMonth = screenModel.Months.SelectedValue;
+            screenModel.Months.SelectedValue = screenModel.Months.SelectableValues.First(m => m.Index != currentMonth.Index);
+            Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.True);
+            
+            screenModel.Months.SelectedValue = currentMonth;
+            Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.False);
         }
 
         [Test]
@@ -108,7 +183,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
 
             var requestDialogViewModel = (RequestDialogViewModel) dialogViewModel;
 
-            Assert.That(requestDialogViewModel.Caption, Is.EqualTo("Neue Transaktion"));
+            Assert.That(requestDialogViewModel.Caption, Is.EqualTo(Properties.Resources.RequestDialogCaptionCreate));
             Assert.That(requestDialogViewModel.CreateRequestCommand.IsEnabled, Is.True);
             Assert.That(requestDialogViewModel.Date, Is.EqualTo(new DateTime(2014, 6, 1)));
             Assert.That(requestDialogViewModel.FirstPossibleDate, Is.EqualTo(new DateTime(2014, 6, 1)));
@@ -116,8 +191,9 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(requestDialogViewModel.Value, Is.EqualTo(0.0d));
         }
 
-        [Test]
-        public void AddRequestCommandWithCreateRequestExecuted()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void AddRequestCommandWithCreateRequestExecuted(bool isCategorySelected)
         {
             var expectedDate = new DateTime(2014, 6, 14);
             const string entityIdOfRequest = "NewEntityId";
@@ -127,6 +203,14 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             object dialogViewModel = null;
             WindowManager.When(w => w.ShowDialog(Arg.Any<object>())).Do(c => dialogViewModel = c[0]);
 
+            Application.Repository.QueryAllCategories().Returns(c => Enumerable.Range(1, 3).Select(i =>
+            {
+                var category = Substitute.For<CategoryEntity>();
+                category.PersistentId.Returns("Category" + i);
+                category.Name.Returns("Category" + i);
+                return category;
+            }));
+
             var screenModel = new RequestManagementPageViewModel(Application, 2014, 6);
             var requestsBeforeUpdate = screenModel.Requests.SelectableValues.Count;
             screenModel.AddRequestCommand.Execute(null);
@@ -135,6 +219,10 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             requestDialogViewModel.Description = expectedDescription;
             requestDialogViewModel.Value = expectedValue;
             requestDialogViewModel.Date = expectedDate;
+            if (isCategorySelected)
+            {
+                requestDialogViewModel.Categories.SelectedValue = requestDialogViewModel.Categories.SelectableValues.First();
+            }
 
             Repository.CalculateSaldoForMonth(2014, 6).Returns(99.99);
             Repository.CreateRequest(Arg.Any<RequestEntityData>()).Returns(entityIdOfRequest);
@@ -145,6 +233,18 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                 entity.Description.Returns(expectedDescription);
                 entity.Value.Returns(expectedValue);
                 entity.Date.Returns(expectedDate);
+                if (isCategorySelected)
+                {
+                    var category = Substitute.For<CategoryEntity>();
+                    category.PersistentId.Returns("Category1");
+                    category.Name.Returns("Category1");
+                    entity.Category.Returns(category);
+                }
+                else
+                {
+                    entity.Category.Returns((CategoryEntity)null);
+                }
+                
                 return entity;
             });
             Repository.ClearReceivedCalls();
@@ -156,7 +256,8 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
 // ReSharper disable ImplicitlyCapturedClosure
             Repository.Received(1).CreateRequest(Arg.Is<RequestEntityData>(r => r.Date == expectedDate
                                                                              && Math.Abs(r.Value - expectedValue) < double.Epsilon
-                                                                             && r.Description == expectedDescription));
+                                                                             && r.Description == expectedDescription
+                                                                             && r.CategoryPersistentId == (isCategorySelected ? "Category1" : null)));
 // ReSharper restore ImplicitlyCapturedClosure
 
             Repository.Received(1).QueryRequest(entityIdOfRequest);
@@ -168,6 +269,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(requestViewModel.Description, Is.EqualTo(expectedDescription));
             Assert.That(requestViewModel.Date, Is.EqualTo(expectedDate));
             Assert.That(requestViewModel.Value, Is.EqualTo(expectedValue));
+            Assert.That(requestViewModel.Category, Is.EqualTo(isCategorySelected ? "Category1" : Properties.Resources.NoCategory));
 // ReSharper restore PossibleNullReferenceException
         }
 
@@ -254,7 +356,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
 
             var requestDialogViewModel = (RequestDialogViewModel)dialogViewModel;
 
-            Assert.That(requestDialogViewModel.Caption, Is.EqualTo("Transaktion bearbeiten"));
+            Assert.That(requestDialogViewModel.Caption, Is.EqualTo(Properties.Resources.RequestDialogCaptionEdit));
             Assert.That(requestDialogViewModel.CreateRequestCommand.IsEnabled, Is.True);
         }
 
@@ -316,7 +418,8 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                 Application.Repository.DidNotReceive().Save();
             }
 
-            WindowManager.Received(1).ShowQuestion("Account wechseln", "Möchten Sie vor dem Wechseln des Accounts ihre Änderungen speichern?", Arg.Any<Action>(), Arg.Any<Action>());
+            WindowManager.Received(1).ShowQuestion(Properties.Resources.RequestManagementChangeAccountQuestionCaption, 
+                                                   Properties.Resources.RequestManagementChangeAccountQuestionMessage, Arg.Any<Action>(), Arg.Any<Action>());
         }
     }
 }

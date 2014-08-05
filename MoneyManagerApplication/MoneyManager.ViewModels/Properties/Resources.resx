@@ -117,14 +117,59 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountManagementMyAccountDefaultName" xml:space="preserve">
+    <value>Mein Konto</value>
+  </data>
   <data name="AccountManagementPageCaption" xml:space="preserve">
     <value>Moneymanager - Accountverwaltung</value>
+  </data>
+  <data name="CategoryManagementNewCategoryDefaultName" xml:space="preserve">
+    <value>Neue Kategorie</value>
   </data>
   <data name="LastAccesDateFormat" xml:space="preserve">
     <value>{0:dddd, dd. MMMM yyyy HH:mm}</value>
   </data>
   <data name="MoneyValueFormat" xml:space="preserve">
     <value>{0:0.00} €</value>
+  </data>
+  <data name="MonthNameApril" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="MonthNameAugust" xml:space="preserve">
+    <value>August</value>
+  </data>
+  <data name="MonthNameDecember" xml:space="preserve">
+    <value>Dezember</value>
+  </data>
+  <data name="MonthNameFebuary" xml:space="preserve">
+    <value>Februar</value>
+  </data>
+  <data name="MonthNameJanuary" xml:space="preserve">
+    <value>Januar</value>
+  </data>
+  <data name="MonthNameJuly" xml:space="preserve">
+    <value>Juli</value>
+  </data>
+  <data name="MonthNameJune" xml:space="preserve">
+    <value>Juni</value>
+  </data>
+  <data name="MonthNameMarch" xml:space="preserve">
+    <value>März</value>
+  </data>
+  <data name="MonthNameMay" xml:space="preserve">
+    <value>Mai</value>
+  </data>
+  <data name="MonthNameNovember" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="MonthNameOctober" xml:space="preserve">
+    <value>Oktober</value>
+  </data>
+  <data name="MonthNameSeptember" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="NoCategory" xml:space="preserve">
+    <value>&lt;Keine Kategorie&gt;</value>
   </data>
   <data name="RemoveRecentAccountMessageCaption" xml:space="preserve">
     <value>Verweis entfernen</value>
@@ -138,6 +183,24 @@ Möchten Sie den Verweis aus der Liste entfernen?</value>
   </data>
   <data name="RequestDayOfMonthFormat" xml:space="preserve">
     <value>{0:dd. MMMM yyyy}</value>
+  </data>
+  <data name="RequestDialogCaptionCreate" xml:space="preserve">
+    <value>Transaktion anlegen</value>
+  </data>
+  <data name="RequestDialogCaptionEdit" xml:space="preserve">
+    <value>Transaktion bearbeiten</value>
+  </data>
+  <data name="RequestManagementChangeAccountQuestionCaption" xml:space="preserve">
+    <value>Account wechseln</value>
+  </data>
+  <data name="RequestManagementChangeAccountQuestionMessage" xml:space="preserve">
+    <value>Möchten Sie ihre Änderungen speichern, bevor sie den Account wechseln?</value>
+  </data>
+  <data name="RequestManagementDeleteRequestQuestionCaption" xml:space="preserve">
+    <value>Transaktion löschen</value>
+  </data>
+  <data name="RequestManagementDeleteRequestQuestionMessage" xml:space="preserve">
+    <value>Sind sie sicher, dass sie den ausgewählten Eintrag löschen möchten?</value>
   </data>
   <data name="RequestManagementPageCaptionFormat" xml:space="preserve">
     <value>Transaktionsverwaltung - {0}</value>

@@ -120,6 +120,9 @@
   <data name="AccountManagementPage_CreateNewAccountCommandCaption" xml:space="preserve">
     <value>Neu</value>
   </data>
+  <data name="AccountManagementPage_GotoCurrentMonthCommandCaption" xml:space="preserve">
+    <value>Zum aktuellen Monat</value>
+  </data>
   <data name="AccountManagementPage_OpenAccountCommandCaption" xml:space="preserve">
     <value>Öffnen</value>
   </data>

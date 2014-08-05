@@ -19,7 +19,7 @@ namespace MoneyManager.ViewModels.AccountManagement
             CancelCommand = new CommandViewModel(() => cancel(this));
             SelectFileCommand = new CommandViewModel(OnSelectFileCommand);
 
-            Name = "Mein Konto";
+            Name = Properties.Resources.AccountManagementMyAccountDefaultName;
             Path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Konto.mmdb");
 
             UpdateCommandStates();

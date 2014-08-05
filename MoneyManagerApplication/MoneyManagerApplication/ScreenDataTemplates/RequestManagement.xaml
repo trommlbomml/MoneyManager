@@ -39,6 +39,9 @@
 
                 <Button Command="{Binding NextMonthCommand}" Content="&gt;" />
 
+                <Button Command="{Binding GotoCurrentMonthCommand}" 
+                        Content="{x:Static properties:Resources.AccountManagementPage_GotoCurrentMonthCommandCaption}" />
+
             </StackPanel>
             
             <DataGrid Grid.Row="2" 

@@ -61,11 +61,29 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mein Konto.
+        /// </summary>
+        public static string AccountManagementMyAccountDefaultName {
+            get {
+                return ResourceManager.GetString("AccountManagementMyAccountDefaultName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Moneymanager - Accountverwaltung.
         /// </summary>
         public static string AccountManagementPageCaption {
             get {
                 return ResourceManager.GetString("AccountManagementPageCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neue Kategorie.
+        /// </summary>
+        public static string CategoryManagementNewCategoryDefaultName {
+            get {
+                return ResourceManager.GetString("CategoryManagementNewCategoryDefaultName", resourceCulture);
             }
         }
         
@@ -84,6 +102,123 @@ namespace MoneyManager.ViewModels.Properties {
         public static string MoneyValueFormat {
             get {
                 return ResourceManager.GetString("MoneyValueFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to April.
+        /// </summary>
+        public static string MonthNameApril {
+            get {
+                return ResourceManager.GetString("MonthNameApril", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to August.
+        /// </summary>
+        public static string MonthNameAugust {
+            get {
+                return ResourceManager.GetString("MonthNameAugust", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dezember.
+        /// </summary>
+        public static string MonthNameDecember {
+            get {
+                return ResourceManager.GetString("MonthNameDecember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Februar.
+        /// </summary>
+        public static string MonthNameFebuary {
+            get {
+                return ResourceManager.GetString("MonthNameFebuary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Januar.
+        /// </summary>
+        public static string MonthNameJanuary {
+            get {
+                return ResourceManager.GetString("MonthNameJanuary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Juli.
+        /// </summary>
+        public static string MonthNameJuly {
+            get {
+                return ResourceManager.GetString("MonthNameJuly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Juni.
+        /// </summary>
+        public static string MonthNameJune {
+            get {
+                return ResourceManager.GetString("MonthNameJune", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to März.
+        /// </summary>
+        public static string MonthNameMarch {
+            get {
+                return ResourceManager.GetString("MonthNameMarch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mai.
+        /// </summary>
+        public static string MonthNameMay {
+            get {
+                return ResourceManager.GetString("MonthNameMay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to November.
+        /// </summary>
+        public static string MonthNameNovember {
+            get {
+                return ResourceManager.GetString("MonthNameNovember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oktober.
+        /// </summary>
+        public static string MonthNameOctober {
+            get {
+                return ResourceManager.GetString("MonthNameOctober", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to September.
+        /// </summary>
+        public static string MonthNameSeptember {
+            get {
+                return ResourceManager.GetString("MonthNameSeptember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;Keine Kategorie&gt;.
+        /// </summary>
+        public static string NoCategory {
+            get {
+                return ResourceManager.GetString("NoCategory", resourceCulture);
             }
         }
         
@@ -121,6 +256,60 @@ namespace MoneyManager.ViewModels.Properties {
         public static string RequestDayOfMonthFormat {
             get {
                 return ResourceManager.GetString("RequestDayOfMonthFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaktion anlegen.
+        /// </summary>
+        public static string RequestDialogCaptionCreate {
+            get {
+                return ResourceManager.GetString("RequestDialogCaptionCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaktion bearbeiten.
+        /// </summary>
+        public static string RequestDialogCaptionEdit {
+            get {
+                return ResourceManager.GetString("RequestDialogCaptionEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account wechseln.
+        /// </summary>
+        public static string RequestManagementChangeAccountQuestionCaption {
+            get {
+                return ResourceManager.GetString("RequestManagementChangeAccountQuestionCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Möchten Sie ihre Änderungen speichern, bevor sie den Account wechseln?.
+        /// </summary>
+        public static string RequestManagementChangeAccountQuestionMessage {
+            get {
+                return ResourceManager.GetString("RequestManagementChangeAccountQuestionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaktion löschen.
+        /// </summary>
+        public static string RequestManagementDeleteRequestQuestionCaption {
+            get {
+                return ResourceManager.GetString("RequestManagementDeleteRequestQuestionCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sind sie sicher, dass sie den ausgewählten Eintrag löschen möchten?.
+        /// </summary>
+        public static string RequestManagementDeleteRequestQuestionMessage {
+            get {
+                return ResourceManager.GetString("RequestManagementDeleteRequestQuestionMessage", resourceCulture);
             }
         }
         
