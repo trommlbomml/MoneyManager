@@ -66,7 +66,13 @@
                     <DataGridTextColumn Header="{x:Static properties:Resources.RequestManagementPage_DataGridColumnValue}" 
                                         IsReadOnly="True"
                                         Binding="{Binding ValueAsString}"
-                                        Width="Auto"/>
+                                        Width="Auto">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Right" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
 

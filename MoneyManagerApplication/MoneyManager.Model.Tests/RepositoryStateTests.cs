@@ -45,7 +45,7 @@ namespace MoneyManager.Model.Tests
         public void CloseTwiceRepositoryThrowsException()
         {
             var repository = RepositoryFactory.CreateRepository();
-            repository.Create(RespositoryTests.GetUniqueFilePath(), "DefaultName");
+            repository.Create(RepositoryTestsBase.GetUniqueFilePath(), "DefaultName");
             repository.Close();
 
             Assert.That(repository.Close, Throws.InstanceOf<ApplicationException>());
@@ -56,7 +56,7 @@ namespace MoneyManager.Model.Tests
         public void OpenCreatedRepositoryThrowsException()
         {
             var repository = RepositoryFactory.CreateRepository();
-            var uniqueFilePath = RespositoryTests.GetUniqueFilePath(true);
+            var uniqueFilePath = RepositoryTestsBase.GetUniqueFilePath(true);
             repository.Create(uniqueFilePath, "DefaultName");
             
             Assert.That(() => repository.Open(""), Throws.InstanceOf<ApplicationException>());
@@ -67,7 +67,7 @@ namespace MoneyManager.Model.Tests
         public void CreateRepositoryTwiceThrowsException()
         {
             var repository = RepositoryFactory.CreateRepository();
-            repository.Create(RespositoryTests.GetUniqueFilePath(), "DefaultName");
+            repository.Create(RepositoryTestsBase.GetUniqueFilePath(), "DefaultName");
 
             Assert.That(() => repository.Create("", "DefaultName"), Throws.InstanceOf<ApplicationException>());
         }
@@ -113,7 +113,7 @@ namespace MoneyManager.Model.Tests
         {
             var repository = RepositoryFactory.CreateRepository();
 
-            var targetFilePathWithoutExtension = RespositoryTests.GetUniqueFilePath();
+            var targetFilePathWithoutExtension = RepositoryTestsBase.GetUniqueFilePath();
             var targetFilePathWithExtension = targetFilePathWithoutExtension + SystemConstants.DatabaseExtension;
 
             repository.Create(withExtension ? targetFilePathWithExtension : targetFilePathWithoutExtension, "MyRepository");
@@ -130,7 +130,7 @@ namespace MoneyManager.Model.Tests
         {
             var repository = RepositoryFactory.CreateRepository();
 
-            var targetFilePathWithoutExtension = RespositoryTests.GetUniqueFilePath();
+            var targetFilePathWithoutExtension = RepositoryTestsBase.GetUniqueFilePath();
             var targetFilePathWithExtension = targetFilePathWithoutExtension + SystemConstants.DatabaseExtension;
 
             File.WriteAllText(targetFilePathWithExtension, "Test");
@@ -148,7 +148,7 @@ namespace MoneyManager.Model.Tests
         {
             var repository = RepositoryFactory.CreateRepository();
 
-            Assert.That(() => repository.Create(RespositoryTests.GetUniqueFilePath(true), name), Throws.InstanceOf<ArgumentException>());
+            Assert.That(() => repository.Create(RepositoryTestsBase.GetUniqueFilePath(true), name), Throws.InstanceOf<ArgumentException>());
         }
 
         [TestCase(true)]
@@ -156,7 +156,7 @@ namespace MoneyManager.Model.Tests
         public void OpenCreatedRepository(bool close)
         {
             var repository = RepositoryFactory.CreateRepository();
-            var uniqueFilePath = RespositoryTests.GetUniqueFilePath(true);
+            var uniqueFilePath = RepositoryTestsBase.GetUniqueFilePath(true);
             repository.Create(uniqueFilePath, "Test");
             if (close) repository.Close();
 
@@ -167,7 +167,7 @@ namespace MoneyManager.Model.Tests
         public void OpenTwiceThrowsException()
         {
             var repository = RepositoryFactory.CreateRepository();
-            var uniqueFilePath = RespositoryTests.GetUniqueFilePath(true);
+            var uniqueFilePath = RepositoryTestsBase.GetUniqueFilePath(true);
             repository.Create(uniqueFilePath, "Test");
             repository.Close();
 

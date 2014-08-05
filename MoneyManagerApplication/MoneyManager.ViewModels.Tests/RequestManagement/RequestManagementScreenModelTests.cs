@@ -50,6 +50,11 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(screenModel.Requests.SelectableValues[0].Category, Is.EqualTo(Properties.Resources.NoCategory));
             Assert.That(screenModel.Requests.SelectableValues[1].Category, Is.EqualTo("Category2"));
             Assert.That(screenModel.Requests.SelectableValues[2].Category, Is.EqualTo(Properties.Resources.NoCategory));
+
+            foreach (var request in screenModel.Requests.SelectableValues)
+            {
+                Assert.That(request.ValueAsString, Is.EqualTo(string.Format(Properties.Resources.MoneyValueFormat, request.Value)));
+            }
         }
 
         [TestCase(2012, 3, 2012, 4)]
@@ -281,7 +286,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                 entity.PersistentId.Returns(string.Format("Entity={0}", i));
                 entity.Date.Returns(new DateTime(year, month, 5));
                 entity.Description.Returns("Description");
-                entity.Value.Returns(i*2.56);
+                entity.Value.Returns((i-1)*2.30);
 
                 if (i%2 == 0)
                 {

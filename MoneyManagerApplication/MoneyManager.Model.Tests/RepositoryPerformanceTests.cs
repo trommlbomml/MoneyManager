@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using MoneyManager.Interfaces;
 using NUnit.Framework;
@@ -29,7 +30,7 @@ namespace MoneyManager.Model.Tests
 
             var elapsedTime = stopwatch.Elapsed;
 
-            Trace.TraceInformation(stopwatch.Elapsed.TotalSeconds.ToString());
+            Trace.TraceInformation(stopwatch.Elapsed.TotalSeconds.ToString(CultureInfo.InvariantCulture));
             Assert.That(elapsedTime, Is.LessThan(TimeSpan.FromSeconds(1)), "Performance for Save to low. ");
         }
     }

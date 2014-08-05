@@ -4,6 +4,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:properties="clr-namespace:MoneyManagerApplication.Properties"
+        xmlns:requestManagement="clr-namespace:MoneyManager.ViewModels.RequestManagement;assembly=MoneyManager.ViewModels"
         Title="{Binding Caption}" 
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
@@ -48,8 +49,8 @@
                   ItemsSource="{Binding Categories.SelectableValues}"
                   SelectedItem="{Binding Categories.SelectedValue}">
             <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}"></TextBlock>
+                <DataTemplate DataType="{x:Type requestManagement:CategoryViewModel}">
+                    <TextBlock Text="{Binding Name}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>

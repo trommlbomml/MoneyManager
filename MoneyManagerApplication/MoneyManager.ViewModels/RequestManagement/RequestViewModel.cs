@@ -38,7 +38,11 @@ namespace MoneyManager.ViewModels.RequestManagement
         public double Value
         {
             get { return _value; }
-            set { SetBackingField("Value", ref _value, value, o => OnValueChanged()); }
+            set
+            {
+                SetBackingField("Value", ref _value, value);
+                OnValueChanged();
+            }
         }
 
         private void OnValueChanged()

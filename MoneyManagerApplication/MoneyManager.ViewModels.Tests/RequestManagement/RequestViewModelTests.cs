@@ -28,22 +28,27 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(viewModel.ValueAsString, Is.EqualTo(expectedValueAsString));
         }
 
-        [Test]
-        public void Refresh()
+        [TestCase(0.0d)]
+        [TestCase(12.5d)]
+        public void Refresh(double value)
         {
             var viewModel = new RequestViewModel(Application, DefaultEntityId);
 
+            var requestDate = new DateTime(2014, 5, 5);
+
             var requestEntity = Substitute.For<RequestEntity>();
-            requestEntity.Date.Returns(new DateTime(2014, 5, 5));
-            requestEntity.Value.Returns(12.5);
+            requestEntity.Date.Returns(requestDate);
+            requestEntity.Value.Returns(value);
             requestEntity.Description.Returns("TestDescription");
 
             Repository.QueryRequest(DefaultEntityId).Returns(requestEntity);
 
             viewModel.Refresh();
             Repository.Received(1).QueryRequest(DefaultEntityId);
-            Assert.That(viewModel.Date, Is.EqualTo(new DateTime(2014, 5, 5)));
-            Assert.That(viewModel.Value, Is.EqualTo(12.5));
+            Assert.That(viewModel.Date, Is.EqualTo(requestDate));
+            Assert.That(viewModel.DateAsString, Is.EqualTo(string.Format(Properties.Resources.RequestDateFormat, requestDate)));
+            Assert.That(viewModel.Value, Is.EqualTo(value));
+            Assert.That(viewModel.ValueAsString, Is.EqualTo(string.Format(Properties.Resources.MoneyValueFormat, value)));
             Assert.That(viewModel.Description, Is.EqualTo("TestDescription"));
         }
 
