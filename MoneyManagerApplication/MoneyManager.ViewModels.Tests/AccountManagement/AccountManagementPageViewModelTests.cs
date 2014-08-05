@@ -136,18 +136,18 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
 
             if (accept)
             {
-                WindowManager.ShowOpenFileDialog(Arg.Any<string>()).Returns(expectedPath);
+                WindowManager.ShowOpenFileDialog(Arg.Any<string>(), Arg.Any<string>()).Returns(expectedPath);
             }
             else
             {
-                WindowManager.ShowOpenFileDialog(Arg.Any<string>()).Returns("");
+                WindowManager.ShowOpenFileDialog(Arg.Any<string>(), Arg.Any<string>()).Returns("");
                 expectedPath = "";
             }
 
             var viewModel = new AccountManagementPageViewModel(Application);
             viewModel.OpenAccountCommand.Execute(null);
 
-            WindowManager.Received(1).ShowOpenFileDialog(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            WindowManager.Received(1).ShowOpenFileDialog(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Properties.Resources.AccountManagementFilterOpenAccount);
 
             if (accept)
             {
@@ -166,7 +166,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
         [Test]
         public void OpenCommandWithException()
         {
-            WindowManager.ShowOpenFileDialog(Arg.Any<string>()).Returns("TestPath");
+            WindowManager.ShowOpenFileDialog(Arg.Any<string>(), Arg.Any<string>()).Returns("TestPath");
             Repository.When(r => r.Open(Arg.Any<string>())).Do(c => {throw new ApplicationException("TestMessage");});
 
             var viewModel = new AccountManagementPageViewModel(Application);

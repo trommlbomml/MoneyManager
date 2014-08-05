@@ -40,8 +40,23 @@ namespace MoneyManager.Interfaces
         /// <param name="cancel">Action to do when cancelling</param>
         void ShowConfirmation(string caption, string text, Action yes, Action no, Action cancel);
 
-        string ShowSaveFileDialog(string initialDirectory, string fileName);
+        /// <summary>
+        /// Shows a Save File Dialog.
+        /// </summary>
+        /// <param name="initialDirectory">Startup directory</param>
+        /// <param name="fileName">Provided Filename for default</param>
+        /// <param name="filtersExpression">Filter expression</param>
+        /// <param name="caption">Caption of Dialog</param>
+        /// <returns>Selectd File Name. Is Null when canceled.</returns>
+        string ShowSaveFileDialog(string initialDirectory, string fileName, string filtersExpression, string caption = null);
 
-        string ShowOpenFileDialog(string initialDirectory);
+        /// <summary>
+        /// Shows a Open File Dialog
+        /// </summary>
+        /// <param name="initialDirectory">Startup directory</param>
+        /// <param name="filtersExpression">Filter expression</param>
+        /// <param name="caption">Caption of Dialog</param>
+        /// <returns>Selectd File Name. Is Null when canceled.</returns>
+        string ShowOpenFileDialog(string initialDirectory, string filtersExpression, string caption = null);
     }
 }

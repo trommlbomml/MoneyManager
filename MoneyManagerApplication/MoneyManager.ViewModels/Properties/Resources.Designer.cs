@@ -61,6 +61,15 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kontodatei (*.mmdb)|*.mmdb|Alle Dateien (*.*)|*.*.
+        /// </summary>
+        public static string AccountManagementFilterOpenAccount {
+            get {
+                return ResourceManager.GetString("AccountManagementFilterOpenAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mein Konto.
         /// </summary>
         public static string AccountManagementMyAccountDefaultName {

@@ -27,7 +27,7 @@ namespace MoneyManager.ViewModels.AccountManagement
 
         private void OnSelectFileCommand()
         {
-            var result = _applicationViewModel.WindowManager.ShowSaveFileDialog(System.IO.Path.GetDirectoryName(Path), Path);
+            var result = _applicationViewModel.WindowManager.ShowSaveFileDialog(System.IO.Path.GetDirectoryName(Path), Path, Properties.Resources.AccountManagementFilterOpenAccount);
             if (!string.IsNullOrEmpty(result))
             {
                 Path = result;

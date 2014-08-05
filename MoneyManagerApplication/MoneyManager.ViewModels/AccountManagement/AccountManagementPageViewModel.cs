@@ -71,7 +71,7 @@ namespace MoneyManager.ViewModels.AccountManagement
         {
             ExecuteWithErrorHandling(() =>
             {
-                var result = Application.WindowManager.ShowOpenFileDialog(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                var result = Application.WindowManager.ShowOpenFileDialog(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Properties.Resources.AccountManagementFilterOpenAccount);
                 if (string.IsNullOrEmpty(result)) return;
                 Application.Repository.Open(result);
                 Application.ApplicationSettings.UpdateRecentAccountInformation(result, DateTime.Now);

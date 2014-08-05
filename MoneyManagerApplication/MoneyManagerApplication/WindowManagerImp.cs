@@ -1,7 +1,10 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Interop;
 using Microsoft.Win32;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.AccountManagement;
@@ -10,6 +13,12 @@ using MoneyManagerApplication.Dialogs;
 
 namespace MoneyManagerApplication
 {
+    static class WinApi
+    {
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetActiveWindow();
+    }
+
     class WindowManagerImp : WindowManager
     {
         private static readonly Dictionary<Type, Func<Window>> CreateWindowFromDataContextType = new Dictionary<Type, Func<Window>>
@@ -28,6 +37,12 @@ namespace MoneyManagerApplication
             }
 
             throw new InvalidOperationException(string.Format("There is no Window for type {0}", type.FullName));
+        }
+
+        private static Window GetActiveWindow()
+        {
+            var active = WinApi.GetActiveWindow();
+            return Application.Current.Windows.OfType<Window>().SingleOrDefault(window => new WindowInteropHelper(window).Handle == active);
         }
 
         public void ShowDialog(object dataContext)
@@ -73,29 +88,33 @@ namespace MoneyManagerApplication
             }
         }
 
-        public string ShowSaveFileDialog(string initialDirectory, string fileName)
+        public string ShowSaveFileDialog(string initialDirectory, string fileName, string filterExpression, string caption = null)
         {
             var saveFileDialog = new SaveFileDialog
             {
                 AddExtension = true,
                 DefaultExt = SystemConstants.DatabaseExtension,
                 InitialDirectory = initialDirectory,
-                FileName = fileName
+                FileName = fileName,
+                Filter = filterExpression,
+                Title = caption
             };
 
-            return saveFileDialog.ShowDialog() == true ? saveFileDialog.FileName : string.Empty;
+            return saveFileDialog.ShowDialog(GetActiveWindow()) == true ? saveFileDialog.FileName : string.Empty;
         }
 
-        public string ShowOpenFileDialog(string initialDirectory)
+        public string ShowOpenFileDialog(string initialDirectory, string filterExpression, string caption = null)
         {
             var openFileDialog = new OpenFileDialog
             {
                 AddExtension = true,
                 DefaultExt = SystemConstants.DatabaseExtension,
-                InitialDirectory = initialDirectory
+                InitialDirectory = initialDirectory,
+                Filter = filterExpression,
+                Title = caption
             };
 
-            return openFileDialog.ShowDialog() == true ? openFileDialog.FileName : string.Empty;
+            return openFileDialog.ShowDialog(GetActiveWindow()) == true ? openFileDialog.FileName : string.Empty;
         }
     }
 }

@@ -84,12 +84,12 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             if (accept)
             {
                 expectedPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "test.mmdb");
-                WindowManager.ShowSaveFileDialog(Arg.Any<string>(), Arg.Any<string>())
+                WindowManager.ShowSaveFileDialog(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                     .Returns(expectedPath);
             }
             else
             {
-                WindowManager.ShowSaveFileDialog(Arg.Any<string>(), Arg.Any<string>())
+                WindowManager.ShowSaveFileDialog(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                     .Returns("");
             }
             
