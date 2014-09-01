@@ -126,6 +126,12 @@
   <data name="AccountManagementPageCaption" xml:space="preserve">
     <value>Moneymanager - Accountverwaltung</value>
   </data>
+  <data name="AccountManagementRemoveAccountCaption" xml:space="preserve">
+    <value>Bestehenden Account entfernen</value>
+  </data>
+  <data name="AccountManagementRemoveAccountMessage" xml:space="preserve">
+    <value>Möchten Sie wirklich den bestehenden Account aus der Liste entfernen? Die Datei wird dabei nicht gelöscht.</value>
+  </data>
   <data name="CategoryManagementNewCategoryDefaultName" xml:space="preserve">
     <value>Neue Kategorie</value>
   </data>

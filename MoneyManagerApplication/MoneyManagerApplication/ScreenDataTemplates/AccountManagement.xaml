@@ -40,6 +40,11 @@
                     Margin="5"
                     Width="100"
                     Height="100"/>
+                <Button Content="{x:Static properties:Resources.AccountManagementPage_RemoveAccountCommandCaption}" 
+                    Command="{Binding RemoveRecentAccountCommand}"
+                    Margin="5"
+                    Width="100"
+                    Height="100"/>
             </StackPanel>
             
             <ListBox Grid.Row="1" 

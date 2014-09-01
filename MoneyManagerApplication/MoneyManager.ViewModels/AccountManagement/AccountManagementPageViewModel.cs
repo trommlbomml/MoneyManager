@@ -16,12 +16,24 @@ namespace MoneyManager.ViewModels.AccountManagement
             CreateNewAccountCommand = new CommandViewModel(OnCreateNewAccountCommand);
             OpenRecentAccountCommand = new CommandViewModel(OnOpenRecentAccountCommand);
             OpenAccountCommand = new CommandViewModel(OnOpenAccountCommand);
+            RemoveRecentAccountCommand = new CommandViewModel(OnRemoveRecentAccountCommand);
 
             UpdateCommandStates();
 
             Caption = Properties.Resources.AccountManagementPageCaption;
 
             Accounts.PropertyChanged += OnAccountsChanged;
+        }
+
+        private void OnRemoveRecentAccountCommand()
+        {
+            Application.WindowManager.ShowQuestion(Properties.Resources.AccountManagementRemoveAccountCaption, 
+                                                   Properties.Resources.AccountManagementRemoveAccountMessage, 
+            () =>
+            {
+                Application.ApplicationSettings.DeleteRecentAccountInformation(Accounts.SelectedValue.Path);
+                Accounts.RemoveSelectedValue();
+            }, () => {});
         }
 
         private void CreateAccountsEntries()
@@ -45,6 +57,7 @@ namespace MoneyManager.ViewModels.AccountManagement
         {
             CreateNewAccountCommand.IsEnabled = true;
             OpenRecentAccountCommand.IsEnabled = Accounts.SelectedValue != null;
+            RemoveRecentAccountCommand.IsEnabled = Accounts.SelectedValue != null;
             OpenAccountCommand.IsEnabled = true;
         }
 
@@ -121,5 +134,7 @@ namespace MoneyManager.ViewModels.AccountManagement
         public CommandViewModel OpenRecentAccountCommand { get; private set; }
 
         public CommandViewModel OpenAccountCommand { get; private set; }
+
+        public CommandViewModel RemoveRecentAccountCommand { get; private set; }
     }
 }

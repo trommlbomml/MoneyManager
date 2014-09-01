@@ -88,6 +88,24 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bestehenden Account entfernen.
+        /// </summary>
+        public static string AccountManagementRemoveAccountCaption {
+            get {
+                return ResourceManager.GetString("AccountManagementRemoveAccountCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Möchten Sie wirklich den bestehenden Account aus der Liste entfernen? Die Datei wird dabei nicht gelöscht..
+        /// </summary>
+        public static string AccountManagementRemoveAccountMessage {
+            get {
+                return ResourceManager.GetString("AccountManagementRemoveAccountMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Neue Kategorie.
         /// </summary>
         public static string CategoryManagementNewCategoryDefaultName {

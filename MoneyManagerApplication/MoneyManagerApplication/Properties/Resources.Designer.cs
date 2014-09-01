@@ -97,6 +97,15 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entfernen.
+        /// </summary>
+        public static string AccountManagementPage_RemoveAccountCommandCaption {
+            get {
+                return ResourceManager.GetString("AccountManagementPage_RemoveAccountCommandCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Erstellen.
         /// </summary>
         public static string AccountManagementWindow_CreateCommandCaption {

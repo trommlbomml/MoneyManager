@@ -129,6 +129,9 @@
   <data name="AccountManagementPage_OpenRecentAccountCommandCaption" xml:space="preserve">
     <value>Bestehend öffnen</value>
   </data>
+  <data name="AccountManagementPage_RemoveAccountCommandCaption" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
   <data name="AccountManagementWindow_CreateCommandCaption" xml:space="preserve">
     <value>Erstellen</value>
   </data>
