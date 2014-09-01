@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                     xmlns:requestManagement="clr-namespace:MoneyManager.ViewModels.RequestManagement;assembly=MoneyManager.ViewModels"
-                    xmlns:properties="clr-namespace:MoneyManagerApplication.Properties">
+                    xmlns:properties="clr-namespace:MoneyManagerApplication.Properties"
+                    xmlns:extensions="clr-namespace:MoneyManagerApplication.Extensions">
     
     <DataTemplate DataType="{x:Type requestManagement:RequestManagementPageViewModel}">
         
@@ -48,6 +49,7 @@
                       AutoGenerateColumns="False" 
                       ItemsSource="{Binding Requests.SelectableValues}"
                       SelectedItem="{Binding Requests.SelectedValue, Mode=TwoWay}"
+                      extensions:Commands.DataGridDoubleClickCommand="{Binding EditRequestCommand}"
                       IsReadOnly="True"
                       SelectionMode="Single">
                 <DataGrid.Columns>

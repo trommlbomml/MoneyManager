@@ -62,6 +62,7 @@
     <Compile Include="Dialogs\RequestDialog.xaml.cs">
       <DependentUpon>RequestDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\Commands.cs" />
     <Compile Include="WindowManagerImp.cs" />
     <Page Include="Dialogs\CategoriesManagementDialog.xaml">
       <SubType>Designer</SubType>
