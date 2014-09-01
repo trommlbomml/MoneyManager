@@ -133,7 +133,7 @@ namespace MoneyManager.Model.Tests
             var targetFilePathWithoutExtension = RepositoryTestsBase.GetUniqueFilePath();
             var targetFilePathWithExtension = targetFilePathWithoutExtension + SystemConstants.DatabaseExtension;
 
-            File.WriteAllText(targetFilePathWithExtension, "Test");
+            File.WriteAllText(targetFilePathWithExtension, @"Test");
 
             var targetFileToSet = withExtension ? targetFilePathWithExtension : targetFilePathWithoutExtension;
 

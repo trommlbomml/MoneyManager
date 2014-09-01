@@ -7,7 +7,7 @@ using MoneyManager.Interfaces;
 
 namespace MoneyManager.Model
 {
-    internal class RepositoryImp : Repository
+    internal class RepositoryImp : Repository, IDisposable
     {
         private string _currentRepositoryName;
         private readonly List<RequestEntityImp> _allRequests;
@@ -51,10 +51,34 @@ namespace MoneyManager.Model
             }
         }
 
+        private static void LockFile(string filePath)
+        {
+            var containingFolder = Path.GetDirectoryName(filePath);
+// ReSharper disable AssignNullToNotNullAttribute
+            var targetFolder = Path.Combine(containingFolder, ".lock");
+// ReSharper restore AssignNullToNotNullAttribute
+
+            if (Directory.Exists(targetFolder)) throw new ApplicationException(string.Format(Properties.Resources.ErrorLockingFile, filePath));
+
+            Directory.CreateDirectory(targetFolder);
+        }
+
+        private void UnlockFile(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(FilePath)) return;
+
+            var containingFolder = Path.GetDirectoryName(filePath);
+// ReSharper disable AssignNullToNotNullAttribute
+            var targetFolder = Path.Combine(containingFolder, ".lock");
+// ReSharper restore AssignNullToNotNullAttribute
+
+            if (Directory.Exists(targetFolder)) Directory.Delete(targetFolder);
+        }
+
         public void Create(string path, string name)
         {
             if (IsOpen) throw new ApplicationException("Repository already open. Close first to create new.");
-            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Invalid repository name. Must contain visible characters", "name");
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException(@"Invalid repository name. Must contain visible characters", "name");
 
             var targetFilePath = !SystemConstants.DatabaseExtension.Equals(Path.GetExtension(path))
                                             ? path + SystemConstants.DatabaseExtension
@@ -63,6 +87,8 @@ namespace MoneyManager.Model
             if (File.Exists(targetFilePath)) throw new ApplicationException("File already exists.");
 
             InternalSafe(targetFilePath, name);
+
+            LockFile(FilePath);
 
             _currentRepositoryName = name;
             FilePath = targetFilePath;
@@ -74,6 +100,7 @@ namespace MoneyManager.Model
 
             if (!File.Exists(path)) throw new ApplicationException("Path does not exist.");
 
+            LockFile(path);
             FilePath = path;
 
             var document = XDocument.Load(path);
@@ -100,6 +127,7 @@ namespace MoneyManager.Model
         {
             EnsureRepositoryOpen("Close");
 
+            UnlockFile(FilePath);
             FilePath = null;
             ClearAll();
         }
@@ -116,7 +144,7 @@ namespace MoneyManager.Model
             EnsureRepositoryOpen("QueryRequest");
 
             var entity = _allRequests.SingleOrDefault(r => r.PersistentId == persistentId);
-            if (entity == null) throw new ArgumentException("Entity with Id does not exist", persistentId);
+            if (entity == null) throw new ArgumentException(@"Entity with Id does not exist", persistentId);
 
             return entity;
         }
@@ -166,7 +194,7 @@ namespace MoneyManager.Model
             EnsureRepositoryOpen("QueryCategory");
 
             var entity = _allCategories.SingleOrDefault(c => c.PersistentId == persistentId);
-            if (entity == null) throw new ArgumentException("Entity with Id does not exist", persistentId);
+            if (entity == null) throw new ArgumentException(@"Entity with Id does not exist", persistentId);
 
             return entity;
         }
@@ -176,7 +204,7 @@ namespace MoneyManager.Model
             EnsureRepositoryOpen("CreateRequest");
 
             var category = _allCategories.SingleOrDefault(c => c.PersistentId == persistentId);
-            if (category == null) throw new ArgumentException("The category does not exist or more than once", "persistentId");
+            if (category == null) throw new ArgumentException(@"The category does not exist or more than once", "persistentId");
 
             category.Name = name;
         }
@@ -227,7 +255,7 @@ namespace MoneyManager.Model
             EnsureRepositoryOpen("UpdateRequest");
 
             var request = _allRequests.SingleOrDefault(r => r.PersistentId == persistentId);
-            if (request == null) throw new ArgumentException("Entity with Id does not exist", persistentId);
+            if (request == null) throw new ArgumentException(@"Entity with Id does not exist", persistentId);
 
             request.Date = data.Date;
             request.Description = data.Description;
@@ -239,6 +267,25 @@ namespace MoneyManager.Model
         {
             _allRequests.Clear();
             _allCategories.Clear();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~RepositoryImp()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                UnlockFile(FilePath);
+            }
         }
     }
 }
