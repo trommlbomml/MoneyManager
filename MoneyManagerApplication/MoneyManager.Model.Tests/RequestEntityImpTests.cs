@@ -64,7 +64,7 @@ namespace MoneyManager.Model.Tests
                 new XAttribute("Value", value.ToString(CultureInfo.InvariantCulture)),
                 new XAttribute("CategoryId", categoryId));
 
-            var request = new RequestEntityImp(element, categories);
+            var request = new RequestEntityImp(element, categories, Enumerable.Empty<RegularyRequestEntityImp>());
 
             Assert.That(request.PersistentId, Is.EqualTo(persistentId));
             Assert.That(request.Date, Is.EqualTo(dateTime));

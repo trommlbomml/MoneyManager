@@ -31,5 +31,10 @@ namespace MoneyManager.Interfaces
         /// Category.
         /// </summary>
         CategoryEntity Category { get; }
+
+        /// <summary>
+        /// Wenn dieser Betrag auf Basis einer regelmäßigen Transaktion basiert, ist dieses Property gesetzt.
+        /// </summary>
+        RegularyRequestEntity RegularyRequest { get; }
     }
 }

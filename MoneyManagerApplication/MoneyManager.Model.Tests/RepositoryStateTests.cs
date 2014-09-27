@@ -13,6 +13,14 @@ namespace MoneyManager.Model.Tests
     [TestFixture]
     public class RepositoryStateTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            var targetFolder = Path.GetTempPath();
+            var lockDirectory = Path.Combine(targetFolder, ".lock");
+            if (Directory.Exists(lockDirectory)) Directory.Delete(lockDirectory);
+        }
+
         [TearDown]
         public void TearDown()
         {
@@ -122,6 +130,8 @@ namespace MoneyManager.Model.Tests
             AssertFileContentIsCorrect(targetFilePathWithExtension, "MyRepository");
             Assert.That(repository.Name, Is.EqualTo("MyRepository"));
             Assert.That(repository.IsOpen, Is.True);
+
+            repository.Close();
         }
 
         [TestCase(true)]

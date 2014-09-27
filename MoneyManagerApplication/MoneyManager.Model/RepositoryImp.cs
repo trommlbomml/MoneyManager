@@ -11,12 +11,14 @@ namespace MoneyManager.Model
     {
         private string _currentRepositoryName;
         private readonly List<RequestEntityImp> _allRequests;
-        private readonly List<CategoryEntityImp> _allCategories; 
+        private readonly List<CategoryEntityImp> _allCategories;
+        private readonly List<RegularyRequestEntityImp> _allRegularyRequests; 
 
         public RepositoryImp()
         {
             _allRequests = new List<RequestEntityImp>();
             _allCategories = new List<CategoryEntityImp>();
+            _allRegularyRequests = new List<RegularyRequestEntityImp>();
         }
 
         internal List<RequestEntityImp> AllRequests {get { return _allRequests; }}
@@ -88,7 +90,7 @@ namespace MoneyManager.Model
 
             InternalSafe(targetFilePath, name);
 
-            LockFile(FilePath);
+            LockFile(targetFilePath);
 
             _currentRepositoryName = name;
             FilePath = targetFilePath;
@@ -109,7 +111,7 @@ namespace MoneyManager.Model
 
             _allCategories.AddRange(document.Root.Element("Categories").Elements("Category").Select(e => new CategoryEntityImp(e)));
 
-            _allRequests.AddRange(document.Root.Element("Requests").Elements("Request").Select(e => new RequestEntityImp(e, _allCategories)));
+            _allRequests.AddRange(document.Root.Element("Requests").Elements("Request").Select(e => new RequestEntityImp(e, _allCategories, _allRegularyRequests)));
 
 // ReSharper restore PossibleNullReferenceException
         }
@@ -243,6 +245,7 @@ namespace MoneyManager.Model
                 new XElement("MoneyManagerAccount",
                     new XAttribute("Name", name),
                     new XElement("Categories", _allCategories.Select(c => c.Serialize())),
+                    new XElement("RegularyRequests", _allRegularyRequests.Select(r => r.Serialize())),
                     new XElement("Requests", _allRequests.Select(r => r.Serialize()))
                     )
                 );
@@ -267,6 +270,7 @@ namespace MoneyManager.Model
         {
             _allRequests.Clear();
             _allCategories.Clear();
+            _allRegularyRequests.Clear();
         }
 
         public void Dispose()
