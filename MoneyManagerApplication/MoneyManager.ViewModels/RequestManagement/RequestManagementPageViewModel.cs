@@ -250,7 +250,6 @@ namespace MoneyManager.ViewModels.RequestManagement
         private void OnSaveCommand()
         {
             Application.Repository.Save();
-            Application.ApplicationContext.UpdateRecentAccountInformation(Application.Repository.FilePath);
         }
 
         private void OnDeleteRequestCommand()

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Xml;
 using MoneyManager.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace MoneyManager.Model.Tests
@@ -60,9 +61,12 @@ namespace MoneyManager.Model.Tests
         {
             CreateRequestsInRepository(new[] { new DateTime(2014, 1, 1) }, new[] { 10 });
 
+            Context.ClearReceivedCalls();
+
             Repository.Save();
             RepositoryStateTests.AssertFileContentIsCorrect(DatabaseFile, Repository.Name, Repository.AllRequests);
             Assert.That(Repository.FilePath, Is.EqualTo(DatabaseFile));
+            Context.Received(1).UpdateRecentAccountInformation(Repository.FilePath);
         }
 
         [Test]
@@ -84,8 +88,10 @@ namespace MoneyManager.Model.Tests
             CreateRequestsInRepository(new[] { new DateTime(2014, 1, 1) }, new[] { 10 });
             Repository.Save();
             Repository.Close();
+            Context.ClearReceivedCalls();
 
             Repository.Open(DatabaseFile);
+            Context.Received(1).UpdateRecentAccountInformation(Repository.FilePath);
             AssertRepositoryEqualsFileContent(DatabaseFile);
             Assert.That(Repository.FilePath, Is.EqualTo(DatabaseFile));
         }

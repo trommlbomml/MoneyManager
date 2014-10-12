@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Xml;
 using MoneyManager.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
@@ -13,9 +15,11 @@ namespace MoneyManager.Model.Tests
     [TestFixture]
     public class RepositoryStateTests
     {
+        private readonly ApplicationContext _context = RepositoryTestsBase.CreateApplicationContextMockup(true);
+
         private Repository CreateRepositoryFromFactory()
         {
-            return RepositoryFactory.CreateRepository(RepositoryTestsBase.CreateApplicationContextMockup(true));
+            return RepositoryFactory.CreateRepository(_context);
         }
 
         [SetUp]
@@ -127,6 +131,7 @@ namespace MoneyManager.Model.Tests
             var targetFilePathWithExtension = targetFilePathWithoutExtension + SystemConstants.DatabaseExtension;
 
             repository.Create(withExtension ? targetFilePathWithExtension : targetFilePathWithoutExtension, "MyRepository");
+            _context.Received(1).UpdateRecentAccountInformation(repository.FilePath);
 
             Assert.That(File.Exists(targetFilePathWithExtension));
             AssertFileContentIsCorrect(targetFilePathWithExtension, "MyRepository");

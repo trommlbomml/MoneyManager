@@ -60,6 +60,7 @@ namespace MoneyManager.Model
 
             _currentRepositoryName = name;
             FilePath = targetFilePath;
+            _applicationContext.UpdateRecentAccountInformation(FilePath);
         }
 
         public void Open(string path)
@@ -79,6 +80,8 @@ namespace MoneyManager.Model
             _allRequests.AddRange(document.Root.Element("Requests").Elements("Request").Select(e => new RequestEntityImp(e, _allCategories, _allRegularyRequests)));
 
 // ReSharper restore PossibleNullReferenceException
+
+            _applicationContext.UpdateRecentAccountInformation(FilePath);
         }
 
         public bool IsOpen { get { return !string.IsNullOrEmpty(FilePath); } }
@@ -104,6 +107,8 @@ namespace MoneyManager.Model
             EnsureRepositoryOpen("Save");
 
             InternalSafe(FilePath, _currentRepositoryName);
+
+            _applicationContext.UpdateRecentAccountInformation(FilePath);
         }
 
         private void InternalSafe(string fileName, string name)
