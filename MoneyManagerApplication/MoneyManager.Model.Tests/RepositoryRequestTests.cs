@@ -38,6 +38,11 @@ namespace MoneyManager.Model.Tests
             Assert.That(requests.Length, Is.EqualTo(expectedQueriedRequestCount));
         }
 
+        [Test]
+        public void QueryRequestsForSingleMonthWithRegularyRequests()
+        {
+        }
+
         [TestCase(true)]
         [TestCase(false)]
         public void QueryRequestsForMonthWithNoEntries(bool createRequestsInDifferentMonth)

@@ -7,42 +7,22 @@ using MoneyManager.Interfaces;
 
 namespace MoneyManager.Model
 {
-    internal class RepositoryImp : Repository, IDisposable
+    internal partial class RepositoryImp : Repository, IDisposable
     {
         private string _currentRepositoryName;
+        private readonly SingleUserFileLock _lockFile;
         private readonly List<RequestEntityImp> _allRequests;
         private readonly List<CategoryEntityImp> _allCategories;
         private readonly List<RegularyRequestEntityImp> _allRegularyRequests; 
 
-        public RepositoryImp()
+        public RepositoryImp(SingleUserFileLock lockFile)
         {
+            if (lockFile == null) throw new ArgumentNullException("lockFile");
+
+            _lockFile = lockFile;
             _allRequests = new List<RequestEntityImp>();
             _allCategories = new List<CategoryEntityImp>();
             _allRegularyRequests = new List<RegularyRequestEntityImp>();
-        }
-
-        internal List<RequestEntityImp> AllRequests {get { return _allRequests; }}
-
-        internal void AddRequest(RequestEntityImp requestEntityImp)
-        {
-            if (requestEntityImp == null) throw new ArgumentNullException("requestEntityImp");
-            if (_allRequests.Any(r => r.PersistentId == requestEntityImp.PersistentId))
-            {
-                throw new InvalidOperationException(string.Format("Entity with Id {0} alread exists.", requestEntityImp.PersistentId));
-            }
-
-            _allRequests.Add(requestEntityImp);
-        }
-
-        internal void AddCategory(CategoryEntityImp categoryEntity)
-        {
-            if (categoryEntity == null) throw new ArgumentNullException("categoryEntity");
-            if (_allCategories.Any(r => r.PersistentId == categoryEntity.PersistentId))
-            {
-                throw new InvalidOperationException(string.Format("Entity with Id {0} alread exists.", categoryEntity.PersistentId));
-            }
-
-            _allCategories.Add(categoryEntity);
         }
 
         private void EnsureRepositoryOpen(string action)
@@ -53,28 +33,14 @@ namespace MoneyManager.Model
             }
         }
 
-        private static void LockFile(string filePath)
+        private void LockFile(string filePath)
         {
-            var containingFolder = Path.GetDirectoryName(filePath);
-// ReSharper disable AssignNullToNotNullAttribute
-            var targetFolder = Path.Combine(containingFolder, ".lock");
-// ReSharper restore AssignNullToNotNullAttribute
-
-            if (Directory.Exists(targetFolder)) throw new ApplicationException(string.Format(Properties.Resources.ErrorLockingFile, filePath));
-
-            Directory.CreateDirectory(targetFolder);
+            if (!_lockFile.LockFile(filePath)) throw new ApplicationException(string.Format(Properties.Resources.ErrorLockingFile, filePath));
         }
 
         private void UnlockFile(string filePath)
         {
-            if (string.IsNullOrEmpty(filePath) || !File.Exists(FilePath)) return;
-
-            var containingFolder = Path.GetDirectoryName(filePath);
-// ReSharper disable AssignNullToNotNullAttribute
-            var targetFolder = Path.Combine(containingFolder, ".lock");
-// ReSharper restore AssignNullToNotNullAttribute
-
-            if (Directory.Exists(targetFolder)) Directory.Delete(targetFolder);
+            _lockFile.UnlockFile(filePath);
         }
 
         public void Create(string path, string name)
@@ -99,7 +65,6 @@ namespace MoneyManager.Model
         public void Open(string path)
         {
             if (!string.IsNullOrEmpty(FilePath)) throw new ApplicationException("Repository already open. Close first to open.");
-
             if (!File.Exists(path)) throw new ApplicationException("Path does not exist.");
 
             LockFile(path);
@@ -133,105 +98,7 @@ namespace MoneyManager.Model
             FilePath = null;
             ClearAll();
         }
-
-        public IEnumerable<RequestEntity> QueryRequestsForSingleMonth(int year, int month)
-        {
-            EnsureRepositoryOpen("QueryRequestsForSingleMonth");
-
-            return _allRequests.Where(r => r.Date.Year == year && r.Date.Month == month);
-        }
-
-        public RequestEntity QueryRequest(string persistentId)
-        {
-            EnsureRepositoryOpen("QueryRequest");
-
-            var entity = _allRequests.SingleOrDefault(r => r.PersistentId == persistentId);
-            if (entity == null) throw new ArgumentException(@"Entity with Id does not exist", persistentId);
-
-            return entity;
-        }
-
-        public string CreateRequest(RequestEntityData data)
-        {
-            EnsureRepositoryOpen("CreateRequest");
-
-            var request = new RequestEntityImp
-            {
-                Date = data.Date.Date,
-                Description = data.Description,
-                Value = data.Value,
-                Category = string.IsNullOrEmpty(data.CategoryPersistentId) ? null : _allCategories.Single(c => c.PersistentId == data.CategoryPersistentId)
-            };
-            _allRequests.Add(request);
-
-            return request.PersistentId;
-        }
-
-        public void DeleteRequest(string persistentId)
-        {
-            EnsureRepositoryOpen("DeleteRequest");
-
-            _allRequests.Remove(_allRequests.Single(r => r.PersistentId == persistentId));
-        }
-
-        public IEnumerable<CategoryEntity> QueryAllCategories()
-        {
-            EnsureRepositoryOpen("CreateRequest");
-
-            return _allCategories;
-        }
-
-        public string CreateCategory(string name)
-        {
-            EnsureRepositoryOpen("CreateRequest");
-
-            var categoryImp = new CategoryEntityImp { Name = name };
-            _allCategories.Add(categoryImp);
-
-            return categoryImp.PersistentId;
-        }
-
-        public CategoryEntity QueryCategory(string persistentId)
-        {
-            EnsureRepositoryOpen("QueryCategory");
-
-            var entity = _allCategories.SingleOrDefault(c => c.PersistentId == persistentId);
-            if (entity == null) throw new ArgumentException(@"Entity with Id does not exist", persistentId);
-
-            return entity;
-        }
-
-        public void UpdateCategory(string persistentId, string name)
-        {
-            EnsureRepositoryOpen("CreateRequest");
-
-            var category = _allCategories.SingleOrDefault(c => c.PersistentId == persistentId);
-            if (category == null) throw new ArgumentException(@"The category does not exist or more than once", "persistentId");
-
-            category.Name = name;
-        }
-
-        public void DeleteCategory(string persistentId)
-        {
-            EnsureRepositoryOpen("CreateRequest");
-
-            var categoryEntityImp = _allCategories.Single(r => r.PersistentId == persistentId);
-            _allCategories.Remove(categoryEntityImp);
-
-            foreach (var request in _allRequests.Where(r => r.Category != null && r.Category.PersistentId == categoryEntityImp.PersistentId))
-            {
-                request.Category = null;
-            }
-        }
-
-        public double CalculateSaldoForMonth(int year, int month)
-        {
-            EnsureRepositoryOpen("CalculateSaldoForMonth");
-
-            return _allRequests.Where(r => r.Date.Year <= year && (r.Date.Month <= month || r.Date.Year < year))
-                               .Sum(r => r.Value);
-        }
-
+        
         public void Save()
         {
             EnsureRepositoryOpen("Save");
@@ -252,20 +119,7 @@ namespace MoneyManager.Model
 
             xmlDocument.Save(fileName);
         }
-
-        public void UpdateRequest(string persistentId, RequestEntityData data)
-        {
-            EnsureRepositoryOpen("UpdateRequest");
-
-            var request = _allRequests.SingleOrDefault(r => r.PersistentId == persistentId);
-            if (request == null) throw new ArgumentException(@"Entity with Id does not exist", persistentId);
-
-            request.Date = data.Date;
-            request.Description = data.Description;
-            request.Value = data.Value;
-            request.Category = _allCategories.SingleOrDefault(c => c.PersistentId == data.CategoryPersistentId);
-        }
-
+        
         internal void ClearAll()
         {
             _allRequests.Clear();

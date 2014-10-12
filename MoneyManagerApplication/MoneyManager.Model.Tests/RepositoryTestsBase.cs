@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using MoneyManager.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace MoneyManager.Model.Tests
@@ -16,11 +17,20 @@ namespace MoneyManager.Model.Tests
         }
 
         protected RepositoryImp Repository { get; set; }
+        protected SingleUserFileLock FileLock { get; private set; }
+
+        internal static SingleUserFileLock CreateFileLockMockup(bool lockFileIsSuccessful)
+        {
+            var fileLock = Substitute.For<SingleUserFileLock>();
+            fileLock.LockFile(Arg.Any<string>()).Returns(true);
+            return fileLock;
+        }
 
         [SetUp]
         public void Setup()
         {
-            Repository = (RepositoryImp)RepositoryFactory.CreateRepository();
+            FileLock = CreateFileLockMockup(true);
+            Repository = new RepositoryImp(FileLock);
             DatabaseFile = GetUniqueFilePath(true);
             Repository.Create(DatabaseFile, "DefaultName");
         }

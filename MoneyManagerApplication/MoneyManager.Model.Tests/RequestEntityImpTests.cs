@@ -24,29 +24,31 @@ namespace MoneyManager.Model.Tests
         public void Serialize(bool descriptionIsNull)
         {
             var category = new CategoryEntityImp();
+            var regularyRequest = new RegularyRequestEntityImp();
 
             var request = new RequestEntityImp
             {
                 Date = new DateTime(2014, 5, 6),
                 Description = descriptionIsNull ? null : "TestDescription",
                 Value = 11.27,
-                Category = category
+                Category = category,
+                RegularyRequest = regularyRequest
             };
 
             var serialized = request.Serialize();
 
             Assert.That(serialized.Name.LocalName, Is.EqualTo("Request"));
-            Assert.That(serialized.Attributes().Count(), Is.EqualTo(5));
+            Assert.That(serialized.Attributes().Count(), Is.EqualTo(6));
             Assert.That(serialized.Attribute("Id").Value, Is.EqualTo(request.PersistentId));
             Assert.That(serialized.Attribute("Description").Value, Is.EqualTo(descriptionIsNull ? "" : request.Description));
             Assert.That(serialized.Attribute("Value").Value, Is.EqualTo(request.Value.ToString(CultureInfo.InvariantCulture)));
             Assert.That(serialized.Attribute("Date").Value, Is.EqualTo(request.Date.ToString(CultureInfo.InvariantCulture)));
             Assert.That(serialized.Attribute("CategoryId").Value, Is.EqualTo(category.PersistentId));
+            Assert.That(serialized.Attribute("RegularyRequestId").Value, Is.EqualTo(regularyRequest.PersistentId));
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void Deserialize(bool withCategory)
+        [Test]
+        public void Deserialize([Values(true, false)]bool withCategory, [Values(true, false)]bool withRegularyRequest)
         {
             const string persistentId = "TestId";
             var dateTime = new DateTime(2014, 7, 4);
@@ -54,31 +56,31 @@ namespace MoneyManager.Model.Tests
             const string description = "TestDescription";
 
             var categories = Enumerable.Range(1, 3).Select(i => new CategoryEntityImp()).ToArray();
+            var regularyRequests = Enumerable.Range(1, 3).Select(i => new RegularyRequestEntityImp()).ToArray();
 
             var categoryId = withCategory ? categories.First().PersistentId : "";
+            var regularyRequestId = withRegularyRequest ? regularyRequests.First().PersistentId : "";
             
             var element = new XElement("Request",
                 new XAttribute("Id", persistentId),
                 new XAttribute("Date", dateTime.ToString(CultureInfo.InvariantCulture)),
                 new XAttribute("Description", description),
                 new XAttribute("Value", value.ToString(CultureInfo.InvariantCulture)),
-                new XAttribute("CategoryId", categoryId));
+                new XAttribute("CategoryId", categoryId),
+                new XAttribute("RegularyRequestId", regularyRequestId));
 
-            var request = new RequestEntityImp(element, categories, Enumerable.Empty<RegularyRequestEntityImp>());
+            var request = new RequestEntityImp(element, categories, regularyRequests);
 
             Assert.That(request.PersistentId, Is.EqualTo(persistentId));
             Assert.That(request.Date, Is.EqualTo(dateTime));
             Assert.That(request.Description, Is.EqualTo(description));
             Assert.That(request.Value, Is.EqualTo(value));
 
-            if (withCategory)
-            {
-                Assert.That(request.Category, Is.EqualTo(categories.First()));
-            }
-            else
-            {
-                Assert.That(request.Category, Is.Null);
-            }
+            var categoryToReference = withCategory ? categories.First() : null;
+            var regularyReqeuestToRefernece = withRegularyRequest ? regularyRequests.First() : null;
+
+            Assert.That(request.Category, Is.EqualTo(categoryToReference));
+            Assert.That(request.RegularyRequest, Is.EqualTo(regularyReqeuestToRefernece));
         }
     }
 }

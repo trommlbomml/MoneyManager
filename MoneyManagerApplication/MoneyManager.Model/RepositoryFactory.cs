@@ -4,9 +4,9 @@ namespace MoneyManager.Model
 {
     public static class RepositoryFactory
     {
-        public static Repository CreateRepository()
+        public static Repository CreateRepository(SingleUserFileLock fileLock)
         {
-            return new RepositoryImp();
+            return new RepositoryImp(fileLock);
         }
     }
 }

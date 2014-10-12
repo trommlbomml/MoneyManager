@@ -9,7 +9,8 @@ namespace MoneyManagerApplication
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            var repository = RepositoryFactory.CreateRepository();
+            var fileLock = new SingleUserLockFileImp();
+            var repository = RepositoryFactory.CreateRepository(fileLock);
 
             var applicationSettingsImp = new ApplicationSettingsImp();
 

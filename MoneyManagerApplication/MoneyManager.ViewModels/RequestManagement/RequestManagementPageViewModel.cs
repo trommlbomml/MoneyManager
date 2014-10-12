@@ -287,8 +287,9 @@ namespace MoneyManager.ViewModels.RequestManagement
         private void UpdateCommandStates()
         {
             var isRequestSelected = Requests.SelectedValue != null;
-            DeleteRequestCommand.IsEnabled = isRequestSelected;
-            EditRequestCommand.IsEnabled = isRequestSelected;
+            var isRegularyRequest = isRequestSelected && Requests.SelectedValue.IsRegularyRequest;
+            DeleteRequestCommand.IsEnabled = isRequestSelected && isRegularyRequest;
+            EditRequestCommand.IsEnabled = isRequestSelected && isRegularyRequest;
             GotoCurrentMonthCommand.IsEnabled = DateTime.Now.Month != Month || DateTime.Now.Year != Year;
         }
 

@@ -1,4 +1,6 @@
 ﻿
+using MoneyManager.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace MoneyManager.Model.Tests
@@ -9,7 +11,7 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void FactoryCreatesInstance()
         {
-            var repository = RepositoryFactory.CreateRepository();
+            var repository = RepositoryFactory.CreateRepository(Substitute.For<SingleUserFileLock>());
             Assert.That(repository, Is.Not.Null);
         }
     }

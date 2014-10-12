@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MoneyManager.Interfaces
 {
@@ -108,6 +107,31 @@ namespace MoneyManager.Interfaces
         /// </summary>
         /// <param name="persistentId">PersistentId</param>
         void DeleteCategory(string persistentId);
+
+        /// <summary>
+        /// Creates a regulary request.
+        /// </summary>
+        /// <param name="requestData">Entity data</param>
+        void CreateRegularyRequest(RegularyRequestEntityData requestData);
+
+        /// <summary>
+        /// Updates a regulary request.
+        /// </summary>
+        /// <param name="entityId">Entity Id</param>
+        /// <param name="requestData">data</param>
+        void UpdateRegularyRequest(string entityId, RegularyRequestEntityData requestData);
+
+        /// <summary>
+        /// Deletes a regulary request. All referencing Requests are converted to regular requests.
+        /// </summary>
+        /// <param name="entityId">Entity Id</param>
+        void DeleteRegularyRequest(string entityId);
+
+        /// <summary>
+        /// Delivers all regulary requests.
+        /// </summary>
+        /// <returns>Regulary requests.</returns>
+        IEnumerable<RegularyRequestEntity> QueryAllRegularyRequestEntities();
 
         /// <summary>
         /// Calculates the sum of Requests up to month.
