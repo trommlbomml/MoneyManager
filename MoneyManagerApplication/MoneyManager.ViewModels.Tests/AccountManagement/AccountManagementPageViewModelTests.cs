@@ -103,8 +103,8 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
 
             var requestManagementPage = (RequestManagementPageViewModel) Application.ActivePage;
-            Assert.That(requestManagementPage.Month, Is.EqualTo(DateTime.Now.Month));
-            Assert.That(requestManagementPage.Year, Is.EqualTo(DateTime.Now.Year));
+            Assert.That(requestManagementPage.Month, Is.EqualTo(ApplicationContext.Now.Month));
+            Assert.That(requestManagementPage.Year, Is.EqualTo(ApplicationContext.Now.Year));
 
             ApplicationContext.Received(1).UpdateRecentAccountInformation("Test", Arg.Any<DateTime>());
         }

@@ -15,7 +15,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         [TestCase(12)]
         public void InitalState(double expectedSaldo)
         {
-            var currentDate = DateTime.Now;
+            var currentDate = ApplicationContext.Now;
             DefineRequestsForMonth(currentDate.Year, currentDate.Month, 3);
             Repository.CalculateSaldoForMonth(currentDate.Year, currentDate.Month).Returns(expectedSaldo);
 
@@ -78,7 +78,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         [TestCase(false)]
         public void NextMonthCommandUpdatesGotoCurrentMonthState(bool nextCommandGoesToCurrentMonth)
         {
-            var currentDate = DateTime.Now.Date;
+            var currentDate = ApplicationContext.Now;
             if (nextCommandGoesToCurrentMonth) currentDate = currentDate.AddMonths(-1);
 
             var screenModel = new RequestManagementPageViewModel(Application, currentDate.Year, currentDate.Month);
@@ -93,7 +93,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         [TestCase(false)]
         public void PreviousMonthCommandUpdatesGotoCurrentMonthState(bool previousCommandGoesToCurrentMonth)
         {
-            var currentDate = DateTime.Now.Date;
+            var currentDate = ApplicationContext.Now;
             if (previousCommandGoesToCurrentMonth) currentDate = currentDate.AddMonths(1);
 
             var screenModel = new RequestManagementPageViewModel(Application, currentDate.Year, currentDate.Month);
@@ -107,7 +107,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         [Test]
         public void GotoCurrentMonthCommand()
         {
-            var currentDate = DateTime.Now.Date;
+            var currentDate = ApplicationContext.Now;
             var screenModel = new RequestManagementPageViewModel(Application, 2013, 5);
 
             Repository.ClearReceivedCalls();
@@ -141,7 +141,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         [Test]
         public void ChangeYearUpdatesGotoCurrentMonthCommand()
         {
-            var screenModel = new RequestManagementPageViewModel(Application, DateTime.Now.Year, DateTime.Now.Month);
+            var screenModel = new RequestManagementPageViewModel(Application, ApplicationContext.Now.Year, ApplicationContext.Now.Month);
             screenModel.Year -= 1;
             Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.True);
 
@@ -152,7 +152,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         [Test]
         public void MonthYearUpdatesGotoCurrentMonthCommand()
         {
-            var screenModel = new RequestManagementPageViewModel(Application, DateTime.Now.Year, DateTime.Now.Month);
+            var screenModel = new RequestManagementPageViewModel(Application, ApplicationContext.Now.Year, ApplicationContext.Now.Month);
             
             var currentMonth = screenModel.Months.SelectedValue;
             screenModel.Months.SelectedValue = screenModel.Months.SelectableValues.First(m => m.Index != currentMonth.Index);

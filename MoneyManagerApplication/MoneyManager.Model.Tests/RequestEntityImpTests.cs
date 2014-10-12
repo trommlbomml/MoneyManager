@@ -15,7 +15,6 @@ namespace MoneyManager.Model.Tests
             var request = new RequestEntityImp();
             Assert.That(request.PersistentId, Is.Not.Null.Or.Empty);
             Assert.That(request.Description, Is.EqualTo(""));
-            Assert.That(request.Date, Is.EqualTo(DateTime.Now.Date));
             Assert.That(request.Category, Is.Null);
         }
 

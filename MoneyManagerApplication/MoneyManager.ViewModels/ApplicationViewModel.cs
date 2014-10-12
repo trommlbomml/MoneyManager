@@ -27,8 +27,7 @@ namespace MoneyManager.ViewModels
 
         public void ActivateRequestmanagementPage()
         {
-            var currentDateTime = DateTime.Now;
-
+            var currentDateTime = ApplicationContext.Now;
             var requestManagementScreen = new RequestManagementPageViewModel(this, currentDateTime.Year, currentDateTime.Month);
             ActivePage = requestManagementScreen;
         }

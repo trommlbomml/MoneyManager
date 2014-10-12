@@ -12,7 +12,6 @@ namespace MoneyManager.Model
         public RequestEntityImp()
         {
             Description = string.Empty;
-            Date = DateTime.Now.Date;
         }
 
         public RequestEntityImp(XElement requestElement, IEnumerable<CategoryEntity> categories, IEnumerable<RegularyRequestEntity> regularyRequests):

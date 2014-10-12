@@ -1,4 +1,5 @@
-﻿using MoneyManager.Interfaces;
+﻿using System;
+using MoneyManager.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -19,6 +20,7 @@ namespace MoneyManager.ViewModels.Tests
             Repository.FilePath.Returns(@"C:\Test.mmdb");
 
             ApplicationContext = Substitute.For<ApplicationContext>();
+            ApplicationContext.Now.Returns(new DateTime(2014, 6, 12));
             WindowManager = Substitute.For<WindowManager>();
 
             Application = new ApplicationViewModel(Repository, ApplicationContext, WindowManager);

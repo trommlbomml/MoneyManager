@@ -26,7 +26,7 @@ namespace MoneyManager.ViewModels.Tests
 
             application.ActivateRequestmanagementPage();
 
-            var currentDateTime = DateTime.Now;
+            var currentDateTime = ApplicationContext.Now;
 
             Assert.That(application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
 

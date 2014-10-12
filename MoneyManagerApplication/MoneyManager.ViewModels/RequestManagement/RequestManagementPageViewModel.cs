@@ -77,7 +77,7 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void OnGotoCurrentMonthCommand()
         {
-            var currentDate = DateTime.Now.Date;
+            var currentDate = Application.ApplicationContext.Now;
             _preventUpdateCurrentMonth = true;
             Year = currentDate.Year;
             Months.SelectedValue = Months.SelectableValues.Single(m => m.Index == currentDate.Month);
@@ -250,7 +250,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         private void OnSaveCommand()
         {
             Application.Repository.Save();
-            Application.ApplicationContext.UpdateRecentAccountInformation(Application.Repository.FilePath, DateTime.Now);
+            Application.ApplicationContext.UpdateRecentAccountInformation(Application.Repository.FilePath, Application.ApplicationContext.Now);
         }
 
         private void OnDeleteRequestCommand()
@@ -298,7 +298,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             var isRegularyRequest = isRequestSelected && Requests.SelectedValue.IsRegularyRequest;
             DeleteRequestCommand.IsEnabled = isRequestSelected && !isRegularyRequest;
             EditRequestCommand.IsEnabled = isRequestSelected && !isRegularyRequest;
-            GotoCurrentMonthCommand.IsEnabled = DateTime.Now.Month != Month || DateTime.Now.Year != Year;
+            GotoCurrentMonthCommand.IsEnabled = Application.ApplicationContext.Now.Month != Month || Application.ApplicationContext.Now.Year != Year;
         }
 
         private void UpdateCurrentMonth()
