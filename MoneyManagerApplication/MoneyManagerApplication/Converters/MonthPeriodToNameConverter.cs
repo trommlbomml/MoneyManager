@@ -24,8 +24,6 @@ namespace MoneyManagerApplication.Converters
                     return "@halbjährlich";
                 case MonthPeriod.Yearly:
                     return "@Jährlich";
-                case MonthPeriod.Custom:
-                    return "@Benutzerdefiniert";
                 default:
                     return DependencyProperty.UnsetValue;
             }

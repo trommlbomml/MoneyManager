@@ -1,18 +1,10 @@
 ﻿using System;
+using System.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels.RequestManagement.Regulary
 {
-    public enum MonthPeriod
-    {
-        Monthly,
-        Quarterly,
-        HalfYearly,
-        Yearly,
-        Custom,
-    }
-
     public class RegularyRequestDetailsViewModel : ViewModel
     {
         private bool _isInEditMode;
@@ -22,6 +14,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         private double _value;
 
         public EnumeratedSingleValuedProperty<MonthPeriod> MonthPeriods { get; private set; }
+        public EnumeratedSingleValuedProperty<CategoryViewModel> Categories { get; private set; }
 
         public RegularyRequestDetailsViewModel(ApplicationViewModel application, Action<RegularyRequestEntityData> onSave, Action<RegularyRequestDetailsViewModel> onCancel)
         {
@@ -33,6 +26,13 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             foreach (MonthPeriod value in Enum.GetValues(typeof(MonthPeriod)))
             {
                 MonthPeriods.AddValue(value);
+            }
+
+            Categories = new EnumeratedSingleValuedProperty<CategoryViewModel>();
+            foreach (var category in application.Repository.QueryAllCategories().Select(c => new CategoryViewModel(application, c.PersistentId)))
+            {
+                Categories.AddValue(category);
+                category.Refresh();
             }
             
             UpdateCommandStates();
@@ -59,10 +59,10 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         {
             return new RegularyRequestEntityData
             {
-                CategoryEntityId = null,
                 Description = Description,
                 Value = Value,
                 MonthPeriodStep = GetPeriodFromEnum(MonthPeriods.SelectedValue),
+                CategoryEntityId = Categories.SelectedValue != null ? Categories.SelectedValue.EntityId : null,
                 //todo:
                 FirstBookDate = DateTime.MinValue,
                 ReferenceDay = 12,
@@ -79,6 +79,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             Description = request.Description;
             Value = request.Value;
             MonthPeriods.SelectedValue = GetEnumFromPeriod(request.MonthPeriodStep);
+            Categories.SelectedValue = request.Category != null ? Categories.SelectableValues.Single(c => c.EntityId == request.Category.PersistentId) : null;
         }
 
         private static MonthPeriod GetEnumFromPeriod(int monthPeriodStep)
@@ -94,7 +95,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
                 case 12:
                     return MonthPeriod.Yearly;
                 default:
-                    return MonthPeriod.Custom;
+                    throw new InvalidOperationException();
             }
         }
 

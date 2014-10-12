@@ -14,6 +14,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
         public CommandViewModel CreateRegularyRequestCommand { get; private set; }
         public CommandViewModel DeleteRegularyRequestCommand { get; private set; }
+        public CommandViewModel EditRegularyRequestCommand { get; private set; }
 
         public RegularyRequestManagementViewModel(ApplicationViewModel application)
         {
@@ -34,7 +35,14 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
             CreateRegularyRequestCommand = new CommandViewModel(OnCreateRegularyRequestCommand);
             DeleteRegularyRequestCommand = new CommandViewModel(OnDeleteRegularyRequestCommand);
+            EditRegularyRequestCommand = new CommandViewModel(OnEditRegularyRequestCommand);
 
+            UpdateCommandStates();
+        }
+
+        private void OnEditRegularyRequestCommand()
+        {
+            Details.IsInEditMode = true;
             UpdateCommandStates();
         }
 
@@ -87,6 +95,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             }
 
             Details.IsInEditMode = false;
+            UpdateCommandStates();
         }
 
         private void OnCancelRequestDetails(RegularyRequestDetailsViewModel details)
@@ -122,6 +131,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             var isSelected = Details != null;
             var isReadOnly = Details == null || !Details.IsInEditMode;
             CreateRegularyRequestCommand.IsEnabled = isReadOnly;
+            EditRegularyRequestCommand.IsEnabled = isSelected && isReadOnly;
             DeleteRegularyRequestCommand.IsEnabled = isSelected && isReadOnly;
         }
     }

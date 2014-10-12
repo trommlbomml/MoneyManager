@@ -23,6 +23,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
                 <Label Content="@Beschreibung:" Grid.Column="0" Grid.Row="0" />
@@ -52,8 +53,15 @@
                             Width="100"
                             Value="{Binding Value, UpdateSourceTrigger=PropertyChanged, ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
 
+                <Label Content="@Kategorie:" Grid.Column="0" Grid.Row="3" />
+                <ComboBox Grid.Column="1" 
+                          Grid.Row="3" 
+                          IsEnabled="{Binding IsInEditMode}"
+                          DisplayMemberPath="Name"
+                          ItemsSource="{Binding Categories.SelectableValues}" 
+                          SelectedValue="{Binding Categories.SelectedValue, UpdateSourceTrigger=PropertyChanged}" />
 
-                <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
+                <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Content="@Speichern" Command="{Binding SaveCommand}" />
                     <Button Content="@Verwerfen" Command="{Binding CancelCommand}" />
                 </StackPanel>
@@ -70,6 +78,7 @@
         
         <StackPanel Orientation="Horizontal">
             <Button Content="@Neu" Command="{Binding CreateRegularyRequestCommand}" />
+            <Button Content="@Bearbeiten" Command="{Binding EditRegularyRequestCommand}" />
             <Button Content="@Löschen" Command="{Binding DeleteRegularyRequestCommand}" />
         </StackPanel>
         
@@ -80,7 +89,7 @@
                   Margin="2" 
                   IsReadOnly="True" 
                   SelectionMode="Single"
-                  IsEnabled="{Binding IsInEditMode, Converter={x:Static converters:BoolInverseConverter.Instance}}">
+                  IsEnabled="{Binding Details.IsInEditMode, Converter={x:Static converters:BoolInverseConverter.Instance}, FallbackValue=true}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="@Beschreibung" Binding="{Binding Description}" Width="*" />
                 <DataGridTextColumn Header="@Betrag" Binding="{Binding ValueAsString}" Width="Auto" />
@@ -92,6 +101,10 @@
             <ContentControl Content="{Binding Details}"></ContentControl>
         </Border>
         
-        <Button Grid.Row="3" HorizontalAlignment="Right"  Content="{x:Static properties:Resources.RegularyRequestDialog_Close}" Margin="2" Padding="15,2" />
+        <Button Grid.Row="3" 
+                Click="CloseCommandClicked"
+                IsEnabled="{Binding Details.IsInEditMode, Converter={x:Static converters:BoolInverseConverter.Instance}, FallbackValue=true}"
+                HorizontalAlignment="Right" 
+                Content="{x:Static properties:Resources.RegularyRequestDialog_Close}" Margin="2" Padding="15,2" />
     </Grid>
 </Window>
