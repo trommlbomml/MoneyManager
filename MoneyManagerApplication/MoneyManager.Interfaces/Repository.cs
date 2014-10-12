@@ -112,7 +112,7 @@ namespace MoneyManager.Interfaces
         /// Creates a regulary request.
         /// </summary>
         /// <param name="requestData">Entity data</param>
-        void CreateRegularyRequest(RegularyRequestEntityData requestData);
+        string CreateRegularyRequest(RegularyRequestEntityData requestData);
 
         /// <summary>
         /// Updates a regulary request.
@@ -126,6 +126,12 @@ namespace MoneyManager.Interfaces
         /// </summary>
         /// <param name="entityId">Entity Id</param>
         void DeleteRegularyRequest(string entityId);
+
+        /// <summary>
+        /// Delivers single regulary request.
+        /// </summary>
+        /// <param name="entityId">Entity id</param>
+        RegularyRequestEntity QueryRegularyRequest(string entityId);
 
         /// <summary>
         /// Delivers all regulary requests.

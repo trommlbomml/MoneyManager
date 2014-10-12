@@ -150,6 +150,9 @@
   <data name="CategoryManagementWindow_Title" xml:space="preserve">
     <value>Kategorieverwaltung</value>
   </data>
+  <data name="RegularyRequestDialog_Close" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
   <data name="RequestDialog_CreateCommandCaption" xml:space="preserve">
     <value>Erstellen</value>
   </data>

@@ -160,6 +160,15 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Schließen.
+        /// </summary>
+        public static string RegularyRequestDialog_Close {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Erstellen.
         /// </summary>
         public static string RequestDialog_CreateCommandCaption {

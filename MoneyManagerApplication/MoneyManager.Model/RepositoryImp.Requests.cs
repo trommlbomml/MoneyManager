@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MoneyManager.Interfaces;
 
 namespace MoneyManager.Model
@@ -43,35 +41,32 @@ namespace MoneyManager.Model
         {
             EnsureRepositoryOpen("UpdateRequest");
 
-            var request = _allRequests.SingleOrDefault(r => r.PersistentId == persistentId);
-            if (request == null) throw new ArgumentException(@"Entity with Id does not exist", persistentId);
-
-            request.Date = data.Date;
-            request.Description = data.Description;
-            request.Value = data.Value;
-            request.Category = _allCategories.SingleOrDefault(c => c.PersistentId == data.CategoryPersistentId);
+            var request = _allRequests.Single(r => r.PersistentId == persistentId);
+            SetRequestData(request, data);
         }
 
         public string CreateRequest(RequestEntityData data)
         {
             EnsureRepositoryOpen("CreateRequest");
 
-            var request = new RequestEntityImp
-            {
-                Date = data.Date.Date,
-                Description = data.Description,
-                Value = data.Value,
-                Category = string.IsNullOrEmpty(data.CategoryPersistentId) ? null : _allCategories.Single(c => c.PersistentId == data.CategoryPersistentId)
-            };
+            var request = new RequestEntityImp();
+            SetRequestData(request, data);
             _allRequests.Add(request);
 
             return request.PersistentId;
         }
 
+        private void SetRequestData(RequestEntityImp request, RequestEntityData data)
+        {
+            request.Date = data.Date;
+            request.Description = data.Description;
+            request.Value = data.Value;
+            request.Category = _allCategories.SingleOrDefault(c => c.PersistentId == data.CategoryPersistentId);
+        }
+
         public void DeleteRequest(string persistentId)
         {
             EnsureRepositoryOpen("DeleteRequest");
-
             _allRequests.Remove(_allRequests.Single(r => r.PersistentId == persistentId));
         }
 

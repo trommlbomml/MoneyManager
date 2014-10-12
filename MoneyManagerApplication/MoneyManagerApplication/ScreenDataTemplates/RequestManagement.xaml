@@ -21,6 +21,7 @@
                 <Button Height="64" Width="64" Content="Remove" Command="{Binding DeleteRequestCommand}" />
                 <Button Height="64" Width="64" Content="Save" Command="{Binding SaveCommand}" />
                 <Button Height="64" Width="64" Content="Edit Cat." Command="{Binding EditCategoriesCommand}" />
+                <Button Height="64" Width="64" Content="Edit RR." Command="{Binding EditRegularyRequestsCommand}" />
                 <Button Height="64" Width="64" Content="Switch" Command="{Binding SwitchAccountCommand}" />
             </StackPanel>
             

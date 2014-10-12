@@ -90,7 +90,7 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void UpdateRequestOfNonExistingEntityThrowsException()
         {
-            Assert.That(() => Repository.UpdateRequest("InvalidId", new RequestEntityData()), Throws.ArgumentException);
+            Assert.That(() => Repository.UpdateRequest("InvalidId", new RequestEntityData()), Throws.Exception);
         }
 
         [Test]

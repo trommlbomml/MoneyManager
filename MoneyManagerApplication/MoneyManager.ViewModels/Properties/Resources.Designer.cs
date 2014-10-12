@@ -115,6 +115,15 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alle {0} Monate.
+        /// </summary>
+        public static string CustomMonthsFormat {
+            get {
+                return ResourceManager.GetString("CustomMonthsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0:dddd, dd. MMMM yyyy HH:mm}.
         /// </summary>
         public static string LastAccesDateFormat {
@@ -246,6 +255,42 @@ namespace MoneyManager.ViewModels.Properties {
         public static string NoCategory {
             get {
                 return ResourceManager.GetString("NoCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pro Monat.
+        /// </summary>
+        public static string OncePerMonth {
+            get {
+                return ResourceManager.GetString("OncePerMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jedes Halbjahr.
+        /// </summary>
+        public static string PerHalfYear {
+            get {
+                return ResourceManager.GetString("PerHalfYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pro Quartal.
+        /// </summary>
+        public static string PerQuarter {
+            get {
+                return ResourceManager.GetString("PerQuarter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Einmal im Jahr.
+        /// </summary>
+        public static string PerYear {
+            get {
+                return ResourceManager.GetString("PerYear", resourceCulture);
             }
         }
         

@@ -135,6 +135,9 @@
   <data name="CategoryManagementNewCategoryDefaultName" xml:space="preserve">
     <value>Neue Kategorie</value>
   </data>
+  <data name="CustomMonthsFormat" xml:space="preserve">
+    <value>Alle {0} Monate</value>
+  </data>
   <data name="LastAccesDateFormat" xml:space="preserve">
     <value>{0:dddd, dd. MMMM yyyy HH:mm}</value>
   </data>
@@ -179,6 +182,18 @@
   </data>
   <data name="NoCategory" xml:space="preserve">
     <value>&lt;Keine Kategorie&gt;</value>
+  </data>
+  <data name="OncePerMonth" xml:space="preserve">
+    <value>Pro Monat</value>
+  </data>
+  <data name="PerHalfYear" xml:space="preserve">
+    <value>Jedes Halbjahr</value>
+  </data>
+  <data name="PerQuarter" xml:space="preserve">
+    <value>Pro Quartal</value>
+  </data>
+  <data name="PerYear" xml:space="preserve">
+    <value>Einmal im Jahr</value>
   </data>
   <data name="RemoveRecentAccountMessageCaption" xml:space="preserve">
     <value>Verweis entfernen</value>

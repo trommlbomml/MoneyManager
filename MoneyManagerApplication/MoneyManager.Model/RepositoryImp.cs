@@ -75,7 +75,7 @@ namespace MoneyManager.Model
             _currentRepositoryName = document.Root.Attribute("Name").Value;
 
             _allCategories.AddRange(document.Root.Element("Categories").Elements("Category").Select(e => new CategoryEntityImp(e)));
-
+            _allRegularyRequests.AddRange(document.Root.Element("RegularyRequests").Elements("RegularyRequest").Select(e => new RegularyRequestEntityImp(e, _allCategories)));
             _allRequests.AddRange(document.Root.Element("Requests").Elements("Request").Select(e => new RequestEntityImp(e, _allCategories, _allRegularyRequests)));
 
 // ReSharper restore PossibleNullReferenceException

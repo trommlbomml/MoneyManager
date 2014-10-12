@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
+using MoneyManager.ViewModels.RequestManagement.Regulary;
 
 namespace MoneyManager.ViewModels.RequestManagement
 {
@@ -15,7 +16,7 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         public EnumeratedSingleValuedProperty<RequestViewModel> Requests { get; private set; } 
         public EnumeratedSingleValuedProperty<MonthNameViewModel> Months { get; private set; }
-
+        
         public CommandViewModel AddRequestCommand { get; private set; }
         public CommandViewModel DeleteRequestCommand { get; private set; }
         public CommandViewModel SaveCommand { get; private set; }
@@ -24,6 +25,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         public CommandViewModel EditRequestCommand { get; private set; }
         public CommandViewModel SwitchAccountCommand { get; private set; }
         public CommandViewModel EditCategoriesCommand { get; private set; }
+        public CommandViewModel EditRegularyRequestsCommand { get; private set; }
         public CommandViewModel GotoCurrentMonthCommand { get; private set; }
 
         public RequestManagementPageViewModel(ApplicationViewModel application, int year, int month) : base(application)
@@ -56,6 +58,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             SwitchAccountCommand = new CommandViewModel(OnSwitchAccountCommand);
             EditCategoriesCommand = new CommandViewModel(OnEditCategoriesCommand);
             GotoCurrentMonthCommand = new CommandViewModel(OnGotoCurrentMonthCommand);
+            EditRegularyRequestsCommand = new CommandViewModel(OnEditRegularyRequestsCommand);
 
             Months.PropertyChanged += OnMonthsPropertyChanged;
             Requests.PropertyChanged += OnSelectedRequestChanged;
@@ -65,6 +68,11 @@ namespace MoneyManager.ViewModels.RequestManagement
             UpdateSaldoAsString();
 
             Caption = string.Format(Properties.Resources.RequestManagementPageCaptionFormat, Application.Repository.Name);
+        }
+
+        private void OnEditRegularyRequestsCommand()
+        {
+            Application.WindowManager.ShowDialog(new RegularyRequestManagementViewModel(Application));
         }
 
         private void OnGotoCurrentMonthCommand()

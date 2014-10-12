@@ -52,6 +52,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BoolInverseConverter.cs" />
+    <Compile Include="Converters\MonthPeriodToNameConverter.cs" />
     <Compile Include="Dialogs\CategoriesManagementDialog.xaml.cs">
       <DependentUpon>CategoriesManagementDialog.xaml</DependentUpon>
     </Compile>
@@ -59,6 +61,9 @@
       <DependentUpon>CreateAccountDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ApplicationSettings\RecentAccountInformationImp.cs" />
+    <Compile Include="Dialogs\RegularyRequestDialog.xaml.cs">
+      <DependentUpon>RegularyRequestDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\RequestDialog.xaml.cs">
       <DependentUpon>RequestDialog.xaml</DependentUpon>
     </Compile>
@@ -70,6 +75,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\CreateAccountDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RegularyRequestDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
