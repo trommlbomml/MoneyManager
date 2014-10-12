@@ -17,20 +17,20 @@ namespace MoneyManager.Model.Tests
         }
 
         protected RepositoryImp Repository { get; set; }
-        protected SingleUserFileLock FileLock { get; private set; }
+        protected ApplicationContext Context { get; private set; }
 
-        internal static SingleUserFileLock CreateFileLockMockup(bool lockFileIsSuccessful)
+        internal static ApplicationContext CreateApplicationContextMockup(bool lockFileIsSuccessful)
         {
-            var fileLock = Substitute.For<SingleUserFileLock>();
-            fileLock.LockFile(Arg.Any<string>()).Returns(true);
-            return fileLock;
+            var applicationContext = Substitute.For<ApplicationContext>();
+            applicationContext.LockFile(Arg.Any<string>()).Returns(true);
+            return applicationContext;
         }
 
         [SetUp]
         public void Setup()
         {
-            FileLock = CreateFileLockMockup(true);
-            Repository = new RepositoryImp(FileLock);
+            Context = CreateApplicationContextMockup(true);
+            Repository = new RepositoryImp(Context);
             DatabaseFile = GetUniqueFilePath(true);
             Repository.Create(DatabaseFile, "DefaultName");
         }

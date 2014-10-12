@@ -171,7 +171,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
 
             screenModel.SaveCommand.Execute(null);
             Repository.Received(1).Save();
-            ApplicationContext.Received(1).UpdateRecentAccountInformation(Repository.FilePath, Arg.Any<DateTime>());
+            ApplicationContext.Received(1).UpdateRecentAccountInformation(Repository.FilePath);
         }
 
         [Test]

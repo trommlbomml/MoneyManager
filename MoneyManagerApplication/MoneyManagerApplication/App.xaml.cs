@@ -9,16 +9,13 @@ namespace MoneyManagerApplication
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            var fileLock = new SingleUserLockFileImp();
-            var repository = RepositoryFactory.CreateRepository(fileLock);
-
             var applicationContextImp = new ApplicationContextImp();
 
+            var repository = RepositoryFactory.CreateRepository(applicationContextImp);
             var applicationViewModel = new ApplicationViewModel(repository, applicationContextImp, new WindowManagerImp());
+            var mainWindow = new MainWindow { DataContext = applicationViewModel };
+
             applicationViewModel.ActivateAccountManagementPage();
-
-            var mainWindow = new MainWindow {DataContext = applicationViewModel};
-
             MainWindow = mainWindow;
             MainWindow.Show();
         }

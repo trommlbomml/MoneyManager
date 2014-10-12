@@ -17,8 +17,7 @@ namespace MoneyManager.Interfaces
         /// Update Recent information of account.
         /// </summary>
         /// <param name="path">Absolute path of account.</param>
-        /// <param name="lastAccessDate">Last access date.</param>
-        void UpdateRecentAccountInformation(string path, DateTime lastAccessDate);
+        void UpdateRecentAccountInformation(string path);
 
         /// <summary>
         /// Removes recent account from settings.
@@ -30,5 +29,17 @@ namespace MoneyManager.Interfaces
         /// Delivers current Date and Time.
         /// </summary>
         DateTime Now { get; }
+
+        /// <summary>
+        /// Lock File for usage.
+        /// </summary>
+        /// <param name="filePath"></param>
+        bool LockFile(string filePath);
+
+        /// <summary>
+        /// Unlocks file for usage.
+        /// </summary>
+        /// <param name="filePath"></param>
+        void UnlockFile(string filePath);
     }
 }

@@ -106,7 +106,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             Assert.That(requestManagementPage.Month, Is.EqualTo(ApplicationContext.Now.Month));
             Assert.That(requestManagementPage.Year, Is.EqualTo(ApplicationContext.Now.Year));
 
-            ApplicationContext.Received(1).UpdateRecentAccountInformation("Test", Arg.Any<DateTime>());
+            ApplicationContext.Received(1).UpdateRecentAccountInformation("Test");
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             viewModel.OpenRecentAccountCommand.Execute(null);
 
             Repository.Received(1).Open(@"C:\test\test.txt");
-            ApplicationContext.Received(1).UpdateRecentAccountInformation(@"C:\test\test.txt", Arg.Any<DateTime>());
+            ApplicationContext.Received(1).UpdateRecentAccountInformation(@"C:\test\test.txt");
             Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
         }
 
@@ -152,13 +152,13 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             if (accept)
             {
                 Repository.Received(1).Open(expectedPath);
-                ApplicationContext.Received(1).UpdateRecentAccountInformation(expectedPath, Arg.Any<DateTime>());
+                ApplicationContext.Received(1).UpdateRecentAccountInformation(expectedPath);
                 Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
             }
             else
             {
                 Repository.DidNotReceiveWithAnyArgs().Open(Arg.Any<string>());
-                ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
+                ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>());
                 Assert.That(Application.ActivePage, Is.Not.InstanceOf<RequestManagementPageViewModel>());
             }
         }
@@ -174,7 +174,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             
             WindowManager.Received(1).ShowError("Error", "TestMessage");
             Repository.Received(1).Open(Arg.Any<string>());
-            ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
+            ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>());
             Assert.That(Application.ActivePage, Is.Not.InstanceOf<RequestManagementPageViewModel>());
         }
 
@@ -202,7 +202,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             viewModel.OpenRecentAccountCommand.Execute(null);
 
             Repository.Received(1).Open(accountPath);
-            ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
+            ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>());
 
             WindowManager.Received(1).ShowQuestion(Properties.Resources.RemoveRecentAccountMessageCaption, 
                                                    string.Format(Properties.Resources.RemoveRecentAccountMessageFormat, accountPath), 

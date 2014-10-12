@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using MoneyManager.Interfaces;
 
@@ -8,6 +9,8 @@ namespace MoneyManagerApplication.ApplicationSettings
 {
     class ApplicationContextImp : ApplicationContext
     {
+        private const string LockFolderName = ".lock";
+
         private readonly List<RecentAccountInformation> _recentAccountInformation;
 
         public ApplicationContextImp()
@@ -37,16 +40,16 @@ namespace MoneyManagerApplication.ApplicationSettings
 
         public IReadOnlyCollection<RecentAccountInformation> RecentAccounts { get; private set; }
 
-        public void UpdateRecentAccountInformation(string path, DateTime lastAccessDate)
+        public void UpdateRecentAccountInformation(string path)
         {
             var existingItem = _recentAccountInformation.FirstOrDefault(r => r.Path == path) as RecentAccountInformationImp;
             if (existingItem != null)
             {
-                existingItem.LastAccessDate = lastAccessDate;
+                existingItem.LastAccessDate = Now;
             }
             else
             {
-                CreateRecentAccount(path, lastAccessDate);
+                CreateRecentAccount(path, Now);
             }
 
             SaveToAppSettings();
@@ -82,5 +85,26 @@ namespace MoneyManagerApplication.ApplicationSettings
         }
 
         public DateTime Now { get { return DateTime.Now; } }
+        public bool LockFile(string filePath)
+        {
+            var containingFolder = Path.GetDirectoryName(filePath);
+            var targetFolder = Path.Combine(containingFolder ?? "", LockFolderName);
+
+            if (Directory.Exists(targetFolder)) return false;
+
+            Directory.CreateDirectory(targetFolder);
+
+            return true;
+        }
+
+        public void UnlockFile(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath)) return;
+
+            var containingFolder = Path.GetDirectoryName(filePath);
+            var targetFolder = Path.Combine(containingFolder ?? "", LockFolderName);
+
+            if (Directory.Exists(targetFolder)) Directory.Delete(targetFolder);
+        }
     }
 }

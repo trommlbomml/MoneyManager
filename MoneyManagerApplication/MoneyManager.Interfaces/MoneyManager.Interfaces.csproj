@@ -43,7 +43,6 @@
     <Compile Include="Repository.cs" />
     <Compile Include="RequestEntityData.cs" />
     <Compile Include="RequestEntity.cs" />
-    <Compile Include="SingleUserLockFile.cs" />
     <Compile Include="SystemConstants.cs" />
     <Compile Include="WindowManager.cs" />
   </ItemGroup>

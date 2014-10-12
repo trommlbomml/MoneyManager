@@ -10,16 +10,16 @@ namespace MoneyManager.Model
     internal partial class RepositoryImp : Repository, IDisposable
     {
         private string _currentRepositoryName;
-        private readonly SingleUserFileLock _lockFile;
+        private readonly ApplicationContext _applicationContext;
         private readonly List<RequestEntityImp> _allRequests;
         private readonly List<CategoryEntityImp> _allCategories;
         private readonly List<RegularyRequestEntityImp> _allRegularyRequests;
 
-        public RepositoryImp(SingleUserFileLock lockFile)
+        public RepositoryImp(ApplicationContext context)
         {
-            if (lockFile == null) throw new ArgumentNullException("lockFile");
+            if (context == null) throw new ArgumentNullException("context");
 
-            _lockFile = lockFile;
+            _applicationContext = context;
             _allRequests = new List<RequestEntityImp>();
             _allCategories = new List<CategoryEntityImp>();
             _allRegularyRequests = new List<RegularyRequestEntityImp>();
@@ -35,12 +35,12 @@ namespace MoneyManager.Model
 
         private void LockFile(string filePath)
         {
-            if (!_lockFile.LockFile(filePath)) throw new ApplicationException(string.Format(Properties.Resources.ErrorLockingFile, filePath));
+            if (!_applicationContext.LockFile(filePath)) throw new ApplicationException(string.Format(Properties.Resources.ErrorLockingFile, filePath));
         }
 
         private void UnlockFile(string filePath)
         {
-            _lockFile.UnlockFile(filePath);
+            _applicationContext.UnlockFile(filePath);
         }
 
         public void Create(string path, string name)

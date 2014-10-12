@@ -15,7 +15,7 @@ namespace MoneyManager.Model.Tests
     {
         private Repository CreateRepositoryFromFactory()
         {
-            return RepositoryFactory.CreateRepository(RepositoryTestsBase.CreateFileLockMockup(true));
+            return RepositoryFactory.CreateRepository(RepositoryTestsBase.CreateApplicationContextMockup(true));
         }
 
         [SetUp]

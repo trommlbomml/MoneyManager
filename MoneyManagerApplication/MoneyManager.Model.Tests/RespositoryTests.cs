@@ -51,7 +51,7 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void SaveNotOpenedDatabaseThrowsExceptio()
         {
-            var repository = RepositoryFactory.CreateRepository(FileLock);
+            var repository = RepositoryFactory.CreateRepository(Context);
             Assert.That(repository.Save, Throws.InstanceOf<ApplicationException>());
         }
 
