@@ -316,13 +316,9 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private RequestViewModel CreateRequestViewModelFromEntity(RequestEntity requestEntity)
         {
-            return new RequestViewModel(Application, requestEntity.PersistentId)
-            {
-                Date = requestEntity.Date,
-                Description = requestEntity.Description,
-                Value = requestEntity.Value,
-                Category = requestEntity.Category != null ? requestEntity.Category.Name : Properties.Resources.NoCategory
-            };
+            var requestViewModel = new RequestViewModel(Application, requestEntity.PersistentId);
+            requestViewModel.Refresh();
+            return requestViewModel;
         }
 
         private void UpdateSaldoForCurrentMonth()

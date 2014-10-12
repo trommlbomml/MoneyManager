@@ -79,18 +79,33 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             var entity = Application.Repository.QueryRequest(EntityId);
             Date = entity.Date;
-            Description = entity.Description;
-            Value = entity.Value;
-
-            Category = Properties.Resources.NoCategory;
-            _categoryPersistentId = null;
-            if (entity.Category != null)
+            
+            var categorySource = entity.Category;
+            
+            if (entity.RegularyRequest != null)
             {
-                Category = entity.Category.Name;
-                _categoryPersistentId = entity.Category.PersistentId;
+                IsRegularyRequest = true;
+                Value = entity.RegularyRequest.Value;
+                Description = entity.RegularyRequest.Description;
+                categorySource = entity.RegularyRequest.Category;
+            }
+            else
+            {
+                IsRegularyRequest = false;
+                Value = entity.Value;
+                Description = entity.Description;
             }
 
-            IsRegularyRequest = entity.RegularyRequest != null;
+            if (categorySource != null)
+            {
+                Category = categorySource.Name;
+                _categoryPersistentId = categorySource.PersistentId;
+            }
+            else
+            {
+                Category = Properties.Resources.NoCategory;
+                _categoryPersistentId = null;
+            }
         }
 
         public override void Save()
