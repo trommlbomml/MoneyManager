@@ -6,11 +6,11 @@ using MoneyManager.Interfaces;
 
 namespace MoneyManagerApplication.ApplicationSettings
 {
-    class ApplicationSettingsImp : MoneyManager.Interfaces.ApplicationSettings
+    class ApplicationContextImp : ApplicationContext
     {
         private readonly List<RecentAccountInformation> _recentAccountInformation;
 
-        public ApplicationSettingsImp()
+        public ApplicationContextImp()
         {
             _recentAccountInformation = new List<RecentAccountInformation>();
             ParseRecentAccounts();
@@ -21,11 +21,11 @@ namespace MoneyManagerApplication.ApplicationSettings
         {
             var text = Properties.Settings.Default.RecentAccounts;
             if (string.IsNullOrEmpty(text)) return;
-            
+
             foreach (var token in text.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 DateTime date;
-                var expectedData = token.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+                var expectedData = token.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 
                 if (expectedData.Length < 0) continue;
                 if (string.IsNullOrEmpty(expectedData[0])) continue;
@@ -80,5 +80,7 @@ namespace MoneyManagerApplication.ApplicationSettings
 
             SaveToAppSettings();
         }
+
+        public DateTime Now { get { return DateTime.Now; } }
     }
 }

@@ -43,7 +43,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
                 CreateRecentAccountInformation("C:\test2\test2.txt", new DateTime(2014, 8, 14))
             };
 
-            ApplicationSettings.RecentAccounts.Returns(values.AsReadOnly());
+            ApplicationContext.RecentAccounts.Returns(values.AsReadOnly());
 
             var viewModel = new AccountManagementPageViewModel(Application);
 
@@ -106,7 +106,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             Assert.That(requestManagementPage.Month, Is.EqualTo(DateTime.Now.Month));
             Assert.That(requestManagementPage.Year, Is.EqualTo(DateTime.Now.Year));
 
-            ApplicationSettings.Received(1).UpdateRecentAccountInformation("Test", Arg.Any<DateTime>());
+            ApplicationContext.Received(1).UpdateRecentAccountInformation("Test", Arg.Any<DateTime>());
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             {
                 CreateRecentAccountInformation(@"C:\test\test.txt", new DateTime(2014, 4, 1)),
             };
-            ApplicationSettings.RecentAccounts.Returns(values.AsReadOnly());
+            ApplicationContext.RecentAccounts.Returns(values.AsReadOnly());
 
             var viewModel = new AccountManagementPageViewModel(Application);
             viewModel.Accounts.SelectedValue = viewModel.Accounts.SelectableValues.First();
@@ -124,7 +124,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             viewModel.OpenRecentAccountCommand.Execute(null);
 
             Repository.Received(1).Open(@"C:\test\test.txt");
-            ApplicationSettings.Received(1).UpdateRecentAccountInformation(@"C:\test\test.txt", Arg.Any<DateTime>());
+            ApplicationContext.Received(1).UpdateRecentAccountInformation(@"C:\test\test.txt", Arg.Any<DateTime>());
             Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
         }
 
@@ -152,13 +152,13 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             if (accept)
             {
                 Repository.Received(1).Open(expectedPath);
-                ApplicationSettings.Received(1).UpdateRecentAccountInformation(expectedPath, Arg.Any<DateTime>());
+                ApplicationContext.Received(1).UpdateRecentAccountInformation(expectedPath, Arg.Any<DateTime>());
                 Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
             }
             else
             {
                 Repository.DidNotReceiveWithAnyArgs().Open(Arg.Any<string>());
-                ApplicationSettings.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
+                ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
                 Assert.That(Application.ActivePage, Is.Not.InstanceOf<RequestManagementPageViewModel>());
             }
         }
@@ -174,7 +174,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             
             WindowManager.Received(1).ShowError("Error", "TestMessage");
             Repository.Received(1).Open(Arg.Any<string>());
-            ApplicationSettings.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
+            ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
             Assert.That(Application.ActivePage, Is.Not.InstanceOf<RequestManagementPageViewModel>());
         }
 
@@ -187,7 +187,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             {
                 CreateRecentAccountInformation(accountPath, new DateTime(2014, 4, 1)),
             };
-            ApplicationSettings.RecentAccounts.Returns(values.AsReadOnly());
+            ApplicationContext.RecentAccounts.Returns(values.AsReadOnly());
             Repository.When(r => r.Open(Arg.Any<string>())).Do(c => { throw new Exception("Text"); });
             
             if (answerYes) 
@@ -202,7 +202,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             viewModel.OpenRecentAccountCommand.Execute(null);
 
             Repository.Received(1).Open(accountPath);
-            ApplicationSettings.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
+            ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>(), Arg.Any<DateTime>());
 
             WindowManager.Received(1).ShowQuestion(Properties.Resources.RemoveRecentAccountMessageCaption, 
                                                    string.Format(Properties.Resources.RemoveRecentAccountMessageFormat, accountPath), 
@@ -210,13 +210,13 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
 
             if (answerYes)
             {
-                ApplicationSettings.Received(1).DeleteRecentAccountInformation(accountPath);
+                ApplicationContext.Received(1).DeleteRecentAccountInformation(accountPath);
                 Assert.That(viewModel.Accounts.SelectableValues.Count, Is.EqualTo(0));
                 Assert.That(viewModel.Accounts.SelectedValue, Is.Null);
             }
             else
             {
-                ApplicationSettings.DidNotReceiveWithAnyArgs().DeleteRecentAccountInformation(Arg.Any<string>());
+                ApplicationContext.DidNotReceiveWithAnyArgs().DeleteRecentAccountInformation(Arg.Any<string>());
                 Assert.That(viewModel.Accounts.SelectableValues.Count, Is.EqualTo(1));
                 Assert.That(viewModel.Accounts.SelectedValue, Is.EqualTo(viewModel.Accounts.SelectableValues.First()));
             }

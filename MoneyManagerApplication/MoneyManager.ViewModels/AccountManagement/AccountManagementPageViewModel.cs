@@ -31,14 +31,14 @@ namespace MoneyManager.ViewModels.AccountManagement
                                                    Properties.Resources.AccountManagementRemoveAccountMessage, 
             () =>
             {
-                Application.ApplicationSettings.DeleteRecentAccountInformation(Accounts.SelectedValue.Path);
+                Application.ApplicationContext.DeleteRecentAccountInformation(Accounts.SelectedValue.Path);
                 Accounts.RemoveSelectedValue();
             }, () => {});
         }
 
         private void CreateAccountsEntries()
         {
-            foreach (var recentAccount in Application.ApplicationSettings.RecentAccounts)
+            foreach (var recentAccount in Application.ApplicationContext.RecentAccounts)
             {
                 Accounts.AddValue(new RecentAccountViewModel
                 {
@@ -87,7 +87,7 @@ namespace MoneyManager.ViewModels.AccountManagement
                 var result = Application.WindowManager.ShowOpenFileDialog(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Properties.Resources.AccountManagementFilterOpenAccount);
                 if (string.IsNullOrEmpty(result)) return;
                 Application.Repository.Open(result);
-                Application.ApplicationSettings.UpdateRecentAccountInformation(result, DateTime.Now);
+                Application.ApplicationContext.UpdateRecentAccountInformation(result, DateTime.Now);
                 Application.ActivateRequestmanagementPage();
             });
         }
@@ -97,7 +97,7 @@ namespace MoneyManager.ViewModels.AccountManagement
             ExecuteWithErrorHandling(() =>
             {
                 Application.Repository.Open(Accounts.SelectedValue.Path);
-                Application.ApplicationSettings.UpdateRecentAccountInformation(Accounts.SelectedValue.Path, DateTime.Now);
+                Application.ApplicationContext.UpdateRecentAccountInformation(Accounts.SelectedValue.Path, DateTime.Now);
                 Application.ActivateRequestmanagementPage(); 
             }, HandleOpenRecentFailed);
         }
@@ -108,7 +108,7 @@ namespace MoneyManager.ViewModels.AccountManagement
                 string.Format(Properties.Resources.RemoveRecentAccountMessageFormat, Accounts.SelectedValue.Path),
                 () =>
                 {
-                    Application.ApplicationSettings.DeleteRecentAccountInformation(Accounts.SelectedValue.Path);
+                    Application.ApplicationContext.DeleteRecentAccountInformation(Accounts.SelectedValue.Path);
                     Accounts.RemoveSelectedValue();
                 }, () => {});
         }
@@ -124,7 +124,7 @@ namespace MoneyManager.ViewModels.AccountManagement
             ExecuteWithErrorHandling(() =>
             {
                 Application.Repository.Create(dlg.Path, dlg.Name);
-                Application.ApplicationSettings.UpdateRecentAccountInformation(dlg.Path, DateTime.Now);
+                Application.ApplicationContext.UpdateRecentAccountInformation(dlg.Path, DateTime.Now);
                 Application.ActivateRequestmanagementPage();
             });
         }

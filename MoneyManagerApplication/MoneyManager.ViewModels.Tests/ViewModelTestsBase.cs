@@ -8,7 +8,7 @@ namespace MoneyManager.ViewModels.Tests
     {
         protected ApplicationViewModel Application { get; private set; }
         protected Repository Repository { get; private set; }
-        protected ApplicationSettings ApplicationSettings { get; private set; }
+        protected ApplicationContext ApplicationContext { get; private set; }
         protected WindowManager WindowManager { get; private set; }
 
         [SetUp]
@@ -18,10 +18,10 @@ namespace MoneyManager.ViewModels.Tests
             Repository.Name.Returns("DefaultRepositoryName");
             Repository.FilePath.Returns(@"C:\Test.mmdb");
 
-            ApplicationSettings = Substitute.For<ApplicationSettings>();
+            ApplicationContext = Substitute.For<ApplicationContext>();
             WindowManager = Substitute.For<WindowManager>();
 
-            Application = new ApplicationViewModel(Repository, ApplicationSettings, WindowManager);
+            Application = new ApplicationViewModel(Repository, ApplicationContext, WindowManager);
         }
     }
 }

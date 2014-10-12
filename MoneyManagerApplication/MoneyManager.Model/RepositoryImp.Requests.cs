@@ -24,7 +24,20 @@ namespace MoneyManager.Model
         {
             EnsureRepositoryOpen("QueryRequestsForSingleMonth");
 
-            return _allRequests.Where(r => r.Date.Year == year && r.Date.Month == month);
+            var requests = _allRequests.Where(r => r.Date.Year == year && r.Date.Month == month).Cast<RequestEntity>().ToList();
+            
+            var regularyRequests = QueryRegularyRequestsForMonth(year, month);
+            foreach (RegularyRequestEntityImp regularyRequestEntity in regularyRequests)
+            {
+                var requestFromRegularyRequest = requests.SingleOrDefault(r => r.RegularyRequest != null && r.RegularyRequest.PersistentId == regularyRequestEntity.PersistentId);
+                if (requestFromRegularyRequest != null) continue;
+
+                requestFromRegularyRequest = regularyRequestEntity.CreateRequest(year);
+                _allRequests.Add((RequestEntityImp)requestFromRegularyRequest);
+                requests.Add(requestFromRegularyRequest);
+            }
+
+            return requests;
         }
 
         public RequestEntity QueryRequest(string persistentId)
@@ -74,8 +87,7 @@ namespace MoneyManager.Model
         {
             EnsureRepositoryOpen("CalculateSaldoForMonth");
 
-            return _allRequests.Where(r => r.Date.Year <= year && (r.Date.Month <= month || r.Date.Year < year))
-                               .Sum(r => r.Value);
+            return _allRequests.Where(r => r.Date.Year <= year && (r.Date.Month <= month || r.Date.Year < year)).ToArray().Sum(r => r.Value);
         }
     }
 }

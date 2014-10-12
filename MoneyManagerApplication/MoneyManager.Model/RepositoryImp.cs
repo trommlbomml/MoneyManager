@@ -13,7 +13,7 @@ namespace MoneyManager.Model
         private readonly SingleUserFileLock _lockFile;
         private readonly List<RequestEntityImp> _allRequests;
         private readonly List<CategoryEntityImp> _allCategories;
-        private readonly List<RegularyRequestEntityImp> _allRegularyRequests; 
+        private readonly List<RegularyRequestEntityImp> _allRegularyRequests;
 
         public RepositoryImp(SingleUserFileLock lockFile)
         {

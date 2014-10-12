@@ -12,9 +12,9 @@ namespace MoneyManagerApplication
             var fileLock = new SingleUserLockFileImp();
             var repository = RepositoryFactory.CreateRepository(fileLock);
 
-            var applicationSettingsImp = new ApplicationSettingsImp();
+            var applicationContextImp = new ApplicationContextImp();
 
-            var applicationViewModel = new ApplicationViewModel(repository, applicationSettingsImp, new WindowManagerImp());
+            var applicationViewModel = new ApplicationViewModel(repository, applicationContextImp, new WindowManagerImp());
             applicationViewModel.ActivateAccountManagementPage();
 
             var mainWindow = new MainWindow {DataContext = applicationViewModel};

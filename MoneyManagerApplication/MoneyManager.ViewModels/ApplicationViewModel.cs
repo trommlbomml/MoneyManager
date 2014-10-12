@@ -12,16 +12,17 @@ namespace MoneyManager.ViewModels
 
         public Repository Repository { get; private set; }
         public WindowManager WindowManager { get; private set; }
-        public ApplicationSettings ApplicationSettings { get; private set; }
+        public ApplicationContext ApplicationContext { get; private set; }
 
-        public ApplicationViewModel(Repository repository, ApplicationSettings applicationSettings, WindowManager windowManager)
+        public ApplicationViewModel(Repository repository, ApplicationContext applicationContext, WindowManager windowManager)
         {
             if (repository == null) throw new ArgumentNullException("repository");
-            if (applicationSettings == null) throw new ArgumentNullException("applicationSettings");
+            if (applicationContext == null) throw new ArgumentNullException("applicationContext");
+            if (windowManager == null) throw new ArgumentNullException("windowManager");
 
             Repository = repository;
             WindowManager = windowManager;
-            ApplicationSettings = applicationSettings;
+            ApplicationContext = applicationContext;
         }
 
         public void ActivateRequestmanagementPage()

@@ -11,10 +11,10 @@ namespace MoneyManager.ViewModels.Tests
         [Test]
         public void InitialState()
         {
-            var application = new ApplicationViewModel(Repository, ApplicationSettings, WindowManager);
+            var application = new ApplicationViewModel(Repository, ApplicationContext, WindowManager);
 
             Assert.That(application.Repository, Is.SameAs(Repository));
-            Assert.That(application.ApplicationSettings, Is.SameAs(ApplicationSettings));
+            Assert.That(application.ApplicationContext, Is.SameAs(ApplicationContext));
             Assert.That(application.WindowManager, Is.SameAs(WindowManager));
             Assert.That(application.ActivePage, Is.Null);
         }
@@ -22,7 +22,7 @@ namespace MoneyManager.ViewModels.Tests
         [Test]
         public void ActivateRequestManagementScreen()
         {
-            var application = new ApplicationViewModel(Repository, ApplicationSettings, WindowManager);
+            var application = new ApplicationViewModel(Repository, ApplicationContext, WindowManager);
 
             application.ActivateRequestmanagementPage();
 
@@ -38,7 +38,7 @@ namespace MoneyManager.ViewModels.Tests
         [Test]
         public void OnCloseRequestWithNoPage()
         {
-            var application = new ApplicationViewModel(Repository, ApplicationSettings, WindowManager);
+            var application = new ApplicationViewModel(Repository, ApplicationContext, WindowManager);
 
             Assert.That(application.OnClosingRequest(), Is.False);
         }
@@ -47,7 +47,7 @@ namespace MoneyManager.ViewModels.Tests
         [TestCase(false)]
         public void OnCloseRequestDelegatesFromActivePage(bool expectCancel)
         {
-            var application = new ApplicationViewModel(Repository, ApplicationSettings, WindowManager);
+            var application = new ApplicationViewModel(Repository, ApplicationContext, WindowManager);
             application.ActivePage = new PageTestViewModel(application) {IsCancelOnClose = expectCancel};
             
             Assert.That(application.OnClosingRequest(), Is.EqualTo(expectCancel));

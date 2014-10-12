@@ -44,6 +44,31 @@ namespace MoneyManager.Model
 
         public CategoryEntity Category { get;  set; }
 
+        public bool IsMonthOfPeriod(int month)
+        {
+            return Enumerable.Range(0, 12 / MonthPeriodStep)
+                             .Select(i => (ReferenceMonth + i * MonthPeriodStep) % 13)
+                             .Any(m => m == month);
+        }
+
+        public int[] GetPeriodMonths()
+        {
+            return Enumerable.Range(0, 12 / MonthPeriodStep)
+                             .Select(i => (ReferenceMonth + i * MonthPeriodStep) % 13).ToArray();
+        }
+
+        public RequestEntity CreateRequest(int year)
+        {
+            return new RequestEntityImp
+            {
+                Category = Category,
+                Date = new DateTime(year, ReferenceMonth, ReferenceDay),
+                Description = Description,
+                Value = Value,
+                RegularyRequest = this
+            };
+        }
+
         public XElement Serialize()
         {
             return new XElement("RegularyRequest",
@@ -55,6 +80,12 @@ namespace MoneyManager.Model
                 new XAttribute("Description", Description ?? ""),
                 new XAttribute("Value", Value.ToString(CultureInfo.InvariantCulture)),
                 new XAttribute("CategoryId", Category != null ? Category.PersistentId : ""));
+        }
+
+        public bool AnyMonthUpToIsInPeriod(int month)
+        {
+            var periodMonths = GetPeriodMonths();
+            return Enumerable.Range(1, month).Any(periodMonths.Contains);
         }
     }
 }

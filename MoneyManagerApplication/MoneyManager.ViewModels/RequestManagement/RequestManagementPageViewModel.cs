@@ -250,7 +250,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         private void OnSaveCommand()
         {
             Application.Repository.Save();
-            Application.ApplicationSettings.UpdateRecentAccountInformation(Application.Repository.FilePath, DateTime.Now);
+            Application.ApplicationContext.UpdateRecentAccountInformation(Application.Repository.FilePath, DateTime.Now);
         }
 
         private void OnDeleteRequestCommand()
@@ -296,8 +296,8 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             var isRequestSelected = Requests.SelectedValue != null;
             var isRegularyRequest = isRequestSelected && Requests.SelectedValue.IsRegularyRequest;
-            DeleteRequestCommand.IsEnabled = isRequestSelected && isRegularyRequest;
-            EditRequestCommand.IsEnabled = isRequestSelected && isRegularyRequest;
+            DeleteRequestCommand.IsEnabled = isRequestSelected && !isRegularyRequest;
+            EditRequestCommand.IsEnabled = isRequestSelected && !isRegularyRequest;
             GotoCurrentMonthCommand.IsEnabled = DateTime.Now.Month != Month || DateTime.Now.Year != Year;
         }
 

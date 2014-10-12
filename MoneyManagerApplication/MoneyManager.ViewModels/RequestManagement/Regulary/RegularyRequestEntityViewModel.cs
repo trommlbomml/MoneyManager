@@ -40,19 +40,17 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         public double Value
         {
             get { return _value; }
-            set { SetBackingField("Value", ref _value, value, o => UpdateCalculatedProperties()); }
+            set { SetBackingField("Value", ref _value, value, o => ValueAsString = string.Format(Properties.Resources.MoneyValueFormat, Value)); }
         }
 
         public int MonthPeriod
         {
             get { return _monthPeriod; }
-            set { SetBackingField("MonthPeroid", ref _monthPeriod, value, o => UpdateCalculatedProperties()); }
+            set { SetBackingField("MonthPeroid", ref _monthPeriod, value, o => UpdateMonthPeriodAsString()); }
         }
 
-        private void UpdateCalculatedProperties()
+        private void UpdateMonthPeriodAsString()
         {
-            ValueAsString = string.Format(Properties.Resources.MoneyValueFormat, Value);
-
             switch (MonthPeriod)
             {
                 case 1:
@@ -68,8 +66,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
                     MonthPeriodAsString = Properties.Resources.PerHalfYear;
                     break;
                 default:
-                    MonthPeriodAsString = string.Format(Properties.Resources.CustomMonthsFormat, MonthPeriod);
-                    break;
+                    throw new InvalidOperationException();
             }
         }
 

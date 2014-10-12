@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MoneyManager.Interfaces;
@@ -16,6 +17,11 @@ namespace MoneyManager.Model
             _allRegularyRequests.Add(regularyRequest);
 
             return regularyRequest.PersistentId;
+        }
+
+        internal void AddRegularyRequest(RegularyRequestEntityImp regularyRequestEntity)
+        {
+            _allRegularyRequests.Add(regularyRequestEntity);
         }
 
         public void UpdateRegularyRequest(string entityId, RegularyRequestEntityData requestData)
@@ -56,6 +62,20 @@ namespace MoneyManager.Model
             EnsureRepositoryOpen("QueryAllRegularyRequestEntities");
 
             return _allRegularyRequests;
+        }
+
+        private IEnumerable<RegularyRequestEntity> QueryRegularyRequestsForMonth(int year, int month)
+        {
+            EnsureRepositoryOpen("QueryAllRegularyRequestEntities");
+
+            var currentMonthDateTime = new DateTime(year, month, 1);
+            return _allRegularyRequests.Where(r => r.FirstBookDate <= currentMonthDateTime && r.IsMonthOfPeriod(month));
+        }
+
+        private IEnumerable<RegularyRequestEntity> QueryRegularRequestsUpToMonth(int year, int month)
+        {
+            var currentMonthDateTime = new DateTime(year, month, 1);
+            return _allRegularyRequests.Where(r => r.FirstBookDate <= currentMonthDateTime && r.IsMonthOfPeriod(month));
         }
 
         private void SetRequestEntityImpData(RegularyRequestEntityImp regularyRequest, RegularyRequestEntityData requestData)
