@@ -23,27 +23,24 @@ namespace MoneyManager.Model.Tests
         public void Serialize(bool descriptionIsNull)
         {
             var category = new CategoryEntityImp();
-            var regularyRequest = new RegularyRequestEntityImp();
 
             var request = new RequestEntityImp
             {
                 Date = new DateTime(2014, 5, 6),
                 Description = descriptionIsNull ? null : "TestDescription",
                 Value = 11.27,
-                Category = category,
-                RegularyRequest = regularyRequest
+                Category = category
             };
 
             var serialized = request.Serialize();
 
             Assert.That(serialized.Name.LocalName, Is.EqualTo("Request"));
-            Assert.That(serialized.Attributes().Count(), Is.EqualTo(6));
+            Assert.That(serialized.Attributes().Count(), Is.EqualTo(5));
             Assert.That(serialized.Attribute("Id").Value, Is.EqualTo(request.PersistentId));
             Assert.That(serialized.Attribute("Description").Value, Is.EqualTo(descriptionIsNull ? "" : request.Description));
             Assert.That(serialized.Attribute("Value").Value, Is.EqualTo(request.Value.ToString(CultureInfo.InvariantCulture)));
             Assert.That(serialized.Attribute("Date").Value, Is.EqualTo(request.Date.ToString(CultureInfo.InvariantCulture)));
             Assert.That(serialized.Attribute("CategoryId").Value, Is.EqualTo(category.PersistentId));
-            Assert.That(serialized.Attribute("RegularyRequestId").Value, Is.EqualTo(regularyRequest.PersistentId));
         }
 
         [Test]
@@ -76,10 +73,8 @@ namespace MoneyManager.Model.Tests
             Assert.That(request.Value, Is.EqualTo(value));
 
             var categoryToReference = withCategory ? categories.First() : null;
-            var regularyReqeuestToRefernece = withRegularyRequest ? regularyRequests.First() : null;
 
             Assert.That(request.Category, Is.EqualTo(categoryToReference));
-            Assert.That(request.RegularyRequest, Is.EqualTo(regularyReqeuestToRefernece));
         }
     }
 }

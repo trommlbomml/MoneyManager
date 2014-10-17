@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MoneyManager.Interfaces
 {
@@ -146,6 +147,11 @@ namespace MoneyManager.Interfaces
         /// <param name="month">Month</param>
         /// <returns>Sum of Requests</returns>
         double CalculateSaldoForMonth(int year, int month);
+
+        /// <summary>
+        /// Updates all regulary Requests to 
+        /// </summary>
+        void UpdateRegularyRequestsToCurrentMonth();
 
         /// <summary>
         /// Writes Repository to file.

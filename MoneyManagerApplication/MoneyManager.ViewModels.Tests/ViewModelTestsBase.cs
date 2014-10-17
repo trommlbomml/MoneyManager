@@ -12,6 +12,10 @@ namespace MoneyManager.ViewModels.Tests
         protected ApplicationContext ApplicationContext { get; private set; }
         protected WindowManager WindowManager { get; private set; }
 
+        protected const int CurrentMonth = 6;
+        protected const int CurrentYear = 2014;
+        protected const int CurrentDay = 12;
+
         [SetUp]
         public virtual void Setup()
         {
@@ -20,7 +24,7 @@ namespace MoneyManager.ViewModels.Tests
             Repository.FilePath.Returns(@"C:\Test.mmdb");
 
             ApplicationContext = Substitute.For<ApplicationContext>();
-            ApplicationContext.Now.Returns(new DateTime(2014, 6, 12));
+            ApplicationContext.Now.Returns(new DateTime(CurrentYear, CurrentMonth, CurrentDay));
             WindowManager = Substitute.For<WindowManager>();
 
             Application = new ApplicationViewModel(Repository, ApplicationContext, WindowManager);

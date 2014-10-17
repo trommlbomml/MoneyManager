@@ -22,6 +22,7 @@ namespace MoneyManager.Model
             ReferenceDay = int.Parse(regularyRequestElement.Attribute("ReferenceDay").Value);
             MonthPeriodStep = int.Parse(regularyRequestElement.Attribute("MonthPeriodStep").Value);
             Description = regularyRequestElement.Attribute("Description").Value;
+            LastBookDate = DateTime.Parse(regularyRequestElement.Attribute("LastBookDate").Value, CultureInfo.InvariantCulture);
             Value = Double.Parse(regularyRequestElement.Attribute("Value").Value, CultureInfo.InvariantCulture);
             var categoryEntitiyId = regularyRequestElement.Attribute("CategoryId").Value;
             if (!string.IsNullOrEmpty(categoryEntitiyId))
@@ -31,7 +32,7 @@ namespace MoneyManager.Model
         }
 
         public DateTime FirstBookDate { get;  set; }
-        
+        public DateTime LastBookDate { get; set; }
         public int ReferenceMonth { get;  set; }
         
         public int ReferenceDay { get;  set; }
@@ -57,16 +58,21 @@ namespace MoneyManager.Model
                              .Select(i => (ReferenceMonth + i * MonthPeriodStep) % 13).ToArray();
         }
 
-        public RequestEntity CreateRequest(int year)
+        public RequestEntityImp CreateRequest(DateTime bookDate)
         {
             return new RequestEntityImp
             {
                 Category = Category,
-                Date = new DateTime(year, ReferenceMonth, ReferenceDay),
+                Date = bookDate,
                 Description = Description,
-                Value = Value,
-                RegularyRequest = this
+                Value = Value
             };
+        }
+
+        public DateTime GetNextPaymentDateTime()
+        {
+            if (LastBookDate == DateTime.MinValue) return FirstBookDate;
+            return LastBookDate.AddMonths(MonthPeriodStep);
         }
 
         public XElement Serialize()
@@ -74,6 +80,7 @@ namespace MoneyManager.Model
             return new XElement("RegularyRequest",
                 new XAttribute("Id", PersistentId),
                 new XAttribute("FirstBookDate", FirstBookDate.ToString(CultureInfo.InvariantCulture)),
+                new XAttribute("LastBookDate", LastBookDate.ToString(CultureInfo.InvariantCulture)),
                 new XAttribute("ReferenceMonth", ReferenceMonth),
                 new XAttribute("ReferenceDay", ReferenceDay),
                 new XAttribute("MonthPeriodStep", MonthPeriodStep),

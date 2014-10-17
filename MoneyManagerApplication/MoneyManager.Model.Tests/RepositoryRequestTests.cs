@@ -52,30 +52,6 @@ namespace MoneyManager.Model.Tests
             return regularyRequestEntity;
         }
 
-        [Test]
-        public void QueryRequestsForSingleMonthWithRegularyRequests()
-        {
-            var regularyRequestSingleMonth = CreateRegularyRequest(new DateTime(2014, 6, 1), 1);
-            var secondRegularyRequestQuarterly = CreateRegularyRequest(new DateTime(2014, 6, 1), 3);
-            var thirdRegularyRequest = CreateRegularyRequest(new DateTime(2014, 3, 1), 3);
-            CreateRegularyRequest(new DateTime(2014, 7, 1), 1);
-            CreateRegularyRequest(new DateTime(2014, 5, 1), 2);
-            CreateRegularyRequest(new DateTime(2015, 1, 1), 1);
-            CreateRegularyRequest(new DateTime(2014, 1, 1), 12);
-            
-            CreateRequestsInRepository(new [] { new DateTime(2014, 6, 1)}, new [] {10});
-
-            var requests = Repository.QueryRequestsForSingleMonth(2014, 6).ToArray();
-            Assert.That(requests.SingleOrDefault(r => r.RegularyRequest == regularyRequestSingleMonth), Is.Not.Null, "Firstbookdate at same month (monthly) and year not queried.");
-            Assert.That(requests.SingleOrDefault(r => r.RegularyRequest == secondRegularyRequestQuarterly), Is.Not.Null, "Firstbookdate at same month (quarterly) and year not queried.");
-            Assert.That(requests.SingleOrDefault(r => r.RegularyRequest == thirdRegularyRequest), Is.Not.Null, "Periods fits to current month not queried");
-
-            foreach (var requestEntity in requests)
-            {
-                Assert.That(() => Repository.QueryRequest(requestEntity.PersistentId), Throws.Nothing);
-            }
-        }
-
         [TestCase(true)]
         [TestCase(false)]
         public void QueryRequestsForMonthWithNoEntries(bool createRequestsInDifferentMonth)

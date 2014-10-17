@@ -38,15 +38,6 @@ namespace MoneyManager.Model
 
             var regularyRequestEntity = _allRegularyRequests.Single(r => r.PersistentId == entityId);
 
-            var allRequestsReferencing = _allRequests.Where(r => r.RegularyRequest == regularyRequestEntity).ToArray();
-            foreach (var requestEntityImp in allRequestsReferencing)
-            {
-                requestEntityImp.Category = regularyRequestEntity.Category;
-                requestEntityImp.Description = regularyRequestEntity.Description;
-                requestEntityImp.Value = regularyRequestEntity.Value;
-                requestEntityImp.RegularyRequest = null;
-            }
-
             _allRegularyRequests.Remove(regularyRequestEntity);
         }
 
@@ -64,18 +55,22 @@ namespace MoneyManager.Model
             return _allRegularyRequests;
         }
 
-        private IEnumerable<RegularyRequestEntity> QueryRegularyRequestsForMonth(int year, int month)
+        public void UpdateRegularyRequestsToCurrentMonth()
         {
-            EnsureRepositoryOpen("QueryAllRegularyRequestEntities");
+            var currentMonthLastDay = _applicationContext.Now.Date.LastDayOfMonth();
+            var requests = _allRegularyRequests.Where(r => r.FirstBookDate.Date <= currentMonthLastDay).ToList();
 
-            var currentMonthDateTime = new DateTime(year, month, 1);
-            return _allRegularyRequests.Where(r => r.FirstBookDate <= currentMonthDateTime && r.IsMonthOfPeriod(month));
-        }
-
-        private IEnumerable<RegularyRequestEntity> QueryRegularRequestsUpToMonth(int year, int month)
-        {
-            var currentMonthDateTime = new DateTime(year, month, 1);
-            return _allRegularyRequests.Where(r => r.FirstBookDate <= currentMonthDateTime && r.IsMonthOfPeriod(month));
+            foreach(var request in requests)
+            {
+                var bookDate = request.GetNextPaymentDateTime();
+                while(bookDate <= currentMonthLastDay)
+                {
+                    var newRequest = request.CreateRequest(bookDate);
+                    _allRequests.Add(newRequest);
+                    request.LastBookDate = bookDate;
+                    bookDate = request.GetNextPaymentDateTime();
+                }
+            }
         }
 
         private void SetRequestEntityImpData(RegularyRequestEntityImp regularyRequest, RegularyRequestEntityData requestData)

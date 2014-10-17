@@ -124,6 +124,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             viewModel.OpenRecentAccountCommand.Execute(null);
 
             Repository.Received(1).Open(@"C:\test\test.txt");
+            Repository.Received(1).UpdateRegularyRequestsToCurrentMonth();
             ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(@"C:\test\test.txt");
             Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
         }
@@ -152,11 +153,13 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             if (accept)
             {
                 Repository.Received(1).Open(expectedPath);
+                Repository.Received(1).UpdateRegularyRequestsToCurrentMonth();
                 Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
             }
             else
             {
                 Repository.DidNotReceiveWithAnyArgs().Open(Arg.Any<string>());
+                Repository.DidNotReceiveWithAnyArgs().UpdateRegularyRequestsToCurrentMonth();
                 Assert.That(Application.ActivePage, Is.Not.InstanceOf<RequestManagementPageViewModel>());
             }
 

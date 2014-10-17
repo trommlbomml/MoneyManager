@@ -238,7 +238,6 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                 entity.Description.Returns(expectedDescription);
                 entity.Value.Returns(expectedValue);
                 entity.Date.Returns(expectedDate);
-                entity.RegularyRequest.Returns((RegularyRequestEntity) null);
                 if (isCategorySelected)
                 {
                     var category = Substitute.For<CategoryEntity>();
@@ -288,7 +287,6 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                 entity.Date.Returns(new DateTime(year, month, 5));
                 entity.Description.Returns("Description");
                 entity.Value.Returns((i-1)*2.30);
-                entity.RegularyRequest.Returns((RegularyRequestEntity) null);
 
                 Repository.QueryRequest(entity.PersistentId).Returns(entity);
 

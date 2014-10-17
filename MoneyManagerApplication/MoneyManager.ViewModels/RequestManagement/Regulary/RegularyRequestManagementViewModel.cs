@@ -95,6 +95,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             }
 
             Details.IsInEditMode = false;
+            _application.Repository.UpdateRegularyRequestsToCurrentMonth();
             UpdateCommandStates();
         }
 

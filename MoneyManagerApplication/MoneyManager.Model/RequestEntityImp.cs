@@ -26,12 +26,6 @@ namespace MoneyManager.Model
             {
                 Category = categories.Single(c => c.PersistentId == categoryEntitiyId);
             }
-
-            var regularyRequestEntityId = requestElement.Attribute("RegularyRequestId").Value;
-            if (!string.IsNullOrEmpty(regularyRequestEntityId))
-            {
-                RegularyRequest = regularyRequests.Single(r => r.PersistentId == regularyRequestEntityId);
-            }
         }
 
         public double Value { get; set; }
@@ -42,8 +36,6 @@ namespace MoneyManager.Model
         
         public CategoryEntity Category { get; set; }
 
-        public RegularyRequestEntity RegularyRequest { get; set; }
-
         public XElement Serialize()
         {
             return new XElement("Request", 
@@ -51,8 +43,7 @@ namespace MoneyManager.Model
                 new XAttribute("Date", Date.ToString(CultureInfo.InvariantCulture)),
                 new XAttribute("Description", Description ?? ""),
                 new XAttribute("Value", Value.ToString(CultureInfo.InvariantCulture)),
-                new XAttribute("CategoryId", Category != null ? Category.PersistentId : ""),
-                new XAttribute("RegularyRequestId", RegularyRequest != null ? RegularyRequest.PersistentId : ""));
+                new XAttribute("CategoryId", Category != null ? Category.PersistentId : ""));
         }
     }
 }

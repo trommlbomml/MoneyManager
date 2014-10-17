@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoneyManager.Interfaces
 {
@@ -20,6 +18,11 @@ namespace MoneyManager.Interfaces
         /// Datum, an dem der Betrag das erste Mal verrechnet werden soll.
         /// </summary>
         DateTime FirstBookDate { get; }
+
+        /// <summary>
+        /// Das letzte Datum, an dem eine Buchung eingetragen worden ist.
+        /// </summary>
+        DateTime LastBookDate { get; }
 
         /// <summary>
         /// Referenzmonat, an dem verrechnet wird.

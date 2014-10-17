@@ -1,4 +1,5 @@
 ﻿
+using System;
 using NUnit.Framework;
 
 namespace MoneyManager.Model.Tests
@@ -37,6 +38,41 @@ namespace MoneyManager.Model.Tests
             };
 
             Assert.That(entity.IsMonthOfPeriod(month), Is.EqualTo(expectedIsPeriodMonth));
+        }
+
+        [Test]
+        public void GetNextPeriodDateTimeForFirstCall([Values(1,3,6,12)]int period)
+        {
+            var entity = new RegularyRequestEntityImp
+            {
+                MonthPeriodStep = period,
+                ReferenceDay = 1,
+                ReferenceMonth = 4,
+                FirstBookDate = new DateTime(2014, 4, 1)
+            };
+
+            var expectedDateTime = new DateTime(2014, 4, 1);
+            var nextDateTime = entity.GetNextPaymentDateTime();
+
+            Assert.That(nextDateTime, Is.EqualTo(expectedDateTime));
+        }
+
+        [Test]
+        public void GetNextPeriodDateTime([Values(1, 3, 6, 12)]int period)
+        {
+            var entity = new RegularyRequestEntityImp
+            {
+                MonthPeriodStep = period,
+                ReferenceDay = 1,
+                ReferenceMonth = 4,
+                FirstBookDate = new DateTime(2014, 4, 1),
+                LastBookDate = new DateTime(2014, 4, 1)
+            };
+
+            var expectedDateTime = new DateTime(2014, 4, 1).AddMonths(period);
+            var nextDateTime = entity.GetNextPaymentDateTime();
+
+            Assert.That(nextDateTime, Is.EqualTo(expectedDateTime));
         }
     }
 }

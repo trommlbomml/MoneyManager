@@ -82,19 +82,9 @@ namespace MoneyManager.ViewModels.RequestManagement
             
             var categorySource = entity.Category;
             
-            if (entity.RegularyRequest != null)
-            {
-                IsRegularyRequest = true;
-                Value = entity.RegularyRequest.Value;
-                Description = entity.RegularyRequest.Description;
-                categorySource = entity.RegularyRequest.Category;
-            }
-            else
-            {
-                IsRegularyRequest = false;
-                Value = entity.Value;
-                Description = entity.Description;
-            }
+            IsRegularyRequest = false;
+            Value = entity.Value;
+            Description = entity.Description;
 
             if (categorySource != null)
             {
