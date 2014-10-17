@@ -160,11 +160,164 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Halbjährlich.
+        /// </summary>
+        public static string PeriodName_HalfYearly {
+            get {
+                return ResourceManager.GetString("PeriodName_HalfYearly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monatlich.
+        /// </summary>
+        public static string PeriodName_Monthly {
+            get {
+                return ResourceManager.GetString("PeriodName_Monthly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pro Quartal.
+        /// </summary>
+        public static string PeriodName_Quarterly {
+            get {
+                return ResourceManager.GetString("PeriodName_Quarterly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jährlich.
+        /// </summary>
+        public static string PeriodName_Yearly {
+            get {
+                return ResourceManager.GetString("PeriodName_Yearly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verwerfen.
+        /// </summary>
+        public static string RegularyRequestDialog_Cancel {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kategorie.
+        /// </summary>
+        public static string RegularyRequestDialog_Category {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Schließen.
         /// </summary>
         public static string RegularyRequestDialog_Close {
             get {
                 return ResourceManager.GetString("RegularyRequestDialog_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Löschen.
+        /// </summary>
+        public static string RegularyRequestDialog_Delete {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beschreibung.
+        /// </summary>
+        public static string RegularyRequestDialog_Description {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bearbeiten.
+        /// </summary>
+        public static string RegularyRequestDialog_Edit {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Erste Buchung.
+        /// </summary>
+        public static string RegularyRequestDialog_FirstBookDate {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_FirstBookDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beschreibung.
+        /// </summary>
+        public static string RegularyRequestDialog_GridColmnHeader_Description {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_GridColmnHeader_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intervall.
+        /// </summary>
+        public static string RegularyRequestDialog_GridColmnHeader_MonthPeroid {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_GridColmnHeader_MonthPeroid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Betrag.
+        /// </summary>
+        public static string RegularyRequestDialog_GridColmnHeader_Value {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_GridColmnHeader_Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neu.
+        /// </summary>
+        public static string RegularyRequestDialog_New {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intervall.
+        /// </summary>
+        public static string RegularyRequestDialog_Period {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_Period", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speichern.
+        /// </summary>
+        public static string RegularyRequestDialog_Save {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Betrag.
+        /// </summary>
+        public static string RegularyRequestDialog_Value {
+            get {
+                return ResourceManager.GetString("RegularyRequestDialog_Value", resourceCulture);
             }
         }
         

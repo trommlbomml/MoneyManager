@@ -12,7 +12,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         private string _entityId;
         private readonly ApplicationViewModel _application;
         private double _value;
-
+        private DateTime _firstBookDate;
         public EnumeratedSingleValuedProperty<MonthPeriod> MonthPeriods { get; private set; }
         public EnumeratedSingleValuedProperty<CategoryViewModel> Categories { get; private set; }
 
@@ -34,11 +34,13 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
                 Categories.AddValue(category);
                 category.Refresh();
             }
+
+            FirstBookDate = application.ApplicationContext.Now.Date;
             
             UpdateCommandStates();
         }
 
-        private int GetPeriodFromEnum(MonthPeriod period)
+        private static int GetPeriodFromEnum(MonthPeriod period)
         {
             switch (period)
             {
@@ -63,10 +65,9 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
                 Value = Value,
                 MonthPeriodStep = GetPeriodFromEnum(MonthPeriods.SelectedValue),
                 CategoryEntityId = Categories.SelectedValue != null ? Categories.SelectedValue.EntityId : null,
-                //todo:
-                FirstBookDate = DateTime.MinValue,
-                ReferenceDay = 12,
-                ReferenceMonth = 11
+                FirstBookDate = FirstBookDate,
+                ReferenceMonth = FirstBookDate.Month,
+                ReferenceDay = FirstBookDate.Day
             };
         }
 
@@ -121,6 +122,12 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         {
             get { return _value; }
             set { SetBackingField("Value", ref _value, value); }
+        }
+
+        public DateTime FirstBookDate
+        {
+            get { return _firstBookDate; }
+            set { SetBackingField("FirstBookDate", ref _firstBookDate, value); }
         }
 
         public bool IsInEditMode

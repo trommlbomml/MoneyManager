@@ -17,13 +17,13 @@ namespace MoneyManagerApplication.Converters
             switch ((MonthPeriod) value)
             {
                 case MonthPeriod.Monthly:
-                    return "@Monatlich";
+                    return Properties.Resources.PeriodName_Monthly;
                 case MonthPeriod.Quarterly:
-                    return "@Pro Quartal";
+                    return Properties.Resources.PeriodName_Quarterly;
                 case MonthPeriod.HalfYearly:
-                    return "@halbjährlich";
+                    return Properties.Resources.PeriodName_HalfYearly;
                 case MonthPeriod.Yearly:
-                    return "@Jährlich";
+                    return Properties.Resources.PeriodName_Yearly;
                 default:
                     return DependencyProperty.UnsetValue;
             }

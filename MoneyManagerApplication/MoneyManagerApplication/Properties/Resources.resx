@@ -150,8 +150,59 @@
   <data name="CategoryManagementWindow_Title" xml:space="preserve">
     <value>Kategorieverwaltung</value>
   </data>
+  <data name="PeriodName_HalfYearly" xml:space="preserve">
+    <value>Halbjährlich</value>
+  </data>
+  <data name="PeriodName_Monthly" xml:space="preserve">
+    <value>Monatlich</value>
+  </data>
+  <data name="PeriodName_Quarterly" xml:space="preserve">
+    <value>Pro Quartal</value>
+  </data>
+  <data name="PeriodName_Yearly" xml:space="preserve">
+    <value>Jährlich</value>
+  </data>
+  <data name="RegularyRequestDialog_Cancel" xml:space="preserve">
+    <value>Verwerfen</value>
+  </data>
+  <data name="RegularyRequestDialog_Category" xml:space="preserve">
+    <value>Kategorie</value>
+  </data>
   <data name="RegularyRequestDialog_Close" xml:space="preserve">
     <value>Schließen</value>
+  </data>
+  <data name="RegularyRequestDialog_Delete" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="RegularyRequestDialog_Description" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="RegularyRequestDialog_Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="RegularyRequestDialog_FirstBookDate" xml:space="preserve">
+    <value>Erste Buchung</value>
+  </data>
+  <data name="RegularyRequestDialog_GridColmnHeader_Description" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="RegularyRequestDialog_GridColmnHeader_MonthPeroid" xml:space="preserve">
+    <value>Intervall</value>
+  </data>
+  <data name="RegularyRequestDialog_GridColmnHeader_Value" xml:space="preserve">
+    <value>Betrag</value>
+  </data>
+  <data name="RegularyRequestDialog_New" xml:space="preserve">
+    <value>Neu</value>
+  </data>
+  <data name="RegularyRequestDialog_Period" xml:space="preserve">
+    <value>Intervall</value>
+  </data>
+  <data name="RegularyRequestDialog_Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="RegularyRequestDialog_Value" xml:space="preserve">
+    <value>Betrag</value>
   </data>
   <data name="RequestDialog_CreateCommandCaption" xml:space="preserve">
     <value>Erstellen</value>

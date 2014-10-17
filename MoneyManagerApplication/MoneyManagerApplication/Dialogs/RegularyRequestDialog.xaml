@@ -24,12 +24,13 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
-                <Label Content="@Beschreibung:" Grid.Column="0" Grid.Row="0" />
+                <Label Content="{x:Static properties:Resources.RegularyRequestDialog_Description}" Grid.Column="0" Grid.Row="0" />
                 <TextBox Text="{Binding Description}" Grid.Column="1" Grid.Row="0" IsEnabled="{Binding IsInEditMode}"/>
-                
-                <Label Content="@Periode:" Grid.Column="0" Grid.Row="1" />
+
+                <Label Content="{x:Static properties:Resources.RegularyRequestDialog_Period}" Grid.Column="0" Grid.Row="1" />
                 <ComboBox Grid.Column="1" 
                           Grid.Row="1" 
                           IsEnabled="{Binding IsInEditMode}"
@@ -42,8 +43,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
-                <Label Content="@Betrag:" Grid.Column="0" Grid.Row="2" />
-
+                <Label Content="{x:Static properties:Resources.RegularyRequestDialog_Value}" Grid.Column="0" Grid.Row="2" />
                 <xctk:DecimalUpDown Margin="5"
                             HorizontalAlignment="Left"
                             FormatString="C"
@@ -53,7 +53,7 @@
                             Width="100"
                             Value="{Binding Value, UpdateSourceTrigger=PropertyChanged, ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
 
-                <Label Content="@Kategorie:" Grid.Column="0" Grid.Row="3" />
+                <Label Content="{x:Static properties:Resources.RegularyRequestDialog_Category}" Grid.Column="0" Grid.Row="3" />
                 <ComboBox Grid.Column="1" 
                           Grid.Row="3" 
                           IsEnabled="{Binding IsInEditMode}"
@@ -61,9 +61,15 @@
                           ItemsSource="{Binding Categories.SelectableValues}" 
                           SelectedValue="{Binding Categories.SelectedValue, UpdateSourceTrigger=PropertyChanged}" />
 
-                <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button Content="@Speichern" Command="{Binding SaveCommand}" />
-                    <Button Content="@Verwerfen" Command="{Binding CancelCommand}" />
+                <Label Content="{x:Static properties:Resources.RegularyRequestDialog_FirstBookDate}" Grid.Column="0" Grid.Row="4" />
+                <DatePicker Grid.Column="1" 
+                            Grid.Row="4" 
+                            IsEnabled="{Binding IsInEditMode}" 
+                            SelectedDate="{Binding FirstBookDate, UpdateSourceTrigger=PropertyChanged}" />
+
+                <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Content="{x:Static properties:Resources.RegularyRequestDialog_Save}" Command="{Binding SaveCommand}" />
+                    <Button Content="{x:Static properties:Resources.RegularyRequestDialog_Cancel}" Command="{Binding CancelCommand}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -77,9 +83,9 @@
         </Grid.RowDefinitions>
         
         <StackPanel Orientation="Horizontal">
-            <Button Content="@Neu" Command="{Binding CreateRegularyRequestCommand}" />
-            <Button Content="@Bearbeiten" Command="{Binding EditRegularyRequestCommand}" />
-            <Button Content="@Löschen" Command="{Binding DeleteRegularyRequestCommand}" />
+            <Button Content="{x:Static properties:Resources.RegularyRequestDialog_New}" Command="{Binding CreateRegularyRequestCommand}" />
+            <Button Content="{x:Static properties:Resources.RegularyRequestDialog_Edit}" Command="{Binding EditRegularyRequestCommand}" />
+            <Button Content="{x:Static properties:Resources.RegularyRequestDialog_Delete}" Command="{Binding DeleteRegularyRequestCommand}" />
         </StackPanel>
         
         <DataGrid Grid.Row="1" 
@@ -91,13 +97,13 @@
                   SelectionMode="Single"
                   IsEnabled="{Binding Details.IsInEditMode, Converter={x:Static converters:BoolInverseConverter.Instance}, FallbackValue=true}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="@Beschreibung" Binding="{Binding Description}" Width="*" />
-                <DataGridTextColumn Header="@Betrag" Binding="{Binding ValueAsString}" Width="Auto" />
-                <DataGridTextColumn Header="@MonthPeriod" Binding="{Binding MonthPeriodAsString}" Width="Auto" />
+                <DataGridTextColumn Header="{x:Static properties:Resources.RegularyRequestDialog_GridColmnHeader_Description}" Binding="{Binding Description}" Width="*" />
+                <DataGridTextColumn Header="{x:Static properties:Resources.RegularyRequestDialog_GridColmnHeader_Value}" Binding="{Binding ValueAsString}" Width="Auto" />
+                <DataGridTextColumn Header="{x:Static properties:Resources.RegularyRequestDialog_GridColmnHeader_MonthPeroid}" Binding="{Binding MonthPeriodAsString}" Width="Auto" />
             </DataGrid.Columns>
         </DataGrid>
         
-        <Border Grid.Row="2" Height="150" BorderThickness="1" Margin="2" BorderBrush="Black">
+        <Border Grid.Row="2" BorderThickness="1" Margin="2" BorderBrush="Black">
             <ContentControl Content="{Binding Details}"></ContentControl>
         </Border>
         
