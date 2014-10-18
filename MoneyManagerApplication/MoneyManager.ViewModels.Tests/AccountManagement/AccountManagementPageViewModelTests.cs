@@ -27,11 +27,9 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             var viewModel = new AccountManagementPageViewModel(Application);
 
             Assert.That(viewModel.Caption, Is.EqualTo(Properties.Resources.AccountManagementPageCaption));
-            Assert.That(viewModel.CreateNewAccountCommand.IsEnabled, Is.True);
+            Assert.That(viewModel.CreateNewAccountCommand.IsEnabled, Is.False);
             Assert.That(viewModel.OpenAccountCommand.IsEnabled, Is.True);
-            Assert.That(viewModel.OpenRecentAccountCommand.IsEnabled, Is.False);
-            Assert.That(viewModel.Accounts.SelectableValues, Is.Empty);
-            Assert.That(viewModel.Accounts.Value, Is.Null);
+            Assert.That(viewModel.Accounts, Is.Empty);
         }
 
         [Test]
@@ -47,34 +45,25 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
 
             var viewModel = new AccountManagementPageViewModel(Application);
 
-            Assert.That(viewModel.Accounts.SelectableValues.Count, Is.EqualTo(2));
-            Assert.That(viewModel.Accounts.Value, Is.Null);
+            Assert.That(viewModel.Accounts.Count, Is.EqualTo(2));
 
-            Assert.That(viewModel.Accounts.SelectableValues[0].LastAccessDate, Is.EqualTo(new DateTime(2014, 4, 1)));
-            Assert.That(viewModel.Accounts.SelectableValues[0].Path, Is.EqualTo("C:\test\test.txt"));
+            Assert.That(viewModel.Accounts[0].LastAccessDate, Is.EqualTo(new DateTime(2014, 4, 1)));
+            Assert.That(viewModel.Accounts[0].Path, Is.EqualTo("C:\test\test.txt"));
 
-            Assert.That(viewModel.Accounts.SelectableValues[1].LastAccessDate, Is.EqualTo(new DateTime(2014, 8, 14)));
-            Assert.That(viewModel.Accounts.SelectableValues[1].Path, Is.EqualTo("C:\test2\test2.txt"));
+            Assert.That(viewModel.Accounts[1].LastAccessDate, Is.EqualTo(new DateTime(2014, 8, 14)));
+            Assert.That(viewModel.Accounts[1].Path, Is.EqualTo("C:\test2\test2.txt"));
         }
 
         [Test]
         public void CreateRepositoryWithRepositoryThrowsErrorShowsMessageBox()
         {
-            object currentDialog = null;
-
-            WindowManager.When(w => w.ShowDialog(Arg.Any<object>())).Do(c => currentDialog = c[0]);
             Repository.When(r => r.Create(Arg.Any<string>(), Arg.Any<string>())).Do(c => {throw new ApplicationException("ErrorMessage");});
 
             var viewModel = new AccountManagementPageViewModel(Application);
 
+            viewModel.NewAccountFilePath = "Test";
+            viewModel.NewAccountNameProperty.Value = "Test";
             viewModel.CreateNewAccountCommand.Execute(null);
-            Assert.That(currentDialog, Is.InstanceOf<CreateAccountDialogViewModel>());
-
-            var createAccountDialog = (CreateAccountDialogViewModel) currentDialog;
-
-            createAccountDialog.Name = "Test";
-            createAccountDialog.Path = "Test";
-            createAccountDialog.CreateAccountCommand.Execute(null);
 
             Repository.Received(1).Create("Test", "Test");
             WindowManager.Received(1).ShowError("Error", "ErrorMessage");
@@ -83,23 +72,13 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
         [Test]
         public void CreateAccount()
         {
-            object currentDialog = null;
-
-            WindowManager.When(w => w.ShowDialog(Arg.Any<object>())).Do(c => currentDialog = c[0]);
-
             var viewModel = new AccountManagementPageViewModel(Application);
 
+            viewModel.NewAccountFilePath = "Test";
+            viewModel.NewAccountNameProperty.Value = "Test";
             viewModel.CreateNewAccountCommand.Execute(null);
-            Assert.That(currentDialog, Is.InstanceOf<CreateAccountDialogViewModel>());
-
-            var createAccountDialog = (CreateAccountDialogViewModel)currentDialog;
-
-            createAccountDialog.Name = "Test";
-            createAccountDialog.Path = "Test";
-            createAccountDialog.CreateAccountCommand.Execute(null);
 
             Repository.Received(1).Create("Test", "Test");
-            
             Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
 
             var requestManagementPage = (RequestManagementPageViewModel) Application.ActivePage;
@@ -119,9 +98,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             ApplicationContext.RecentAccounts.Returns(values.AsReadOnly());
 
             var viewModel = new AccountManagementPageViewModel(Application);
-            viewModel.Accounts.Value = viewModel.Accounts.SelectableValues.First();
-
-            viewModel.OpenRecentAccountCommand.Execute(null);
+            viewModel.Accounts.First().OpenCommand.Execute(null);
 
             Repository.Received(1).Open(@"C:\test\test.txt");
             Repository.Received(1).UpdateRegularyRequestsToCurrentMonth();
@@ -200,9 +177,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             }
 
             var viewModel = new AccountManagementPageViewModel(Application);
-            viewModel.Accounts.Value = viewModel.Accounts.SelectableValues.First();
-
-            viewModel.OpenRecentAccountCommand.Execute(null);
+            viewModel.Accounts.First().OpenCommand.Execute(null);
 
             Repository.Received(1).Open(accountPath);
             ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>());
@@ -214,14 +189,12 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             if (answerYes)
             {
                 ApplicationContext.Received(1).DeleteRecentAccountInformation(accountPath);
-                Assert.That(viewModel.Accounts.SelectableValues.Count, Is.EqualTo(0));
-                Assert.That(viewModel.Accounts.Value, Is.Null);
+                Assert.That(viewModel.Accounts.Count, Is.EqualTo(0));
             }
             else
             {
                 ApplicationContext.DidNotReceiveWithAnyArgs().DeleteRecentAccountInformation(Arg.Any<string>());
-                Assert.That(viewModel.Accounts.SelectableValues.Count, Is.EqualTo(1));
-                Assert.That(viewModel.Accounts.Value, Is.EqualTo(viewModel.Accounts.SelectableValues.First()));
+                Assert.That(viewModel.Accounts.Count, Is.EqualTo(1));
             }
 
             Assert.That(Application.ActivePage, Is.Not.InstanceOf<AccountManagementPageViewModel>());

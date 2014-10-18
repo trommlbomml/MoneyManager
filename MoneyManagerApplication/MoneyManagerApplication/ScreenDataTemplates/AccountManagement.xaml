@@ -4,53 +4,87 @@
                     xmlns:properties="clr-namespace:MoneyManagerApplication.Properties">
 
     <DataTemplate x:Key="RecentAccountsItemTemplate" DataType="{x:Type accountManagement:RecentAccountViewModel}">
+        <Grid Background="{DynamicResource RecentAccountListItemBackgroundBrush}" Margin="0,0,0,8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path}" Margin="4" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding LastAccessDateAsString}" Margin="4" />
+            <UniformGrid Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center" Grid.Column="1" Columns="2" Rows="1" Margin="0,0,4,0">
+                <Button Content="{x:Static properties:Resources.AccountManagementPage_OpenRecentAccountCommandCaption}" Margin="4" Padding="15,4" Command="{Binding OpenCommand}" />
+                <Button Content="{x:Static properties:Resources.AccountManagementPage_RemoveAccountCommandCaption}" Margin="4" Padding="15,4" Command="{Binding RemoveCommand}" />
+            </UniformGrid>
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Key="RecentAccountsContainerStyle" TargetType="{x:Type ContentPresenter}">
+        <Setter Property="Opacity" Value="0.5" />
+        <Style.Triggers>
+            <Trigger Property="ContentPresenter.IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1.0" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <DataTemplate DataType="{x:Type accountManagement:AccountManagementPageViewModel}">
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             
-            <TextBlock Text="{Binding Path}" Margin="2"/>
-            <TextBlock Grid.Row="1" Text="{Binding LastAccessDateAsString}" Margin="2" />
-        </Grid>
-    </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type accountManagement:AccountManagementPageViewModel}">
+            <Border Grid.Row="0" 
+                    Margin="{DynamicResource HeaderMargin}"
+                    Height="{DynamicResource HeaderHeight}" 
+                    Background="{DynamicResource DarkBackgroundBrush}">
 
-        <Grid HorizontalAlignment="Center"
-              VerticalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="150" />
-            </Grid.RowDefinitions>
-
-            <StackPanel Orientation="Horizontal">
-                <Button Content="{x:Static properties:Resources.AccountManagementPage_CreateNewAccountCommandCaption}" 
-                    Command="{Binding CreateNewAccountCommand}"
-                    Margin="5"
-                    Width="100"
-                    Height="100" />
-                <Button Content="{x:Static properties:Resources.AccountManagementPage_OpenRecentAccountCommandCaption}" 
-                    Command="{Binding OpenRecentAccountCommand}"
-                    Margin="5"
-                    Width="100"
-                    Height="100"/>
-                <Button Content="{x:Static properties:Resources.AccountManagementPage_OpenAccountCommandCaption}" 
-                    Command="{Binding OpenAccountCommand}"
-                    Margin="5"
-                    Width="100"
-                    Height="100"/>
-                <Button Content="{x:Static properties:Resources.AccountManagementPage_RemoveAccountCommandCaption}" 
-                    Command="{Binding RemoveRecentAccountCommand}"
-                    Margin="5"
-                    Width="100"
-                    Height="100"/>
-            </StackPanel>
+                <StackPanel Margin="{DynamicResource HeaderTextContainerMargin}"
+                            Orientation="Vertical" 
+                            HorizontalAlignment="Right">
+                    <TextBlock FontSize="40" Text="MoneyManager 2014" Margin="0,0,0,4"/>
+                    <TextBlock FontSize="12" Text="Copyright Peter Friedland" />
+                    <TextBlock FontSize="12" Text="Design Josephine Rosin" />
+                </StackPanel>
+                
+            </Border>
             
-            <ListBox Grid.Row="1" 
-                     ItemsSource="{Binding Accounts.SelectableValues}" 
-                     SelectedItem="{Binding Accounts.Value}" 
-                     ItemTemplate="{StaticResource RecentAccountsItemTemplate}" />
+            <TabControl Grid.Row="1" Margin="30,10,30,30">
+                <TabItem Header="{x:Static properties:Resources.AccountManagementPage_TabItemHeaderNew}">
+                    <Grid Background="{DynamicResource RecentAccountListItemBackgroundBrush}" Margin="{DynamicResource TabItemContentMargin}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Label Grid.Row="0" Grid.Column="0" Content="{x:Static properties:Resources.AccountManagementPage_LabelName}" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding NewAccountNameProperty.Value, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <Label Grid.Row="1" Grid.Column="0" Content="{x:Static properties:Resources.AccountManagementPage_LabelFilePath}" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding NewAccountFilePath, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                        <Button Grid.Row="1" Grid.Column="2" Content="{x:Static properties:Resources.AccountManagementPage_SelectFileCommandCaption}" Command="{Binding SelectFileCommand}" />
+
+                        <Button Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="2" Command="{Binding CreateNewAccountCommand}" Content="{x:Static properties:Resources.AccountManagementPage_CreateCommandCaption}" />
+                    </Grid>
+                </TabItem>
+                <TabItem Header="{x:Static properties:Resources.AccountManagementPage_TabItemHeaderOpen}" IsSelected="True">
+                    <ItemsControl Margin="{DynamicResource TabItemContentMargin}"
+                                  ItemsSource="{Binding Accounts}" 
+                                  ItemContainerStyle="{StaticResource RecentAccountsContainerStyle}"
+                                  ItemTemplate="{StaticResource RecentAccountsItemTemplate}" />
+                </TabItem>
+            </TabControl>
 
         </Grid>
         

@@ -61,11 +61,11 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Neu.
+        ///   Looks up a localized string similar to Erstellen.
         /// </summary>
-        public static string AccountManagementPage_CreateNewAccountCommandCaption {
+        public static string AccountManagementPage_CreateCommandCaption {
             get {
-                return ResourceManager.GetString("AccountManagementPage_CreateNewAccountCommandCaption", resourceCulture);
+                return ResourceManager.GetString("AccountManagementPage_CreateCommandCaption", resourceCulture);
             }
         }
         
@@ -79,6 +79,24 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dateispeicherort.
+        /// </summary>
+        public static string AccountManagementPage_LabelFilePath {
+            get {
+                return ResourceManager.GetString("AccountManagementPage_LabelFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string AccountManagementPage_LabelName {
+            get {
+                return ResourceManager.GetString("AccountManagementPage_LabelName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Öffnen.
         /// </summary>
         public static string AccountManagementPage_OpenAccountCommandCaption {
@@ -88,7 +106,7 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bestehend öffnen.
+        ///   Looks up a localized string similar to Öffnen.
         /// </summary>
         public static string AccountManagementPage_OpenRecentAccountCommandCaption {
             get {
@@ -106,47 +124,29 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Erstellen.
-        /// </summary>
-        public static string AccountManagementWindow_CreateCommandCaption {
-            get {
-                return ResourceManager.GetString("AccountManagementWindow_CreateCommandCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Dateispeicherort.
-        /// </summary>
-        public static string AccountManagementWindow_LabelFilePath {
-            get {
-                return ResourceManager.GetString("AccountManagementWindow_LabelFilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Name.
-        /// </summary>
-        public static string AccountManagementWindow_LabelName {
-            get {
-                return ResourceManager.GetString("AccountManagementWindow_LabelName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to ....
         /// </summary>
-        public static string AccountManagementWindow_SelectFileText {
+        public static string AccountManagementPage_SelectFileCommandCaption {
             get {
-                return ResourceManager.GetString("AccountManagementWindow_SelectFileText", resourceCulture);
+                return ResourceManager.GetString("AccountManagementPage_SelectFileCommandCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Neuen Account anlegen.
+        ///   Looks up a localized string similar to Neu.
         /// </summary>
-        public static string AccountManagementWindow_Title {
+        public static string AccountManagementPage_TabItemHeaderNew {
             get {
-                return ResourceManager.GetString("AccountManagementWindow_Title", resourceCulture);
+                return ResourceManager.GetString("AccountManagementPage_TabItemHeaderNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Öffnen.
+        /// </summary>
+        public static string AccountManagementPage_TabItemHeaderOpen {
+            get {
+                return ResourceManager.GetString("AccountManagementPage_TabItemHeaderOpen", resourceCulture);
             }
         }
         

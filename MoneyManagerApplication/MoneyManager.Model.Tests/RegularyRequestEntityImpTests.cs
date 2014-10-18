@@ -58,6 +58,22 @@ namespace MoneyManager.Model.Tests
         }
 
         [Test]
+        public void GetNextPeriodForLastBookDateReturnsNull([Values(1, 3, 6, 12)]int period)
+        {
+            var entity = new RegularyRequestEntityImp
+            {
+                MonthPeriodStep = period,
+                ReferenceDay = 1,
+                ReferenceMonth = 4,
+                FirstBookDate = new DateTime(2014, 2, 1),
+                LastBookedDate = new DateTime(2014, 4, 1),
+                LastBookDate =  new DateTime(2014, 4, 1)
+            };
+
+            Assert.That(entity.GetNextPaymentDateTime(), Is.Null);
+        }
+
+        [Test]
         public void GetNextPeriodDateTime([Values(1, 3, 6, 12)]int period)
         {
             var entity = new RegularyRequestEntityImp
@@ -66,7 +82,7 @@ namespace MoneyManager.Model.Tests
                 ReferenceDay = 1,
                 ReferenceMonth = 4,
                 FirstBookDate = new DateTime(2014, 4, 1),
-                LastBookDate = new DateTime(2014, 4, 1)
+                LastBookedDate = new DateTime(2014, 4, 1)
             };
 
             var expectedDateTime = new DateTime(2014, 4, 1).AddMonths(period);

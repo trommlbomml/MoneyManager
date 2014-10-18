@@ -12,6 +12,7 @@ namespace MoneyManager.Model
         public RegularyRequestEntityImp()
         {
             Description = string.Empty;
+            LastBookDate = DateTime.MaxValue;
         }
 
         public RegularyRequestEntityImp(XElement regularyRequestElement, IEnumerable<CategoryEntity> categories):
@@ -23,6 +24,7 @@ namespace MoneyManager.Model
             MonthPeriodStep = int.Parse(regularyRequestElement.Attribute("MonthPeriodStep").Value);
             Description = regularyRequestElement.Attribute("Description").Value;
             LastBookDate = DateTime.Parse(regularyRequestElement.Attribute("LastBookDate").Value, CultureInfo.InvariantCulture);
+            LastBookedDate = DateTime.Parse(regularyRequestElement.Attribute("LastBookedDate").Value, CultureInfo.InvariantCulture);
             Value = Double.Parse(regularyRequestElement.Attribute("Value").Value, CultureInfo.InvariantCulture);
             var categoryEntitiyId = regularyRequestElement.Attribute("CategoryId").Value;
             if (!string.IsNullOrEmpty(categoryEntitiyId))
@@ -32,17 +34,13 @@ namespace MoneyManager.Model
         }
 
         public DateTime FirstBookDate { get;  set; }
+        public DateTime LastBookedDate { get; set; }
         public DateTime LastBookDate { get; set; }
         public int ReferenceMonth { get;  set; }
-        
         public int ReferenceDay { get;  set; }
-        
         public int MonthPeriodStep { get;  set; }
-        
         public double Value { get;  set; }
-        
         public string Description { get;  set; }
-
         public CategoryEntity Category { get;  set; }
 
         public bool IsMonthOfPeriod(int month)
@@ -69,10 +67,11 @@ namespace MoneyManager.Model
             };
         }
 
-        public DateTime GetNextPaymentDateTime()
+        public DateTime? GetNextPaymentDateTime()
         {
-            if (LastBookDate == DateTime.MinValue) return FirstBookDate;
-            return LastBookDate.AddMonths(MonthPeriodStep);
+            if (LastBookedDate == DateTime.MinValue) return FirstBookDate;
+            if (LastBookedDate == LastBookDate) return null;
+            return LastBookedDate.AddMonths(MonthPeriodStep);
         }
 
         public XElement Serialize()
@@ -80,6 +79,7 @@ namespace MoneyManager.Model
             return new XElement("RegularyRequest",
                 new XAttribute("Id", PersistentId),
                 new XAttribute("FirstBookDate", FirstBookDate.ToString(CultureInfo.InvariantCulture)),
+                new XAttribute("LastBookedDate", LastBookedDate.ToString(CultureInfo.InvariantCulture)),
                 new XAttribute("LastBookDate", LastBookDate.ToString(CultureInfo.InvariantCulture)),
                 new XAttribute("ReferenceMonth", ReferenceMonth),
                 new XAttribute("ReferenceDay", ReferenceDay),

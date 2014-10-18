@@ -1,4 +1,19 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    
+    <SolidColorBrush x:Key="DarkBackgroundBrush" Color="#FF99C0A3" />
+    <SolidColorBrush x:Key="LightBackground" Color="#FFB3B3B3" />
+    <SolidColorBrush x:Key="VeryLightBackground" Color="#FFE6E6E6" />
+    
+    <!-- AccountManagement Resources -->
+    <system:Double x:Key="HeaderHeight">180.0</system:Double>
+    
+    <Thickness x:Key="HeaderMargin" Top="20" Left="0" Right="0" Bottom="0" />
+    <Thickness x:Key="HeaderTextContainerMargin" Top="20" Left="0" Right="40" Bottom="0"/>
+
+    <Thickness x:Key="TabItemContentMargin" Left="19" Right="19" Top="25" Bottom="25" />
+    
+    <SolidColorBrush x:Key="RecentAccountListItemBackgroundBrush" Color="#FFF7F7F7" />
     
 </ResourceDictionary>

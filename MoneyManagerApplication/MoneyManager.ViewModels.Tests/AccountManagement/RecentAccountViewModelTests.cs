@@ -10,7 +10,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
         [Test]
         public void InitialState()
         {
-            var viewModel = new RecentAccountViewModel {LastAccessDate = new DateTime(2014, 4, 4)};
+            var viewModel = new RecentAccountViewModel(r => {}, r => {}) {LastAccessDate = new DateTime(2014, 4, 4)};
 
             var expectedLastAccessDateAsString = string.Format(Properties.Resources.LastAccesDateFormat, new DateTime(2014, 4, 4));
             Assert.That(viewModel.LastAccessDateAsString, Is.EqualTo(expectedLastAccessDateAsString));

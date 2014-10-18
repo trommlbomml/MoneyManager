@@ -9,8 +9,14 @@ namespace MoneyManager.ViewModels.AccountManagement
         private string _path;
         private string _lastAccessDateAsString;
 
-        public RecentAccountViewModel()
+        public CommandViewModel OpenCommand { get; private set; }
+        public CommandViewModel RemoveCommand { get; private set; }
+
+        public RecentAccountViewModel(Action<RecentAccountViewModel> onOpen, Action<RecentAccountViewModel> onRemove)
         {
+            OpenCommand = new CommandViewModel(() => onOpen(this));
+            RemoveCommand = new CommandViewModel(() => onRemove(this));
+
             UpdateLocalizedProperties();
         }
 

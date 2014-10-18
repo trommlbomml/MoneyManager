@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MoneyManager.Interfaces
 {
@@ -21,6 +19,11 @@ namespace MoneyManager.Interfaces
 
         /// <summary>
         /// Das letzte Datum, an dem eine Buchung eingetragen worden ist.
+        /// </summary>
+        DateTime LastBookedDate { get; }
+
+        /// <summary>
+        /// Das letzte Datum, an dem eine Buchung vorgenommen werden soll.
         /// </summary>
         DateTime LastBookDate { get; }
 

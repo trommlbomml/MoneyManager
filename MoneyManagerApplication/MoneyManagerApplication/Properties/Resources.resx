@@ -117,35 +117,35 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccountManagementPage_CreateNewAccountCommandCaption" xml:space="preserve">
-    <value>Neu</value>
+  <data name="AccountManagementPage_CreateCommandCaption" xml:space="preserve">
+    <value>Erstellen</value>
   </data>
   <data name="AccountManagementPage_GotoCurrentMonthCommandCaption" xml:space="preserve">
     <value>Zum aktuellen Monat</value>
+  </data>
+  <data name="AccountManagementPage_LabelFilePath" xml:space="preserve">
+    <value>Dateispeicherort</value>
+  </data>
+  <data name="AccountManagementPage_LabelName" xml:space="preserve">
+    <value>Name</value>
   </data>
   <data name="AccountManagementPage_OpenAccountCommandCaption" xml:space="preserve">
     <value>Öffnen</value>
   </data>
   <data name="AccountManagementPage_OpenRecentAccountCommandCaption" xml:space="preserve">
-    <value>Bestehend öffnen</value>
+    <value>Öffnen</value>
   </data>
   <data name="AccountManagementPage_RemoveAccountCommandCaption" xml:space="preserve">
     <value>Entfernen</value>
   </data>
-  <data name="AccountManagementWindow_CreateCommandCaption" xml:space="preserve">
-    <value>Erstellen</value>
-  </data>
-  <data name="AccountManagementWindow_LabelFilePath" xml:space="preserve">
-    <value>Dateispeicherort</value>
-  </data>
-  <data name="AccountManagementWindow_LabelName" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="AccountManagementWindow_SelectFileText" xml:space="preserve">
+  <data name="AccountManagementPage_SelectFileCommandCaption" xml:space="preserve">
     <value>...</value>
   </data>
-  <data name="AccountManagementWindow_Title" xml:space="preserve">
-    <value>Neuen Account anlegen</value>
+  <data name="AccountManagementPage_TabItemHeaderNew" xml:space="preserve">
+    <value>Neu</value>
+  </data>
+  <data name="AccountManagementPage_TabItemHeaderOpen" xml:space="preserve">
+    <value>Öffnen</value>
   </data>
   <data name="CategoryManagementWindow_Title" xml:space="preserve">
     <value>Kategorieverwaltung</value>

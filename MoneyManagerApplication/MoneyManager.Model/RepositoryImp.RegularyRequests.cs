@@ -63,11 +63,11 @@ namespace MoneyManager.Model
             foreach(var request in requests)
             {
                 var bookDate = request.GetNextPaymentDateTime();
-                while(bookDate <= currentMonthLastDay)
+                while(bookDate != null && bookDate.Value <= currentMonthLastDay)
                 {
-                    var newRequest = request.CreateRequest(bookDate);
+                    var newRequest = request.CreateRequest(bookDate.Value);
                     _allRequests.Add(newRequest);
-                    request.LastBookDate = bookDate;
+                    request.LastBookedDate = bookDate.Value;
                     bookDate = request.GetNextPaymentDateTime();
                 }
             }

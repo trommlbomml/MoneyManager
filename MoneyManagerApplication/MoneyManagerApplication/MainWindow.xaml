@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="{Binding ActivePage.Caption}" 
         WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="True"
         MinWidth="640"
         MinHeight="480"
         Width="800"

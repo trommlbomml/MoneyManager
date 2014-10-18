@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Interop;
 using Microsoft.Win32;
 using MoneyManager.Interfaces;
-using MoneyManager.ViewModels.AccountManagement;
 using MoneyManager.ViewModels.RequestManagement;
 using MoneyManager.ViewModels.RequestManagement.Regulary;
 using MoneyManagerApplication.Dialogs;
@@ -24,7 +23,6 @@ namespace MoneyManagerApplication
     {
         private static readonly Dictionary<Type, Func<Window>> CreateWindowFromDataContextType = new Dictionary<Type, Func<Window>>
         {
-            {typeof (CreateAccountDialogViewModel), () => new CreateAccountDialog()},
             {typeof (RequestDialogViewModel), () => new RequestDialog()},
             {typeof (CategoryManagementDialogViewModel), () => new CategoriesManagementDialog()},
             {typeof (RegularyRequestManagementViewModel), () => new RegularyRequestDialog()},

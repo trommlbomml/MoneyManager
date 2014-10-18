@@ -1,64 +1,74 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels.AccountManagement
 {
     public class AccountManagementPageViewModel : PageViewModel
     {
-        public EnumeratedSingleValuedProperty<RecentAccountViewModel> Accounts { get; private set; } 
+        private readonly ObservableCollection<RecentAccountViewModel> _accounts;
+        private string _newAccountFilePath;
 
         public AccountManagementPageViewModel(ApplicationViewModel application) : base(application)
         {
-            Accounts = new EnumeratedSingleValuedProperty<RecentAccountViewModel>();
+            _accounts = new ObservableCollection<RecentAccountViewModel>();
+            Accounts = new ReadOnlyObservableCollection<RecentAccountViewModel>(_accounts);
             CreateAccountsEntries();
 
+            NewAccountNameProperty = new SingleValuedProperty<string>();
             CreateNewAccountCommand = new CommandViewModel(OnCreateNewAccountCommand);
-            OpenRecentAccountCommand = new CommandViewModel(OnOpenRecentAccountCommand);
             OpenAccountCommand = new CommandViewModel(OnOpenAccountCommand);
-            RemoveRecentAccountCommand = new CommandViewModel(OnRemoveRecentAccountCommand);
+            SelectFileCommand = new CommandViewModel(OnSelectFileCommand);
 
             UpdateCommandStates();
 
             Caption = Properties.Resources.AccountManagementPageCaption;
-
-            Accounts.PropertyChanged += OnAccountsChanged;
         }
+        
+        public SingleValuedProperty<string> NewAccountNameProperty { get; private set; }
+        public ReadOnlyObservableCollection<RecentAccountViewModel> Accounts { get; private set; }
+        public CommandViewModel CreateNewAccountCommand { get; private set; }
+        public CommandViewModel OpenAccountCommand { get; private set; }
+        public CommandViewModel SelectFileCommand { get; private set; }
 
-        private void OnRemoveRecentAccountCommand()
+        public string NewAccountFilePath
         {
-            Application.WindowManager.ShowQuestion(Properties.Resources.AccountManagementRemoveAccountCaption, 
-                                                   Properties.Resources.AccountManagementRemoveAccountMessage, 
-            () =>
-            {
-                Application.ApplicationContext.DeleteRecentAccountInformation(Accounts.Value.Path);
-                Accounts.RemoveSelectedValue();
-            }, () => {});
+            get { return _newAccountFilePath; }
+            internal set { SetBackingField("NewAccountFilePath", ref _newAccountFilePath, value, o => UpdateCommandStates()); }
         }
 
+        private void OnSelectFileCommand()
+        {
+            var result = Application.WindowManager.ShowSaveFileDialog(System.IO.Path.GetDirectoryName(NewAccountFilePath), NewAccountFilePath, Properties.Resources.AccountManagementFilterOpenAccount);
+            if (!string.IsNullOrEmpty(result)) NewAccountFilePath = result;
+        }
+
+        private void UpdateCommandStates()
+        {
+            CreateNewAccountCommand.IsEnabled = !string.IsNullOrWhiteSpace(NewAccountNameProperty.Value) && !string.IsNullOrWhiteSpace(NewAccountFilePath);
+        }
+        
         private void CreateAccountsEntries()
         {
             foreach (var recentAccount in Application.ApplicationContext.RecentAccounts)
             {
-                Accounts.AddValue(new RecentAccountViewModel
+                _accounts.Add(new RecentAccountViewModel(OnOpenRecentAccountCommand, OnRemoveRecentAccountCommand)
                 {
                     LastAccessDate = recentAccount.LastAccessDate,
                     Path = recentAccount.Path
                 });
             }
         }
-
-        private void OnAccountsChanged(object sender, PropertyChangedEventArgs e)
+        
+        private void OnRemoveRecentAccountCommand(RecentAccountViewModel account)
         {
-            UpdateCommandStates();
-        }
-
-        private void UpdateCommandStates()
-        {
-            CreateNewAccountCommand.IsEnabled = true;
-            OpenRecentAccountCommand.IsEnabled = Accounts.Value != null;
-            RemoveRecentAccountCommand.IsEnabled = Accounts.Value != null;
-            OpenAccountCommand.IsEnabled = true;
+            Application.WindowManager.ShowQuestion(Properties.Resources.AccountManagementRemoveAccountCaption,
+                                                   Properties.Resources.AccountManagementRemoveAccountMessage,
+            () =>
+            {
+                Application.ApplicationContext.DeleteRecentAccountInformation(account.Path);
+                _accounts.Remove(account);
+            }, () => { });
         }
 
         private void ExecuteWithErrorHandling(Action action, Action onError = null)
@@ -92,48 +102,36 @@ namespace MoneyManager.ViewModels.AccountManagement
             });
         }
 
-        private void OnOpenRecentAccountCommand()
+        private void OnOpenRecentAccountCommand(RecentAccountViewModel account)
         {
             ExecuteWithErrorHandling(() =>
             {
-                Application.Repository.Open(Accounts.Value.Path);
+                Application.Repository.Open(account.Path);
                 Application.Repository.UpdateRegularyRequestsToCurrentMonth();
                 Application.ActivateRequestmanagementPage(); 
-            }, HandleOpenRecentFailed);
+            }, () => HandleOpenRecentFailed(account));
         }
 
-        private void HandleOpenRecentFailed()
+        private void HandleOpenRecentFailed(RecentAccountViewModel account)
         {
             Application.WindowManager.ShowQuestion(Properties.Resources.RemoveRecentAccountMessageCaption,
-                string.Format(Properties.Resources.RemoveRecentAccountMessageFormat, Accounts.Value.Path),
+                string.Format(Properties.Resources.RemoveRecentAccountMessageFormat, account.Path),
                 () =>
                 {
-                    Application.ApplicationContext.DeleteRecentAccountInformation(Accounts.Value.Path);
-                    Accounts.RemoveSelectedValue();
+                    Application.ApplicationContext.DeleteRecentAccountInformation(account.Path);
+                    _accounts.Remove(account);
                 }, () => {});
         }
-
+        
         private void OnCreateNewAccountCommand()
-        {
-            var newAccountDialog = new CreateAccountDialogViewModel(Application, o => { }, OnCreateAccountDialogOk);
-            Application.WindowManager.ShowDialog(newAccountDialog);
-        }
-
-        private void OnCreateAccountDialogOk(CreateAccountDialogViewModel dlg)
         {
             ExecuteWithErrorHandling(() =>
             {
-                Application.Repository.Create(dlg.Path, dlg.Name);
+                Application.Repository.Create(NewAccountFilePath, NewAccountNameProperty.Value);
+                NewAccountNameProperty.Value = string.Empty;
+                NewAccountFilePath = string.Empty;
                 Application.ActivateRequestmanagementPage();
             });
         }
-
-        public CommandViewModel CreateNewAccountCommand { get; private set; }
-
-        public CommandViewModel OpenRecentAccountCommand { get; private set; }
-
-        public CommandViewModel OpenAccountCommand { get; private set; }
-
-        public CommandViewModel RemoveRecentAccountCommand { get; private set; }
     }
 }

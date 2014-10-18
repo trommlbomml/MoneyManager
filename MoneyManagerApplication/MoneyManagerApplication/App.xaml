@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="Theme/ComboBox.xaml" />
                 <ResourceDictionary Source="Theme/DataGrid.xaml" />
                 <ResourceDictionary Source="Theme/ListBox.xaml" />
+                <ResourceDictionary Source="Theme/TabControl.xaml" />
                 <ResourceDictionary Source="Theme/TextBlock.xaml" />
                 <ResourceDictionary Source="Theme/TextBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
