@@ -11,11 +11,10 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
     [TestFixture]
     public class RequestManagementScreenModelTests : ViewModelTestsBase
     {
-        [TestCase(0)]
-        [TestCase(12)]
-        public void InitalState(double expectedSaldo)
+        [Test]
+        public void InitalState([Values(0, 12)]double expectedSaldo, [Values(true, false)]bool currentMonth)
         {
-            var currentDate = ApplicationContext.Now;
+            var currentDate = currentMonth ? ApplicationContext.Now : ApplicationContext.Now.AddMonths(-1);
             DefineRequestsForMonth(currentDate.Year, currentDate.Month, 3);
             Repository.CalculateSaldoForMonth(currentDate.Year, currentDate.Month).Returns(expectedSaldo);
 
@@ -26,10 +25,10 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(screenModel.DeleteRequestCommand.IsEnabled, Is.False);
             Assert.That(screenModel.EditRequestCommand.IsEnabled, Is.False);
             Assert.That(screenModel.SwitchAccountCommand.IsEnabled, Is.True);
-            Assert.That(screenModel.NextMonthCommand.IsEnabled, Is.True);
+            Assert.That(screenModel.NextMonthCommand.IsEnabled, Is.EqualTo(!currentMonth));
             Assert.That(screenModel.PreviousMonthCommand.IsEnabled, Is.True);
             Assert.That(screenModel.SaveCommand.IsEnabled, Is.True);
-            Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.False);
+            Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.EqualTo(!currentMonth));
 
             Assert.That(screenModel.Month, Is.EqualTo(currentDate.Month));
             Assert.That(screenModel.Year, Is.EqualTo(currentDate.Year));
@@ -105,20 +104,34 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         }
 
         [Test]
+        public void NextMonthCommandIsDisabledForFutureMonth()
+        {
+            var currentDate = ApplicationContext.Now.AddMonths(-1);
+
+            var screenModel = new RequestManagementPageViewModel(Application, currentDate.Year, currentDate.Month);
+
+            Repository.ClearReceivedCalls();
+
+            screenModel.NextMonthCommand.Execute(null);
+            Assert.That(screenModel.NextMonthCommand.IsEnabled, Is.False);
+        }
+
+        [Test]
         public void GotoCurrentMonthCommand()
         {
-            var currentDate = ApplicationContext.Now;
-            var screenModel = new RequestManagementPageViewModel(Application, 2013, 5);
+            var currentDate = ApplicationContext.Now.AddMonths(-1);
+            var screenModel = new RequestManagementPageViewModel(Application, currentDate.Year, currentDate.Month);
 
             Repository.ClearReceivedCalls();
 
             screenModel.GotoCurrentMonthCommand.Execute(null);
-            Repository.Received(1).CalculateSaldoForMonth(currentDate.Year, currentDate.Month);
-            Repository.Received(1).QueryRequestsForSingleMonth(currentDate.Year, currentDate.Month);
-            Assert.That(screenModel.Month, Is.EqualTo(currentDate.Month));
+            Repository.Received(1).CalculateSaldoForMonth(ApplicationContext.Now.Year, ApplicationContext.Now.Month);
+            Repository.Received(1).QueryRequestsForSingleMonth(ApplicationContext.Now.Year, ApplicationContext.Now.Month);
+            Assert.That(screenModel.Month, Is.EqualTo(ApplicationContext.Now.Month));
             Assert.That(screenModel.Year, Is.EqualTo(currentDate.Year));
-            Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == currentDate.Month)));
+            Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == ApplicationContext.Now.Month)));
             Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.False);
+            Assert.That(screenModel.NextMonthCommand.IsEnabled, Is.False);
         }
 
         [TestCase(2013, 4, 2013, 3 )]

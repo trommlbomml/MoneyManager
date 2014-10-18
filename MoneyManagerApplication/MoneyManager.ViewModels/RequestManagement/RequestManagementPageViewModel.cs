@@ -293,11 +293,14 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void UpdateCommandStates()
         {
+            var isCurrentMonthSelected = Application.ApplicationContext.Now.Year == Year &&
+                                         Application.ApplicationContext.Now.Month == Month;
             var isRequestSelected = Requests.SelectedValue != null;
             var isRegularyRequest = isRequestSelected && Requests.SelectedValue.IsRegularyRequest;
             DeleteRequestCommand.IsEnabled = isRequestSelected && !isRegularyRequest;
             EditRequestCommand.IsEnabled = isRequestSelected && !isRegularyRequest;
-            GotoCurrentMonthCommand.IsEnabled = Application.ApplicationContext.Now.Month != Month || Application.ApplicationContext.Now.Year != Year;
+            GotoCurrentMonthCommand.IsEnabled = !isCurrentMonthSelected;
+            NextMonthCommand.IsEnabled = !isCurrentMonthSelected;
         }
 
         private void UpdateCurrentMonth()
