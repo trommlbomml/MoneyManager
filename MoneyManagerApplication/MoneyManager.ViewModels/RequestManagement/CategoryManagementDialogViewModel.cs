@@ -39,12 +39,12 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             OkCommand.IsEnabled = true;
             NewCategoryCommand.IsEnabled = true;
-            DeleteCategoryCommand.IsEnabled = Categories.SelectedValue != null;
+            DeleteCategoryCommand.IsEnabled = Categories.Value != null;
         }
 
         private void OnDeleteCategoryCommand()
         {
-            var selectedItem = Categories.SelectedValue;
+            var selectedItem = Categories.Value;
             if (!string.IsNullOrEmpty(selectedItem.EntityId)) CategoriesToDelete.Add(selectedItem);
             Categories.RemoveSelectedValue();
         }

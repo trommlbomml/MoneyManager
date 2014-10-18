@@ -34,7 +34,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(screenModel.Year, Is.EqualTo(currentDate.Year));
 
             Assert.That(screenModel.Months.SelectableValues.Count, Is.EqualTo(12));
-            Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == currentDate.Month)));
+            Assert.That(screenModel.Months.Value, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == currentDate.Month)));
             Assert.That(screenModel.Months.SelectableValues.Select(m => m.Index).ToArray(), Is.EquivalentTo(Enumerable.Range(1,12).ToArray()));
 
             Assert.That(screenModel.Saldo, Is.EqualTo(expectedSaldo));
@@ -69,7 +69,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Repository.Received(1).QueryRequestsForSingleMonth(nextYear, nextMonth);
             Assert.That(screenModel.Month, Is.EqualTo(nextMonth));
             Assert.That(screenModel.Year, Is.EqualTo(nextYear));
-            Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == nextMonth)));
+            Assert.That(screenModel.Months.Value, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == nextMonth)));
             Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.True);
         }
 
@@ -129,7 +129,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Repository.Received(1).QueryRequestsForSingleMonth(ApplicationContext.Now.Year, ApplicationContext.Now.Month);
             Assert.That(screenModel.Month, Is.EqualTo(ApplicationContext.Now.Month));
             Assert.That(screenModel.Year, Is.EqualTo(currentDate.Year));
-            Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == ApplicationContext.Now.Month)));
+            Assert.That(screenModel.Months.Value, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == ApplicationContext.Now.Month)));
             Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.False);
             Assert.That(screenModel.NextMonthCommand.IsEnabled, Is.False);
         }
@@ -147,7 +147,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Repository.Received(1).QueryRequestsForSingleMonth(nextYear, nextMonth);
             Assert.That(screenModel.Month, Is.EqualTo(nextMonth));
             Assert.That(screenModel.Year, Is.EqualTo(nextYear));
-            Assert.That(screenModel.Months.SelectedValue, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == nextMonth)));
+            Assert.That(screenModel.Months.Value, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == nextMonth)));
             Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.True);
         }
 
@@ -167,11 +167,11 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         {
             var screenModel = new RequestManagementPageViewModel(Application, ApplicationContext.Now.Year, ApplicationContext.Now.Month);
             
-            var currentMonth = screenModel.Months.SelectedValue;
-            screenModel.Months.SelectedValue = screenModel.Months.SelectableValues.First(m => m.Index != currentMonth.Index);
+            var currentMonth = screenModel.Months.Value;
+            screenModel.Months.Value = screenModel.Months.SelectableValues.First(m => m.Index != currentMonth.Index);
             Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.True);
             
-            screenModel.Months.SelectedValue = currentMonth;
+            screenModel.Months.Value = currentMonth;
             Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.False);
         }
 
@@ -239,7 +239,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             requestDialogViewModel.Date = expectedDate;
             if (isCategorySelected)
             {
-                requestDialogViewModel.Categories.SelectedValue = requestDialogViewModel.Categories.SelectableValues.First();
+                requestDialogViewModel.Categories.Value = requestDialogViewModel.Categories.SelectableValues.First();
             }
 
             Repository.CalculateSaldoForMonth(2014, 6).Returns(99.99);
@@ -331,8 +331,8 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                        .When(w => w.ShowQuestion(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<Action>(), Arg.Any<Action>()))
                        .Do(c => { if (confirmDelete) ((Action)c[2]).Invoke(); });
 
-            screenModel.Requests.SelectedValue = screenModel.Requests.SelectableValues.First();
-            var persistentId = screenModel.Requests.SelectedValue.EntityId;
+            screenModel.Requests.Value = screenModel.Requests.SelectableValues.First();
+            var persistentId = screenModel.Requests.Value.EntityId;
             
             Repository.ClearReceivedCalls();
             DefineRequestsForMonth(2014, 6, 2);
@@ -345,7 +345,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                 Repository.Received(1).CalculateSaldoForMonth(2014, 6);
                 Repository.Received(1).DeleteRequest(persistentId);
                 Assert.That(screenModel.Requests.SelectableValues.Count, Is.EqualTo(2));
-                Assert.That(screenModel.Requests.SelectedValue, Is.Null);    
+                Assert.That(screenModel.Requests.Value, Is.Null);    
             }
             else
             {
@@ -353,7 +353,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                 Repository.DidNotReceiveWithAnyArgs().CalculateSaldoForMonth(Arg.Any<int>(), Arg.Any<int>());
                 Repository.DidNotReceiveWithAnyArgs().DeleteRequest(Arg.Any<string>());
                 Assert.That(screenModel.Requests.SelectableValues.Count, Is.EqualTo(3));
-                Assert.That(screenModel.Requests.SelectedValue, Is.EqualTo(screenModel.Requests.SelectableValues.First()));    
+                Assert.That(screenModel.Requests.Value, Is.EqualTo(screenModel.Requests.SelectableValues.First()));    
             }
         }
 
@@ -368,7 +368,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                        .When(w => w.ShowDialog(Arg.Any<object>()))
                        .Do(c => { dialogViewModel = c[0]; });
 
-            screenModel.Requests.SelectedValue = screenModel.Requests.SelectableValues.First();
+            screenModel.Requests.Value = screenModel.Requests.SelectableValues.First();
             screenModel.EditRequestCommand.Execute(null);
 
             WindowManager.Received(1).ShowDialog(Arg.Any<object>());
@@ -392,7 +392,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
                        .When(w => w.ShowDialog(Arg.Any<object>()))
                        .Do(c => { dialogViewModel = c[0]; });
 
-            screenModel.Requests.SelectedValue = screenModel.Requests.SelectableValues.First();
+            screenModel.Requests.Value = screenModel.Requests.SelectableValues.First();
             screenModel.EditRequestCommand.Execute(null);
 
             Assert.That(dialogViewModel, Is.InstanceOf<RequestDialogViewModel>());

@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
 
         <ListBox ItemsSource="{Binding Categories.SelectableValues}" 
-                 SelectedItem="{Binding Categories.SelectedValue, Mode=TwoWay}" >
+                 SelectedItem="{Binding Categories.Value, Mode=TwoWay}" >
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type requestManagement:CategoryEditViewModel}">
                     <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="5" />

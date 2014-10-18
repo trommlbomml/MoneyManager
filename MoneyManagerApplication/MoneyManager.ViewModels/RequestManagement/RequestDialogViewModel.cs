@@ -48,7 +48,7 @@ namespace MoneyManager.ViewModels.RequestManagement
 
             if (!string.IsNullOrEmpty(selectedCategoryId))
             {
-                Categories.SelectedValue = Categories.SelectableValues.Single(c => c.EntityId == selectedCategoryId);
+                Categories.Value = Categories.SelectableValues.Single(c => c.EntityId == selectedCategoryId);
             }
 
             CreateRequestCommand = new CommandViewModel(() => onOk(this));

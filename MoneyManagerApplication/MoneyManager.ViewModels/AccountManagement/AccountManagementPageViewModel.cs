@@ -31,7 +31,7 @@ namespace MoneyManager.ViewModels.AccountManagement
                                                    Properties.Resources.AccountManagementRemoveAccountMessage, 
             () =>
             {
-                Application.ApplicationContext.DeleteRecentAccountInformation(Accounts.SelectedValue.Path);
+                Application.ApplicationContext.DeleteRecentAccountInformation(Accounts.Value.Path);
                 Accounts.RemoveSelectedValue();
             }, () => {});
         }
@@ -56,8 +56,8 @@ namespace MoneyManager.ViewModels.AccountManagement
         private void UpdateCommandStates()
         {
             CreateNewAccountCommand.IsEnabled = true;
-            OpenRecentAccountCommand.IsEnabled = Accounts.SelectedValue != null;
-            RemoveRecentAccountCommand.IsEnabled = Accounts.SelectedValue != null;
+            OpenRecentAccountCommand.IsEnabled = Accounts.Value != null;
+            RemoveRecentAccountCommand.IsEnabled = Accounts.Value != null;
             OpenAccountCommand.IsEnabled = true;
         }
 
@@ -96,7 +96,7 @@ namespace MoneyManager.ViewModels.AccountManagement
         {
             ExecuteWithErrorHandling(() =>
             {
-                Application.Repository.Open(Accounts.SelectedValue.Path);
+                Application.Repository.Open(Accounts.Value.Path);
                 Application.Repository.UpdateRegularyRequestsToCurrentMonth();
                 Application.ActivateRequestmanagementPage(); 
             }, HandleOpenRecentFailed);
@@ -105,10 +105,10 @@ namespace MoneyManager.ViewModels.AccountManagement
         private void HandleOpenRecentFailed()
         {
             Application.WindowManager.ShowQuestion(Properties.Resources.RemoveRecentAccountMessageCaption,
-                string.Format(Properties.Resources.RemoveRecentAccountMessageFormat, Accounts.SelectedValue.Path),
+                string.Format(Properties.Resources.RemoveRecentAccountMessageFormat, Accounts.Value.Path),
                 () =>
                 {
-                    Application.ApplicationContext.DeleteRecentAccountInformation(Accounts.SelectedValue.Path);
+                    Application.ApplicationContext.DeleteRecentAccountInformation(Accounts.Value.Path);
                     Accounts.RemoveSelectedValue();
                 }, () => {});
         }

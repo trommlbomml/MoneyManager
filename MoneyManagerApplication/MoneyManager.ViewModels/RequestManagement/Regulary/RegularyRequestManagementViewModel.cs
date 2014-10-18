@@ -14,7 +14,6 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
         public CommandViewModel CreateRegularyRequestCommand { get; private set; }
         public CommandViewModel DeleteRegularyRequestCommand { get; private set; }
-        public CommandViewModel EditRegularyRequestCommand { get; private set; }
 
         public RegularyRequestManagementViewModel(ApplicationViewModel application)
         {
@@ -35,14 +34,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
             CreateRegularyRequestCommand = new CommandViewModel(OnCreateRegularyRequestCommand);
             DeleteRegularyRequestCommand = new CommandViewModel(OnDeleteRegularyRequestCommand);
-            EditRegularyRequestCommand = new CommandViewModel(OnEditRegularyRequestCommand);
 
-            UpdateCommandStates();
-        }
-
-        private void OnEditRegularyRequestCommand()
-        {
-            Details.IsInEditMode = true;
             UpdateCommandStates();
         }
 
@@ -54,14 +46,14 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
         private void OnRegularyRequestPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != "SelectedValue") return;
+            if (e.PropertyName != "Value") return;
             UpdateDetails();
             UpdateCommandStates();
         }
 
         private void UpdateDetails()
         {
-            if (RegularyRequests.SelectedValue == null)
+            if (RegularyRequests.Value == null)
             {
                 Details = null;
             }
@@ -70,7 +62,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
                 Details = new RegularyRequestDetailsViewModel(_application, OnSaveRequestDetails, OnCancelRequestDetails)
                 {
                     IsInEditMode = false,
-                    EntityId = RegularyRequests.SelectedValue.EntityId
+                    EntityId = RegularyRequests.Value.EntityId
                 };
                 Details.Refresh();
             }
@@ -86,12 +78,12 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
                 var requestEntityViewModel = new RegularyRequestEntityViewModel(_application, entityId);
                 requestEntityViewModel.Refresh();
                 RegularyRequests.AddValue(requestEntityViewModel);
-                RegularyRequests.SelectedValue = requestEntityViewModel;
+                RegularyRequests.Value = requestEntityViewModel;
             }
             else
             {
                 _application.Repository.UpdateRegularyRequest(Details.EntityId, entityData);
-                RegularyRequests.SelectedValue.Refresh();
+                RegularyRequests.Value.Refresh();
             }
 
             Details.IsInEditMode = false;
@@ -114,7 +106,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
         private void OnDeleteRegularyRequestCommand()
         {
-            _application.Repository.DeleteRegularyRequest(RegularyRequests.SelectedValue.EntityId);
+            _application.Repository.DeleteRegularyRequest(RegularyRequests.Value.EntityId);
             RegularyRequests.RemoveSelectedValue();
         }
 
@@ -132,7 +124,6 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             var isSelected = Details != null;
             var isReadOnly = Details == null || !Details.IsInEditMode;
             CreateRegularyRequestCommand.IsEnabled = isReadOnly;
-            EditRegularyRequestCommand.IsEnabled = isSelected && isReadOnly;
             DeleteRegularyRequestCommand.IsEnabled = isSelected && isReadOnly;
         }
     }

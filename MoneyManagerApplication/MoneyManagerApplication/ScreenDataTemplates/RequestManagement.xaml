@@ -30,7 +30,7 @@
                 <Button Command="{Binding PreviousMonthCommand}" Content="&lt;" />
                 
                 <ComboBox ItemsSource="{Binding Months.SelectableValues}"
-                          SelectedItem="{Binding Months.SelectedValue}" 
+                          SelectedItem="{Binding Months.Value}" 
                           DisplayMemberPath="Name" 
                           Margin="2"
                           Width="120" />
@@ -49,7 +49,7 @@
             <DataGrid Grid.Row="2" 
                       AutoGenerateColumns="False" 
                       ItemsSource="{Binding Requests.SelectableValues}"
-                      SelectedItem="{Binding Requests.SelectedValue, Mode=TwoWay}"
+                      SelectedItem="{Binding Requests.Value, Mode=TwoWay}"
                       extensions:Commands.DataGridDoubleClickCommand="{Binding EditRequestCommand}"
                       IsReadOnly="True"
                       SelectionMode="Single">

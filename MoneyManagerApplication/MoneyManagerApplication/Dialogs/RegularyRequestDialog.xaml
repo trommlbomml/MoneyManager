@@ -25,6 +25,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
                 <Label Content="{x:Static properties:Resources.RegularyRequestDialog_Description}" Grid.Column="0" Grid.Row="0" />
@@ -35,7 +38,7 @@
                           Grid.Row="1" 
                           IsEnabled="{Binding IsInEditMode}"
                           ItemsSource="{Binding MonthPeriods.SelectableValues}" 
-                          SelectedValue="{Binding MonthPeriods.SelectedValue}">
+                          SelectedValue="{Binding MonthPeriods.Value}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Path=., Converter={x:Static converters:MonthPeriodToNameConverter.Instance}}" />
@@ -59,15 +62,29 @@
                           IsEnabled="{Binding IsInEditMode}"
                           DisplayMemberPath="Name"
                           ItemsSource="{Binding Categories.SelectableValues}" 
-                          SelectedValue="{Binding Categories.SelectedValue, UpdateSourceTrigger=PropertyChanged}" />
+                          SelectedValue="{Binding Categories.Value, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label Content="{x:Static properties:Resources.RegularyRequestDialog_FirstBookDate}" Grid.Column="0" Grid.Row="4" />
                 <DatePicker Grid.Column="1" 
                             Grid.Row="4" 
                             IsEnabled="{Binding IsInEditMode}" 
                             SelectedDate="{Binding FirstBookDate, UpdateSourceTrigger=PropertyChanged}" />
+               
+                <CheckBox Grid.Row="5" Grid.Column="1" Content="@Befristete Transaktion" IsChecked="{Binding IsEndingTransaction}" />
 
-                <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Label Content="@Letztes Abbuchungsdatum" Grid.Column="0" Grid.Row="6" />
+                <Label Content="{Binding LastBookDateAsString}" Grid.Column="1" Grid.Row="6" />
+
+                <Label Content="@Buchungsanzahl" Grid.Column="0" Grid.Row="7" />
+                <xctk:DecimalUpDown Margin="5"
+                            HorizontalAlignment="Left"
+                            Grid.Column="1"
+                            Grid.Row="7"
+                            Width="100"
+                            Minimum="1"
+                            Value="{Binding Payments, UpdateSourceTrigger=PropertyChanged}" />
+
+                <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Content="{x:Static properties:Resources.RegularyRequestDialog_Save}" Command="{Binding SaveCommand}" />
                     <Button Content="{x:Static properties:Resources.RegularyRequestDialog_Cancel}" Command="{Binding CancelCommand}" />
                 </StackPanel>
@@ -84,13 +101,12 @@
         
         <StackPanel Orientation="Horizontal">
             <Button Content="{x:Static properties:Resources.RegularyRequestDialog_New}" Command="{Binding CreateRegularyRequestCommand}" />
-            <Button Content="{x:Static properties:Resources.RegularyRequestDialog_Edit}" Command="{Binding EditRegularyRequestCommand}" />
             <Button Content="{x:Static properties:Resources.RegularyRequestDialog_Delete}" Command="{Binding DeleteRegularyRequestCommand}" />
         </StackPanel>
         
         <DataGrid Grid.Row="1" 
                   ItemsSource="{Binding RegularyRequests.SelectableValues}" 
-                  SelectedItem="{Binding RegularyRequests.SelectedValue, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding RegularyRequests.Value, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" 
                   Margin="2" 
                   IsReadOnly="True" 

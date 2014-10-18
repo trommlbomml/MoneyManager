@@ -13,6 +13,9 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         private readonly ApplicationViewModel _application;
         private double _value;
         private DateTime _firstBookDate;
+        private int _payments;
+        private bool _isEndingTransaction;
+        private string _lastBookDateAsString;
         public EnumeratedSingleValuedProperty<MonthPeriod> MonthPeriods { get; private set; }
         public EnumeratedSingleValuedProperty<CategoryViewModel> Categories { get; private set; }
 
@@ -27,6 +30,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             {
                 MonthPeriods.AddValue(value);
             }
+            MonthPeriods.PropertyChanged += (s, e) => UpdateCalculatesProperties();
 
             Categories = new EnumeratedSingleValuedProperty<CategoryViewModel>();
             foreach (var category in application.Repository.QueryAllCategories().Select(c => new CategoryViewModel(application, c.PersistentId)))
@@ -63,8 +67,8 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             {
                 Description = Description,
                 Value = Value,
-                MonthPeriodStep = GetPeriodFromEnum(MonthPeriods.SelectedValue),
-                CategoryEntityId = Categories.SelectedValue != null ? Categories.SelectedValue.EntityId : null,
+                MonthPeriodStep = GetPeriodFromEnum(MonthPeriods.Value),
+                CategoryEntityId = Categories.Value != null ? Categories.Value.EntityId : null,
                 FirstBookDate = FirstBookDate,
                 ReferenceMonth = FirstBookDate.Month,
                 ReferenceDay = FirstBookDate.Day
@@ -79,8 +83,8 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             var request = _application.Repository.QueryRegularyRequest(EntityId);
             Description = request.Description;
             Value = request.Value;
-            MonthPeriods.SelectedValue = GetEnumFromPeriod(request.MonthPeriodStep);
-            Categories.SelectedValue = request.Category != null ? Categories.SelectableValues.Single(c => c.EntityId == request.Category.PersistentId) : null;
+            MonthPeriods.Value = GetEnumFromPeriod(request.MonthPeriodStep);
+            Categories.Value = request.Category != null ? Categories.SelectableValues.Single(c => c.EntityId == request.Category.PersistentId) : null;
         }
 
         private static MonthPeriod GetEnumFromPeriod(int monthPeriodStep)
@@ -127,7 +131,35 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         public DateTime FirstBookDate
         {
             get { return _firstBookDate; }
-            set { SetBackingField("FirstBookDate", ref _firstBookDate, value); }
+            set { SetBackingField("FirstBookDate", ref _firstBookDate, value, o => UpdateCalculatesProperties()); }
+        }
+
+        public int Payments
+        {
+            get { return _payments; }
+            set { SetBackingField("Payments", ref _payments, value, o => UpdateCalculatesProperties()); }
+        }
+
+        public bool IsEndingTransaction
+        {
+            get { return _isEndingTransaction; }
+            set { SetBackingField("IsEndingTransaction", ref _isEndingTransaction, value, o => UpdateCalculatesProperties()); }
+        }
+
+        private void UpdateCalculatesProperties()
+        {
+            LastBookDateAsString = IsEndingTransaction ? string.Format(Properties.Resources.RequestDateFormat, GetLastBookDate()) : "@---";
+        }
+
+        private DateTime GetLastBookDate()
+        {
+            return FirstBookDate.AddMonths(GetPeriodFromEnum(MonthPeriods.Value)*Payments);
+        }
+
+        public string LastBookDateAsString
+        {
+            get { return _lastBookDateAsString; }
+            private set { SetBackingField("LastBookDateAsString", ref _lastBookDateAsString, value); }
         }
 
         public bool IsInEditMode

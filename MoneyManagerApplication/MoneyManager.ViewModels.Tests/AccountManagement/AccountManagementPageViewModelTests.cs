@@ -31,7 +31,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             Assert.That(viewModel.OpenAccountCommand.IsEnabled, Is.True);
             Assert.That(viewModel.OpenRecentAccountCommand.IsEnabled, Is.False);
             Assert.That(viewModel.Accounts.SelectableValues, Is.Empty);
-            Assert.That(viewModel.Accounts.SelectedValue, Is.Null);
+            Assert.That(viewModel.Accounts.Value, Is.Null);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             var viewModel = new AccountManagementPageViewModel(Application);
 
             Assert.That(viewModel.Accounts.SelectableValues.Count, Is.EqualTo(2));
-            Assert.That(viewModel.Accounts.SelectedValue, Is.Null);
+            Assert.That(viewModel.Accounts.Value, Is.Null);
 
             Assert.That(viewModel.Accounts.SelectableValues[0].LastAccessDate, Is.EqualTo(new DateTime(2014, 4, 1)));
             Assert.That(viewModel.Accounts.SelectableValues[0].Path, Is.EqualTo("C:\test\test.txt"));
@@ -119,7 +119,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             ApplicationContext.RecentAccounts.Returns(values.AsReadOnly());
 
             var viewModel = new AccountManagementPageViewModel(Application);
-            viewModel.Accounts.SelectedValue = viewModel.Accounts.SelectableValues.First();
+            viewModel.Accounts.Value = viewModel.Accounts.SelectableValues.First();
 
             viewModel.OpenRecentAccountCommand.Execute(null);
 
@@ -200,7 +200,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             }
 
             var viewModel = new AccountManagementPageViewModel(Application);
-            viewModel.Accounts.SelectedValue = viewModel.Accounts.SelectableValues.First();
+            viewModel.Accounts.Value = viewModel.Accounts.SelectableValues.First();
 
             viewModel.OpenRecentAccountCommand.Execute(null);
 
@@ -215,13 +215,13 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             {
                 ApplicationContext.Received(1).DeleteRecentAccountInformation(accountPath);
                 Assert.That(viewModel.Accounts.SelectableValues.Count, Is.EqualTo(0));
-                Assert.That(viewModel.Accounts.SelectedValue, Is.Null);
+                Assert.That(viewModel.Accounts.Value, Is.Null);
             }
             else
             {
                 ApplicationContext.DidNotReceiveWithAnyArgs().DeleteRecentAccountInformation(Arg.Any<string>());
                 Assert.That(viewModel.Accounts.SelectableValues.Count, Is.EqualTo(1));
-                Assert.That(viewModel.Accounts.SelectedValue, Is.EqualTo(viewModel.Accounts.SelectableValues.First()));
+                Assert.That(viewModel.Accounts.Value, Is.EqualTo(viewModel.Accounts.SelectableValues.First()));
             }
 
             Assert.That(Application.ActivePage, Is.Not.InstanceOf<AccountManagementPageViewModel>());

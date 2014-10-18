@@ -47,7 +47,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             Requests = new EnumeratedSingleValuedProperty<RequestViewModel>();
             
             _year = year;
-            Months.SelectedValue = Months.SelectableValues.Single(m => m.Index == month);
+            Months.Value = Months.SelectableValues.Single(m => m.Index == month);
             
             AddRequestCommand = new CommandViewModel(OnAddRequestCommand);
             DeleteRequestCommand = new CommandViewModel(OnDeleteRequestCommand);
@@ -80,7 +80,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             var currentDate = Application.ApplicationContext.Now;
             _preventUpdateCurrentMonth = true;
             Year = currentDate.Year;
-            Months.SelectedValue = Months.SelectableValues.Single(m => m.Index == currentDate.Month);
+            Months.Value = Months.SelectableValues.Single(m => m.Index == currentDate.Month);
             _preventUpdateCurrentMonth = false;
 
             UpdateCurrentMonth();
@@ -102,7 +102,7 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         public int Month
         {
-            get { return Months.SelectedValue.Index; }
+            get { return Months.Value.Index; }
         }
 
         public double Saldo
@@ -168,7 +168,7 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void OnEditRequestCommand()
         {
-            var currentRequest = Requests.SelectedValue;
+            var currentRequest = Requests.Value;
 
             var viewModel = new RequestDialogViewModel(Application, currentRequest.EntityId, OnEditRequest)
             {
@@ -182,23 +182,23 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void OnEditRequest(RequestDialogViewModel requestDialog)
         {
-            var currentRequestEntityId = Requests.SelectedValue.EntityId;
+            var currentRequestEntityId = Requests.Value.EntityId;
             var requestEntityData = new RequestEntityData
             {
                 Date = requestDialog.Date,
                 Description = requestDialog.Description,
                 Value = requestDialog.Value,
-                CategoryPersistentId = requestDialog.Categories.SelectedValue != null ? requestDialog.Categories.SelectedValue.EntityId : null
+                CategoryPersistentId = requestDialog.Categories.Value != null ? requestDialog.Categories.Value.EntityId : null
             };
             Application.Repository.UpdateRequest(currentRequestEntityId, requestEntityData);
 
-            Requests.SelectedValue.Refresh();
+            Requests.Value.Refresh();
             UpdateSaldoForCurrentMonth();
         }
 
         private void OnSelectedRequestChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != "SelectedValue") return;
+            if (e.PropertyName != "Value") return;
             UpdateCommandStates();
         }
 
@@ -217,11 +217,11 @@ namespace MoneyManager.ViewModels.RequestManagement
             if (Month == 12)
             {
                 Year++;
-                Months.SelectedValue = Months.SelectableValues.First();
+                Months.Value = Months.SelectableValues.First();
             }
             else
             {
-                Months.SelectedValue = Months.SelectableValues.Single(m => m.Index == Month+1);
+                Months.Value = Months.SelectableValues.Single(m => m.Index == Month+1);
             }
             _preventUpdateCurrentMonth = false;
 
@@ -235,11 +235,11 @@ namespace MoneyManager.ViewModels.RequestManagement
             if (Month == 1)
             {
                 Year--;
-                Months.SelectedValue = Months.SelectableValues.Last();
+                Months.Value = Months.SelectableValues.Last();
             }
             else
             {
-                Months.SelectedValue = Months.SelectableValues.Single(m => m.Index == Month-1);
+                Months.Value = Months.SelectableValues.Single(m => m.Index == Month-1);
             }
             _preventUpdateCurrentMonth = false;
 
@@ -261,8 +261,8 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void DeleteRequest()
         {
-            Application.Repository.DeleteRequest(Requests.SelectedValue.EntityId);
-            Requests.SelectedValue = null;
+            Application.Repository.DeleteRequest(Requests.Value.EntityId);
+            Requests.Value = null;
             UpdateCurrentMonth();
         }
 
@@ -282,7 +282,7 @@ namespace MoneyManager.ViewModels.RequestManagement
                 Date = requestDialog.Date,
                 Description = requestDialog.Description,
                 Value = requestDialog.Value,
-                CategoryPersistentId = requestDialog.Categories.SelectedValue != null ? requestDialog.Categories.SelectedValue.EntityId : null
+                CategoryPersistentId = requestDialog.Categories.Value != null ? requestDialog.Categories.Value.EntityId : null
             });
 
             var requestViewModel = new RequestViewModel(Application, requestEntityId);
@@ -295,8 +295,8 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             var isCurrentMonthSelected = Application.ApplicationContext.Now.Year == Year &&
                                          Application.ApplicationContext.Now.Month == Month;
-            var isRequestSelected = Requests.SelectedValue != null;
-            var isRegularyRequest = isRequestSelected && Requests.SelectedValue.IsRegularyRequest;
+            var isRequestSelected = Requests.Value != null;
+            var isRegularyRequest = isRequestSelected && Requests.Value.IsRegularyRequest;
             DeleteRequestCommand.IsEnabled = isRequestSelected && !isRegularyRequest;
             EditRequestCommand.IsEnabled = isRequestSelected && !isRegularyRequest;
             GotoCurrentMonthCommand.IsEnabled = !isCurrentMonthSelected;

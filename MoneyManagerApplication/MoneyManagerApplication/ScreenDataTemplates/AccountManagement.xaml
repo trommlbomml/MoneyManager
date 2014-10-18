@@ -49,7 +49,7 @@
             
             <ListBox Grid.Row="1" 
                      ItemsSource="{Binding Accounts.SelectableValues}" 
-                     SelectedItem="{Binding Accounts.SelectedValue}" 
+                     SelectedItem="{Binding Accounts.Value}" 
                      ItemTemplate="{StaticResource RecentAccountsItemTemplate}" />
 
         </Grid>

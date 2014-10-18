@@ -47,7 +47,7 @@
                   Grid.Column="1"
                   Margin="5"
                   ItemsSource="{Binding Categories.SelectableValues}"
-                  SelectedItem="{Binding Categories.SelectedValue}">
+                  SelectedItem="{Binding Categories.Value}">
             <ComboBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type requestManagement:CategoryViewModel}">
                     <TextBlock Text="{Binding Name}" />
