@@ -2,18 +2,31 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
     
-    <SolidColorBrush x:Key="DarkBackgroundBrush" Color="#FF99C0A3" />
     <SolidColorBrush x:Key="LightBackground" Color="#FFB3B3B3" />
     <SolidColorBrush x:Key="VeryLightBackground" Color="#FFE6E6E6" />
     
-    <!-- AccountManagement Resources -->
-    <system:Double x:Key="HeaderHeight">180.0</system:Double>
+    <system:Double x:Key="Heading1FontSize">40</system:Double>
+    <system:Double x:Key="ContentTextFontSize">12</system:Double>
+    <system:Double x:Key="LabelFontSize">12</system:Double>
     
+    <!-- AccountManagement Resources -->
+    <SolidColorBrush x:Key="DarkBackgroundBrush" Color="#FF99C0A3" />
+    
+    <system:Double x:Key="HeaderHeight">180.0</system:Double>
+
+    <Thickness x:Key="TabControlMargin" Top="10" Left="30" Right="30" Bottom="30" />
     <Thickness x:Key="HeaderMargin" Top="20" Left="0" Right="0" Bottom="0" />
     <Thickness x:Key="HeaderTextContainerMargin" Top="20" Left="0" Right="40" Bottom="0"/>
-
     <Thickness x:Key="TabItemContentMargin" Left="19" Right="19" Top="25" Bottom="25" />
-    
+    <Thickness x:Key="NewAccountControlMargin" Left="10" Right="10" Top="10" Bottom="10" />
+    <Thickness x:Key="NewAccountControlButtonMargin" Left="0" Right="10" Top="10" Bottom="10" />
+
     <SolidColorBrush x:Key="RecentAccountListItemBackgroundBrush" Color="#FFF7F7F7" />
+
+    <Thickness x:Key="RecentAccountItemContainerMargin" Left="0" Right="0" Top="0" Bottom="8" />
+    <Thickness x:Key="RecentAccountItemElementMargin" Left="4" Right="4" Top="4" Bottom="4" />
+    
+    <!-- Controls -->
+    <SolidColorBrush x:Key="ButtonNormalBackgroundBrush" Color="#FFB3B3B3" />
     
 </ResourceDictionary>

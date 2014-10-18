@@ -55,6 +55,7 @@
     <Compile Include="ApplicationSettings\ApplicationContextImp.cs" />
     <Compile Include="Converters\BoolInverseConverter.cs" />
     <Compile Include="Converters\MonthPeriodToNameConverter.cs" />
+    <Compile Include="Converters\UnifyTabWidthConverter.cs" />
     <Compile Include="Dialogs\CategoriesManagementDialog.xaml.cs">
       <DependentUpon>CategoriesManagementDialog.xaml</DependentUpon>
     </Compile>
@@ -112,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Theme\DataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\Label.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
