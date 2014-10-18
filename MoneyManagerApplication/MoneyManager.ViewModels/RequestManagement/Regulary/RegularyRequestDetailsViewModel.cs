@@ -13,8 +13,6 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         private readonly ApplicationViewModel _application;
         private double _value;
         private DateTime _firstBookDate;
-        private int _payments;
-        private bool _isEndingTransaction;
         private string _lastBookDateAsString;
         public EnumeratedSingleValuedProperty<MonthPeriod> MonthPeriods { get; private set; }
         public EnumeratedSingleValuedProperty<CategoryViewModel> Categories { get; private set; }
@@ -25,14 +23,24 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             SaveCommand = new CommandViewModel(() => onSave(CreateRegularyRequestEntityData()));
             CancelCommand = new CommandViewModel(() => onCancel(this));
 
+            PaymentsProperty = new SingleValuedProperty<int> { Value = 1 };
+            IsEndingTransactionProperty = new SingleValuedProperty<bool>();
             MonthPeriods = new EnumeratedSingleValuedProperty<MonthPeriod>();
+            Categories = new EnumeratedSingleValuedProperty<CategoryViewModel>();
+
+            IsEndingTransactionProperty.OnValueChanged += () =>
+            {
+                UpdateCalculatesProperties();
+                UpdateCommandStates();
+            };
+            MonthPeriods.OnValueChanged += UpdateCalculatesProperties;
+            PaymentsProperty.OnValueChanged += UpdateCalculatesProperties;
+            
             foreach (MonthPeriod value in Enum.GetValues(typeof(MonthPeriod)))
             {
                 MonthPeriods.AddValue(value);
             }
-            MonthPeriods.PropertyChanged += (s, e) => UpdateCalculatesProperties();
-
-            Categories = new EnumeratedSingleValuedProperty<CategoryViewModel>();
+            
             foreach (var category in application.Repository.QueryAllCategories().Select(c => new CategoryViewModel(application, c.PersistentId)))
             {
                 Categories.AddValue(category);
@@ -40,7 +48,6 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             }
 
             FirstBookDate = application.ApplicationContext.Now.Date;
-            
             UpdateCommandStates();
         }
 
@@ -108,6 +115,8 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         {
             SaveCommand.IsEnabled = IsInEditMode;
             CancelCommand.IsEnabled = IsInEditMode;
+            IsEndingTransactionProperty.IsEnabled = IsInEditMode;
+            PaymentsProperty.IsEnabled = IsInEditMode && IsEndingTransactionProperty.Value;
         }
 
         public string EntityId
@@ -134,26 +143,17 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             set { SetBackingField("FirstBookDate", ref _firstBookDate, value, o => UpdateCalculatesProperties()); }
         }
 
-        public int Payments
-        {
-            get { return _payments; }
-            set { SetBackingField("Payments", ref _payments, value, o => UpdateCalculatesProperties()); }
-        }
-
-        public bool IsEndingTransaction
-        {
-            get { return _isEndingTransaction; }
-            set { SetBackingField("IsEndingTransaction", ref _isEndingTransaction, value, o => UpdateCalculatesProperties()); }
-        }
+        public SingleValuedProperty<int> PaymentsProperty { get; private set; } 
+        public SingleValuedProperty<bool> IsEndingTransactionProperty { get; private set; } 
 
         private void UpdateCalculatesProperties()
         {
-            LastBookDateAsString = IsEndingTransaction ? string.Format(Properties.Resources.RequestDateFormat, GetLastBookDate()) : "@---";
+            LastBookDateAsString = IsEndingTransactionProperty.Value ? string.Format(Properties.Resources.RequestDateFormat, GetLastBookDate()) : "@---";
         }
 
         private DateTime GetLastBookDate()
         {
-            return FirstBookDate.AddMonths(GetPeriodFromEnum(MonthPeriods.Value)*Payments);
+            return FirstBookDate.AddMonths(GetPeriodFromEnum(MonthPeriods.Value)*PaymentsProperty.Value);
         }
 
         public string LastBookDateAsString

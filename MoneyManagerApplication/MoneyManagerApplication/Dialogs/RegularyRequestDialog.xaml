@@ -70,7 +70,11 @@
                             IsEnabled="{Binding IsInEditMode}" 
                             SelectedDate="{Binding FirstBookDate, UpdateSourceTrigger=PropertyChanged}" />
                
-                <CheckBox Grid.Row="5" Grid.Column="1" Content="@Befristete Transaktion" IsChecked="{Binding IsEndingTransaction}" />
+                <CheckBox Grid.Row="5" 
+                          Grid.Column="1" 
+                          Content="@Befristete Transaktion" 
+                          IsChecked="{Binding IsEndingTransactionProperty.Value}"
+                          IsEnabled="{Binding IsEndingTransactionProperty.IsEnabled}" />
 
                 <Label Content="@Letztes Abbuchungsdatum" Grid.Column="0" Grid.Row="6" />
                 <Label Content="{Binding LastBookDateAsString}" Grid.Column="1" Grid.Row="6" />
@@ -82,7 +86,8 @@
                             Grid.Row="7"
                             Width="100"
                             Minimum="1"
-                            Value="{Binding Payments, UpdateSourceTrigger=PropertyChanged}" />
+                            IsEnabled="{Binding PaymentsProperty.IsEnabled}"
+                            Value="{Binding PaymentsProperty.Value, UpdateSourceTrigger=PropertyChanged}" />
 
                 <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Content="{x:Static properties:Resources.RegularyRequestDialog_Save}" Command="{Binding SaveCommand}" />

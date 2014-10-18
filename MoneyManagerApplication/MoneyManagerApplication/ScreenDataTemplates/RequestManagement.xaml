@@ -53,15 +53,6 @@
                       extensions:Commands.DataGridDoubleClickCommand="{Binding EditRequestCommand}"
                       IsReadOnly="True"
                       SelectionMode="Single">
-                <DataGrid.RowStyle>
-                    <Style TargetType="{x:Type DataGridRow}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsRegularyRequest}" Value="true">
-                                <Setter Property="FontStyle" Value="Italic" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </DataGrid.RowStyle>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{x:Static properties:Resources.RequestManagementPage_DataGridColumnDate}" 
                                         IsReadOnly="True"

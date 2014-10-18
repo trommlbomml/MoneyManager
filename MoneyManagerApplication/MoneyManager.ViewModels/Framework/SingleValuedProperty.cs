@@ -9,6 +9,11 @@ namespace MoneyManager.ViewModels.Framework
 
         public event Action OnValueChanged;
 
+        public SingleValuedProperty()
+        {
+            IsEnabled = true;
+        }
+
         public TPropertyType Value
         {
             get { return _value; }
