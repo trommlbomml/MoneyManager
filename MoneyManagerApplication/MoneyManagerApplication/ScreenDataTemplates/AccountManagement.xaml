@@ -46,7 +46,7 @@
             <Border Grid.Row="0" 
                     Margin="{DynamicResource HeaderMargin}"
                     Height="{DynamicResource HeaderHeight}" 
-                    Background="{DynamicResource DarkBackgroundBrush}">
+                    Background="{DynamicResource ThemebackgroundBrush}">
 
                 <StackPanel Margin="{DynamicResource HeaderTextContainerMargin}"
                             Orientation="Vertical" 
