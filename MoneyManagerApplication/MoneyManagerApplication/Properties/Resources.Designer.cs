@@ -97,7 +97,7 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Öffnen.
+        ///   Looks up a localized string similar to Durchsuchen.
         /// </summary>
         public static string AccountManagementPage_OpenAccountCommandCaption {
             get {

@@ -130,7 +130,7 @@
     <value>Name</value>
   </data>
   <data name="AccountManagementPage_OpenAccountCommandCaption" xml:space="preserve">
-    <value>Öffnen</value>
+    <value>Durchsuchen</value>
   </data>
   <data name="AccountManagementPage_OpenRecentAccountCommandCaption" xml:space="preserve">
     <value>Öffnen</value>

@@ -37,7 +37,6 @@
     </Style>
 
     <DataTemplate DataType="{x:Type accountManagement:AccountManagementPageViewModel}">
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -112,15 +111,28 @@
                                 Command="{Binding CreateNewAccountCommand}" 
                                 Content="{x:Static properties:Resources.AccountManagementPage_CreateCommandCaption}" />
                     </Grid>
-                    
                 </TabItem>
+                
                 <TabItem Header="{x:Static properties:Resources.AccountManagementPage_TabItemHeaderOpen}" IsSelected="True">
-                    
-                    <ItemsControl Margin="{DynamicResource TabItemContentMargin}"
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <ScrollViewer Grid.Row="0"
+                                      HorizontalScrollBarVisibility="Disabled" 
+                                      VerticalScrollBarVisibility="Auto">
+                            <ItemsControl Margin="{DynamicResource TabItemContentMargin}"
                                   ItemsSource="{Binding Accounts}" 
                                   ItemContainerStyle="{StaticResource RecentAccountsContainerStyle}"
                                   ItemTemplate="{StaticResource RecentAccountsItemTemplate}" />
-                    
+                        </ScrollViewer>
+                        <Button Content="{x:Static properties:Resources.AccountManagementPage_OpenAccountCommandCaption}"
+                                Grid.Row="1" 
+                                Command="{Binding OpenAccountCommand}"
+                                HorizontalAlignment="Right" 
+                                Margin="{DynamicResource TabItemContentMargin}" />
+                    </Grid>
                 </TabItem>
             </TabControl>
 
