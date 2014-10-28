@@ -6,47 +6,53 @@
                     xmlns:extensions="clr-namespace:MoneyManagerApplication.Extensions">
     
     <DataTemplate DataType="{x:Type requestManagement:RequestManagementPageViewModel}">
-        
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
-            <StackPanel Orientation="Horizontal">
-                <Button Height="64" Width="64" Content="Add" Command="{Binding AddRequestCommand}" />
-                <Button Height="64" Width="64" Content="Edit" Command="{Binding EditRequestCommand}" />
-                <Button Height="64" Width="64" Content="Remove" Command="{Binding DeleteRequestCommand}" />
-                <Button Height="64" Width="64" Content="Save" Command="{Binding SaveCommand}" />
-                <Button Height="64" Width="64" Content="Edit Cat." Command="{Binding EditCategoriesCommand}" />
-                <Button Height="64" Width="64" Content="Edit RR." Command="{Binding EditRegularyRequestsCommand}" />
-                <Button Height="64" Width="64" Content="Switch" Command="{Binding SwitchAccountCommand}" />
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <Button Command="{Binding PreviousMonthCommand}" Content="&lt;" />
                 
+            <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" Background="{DynamicResource ThemebackgroundBrush}" Margin="0,5">
+                <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Add" Command="{Binding AddRequestCommand}" Padding="8" />
+                <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Edit" Command="{Binding EditRequestCommand}" Padding="8" />
+                <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Remove" Command="{Binding DeleteRequestCommand}" Padding="8" />
+                <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Save" Command="{Binding SaveCommand}" Padding="8" />
+                <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Edit Cat." Command="{Binding EditCategoriesCommand}" Padding="8" />
+                <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Edit RR." Command="{Binding EditRegularyRequestsCommand}" Padding="8" />
+                <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Switch" Command="{Binding SwitchAccountCommand}" Padding="8" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Background="{DynamicResource VeryLightBackground}" Margin="0,5" VerticalAlignment="Stretch">
+                <TextBlock Text="@Umsätze auswählen" FontWeight="Bold" Margin="4"/>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="1" Background="{DynamicResource VeryLightBackground}" Margin="0,5" />
+
+            <Label Grid.Row="2" Content="@Zeitraum" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,4,10" />
+            
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="0,10">
+                <Button Content="&lt;" Command="{Binding PreviousMonthCommand}" />
                 <ComboBox ItemsSource="{Binding Months.SelectableValues}"
                           SelectedItem="{Binding Months.Value}" 
                           DisplayMemberPath="Name" 
                           Margin="2"
                           Width="120" />
-                
                 <xctk:LongUpDown Value="{Binding Year}" 
                                  Width="60" 
                                  Margin="2" />
-
-                <Button Command="{Binding NextMonthCommand}" Content="&gt;" />
-
-                <Button Command="{Binding GotoCurrentMonthCommand}" 
-                        Content="{x:Static properties:Resources.AccountManagementPage_GotoCurrentMonthCommandCaption}" />
-
+                <Button Content="&gt;" Command="{Binding NextMonthCommand}" />
             </StackPanel>
-            
-            <DataGrid Grid.Row="2" 
+
+            <DataGrid Grid.Row="3" 
+                      Margin="2"
+                      Grid.ColumnSpan="2"
                       AutoGenerateColumns="False" 
                       ItemsSource="{Binding Requests.SelectableValues}"
                       SelectedItem="{Binding Requests.Value, Mode=TwoWay}"
@@ -79,17 +85,11 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Content="{x:Static properties:Resources.RequestManagementPage_LabelMonthSaldo}" Margin="2,1" />
-                <TextBox IsReadOnly="True" 
-                         Text="{Binding SaldoAsString, UpdateSourceTrigger=PropertyChanged}" 
-                         HorizontalAlignment="Right" 
-                         Width="80"
-                         HorizontalContentAlignment="Right"/>
+            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Background="{DynamicResource VeryLightBackground}" Margin="2,5">
+                <Label Content="{x:Static properties:Resources.RequestManagementPage_LabelMonthSaldo}" Margin="5" FontWeight="Bold" />
+                <Label Content="{Binding SaldoAsString, UpdateSourceTrigger=PropertyChanged}" Width="80" HorizontalContentAlignment="Right" Margin="5" FontWeight="Bold" />
             </StackPanel>
-            
         </Grid>
-        
     </DataTemplate>
     
 </ResourceDictionary>
