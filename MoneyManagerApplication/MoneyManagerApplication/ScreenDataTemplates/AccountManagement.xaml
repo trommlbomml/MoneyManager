@@ -54,6 +54,7 @@
                     <TextBlock FontSize="{DynamicResource Heading1FontSize}" Text="MoneyManager 2014" Margin="0,0,0,4"/>
                     <TextBlock FontSize="{DynamicResource ContentTextFontSize}" Text="Copyright Peter Friedland" />
                     <TextBlock FontSize="{DynamicResource ContentTextFontSize}" Text="Design Josephine Rosin" />
+                    <ContentControl ContentTemplate="{DynamicResource CheckMarkVectorIcon}" />
                 </StackPanel>
                 
             </Border>
