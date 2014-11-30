@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MoneyManager.Interfaces
 {
@@ -113,32 +112,32 @@ namespace MoneyManager.Interfaces
         /// Creates a regulary request.
         /// </summary>
         /// <param name="requestData">Entity data</param>
-        string CreateRegularyRequest(RegularyRequestEntityData requestData);
+        string CreateStandingOrder(StandingOrderEntityData requestData);
 
         /// <summary>
         /// Updates a regulary request.
         /// </summary>
         /// <param name="entityId">Entity Id</param>
         /// <param name="requestData">data</param>
-        void UpdateRegularyRequest(string entityId, RegularyRequestEntityData requestData);
+        void UpdateStandingOrder(string entityId, StandingOrderEntityData requestData);
 
         /// <summary>
         /// Deletes a regulary request. All referencing Requests are converted to regular requests.
         /// </summary>
         /// <param name="entityId">Entity Id</param>
-        void DeleteRegularyRequest(string entityId);
+        void DeleteStandingOrder(string entityId);
 
         /// <summary>
         /// Delivers single regulary request.
         /// </summary>
         /// <param name="entityId">Entity id</param>
-        RegularyRequestEntity QueryRegularyRequest(string entityId);
+        StandingOrderEntity QueryStandingOrder(string entityId);
 
         /// <summary>
         /// Delivers all regulary requests.
         /// </summary>
         /// <returns>Regulary requests.</returns>
-        IEnumerable<RegularyRequestEntity> QueryAllRegularyRequestEntities();
+        IEnumerable<StandingOrderEntity> QueryAllStandingOrderEntities();
 
         /// <summary>
         /// Calculates the sum of Requests up to month.
@@ -151,7 +150,7 @@ namespace MoneyManager.Interfaces
         /// <summary>
         /// Updates all regulary Requests to 
         /// </summary>
-        void UpdateRegularyRequestsToCurrentMonth();
+        void UpdateStandingOrdersToCurrentMonth();
 
         /// <summary>
         /// Writes Repository to file.

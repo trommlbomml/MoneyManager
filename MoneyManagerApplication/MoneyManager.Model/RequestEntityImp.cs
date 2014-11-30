@@ -14,7 +14,7 @@ namespace MoneyManager.Model
             Description = string.Empty;
         }
 
-        public RequestEntityImp(XElement requestElement, IEnumerable<CategoryEntity> categories, IEnumerable<RegularyRequestEntity> regularyRequests):
+        public RequestEntityImp(XElement requestElement, IEnumerable<CategoryEntity> categories):
             base(requestElement.Attribute("Id").Value)
         {
             Description = requestElement.Attribute("Description").Value;

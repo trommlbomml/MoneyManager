@@ -5,7 +5,7 @@ using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels.RequestManagement.Regulary
 {
-    public class RegularyRequestDetailsViewModel : ViewModel
+    public class StandingOrderDetailsViewModel : ViewModel
     {
         private bool _isInEditMode;
         private string _description;
@@ -17,10 +17,10 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         public EnumeratedSingleValuedProperty<MonthPeriod> MonthPeriods { get; private set; }
         public EnumeratedSingleValuedProperty<CategoryViewModel> Categories { get; private set; }
 
-        public RegularyRequestDetailsViewModel(ApplicationViewModel application, Action<RegularyRequestEntityData> onSave, Action<RegularyRequestDetailsViewModel> onCancel)
+        public StandingOrderDetailsViewModel(ApplicationViewModel application, Action<StandingOrderEntityData> onSave, Action<StandingOrderDetailsViewModel> onCancel)
         {
             _application = application;
-            SaveCommand = new CommandViewModel(() => onSave(CreateRegularyRequestEntityData()));
+            SaveCommand = new CommandViewModel(() => onSave(CreateStandingOrderEntityData()));
             CancelCommand = new CommandViewModel(() => onCancel(this));
 
             PaymentsProperty = new SingleValuedProperty<int> { Value = 1 };
@@ -68,9 +68,9 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             }
         }
 
-        private RegularyRequestEntityData CreateRegularyRequestEntityData()
+        private StandingOrderEntityData CreateStandingOrderEntityData()
         {
-            return new RegularyRequestEntityData
+            return new StandingOrderEntityData
             {
                 Description = Description,
                 Value = Value,
@@ -87,7 +87,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
         public void Refresh()
         {
-            var request = _application.Repository.QueryRegularyRequest(EntityId);
+            var request = _application.Repository.QueryStandingOrder(EntityId);
             Description = request.Description;
             Value = request.Value;
             MonthPeriods.Value = GetEnumFromPeriod(request.MonthPeriodStep);

@@ -26,16 +26,16 @@
                 <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Remove" Command="{Binding DeleteRequestCommand}" Padding="8" />
                 <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Save" Command="{Binding SaveCommand}" Padding="8" />
                 <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Edit Cat." Command="{Binding EditCategoriesCommand}" Padding="8" />
-                <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Edit RR." Command="{Binding EditRegularyRequestsCommand}" Padding="8" />
+                <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Edit RR." Command="{Binding EditStandingOrdersCommand}" Padding="8" />
                 <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Switch" Command="{Binding SwitchAccountCommand}" Padding="8" />
             </StackPanel>
 
-            <Border Grid.Row="1" Background="{DynamicResource VeryLightBackground}" Margin="0,5" VerticalAlignment="Stretch">
+            <Border Grid.Row="1" Grid.Column="0" Background="{DynamicResource VeryLightBackground}" Margin="0,5" VerticalAlignment="Stretch">
                 <TextBlock Text="@Umsätze auswählen" FontWeight="Bold" Margin="4"/>
             </Border>
             <Border Grid.Row="1" Grid.Column="1" Background="{DynamicResource VeryLightBackground}" Margin="0,5" />
 
-            <Label Grid.Row="2" Content="@Zeitraum" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,4,10" />
+            <Label Grid.Row="2" Grid.Column="0" Content="@Zeitraum" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,4,10" />
             
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="0,10">
                 <Button Content="&lt;" Command="{Binding PreviousMonthCommand}" />
@@ -52,7 +52,8 @@
 
             <DataGrid Grid.Row="3" 
                       Margin="2"
-                      Grid.ColumnSpan="2"
+                      Grid.ColumnSpan="2" 
+                      Grid.Column="0"
                       AutoGenerateColumns="False" 
                       ItemsSource="{Binding Requests.SelectableValues}"
                       SelectedItem="{Binding Requests.Value, Mode=TwoWay}"

@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace MoneyManager.Model.Tests
 {
     [TestFixture]
-    public class RegularyRequestEntityImpTests
+    public class StandingOrderEntityImpTests
     {
         [TestCase(1, 1, 1, true)]
         [TestCase(1, 1, 2, true)]
@@ -30,7 +30,7 @@ namespace MoneyManager.Model.Tests
         [TestCase(12, 4, 5, false)]
         public void IsMonthOfPeriod(int period, int referenceMonth, int month, bool expectedIsPeriodMonth)
         {
-            var entity = new RegularyRequestEntityImp
+            var entity = new StandingOrderEntityImp
             {
                 MonthPeriodStep = period,
                 ReferenceDay = 1,
@@ -43,7 +43,7 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void GetNextPeriodDateTimeForFirstCall([Values(1,3,6,12)]int period)
         {
-            var entity = new RegularyRequestEntityImp
+            var entity = new StandingOrderEntityImp
             {
                 MonthPeriodStep = period,
                 ReferenceDay = 1,
@@ -60,7 +60,7 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void GetNextPeriodForLastBookDateReturnsNull([Values(1, 3, 6, 12)]int period)
         {
-            var entity = new RegularyRequestEntityImp
+            var entity = new StandingOrderEntityImp
             {
                 MonthPeriodStep = period,
                 ReferenceDay = 1,
@@ -76,7 +76,7 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void GetNextPeriodDateTime([Values(1, 3, 6, 12)]int period)
         {
-            var entity = new RegularyRequestEntityImp
+            var entity = new StandingOrderEntityImp
             {
                 MonthPeriodStep = period,
                 ReferenceDay = 1,

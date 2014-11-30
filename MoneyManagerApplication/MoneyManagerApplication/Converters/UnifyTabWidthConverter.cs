@@ -14,6 +14,7 @@ namespace MoneyManagerApplication.Converters
             if (tabControl == null) return DependencyProperty.UnsetValue;
 
             var maxWidth = double.MinValue;
+
             foreach (TabItem tabItem in tabControl.Items)
             {
                 maxWidth = Math.Max(maxWidth, tabItem.ActualWidth);

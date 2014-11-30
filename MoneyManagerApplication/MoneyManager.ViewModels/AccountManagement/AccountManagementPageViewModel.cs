@@ -97,7 +97,7 @@ namespace MoneyManager.ViewModels.AccountManagement
                 var result = Application.WindowManager.ShowOpenFileDialog(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Properties.Resources.AccountManagementFilterOpenAccount);
                 if (string.IsNullOrEmpty(result)) return;
                 Application.Repository.Open(result);
-                Application.Repository.UpdateRegularyRequestsToCurrentMonth();
+                Application.Repository.UpdateStandingOrdersToCurrentMonth();
                 Application.ActivateRequestmanagementPage();
             });
         }
@@ -107,7 +107,7 @@ namespace MoneyManager.ViewModels.AccountManagement
             ExecuteWithErrorHandling(() =>
             {
                 Application.Repository.Open(account.Path);
-                Application.Repository.UpdateRegularyRequestsToCurrentMonth();
+                Application.Repository.UpdateStandingOrdersToCurrentMonth();
                 Application.ActivateRequestmanagementPage(); 
             }, () => HandleOpenRecentFailed(account));
         }

@@ -13,7 +13,7 @@ namespace MoneyManager.Model
         private readonly ApplicationContext _applicationContext;
         private readonly List<RequestEntityImp> _allRequests;
         private readonly List<CategoryEntityImp> _allCategories;
-        private readonly List<RegularyRequestEntityImp> _allRegularyRequests;
+        private readonly List<StandingOrderEntityImp> _allStandingOrders;
 
         public RepositoryImp(ApplicationContext context)
         {
@@ -22,7 +22,7 @@ namespace MoneyManager.Model
             _applicationContext = context;
             _allRequests = new List<RequestEntityImp>();
             _allCategories = new List<CategoryEntityImp>();
-            _allRegularyRequests = new List<RegularyRequestEntityImp>();
+            _allStandingOrders = new List<StandingOrderEntityImp>();
         }
 
         private void EnsureRepositoryOpen(string action)
@@ -76,8 +76,8 @@ namespace MoneyManager.Model
             _currentRepositoryName = document.Root.Attribute("Name").Value;
 
             _allCategories.AddRange(document.Root.Element("Categories").Elements("Category").Select(e => new CategoryEntityImp(e)));
-            _allRegularyRequests.AddRange(document.Root.Element("RegularyRequests").Elements("RegularyRequest").Select(e => new RegularyRequestEntityImp(e, _allCategories)));
-            _allRequests.AddRange(document.Root.Element("Requests").Elements("Request").Select(e => new RequestEntityImp(e, _allCategories, _allRegularyRequests)));
+            _allStandingOrders.AddRange(document.Root.Element("StandingOrders").Elements("StandingOrder").Select(e => new StandingOrderEntityImp(e, _allCategories)));
+            _allRequests.AddRange(document.Root.Element("Requests").Elements("Request").Select(e => new RequestEntityImp(e, _allCategories)));
 
 // ReSharper restore PossibleNullReferenceException
 
@@ -117,7 +117,7 @@ namespace MoneyManager.Model
                 new XElement("MoneyManagerAccount",
                     new XAttribute("Name", name),
                     new XElement("Categories", _allCategories.Select(c => c.Serialize())),
-                    new XElement("RegularyRequests", _allRegularyRequests.Select(r => r.Serialize())),
+                    new XElement("StandingOrders", _allStandingOrders.Select(r => r.Serialize())),
                     new XElement("Requests", _allRequests.Select(r => r.Serialize()))
                     )
                 );
@@ -129,7 +129,7 @@ namespace MoneyManager.Model
         {
             _allRequests.Clear();
             _allCategories.Clear();
-            _allRegularyRequests.Clear();
+            _allStandingOrders.Clear();
         }
 
         public void Dispose()

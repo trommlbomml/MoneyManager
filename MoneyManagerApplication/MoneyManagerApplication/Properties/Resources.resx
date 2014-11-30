@@ -162,46 +162,46 @@
   <data name="PeriodName_Yearly" xml:space="preserve">
     <value>Jährlich</value>
   </data>
-  <data name="RegularyRequestDialog_Cancel" xml:space="preserve">
+  <data name="StandingOrderDialog_Cancel" xml:space="preserve">
     <value>Verwerfen</value>
   </data>
-  <data name="RegularyRequestDialog_Category" xml:space="preserve">
+  <data name="StandingOrderDialog_Category" xml:space="preserve">
     <value>Kategorie</value>
   </data>
-  <data name="RegularyRequestDialog_Close" xml:space="preserve">
+  <data name="StandingOrderDialog_Close" xml:space="preserve">
     <value>Schließen</value>
   </data>
-  <data name="RegularyRequestDialog_Delete" xml:space="preserve">
+  <data name="StandingOrderDialog_Delete" xml:space="preserve">
     <value>Löschen</value>
   </data>
-  <data name="RegularyRequestDialog_Description" xml:space="preserve">
+  <data name="StandingOrderDialog_Description" xml:space="preserve">
     <value>Beschreibung</value>
   </data>
-  <data name="RegularyRequestDialog_Edit" xml:space="preserve">
+  <data name="StandingOrderDialog_Edit" xml:space="preserve">
     <value>Bearbeiten</value>
   </data>
-  <data name="RegularyRequestDialog_FirstBookDate" xml:space="preserve">
+  <data name="StandingOrderDialog_FirstBookDate" xml:space="preserve">
     <value>Erste Buchung</value>
   </data>
-  <data name="RegularyRequestDialog_GridColmnHeader_Description" xml:space="preserve">
+  <data name="StandingOrderDialog_GridColmnHeader_Description" xml:space="preserve">
     <value>Beschreibung</value>
   </data>
-  <data name="RegularyRequestDialog_GridColmnHeader_MonthPeroid" xml:space="preserve">
+  <data name="StandingOrderDialog_GridColmnHeader_MonthPeroid" xml:space="preserve">
     <value>Intervall</value>
   </data>
-  <data name="RegularyRequestDialog_GridColmnHeader_Value" xml:space="preserve">
+  <data name="StandingOrderDialog_GridColmnHeader_Value" xml:space="preserve">
     <value>Betrag</value>
   </data>
-  <data name="RegularyRequestDialog_New" xml:space="preserve">
+  <data name="StandingOrderDialog_New" xml:space="preserve">
     <value>Neu</value>
   </data>
-  <data name="RegularyRequestDialog_Period" xml:space="preserve">
+  <data name="StandingOrderDialog_Period" xml:space="preserve">
     <value>Intervall</value>
   </data>
-  <data name="RegularyRequestDialog_Save" xml:space="preserve">
+  <data name="StandingOrderDialog_Save" xml:space="preserve">
     <value>Speichern</value>
   </data>
-  <data name="RegularyRequestDialog_Value" xml:space="preserve">
+  <data name="StandingOrderDialog_Value" xml:space="preserve">
     <value>Betrag</value>
   </data>
   <data name="RequestDialog_CreateCommandCaption" xml:space="preserve">

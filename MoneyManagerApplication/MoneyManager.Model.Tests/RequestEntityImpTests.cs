@@ -44,7 +44,7 @@ namespace MoneyManager.Model.Tests
         }
 
         [Test]
-        public void Deserialize([Values(true, false)]bool withCategory, [Values(true, false)]bool withRegularyRequest)
+        public void Deserialize([Values(true, false)]bool withCategory, [Values(true, false)]bool withStandingOrder)
         {
             const string persistentId = "TestId";
             var dateTime = new DateTime(2014, 7, 4);
@@ -52,20 +52,16 @@ namespace MoneyManager.Model.Tests
             const string description = "TestDescription";
 
             var categories = Enumerable.Range(1, 3).Select(i => new CategoryEntityImp()).ToArray();
-            var regularyRequests = Enumerable.Range(1, 3).Select(i => new RegularyRequestEntityImp()).ToArray();
-
             var categoryId = withCategory ? categories.First().PersistentId : "";
-            var regularyRequestId = withRegularyRequest ? regularyRequests.First().PersistentId : "";
-            
+
             var element = new XElement("Request",
                 new XAttribute("Id", persistentId),
                 new XAttribute("Date", dateTime.ToString(CultureInfo.InvariantCulture)),
                 new XAttribute("Description", description),
                 new XAttribute("Value", value.ToString(CultureInfo.InvariantCulture)),
-                new XAttribute("CategoryId", categoryId),
-                new XAttribute("RegularyRequestId", regularyRequestId));
+                new XAttribute("CategoryId", categoryId));
 
-            var request = new RequestEntityImp(element, categories, regularyRequests);
+            var request = new RequestEntityImp(element, categories);
 
             Assert.That(request.PersistentId, Is.EqualTo(persistentId));
             Assert.That(request.Date, Is.EqualTo(dateTime));

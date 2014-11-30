@@ -5,46 +5,46 @@ using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels.RequestManagement.Regulary
 {
-    public class RegularyRequestManagementViewModel : ViewModel
+    public class StandingOrderManagementViewModel : ViewModel
     {
         private readonly ApplicationViewModel _application;
-        private RegularyRequestDetailsViewModel _details;
+        private StandingOrderDetailsViewModel _details;
 
-        public EnumeratedSingleValuedProperty<RegularyRequestEntityViewModel> RegularyRequests { get; private set; }
+        public EnumeratedSingleValuedProperty<StandingOrderEntityViewModel> StandingOrders { get; private set; }
 
-        public CommandViewModel CreateRegularyRequestCommand { get; private set; }
-        public CommandViewModel DeleteRegularyRequestCommand { get; private set; }
+        public CommandViewModel CreateStandingOrderCommand { get; private set; }
+        public CommandViewModel DeleteStandingOrderCommand { get; private set; }
 
-        public RegularyRequestManagementViewModel(ApplicationViewModel application)
+        public StandingOrderManagementViewModel(ApplicationViewModel application)
         {
             _application = application;
-            RegularyRequests = new EnumeratedSingleValuedProperty<RegularyRequestEntityViewModel>();
-            RegularyRequests.PropertyChanged += OnRegularyRequestPropertyChanged;
+            StandingOrders = new EnumeratedSingleValuedProperty<StandingOrderEntityViewModel>();
+            StandingOrders.PropertyChanged += OnStandingOrderPropertyChanged;
 
-            foreach (var requestPersistentId in application.Repository.QueryAllRegularyRequestEntities().Select(r => r.PersistentId))
+            foreach (var requestPersistentId in application.Repository.QueryAllStandingOrderEntities().Select(r => r.PersistentId))
             {
-                var request = new RegularyRequestEntityViewModel(application, requestPersistentId);
-                RegularyRequests.AddValue(request);
+                var request = new StandingOrderEntityViewModel(application, requestPersistentId);
+                StandingOrders.AddValue(request);
             }
 
-            foreach (var request in RegularyRequests.SelectableValues)
+            foreach (var request in StandingOrders.SelectableValues)
             {
                 request.Refresh();
             }
 
-            CreateRegularyRequestCommand = new CommandViewModel(OnCreateRegularyRequestCommand);
-            DeleteRegularyRequestCommand = new CommandViewModel(OnDeleteRegularyRequestCommand);
+            CreateStandingOrderCommand = new CommandViewModel(OnCreateStandingOrderCommand);
+            DeleteStandingOrderCommand = new CommandViewModel(OnDeleteStandingOrderCommand);
 
             UpdateCommandStates();
         }
 
-        public RegularyRequestDetailsViewModel Details
+        public StandingOrderDetailsViewModel Details
         {
             get { return _details; }
             set { SetBackingField("Details", ref _details, value, o => UpdateCommandStates()); }
         }
 
-        private void OnRegularyRequestPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnStandingOrderPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != "Value") return;
             UpdateDetails();
@@ -53,45 +53,45 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
         private void UpdateDetails()
         {
-            if (RegularyRequests.Value == null)
+            if (StandingOrders.Value == null)
             {
                 Details = null;
             }
             else
             {
-                Details = new RegularyRequestDetailsViewModel(_application, OnSaveRequestDetails, OnCancelRequestDetails)
+                Details = new StandingOrderDetailsViewModel(_application, OnSaveRequestDetails, OnCancelRequestDetails)
                 {
                     IsInEditMode = false,
-                    EntityId = RegularyRequests.Value.EntityId
+                    EntityId = StandingOrders.Value.EntityId
                 };
                 Details.Refresh();
             }
         }
 
-        private void OnSaveRequestDetails(RegularyRequestEntityData entityData)
+        private void OnSaveRequestDetails(StandingOrderEntityData entityData)
         {
             if (string.IsNullOrEmpty(Details.EntityId))
             {
-                var entityId = _application.Repository.CreateRegularyRequest(entityData);
+                var entityId = _application.Repository.CreateStandingOrder(entityData);
                 Details.EntityId = entityId;
 
-                var requestEntityViewModel = new RegularyRequestEntityViewModel(_application, entityId);
+                var requestEntityViewModel = new StandingOrderEntityViewModel(_application, entityId);
                 requestEntityViewModel.Refresh();
-                RegularyRequests.AddValue(requestEntityViewModel);
-                RegularyRequests.Value = requestEntityViewModel;
+                StandingOrders.AddValue(requestEntityViewModel);
+                StandingOrders.Value = requestEntityViewModel;
             }
             else
             {
-                _application.Repository.UpdateRegularyRequest(Details.EntityId, entityData);
-                RegularyRequests.Value.Refresh();
+                _application.Repository.UpdateStandingOrder(Details.EntityId, entityData);
+                StandingOrders.Value.Refresh();
             }
 
             Details.IsInEditMode = false;
-            _application.Repository.UpdateRegularyRequestsToCurrentMonth();
+            _application.Repository.UpdateStandingOrdersToCurrentMonth();
             UpdateCommandStates();
         }
 
-        private void OnCancelRequestDetails(RegularyRequestDetailsViewModel details)
+        private void OnCancelRequestDetails(StandingOrderDetailsViewModel details)
         {
             Details.IsInEditMode = false;
             if (!string.IsNullOrEmpty(Details.EntityId))
@@ -104,15 +104,15 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             }
         }
 
-        private void OnDeleteRegularyRequestCommand()
+        private void OnDeleteStandingOrderCommand()
         {
-            _application.Repository.DeleteRegularyRequest(RegularyRequests.Value.EntityId);
-            RegularyRequests.RemoveSelectedValue();
+            _application.Repository.DeleteStandingOrder(StandingOrders.Value.EntityId);
+            StandingOrders.RemoveSelectedValue();
         }
 
-        private void OnCreateRegularyRequestCommand()
+        private void OnCreateStandingOrderCommand()
         {
-            var details = new RegularyRequestDetailsViewModel(_application, OnSaveRequestDetails, OnCancelRequestDetails)
+            var details = new StandingOrderDetailsViewModel(_application, OnSaveRequestDetails, OnCancelRequestDetails)
             {
                 IsInEditMode = true
             };
@@ -123,8 +123,8 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         {
             var isSelected = Details != null;
             var isReadOnly = Details == null || !Details.IsInEditMode;
-            CreateRegularyRequestCommand.IsEnabled = isReadOnly;
-            DeleteRegularyRequestCommand.IsEnabled = isSelected && isReadOnly;
+            CreateStandingOrderCommand.IsEnabled = isReadOnly;
+            DeleteStandingOrderCommand.IsEnabled = isSelected && isReadOnly;
         }
     }
 }

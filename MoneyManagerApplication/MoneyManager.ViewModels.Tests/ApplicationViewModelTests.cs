@@ -1,6 +1,4 @@
-﻿
-using System;
-using MoneyManager.ViewModels.RequestManagement;
+﻿using MoneyManager.ViewModels.RequestManagement;
 using NUnit.Framework;
 
 namespace MoneyManager.ViewModels.Tests

@@ -2,7 +2,7 @@
 
 namespace MoneyManager.Interfaces
 {
-    public class RegularyRequestEntityData
+    public class StandingOrderEntityData
     {
         public DateTime FirstBookDate { get; set; }
         public int ReferenceMonth { get; set; }

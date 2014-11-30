@@ -59,10 +59,12 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
         {
             Repository.When(r => r.Create(Arg.Any<string>(), Arg.Any<string>())).Do(c => {throw new ApplicationException("ErrorMessage");});
 
-            var viewModel = new AccountManagementPageViewModel(Application);
+            var viewModel = new AccountManagementPageViewModel(Application)
+            {
+                NewAccountFilePath = "Test",
+                NewAccountNameProperty = {Value = "Test"}
+            };
 
-            viewModel.NewAccountFilePath = "Test";
-            viewModel.NewAccountNameProperty.Value = "Test";
             viewModel.CreateNewAccountCommand.Execute(null);
 
             Repository.Received(1).Create("Test", "Test");
@@ -72,10 +74,12 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
         [Test]
         public void CreateAccount()
         {
-            var viewModel = new AccountManagementPageViewModel(Application);
+            var viewModel = new AccountManagementPageViewModel(Application)
+            {
+                NewAccountFilePath = "Test",
+                NewAccountNameProperty = {Value = "Test"}
+            };
 
-            viewModel.NewAccountFilePath = "Test";
-            viewModel.NewAccountNameProperty.Value = "Test";
             viewModel.CreateNewAccountCommand.Execute(null);
 
             Repository.Received(1).Create("Test", "Test");
@@ -101,7 +105,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             viewModel.Accounts.First().OpenCommand.Execute(null);
 
             Repository.Received(1).Open(@"C:\test\test.txt");
-            Repository.Received(1).UpdateRegularyRequestsToCurrentMonth();
+            Repository.Received(1).UpdateStandingOrdersToCurrentMonth();
             ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(@"C:\test\test.txt");
             Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
         }
@@ -130,13 +134,13 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             if (accept)
             {
                 Repository.Received(1).Open(expectedPath);
-                Repository.Received(1).UpdateRegularyRequestsToCurrentMonth();
+                Repository.Received(1).UpdateStandingOrdersToCurrentMonth();
                 Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
             }
             else
             {
                 Repository.DidNotReceiveWithAnyArgs().Open(Arg.Any<string>());
-                Repository.DidNotReceiveWithAnyArgs().UpdateRegularyRequestsToCurrentMonth();
+                Repository.DidNotReceiveWithAnyArgs().UpdateStandingOrdersToCurrentMonth();
                 Assert.That(Application.ActivePage, Is.Not.InstanceOf<RequestManagementPageViewModel>());
             }
 

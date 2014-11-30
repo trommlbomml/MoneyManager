@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MoneyManager.Interfaces;
 
@@ -8,57 +6,56 @@ namespace MoneyManager.Model
 {
     partial class RepositoryImp
     {
-        public string CreateRegularyRequest(RegularyRequestEntityData requestData)
+        public string CreateStandingOrder(StandingOrderEntityData requestData)
         {
-            EnsureRepositoryOpen("CreateRegularyRequest");
+            EnsureRepositoryOpen("CreateStandingOrder");
 
-            var regularyRequest = new RegularyRequestEntityImp();
-            SetRequestEntityImpData(regularyRequest, requestData);
-            _allRegularyRequests.Add(regularyRequest);
+            var standingOrder = new StandingOrderEntityImp();
+            SetRequestEntityImpData(standingOrder, requestData);
+            _allStandingOrders.Add(standingOrder);
 
-            return regularyRequest.PersistentId;
+            return standingOrder.PersistentId;
         }
 
-        internal void AddRegularyRequest(RegularyRequestEntityImp regularyRequestEntity)
+        internal void AddStandingOrder(StandingOrderEntityImp standingOrderEntity)
         {
-            _allRegularyRequests.Add(regularyRequestEntity);
+            _allStandingOrders.Add(standingOrderEntity);
         }
 
-        public void UpdateRegularyRequest(string entityId, RegularyRequestEntityData requestData)
+        public void UpdateStandingOrder(string entityId, StandingOrderEntityData requestData)
         {
-            EnsureRepositoryOpen("UpdateRegularyRequest");
+            EnsureRepositoryOpen("UpdateStandingOrder");
 
-            var regularyRequest = _allRegularyRequests.Single(r => r.PersistentId == entityId);
-            SetRequestEntityImpData(regularyRequest, requestData);
+            var standingOrder = _allStandingOrders.Single(r => r.PersistentId == entityId);
+            SetRequestEntityImpData(standingOrder, requestData);
         }
 
-        public void DeleteRegularyRequest(string entityId)
+        public void DeleteStandingOrder(string entityId)
         {
-            EnsureRepositoryOpen("DeleteRegularyRequest");
+            EnsureRepositoryOpen("DeleteStandingOrder");
 
-            var regularyRequestEntity = _allRegularyRequests.Single(r => r.PersistentId == entityId);
-
-            _allRegularyRequests.Remove(regularyRequestEntity);
+            var standingOrderEntity = _allStandingOrders.Single(r => r.PersistentId == entityId);
+            _allStandingOrders.Remove(standingOrderEntity);
         }
 
-        public RegularyRequestEntity QueryRegularyRequest(string entityId)
+        public StandingOrderEntity QueryStandingOrder(string entityId)
         {
-            EnsureRepositoryOpen("QueryRegularyRequest");
+            EnsureRepositoryOpen("QueryStandingOrder");
 
-            return _allRegularyRequests.Single(r => r.PersistentId == entityId);
+            return _allStandingOrders.Single(r => r.PersistentId == entityId);
         }
 
-        public IEnumerable<RegularyRequestEntity> QueryAllRegularyRequestEntities()
+        public IEnumerable<StandingOrderEntity> QueryAllStandingOrderEntities()
         {
-            EnsureRepositoryOpen("QueryAllRegularyRequestEntities");
+            EnsureRepositoryOpen("QueryAllStandingOrderEntities");
 
-            return _allRegularyRequests;
+            return _allStandingOrders;
         }
 
-        public void UpdateRegularyRequestsToCurrentMonth()
+        public void UpdateStandingOrdersToCurrentMonth()
         {
             var currentMonthLastDay = _applicationContext.Now.Date.LastDayOfMonth();
-            var requests = _allRegularyRequests.Where(r => r.FirstBookDate.Date <= currentMonthLastDay).ToList();
+            var requests = _allStandingOrders.Where(r => r.FirstBookDate.Date <= currentMonthLastDay).ToList();
 
             foreach(var request in requests)
             {
@@ -73,18 +70,18 @@ namespace MoneyManager.Model
             }
         }
 
-        private void SetRequestEntityImpData(RegularyRequestEntityImp regularyRequest, RegularyRequestEntityData requestData)
+        private void SetRequestEntityImpData(StandingOrderEntityImp standingOrder, StandingOrderEntityData requestData)
         {
-            regularyRequest.Description = requestData.Description;
-            regularyRequest.FirstBookDate = requestData.FirstBookDate;
-            regularyRequest.MonthPeriodStep = requestData.MonthPeriodStep;
-            regularyRequest.ReferenceDay = requestData.ReferenceDay;
-            regularyRequest.ReferenceMonth = requestData.ReferenceMonth;
-            regularyRequest.Value = requestData.Value;
+            standingOrder.Description = requestData.Description;
+            standingOrder.FirstBookDate = requestData.FirstBookDate;
+            standingOrder.MonthPeriodStep = requestData.MonthPeriodStep;
+            standingOrder.ReferenceDay = requestData.ReferenceDay;
+            standingOrder.ReferenceMonth = requestData.ReferenceMonth;
+            standingOrder.Value = requestData.Value;
 
             if (!string.IsNullOrEmpty(requestData.CategoryEntityId))
             {
-                regularyRequest.Category = _allCategories.Single(c => c.PersistentId == requestData.CategoryEntityId);
+                standingOrder.Category = _allCategories.Single(c => c.PersistentId == requestData.CategoryEntityId);
             }
         }
     }

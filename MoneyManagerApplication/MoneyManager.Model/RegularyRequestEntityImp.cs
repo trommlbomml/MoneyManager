@@ -7,26 +7,26 @@ using MoneyManager.Interfaces;
 
 namespace MoneyManager.Model
 {
-    class RegularyRequestEntityImp : Entity, RegularyRequestEntity
+    class StandingOrderEntityImp : Entity, StandingOrderEntity
     {
-        public RegularyRequestEntityImp()
+        public StandingOrderEntityImp()
         {
             Description = string.Empty;
             LastBookDate = DateTime.MaxValue;
         }
 
-        public RegularyRequestEntityImp(XElement regularyRequestElement, IEnumerable<CategoryEntity> categories):
-            base(regularyRequestElement.Attribute("Id").Value)
+        public StandingOrderEntityImp(XElement standingOrderElement, IEnumerable<CategoryEntity> categories):
+            base(standingOrderElement.Attribute("Id").Value)
         {
-            FirstBookDate = DateTime.Parse(regularyRequestElement.Attribute("FirstBookDate").Value, CultureInfo.InvariantCulture);
-            ReferenceMonth = int.Parse(regularyRequestElement.Attribute("ReferenceMonth").Value);
-            ReferenceDay = int.Parse(regularyRequestElement.Attribute("ReferenceDay").Value);
-            MonthPeriodStep = int.Parse(regularyRequestElement.Attribute("MonthPeriodStep").Value);
-            Description = regularyRequestElement.Attribute("Description").Value;
-            LastBookDate = DateTime.Parse(regularyRequestElement.Attribute("LastBookDate").Value, CultureInfo.InvariantCulture);
-            LastBookedDate = DateTime.Parse(regularyRequestElement.Attribute("LastBookedDate").Value, CultureInfo.InvariantCulture);
-            Value = Double.Parse(regularyRequestElement.Attribute("Value").Value, CultureInfo.InvariantCulture);
-            var categoryEntitiyId = regularyRequestElement.Attribute("CategoryId").Value;
+            FirstBookDate = DateTime.Parse(standingOrderElement.Attribute("FirstBookDate").Value, CultureInfo.InvariantCulture);
+            ReferenceMonth = int.Parse(standingOrderElement.Attribute("ReferenceMonth").Value);
+            ReferenceDay = int.Parse(standingOrderElement.Attribute("ReferenceDay").Value);
+            MonthPeriodStep = int.Parse(standingOrderElement.Attribute("MonthPeriodStep").Value);
+            Description = standingOrderElement.Attribute("Description").Value;
+            LastBookDate = DateTime.Parse(standingOrderElement.Attribute("LastBookDate").Value, CultureInfo.InvariantCulture);
+            LastBookedDate = DateTime.Parse(standingOrderElement.Attribute("LastBookedDate").Value, CultureInfo.InvariantCulture);
+            Value = Double.Parse(standingOrderElement.Attribute("Value").Value, CultureInfo.InvariantCulture);
+            var categoryEntitiyId = standingOrderElement.Attribute("CategoryId").Value;
             if (!string.IsNullOrEmpty(categoryEntitiyId))
             {
                 Category = categories.Single(c => c.PersistentId == categoryEntitiyId);
@@ -76,7 +76,7 @@ namespace MoneyManager.Model
 
         public XElement Serialize()
         {
-            return new XElement("RegularyRequest",
+            return new XElement("StandingOrder",
                 new XAttribute("Id", PersistentId),
                 new XAttribute("FirstBookDate", FirstBookDate.ToString(CultureInfo.InvariantCulture)),
                 new XAttribute("LastBookedDate", LastBookedDate.ToString(CultureInfo.InvariantCulture)),

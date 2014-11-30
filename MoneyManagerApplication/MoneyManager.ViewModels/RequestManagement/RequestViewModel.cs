@@ -13,7 +13,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         private string _dateAsString;
         private string _category;
         private string _categoryPersistentId;
-        private bool _isRegularyRequest;
+        private bool _isStandingOrder;
 
         public RequestViewModel(ApplicationViewModel application, string entityId) : base(application, entityId)
         {
@@ -69,10 +69,10 @@ namespace MoneyManager.ViewModels.RequestManagement
             set { SetBackingField("Category", ref _category, value); }
         }
 
-        public bool IsRegularyRequest
+        public bool IsStandingOrder
         {
-            get { return _isRegularyRequest; }
-            set { SetBackingField("IsRegularyRequest", ref _isRegularyRequest, value); }
+            get { return _isStandingOrder; }
+            set { SetBackingField("IsStandingOrder", ref _isStandingOrder, value); }
         }
 
         public override void Refresh()
@@ -82,7 +82,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             
             var categorySource = entity.Category;
             
-            IsRegularyRequest = false;
+            IsStandingOrder = false;
             Value = entity.Value;
             Description = entity.Description;
 

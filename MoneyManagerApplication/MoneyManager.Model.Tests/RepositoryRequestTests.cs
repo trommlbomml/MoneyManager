@@ -38,20 +38,6 @@ namespace MoneyManager.Model.Tests
             Assert.That(requests.Length, Is.EqualTo(expectedQueriedRequestCount));
         }
 
-        private RegularyRequestEntity CreateRegularyRequest(DateTime firstReference, int periodInMonth)
-        {
-            var regularyRequestEntity = new RegularyRequestEntityImp
-            {
-                MonthPeriodStep = periodInMonth,
-                ReferenceDay = firstReference.Day,
-                ReferenceMonth = firstReference.Month,
-                FirstBookDate = firstReference
-            };
-            Repository.AddRegularyRequest(regularyRequestEntity);
-
-            return regularyRequestEntity;
-        }
-
         [TestCase(true)]
         [TestCase(false)]
         public void QueryRequestsForMonthWithNoEntries(bool createRequestsInDifferentMonth)

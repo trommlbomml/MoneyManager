@@ -5,7 +5,7 @@ namespace MoneyManager.Interfaces
     /// <summary>
     /// Repräsentiert einen Betrag, der regelmäßig eingetragen wird.
     /// </summary>
-    public interface RegularyRequestEntity
+    public interface StandingOrderEntity
     {
         /// <summary>
         /// PersistentId of Entity.

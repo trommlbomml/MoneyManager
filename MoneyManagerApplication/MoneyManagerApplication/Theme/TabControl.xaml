@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:MoneyManagerApplication.Converters">
 
-    <converters:UnifyTabWidthConverter x:Key="tabSizeConverter" />
+    <converters:UnifyTabWidthConverter x:Key="TabSizeConverter" />
 
     <Style TargetType="{x:Type TabControl}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -65,7 +65,7 @@
         </Setter>
         <Setter Property="Width">
             <Setter.Value>
-                <MultiBinding Converter="{StaticResource tabSizeConverter}">
+                <MultiBinding Converter="{StaticResource TabSizeConverter}">
                     <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" />
                     <Binding RelativeSource="{RelativeSource Mode=FindAncestor,AncestorType={x:Type TabControl}}" Path="ActualWidth" />
                 </MultiBinding>

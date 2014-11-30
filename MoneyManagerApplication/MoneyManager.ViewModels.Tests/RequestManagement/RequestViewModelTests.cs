@@ -46,7 +46,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             viewModel.Refresh();
             Repository.Received(1).QueryRequest(DefaultEntityId);
             Assert.That(viewModel.Date, Is.EqualTo(requestDate));
-            Assert.That(viewModel.IsRegularyRequest, Is.False);
+            Assert.That(viewModel.IsStandingOrder, Is.False);
             Assert.That(viewModel.DateAsString, Is.EqualTo(string.Format(Properties.Resources.RequestDateFormat, requestDate)));
             Assert.That(viewModel.Value, Is.EqualTo(value));
             Assert.That(viewModel.ValueAsString, Is.EqualTo(string.Format(Properties.Resources.MoneyValueFormat, value)));

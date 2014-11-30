@@ -25,7 +25,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         public CommandViewModel EditRequestCommand { get; private set; }
         public CommandViewModel SwitchAccountCommand { get; private set; }
         public CommandViewModel EditCategoriesCommand { get; private set; }
-        public CommandViewModel EditRegularyRequestsCommand { get; private set; }
+        public CommandViewModel EditStandingOrdersCommand { get; private set; }
         public CommandViewModel GotoCurrentMonthCommand { get; private set; }
 
         public RequestManagementPageViewModel(ApplicationViewModel application, int year, int month) : base(application)
@@ -58,7 +58,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             SwitchAccountCommand = new CommandViewModel(OnSwitchAccountCommand);
             EditCategoriesCommand = new CommandViewModel(OnEditCategoriesCommand);
             GotoCurrentMonthCommand = new CommandViewModel(OnGotoCurrentMonthCommand);
-            EditRegularyRequestsCommand = new CommandViewModel(OnEditRegularyRequestsCommand);
+            EditStandingOrdersCommand = new CommandViewModel(OnEditStandingOrdersCommand);
 
             Months.PropertyChanged += OnMonthsPropertyChanged;
             Requests.PropertyChanged += OnSelectedRequestChanged;
@@ -70,9 +70,9 @@ namespace MoneyManager.ViewModels.RequestManagement
             Caption = string.Format(Properties.Resources.RequestManagementPageCaptionFormat, Application.Repository.Name);
         }
 
-        private void OnEditRegularyRequestsCommand()
+        private void OnEditStandingOrdersCommand()
         {
-            Application.WindowManager.ShowDialog(new RegularyRequestManagementViewModel(Application));
+            Application.WindowManager.ShowDialog(new StandingOrderManagementViewModel(Application));
         }
 
         private void OnGotoCurrentMonthCommand()
@@ -296,9 +296,9 @@ namespace MoneyManager.ViewModels.RequestManagement
             var isCurrentMonthSelected = Application.ApplicationContext.Now.Year == Year &&
                                          Application.ApplicationContext.Now.Month == Month;
             var isRequestSelected = Requests.Value != null;
-            var isRegularyRequest = isRequestSelected && Requests.Value.IsRegularyRequest;
-            DeleteRequestCommand.IsEnabled = isRequestSelected && !isRegularyRequest;
-            EditRequestCommand.IsEnabled = isRequestSelected && !isRegularyRequest;
+            var isStandingOrder = isRequestSelected && Requests.Value.IsStandingOrder;
+            DeleteRequestCommand.IsEnabled = isRequestSelected && !isStandingOrder;
+            EditRequestCommand.IsEnabled = isRequestSelected && !isStandingOrder;
             GotoCurrentMonthCommand.IsEnabled = !isCurrentMonthSelected;
             NextMonthCommand.IsEnabled = !isCurrentMonthSelected;
         }

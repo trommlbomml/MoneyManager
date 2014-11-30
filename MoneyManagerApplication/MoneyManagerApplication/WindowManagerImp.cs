@@ -25,7 +25,7 @@ namespace MoneyManagerApplication
         {
             {typeof (RequestDialogViewModel), () => new RequestDialog()},
             {typeof (CategoryManagementDialogViewModel), () => new CategoriesManagementDialog()},
-            {typeof (RegularyRequestManagementViewModel), () => new RegularyRequestDialog()},
+            {typeof (StandingOrderManagementViewModel), () => new StandingOrderDialog()},
         };
 
         private static Window GetWindowFromViewModelType(Type type)

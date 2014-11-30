@@ -3,11 +3,11 @@
 namespace MoneyManagerApplication.Dialogs
 {
     /// <summary>
-    /// Interaction logic for RegularyRequestDialog.xaml
+    /// Interaction logic for StandingOrderDialog.xaml
     /// </summary>
-    public partial class RegularyRequestDialog
+    public partial class StandingOrderDialog
     {
-        public RegularyRequestDialog()
+        public StandingOrderDialog()
         {
             InitializeComponent();
         }

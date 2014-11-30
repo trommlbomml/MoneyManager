@@ -3,7 +3,7 @@ using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels.RequestManagement.Regulary
 {
-    public class RegularyRequestEntityViewModel : EntityViewModel
+    public class StandingOrderEntityViewModel : EntityViewModel
     {
         private string _description;
         private string _category;
@@ -12,13 +12,13 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         private string _valueAsString;
         private string _monthPeriodAsString;
 
-        public RegularyRequestEntityViewModel(ApplicationViewModel application, string entityId) : base(application, entityId)
+        public StandingOrderEntityViewModel(ApplicationViewModel application, string entityId) : base(application, entityId)
         {
         }
 
         public override void Refresh()
         {
-            var request = Application.Repository.QueryRegularyRequest(EntityId);
+            var request = Application.Repository.QueryStandingOrder(EntityId);
             Description = request.Description;
             Category = request.Category != null ? request.Category.Name : Properties.Resources.NoCategory;
             Value = request.Value;
