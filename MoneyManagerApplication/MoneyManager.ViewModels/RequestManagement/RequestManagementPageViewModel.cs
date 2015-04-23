@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
@@ -149,15 +148,8 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void OnSwitchAccountCommand()
         {
-            Action quitAction = () =>
-            {
-                Application.Repository.Close();
-                Application.ActivateAccountManagementPage();
-            };
-
-            Application.WindowManager.ShowQuestion(Properties.Resources.RequestManagementChangeAccountQuestionCaption, 
-                                                   Properties.Resources.RequestManagementChangeAccountQuestionMessage,
-                                                   quitAction, quitAction);
+            Application.Repository.Close();
+            Application.ActivateAccountManagementPage();
         }
 
         private void OnEditRequestCommand()
@@ -320,11 +312,9 @@ namespace MoneyManager.ViewModels.RequestManagement
         public override bool OnClosingRequest()
         {
             var cancel = false;
-            Application.WindowManager.ShowConfirmation(Properties.Resources.RequestManagementOnClosingRequestConfirmationCaption,
+            Application.WindowManager.ShowQuestion(Properties.Resources.RequestManagementOnClosingRequestConfirmationCaption,
                                                        Properties.Resources.RequestManagementOnClosingRequestConfirmationMessage,
-                () => { }, () => {}, () => { cancel = true; });
-
-            Application.Repository.Close();
+                () => Application.Repository.Close(), () => { cancel = true; });
 
             return cancel;
         }

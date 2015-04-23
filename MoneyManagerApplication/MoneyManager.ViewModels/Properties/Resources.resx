@@ -214,12 +214,6 @@ Möchten Sie den Verweis aus der Liste entfernen?</value>
   <data name="RequestDialogCaptionEdit" xml:space="preserve">
     <value>Transaktion bearbeiten</value>
   </data>
-  <data name="RequestManagementChangeAccountQuestionCaption" xml:space="preserve">
-    <value>Account wechseln</value>
-  </data>
-  <data name="RequestManagementChangeAccountQuestionMessage" xml:space="preserve">
-    <value>Möchten Sie ihre Änderungen speichern, bevor sie den Account wechseln?</value>
-  </data>
   <data name="RequestManagementDeleteRequestQuestionCaption" xml:space="preserve">
     <value>Transaktion löschen</value>
   </data>
@@ -230,7 +224,7 @@ Möchten Sie den Verweis aus der Liste entfernen?</value>
     <value>Programm beenden</value>
   </data>
   <data name="RequestManagementOnClosingRequestConfirmationMessage" xml:space="preserve">
-    <value>Möchten Sie ihre Änderungen speichen, bevor Sie das Programm beenden?</value>
+    <value>Möchten Sie das Programm wirklich beenden?</value>
   </data>
   <data name="RequestManagementPageCaptionFormat" xml:space="preserve">
     <value>Transaktionsverwaltung - {0}</value>

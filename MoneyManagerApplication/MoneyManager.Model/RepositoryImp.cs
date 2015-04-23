@@ -105,7 +105,6 @@ namespace MoneyManager.Model
         {
             EnsureRepositoryOpen("Close");
             _persistenceHandler.WaitForAllTasksFinished();
-
             UnlockFile(FilePath);
             FilePath = null;
             ClearAll();

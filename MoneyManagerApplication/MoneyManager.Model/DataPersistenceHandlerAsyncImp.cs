@@ -84,6 +84,10 @@ namespace MoneyManager.Model
 
         public void WaitForAllTasksFinished()
         {
+            while (_isWorkerThreadRunning)
+            {
+                Thread.Sleep(10);
+            }
         }
     }
 }
