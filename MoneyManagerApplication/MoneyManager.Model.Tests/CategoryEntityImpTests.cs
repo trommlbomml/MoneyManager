@@ -47,5 +47,19 @@ namespace MoneyManager.Model.Tests
             Assert.That(categoryImp.Name, Is.EqualTo(name));
             Assert.That(categoryImp.HasChanged, Is.False);
         }
+
+        [Test]
+        public void ChangePropertyUpdatesHasChanged()
+        {
+            var element = new XElement("Category",
+                new XAttribute("Id", "testId"),
+                new XAttribute("Name", "Name"));
+
+            var categoryImp = new CategoryEntityImp(element);
+            Assert.That(categoryImp.HasChanged, Is.False);
+
+            categoryImp.Name = "My New Name";
+            Assert.That(categoryImp.HasChanged, Is.True);
+        }
     }
 }

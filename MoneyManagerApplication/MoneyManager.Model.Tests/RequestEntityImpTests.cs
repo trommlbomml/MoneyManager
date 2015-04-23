@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
@@ -7,7 +8,7 @@ using NUnit.Framework;
 namespace MoneyManager.Model.Tests
 {
     [TestFixture]
-    public class RequestEntityImpTests
+    internal class RequestEntityImpTests
     {
         [Test]
         public void InitialState()
@@ -73,6 +74,33 @@ namespace MoneyManager.Model.Tests
             var categoryToReference = withCategory ? categories.First() : null;
 
             Assert.That(request.Category, Is.EqualTo(categoryToReference));
+        }
+
+        protected static IEnumerable<TestCaseData> ChangePropertyUpdatesHasChangedTestCases()
+        {
+            yield return new TestCaseData(new Action<RequestEntityImp>(r => r.Category = null));
+            yield return new TestCaseData(new Action<RequestEntityImp>(r => r.Date = DateTime.MaxValue));
+            yield return new TestCaseData(new Action<RequestEntityImp>(r => r.Description = "My changed description"));
+            yield return new TestCaseData(new Action<RequestEntityImp>(r => r.Value = 99999.99999));
+        }
+
+        [TestCaseSource("ChangePropertyUpdatesHasChangedTestCases")]
+        public void ChangePropertyUpdatesHasChanged(Action<RequestEntityImp> changeObject)
+        {
+            var categories = Enumerable.Range(1, 3).Select(i => new CategoryEntityImp()).ToArray();
+
+            var element = new XElement("Request",
+                new XAttribute("Id", "TestId"),
+                new XAttribute("Date", new DateTime(2014, 7, 4).ToString(CultureInfo.InvariantCulture)),
+                new XAttribute("Description", "TestDescription"),
+                new XAttribute("Value", 12.77.ToString(CultureInfo.InvariantCulture)),
+                new XAttribute("CategoryId", categories.First().PersistentId));
+
+            var request = new RequestEntityImp(element, categories);
+            Assert.That(request.HasChanged, Is.False);
+
+            changeObject(request);
+            Assert.That(request.HasChanged, Is.True);
         }
     }
 }

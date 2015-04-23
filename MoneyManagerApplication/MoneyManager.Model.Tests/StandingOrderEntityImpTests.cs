@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
@@ -8,7 +9,7 @@ using NUnit.Framework;
 namespace MoneyManager.Model.Tests
 {
     [TestFixture]
-    public class StandingOrderEntityImpTests
+    internal class StandingOrderEntityImpTests
     {
         [Test]
         public void InitialState()
@@ -138,6 +139,42 @@ namespace MoneyManager.Model.Tests
             Assert.That(standingOrder.Value, Is.EqualTo(value));
             Assert.That(standingOrder.Category, Is.EqualTo(withCategory ? categories.First() : null));
             Assert.That(standingOrder.HasChanged, Is.False);
+        }
+
+        protected static IEnumerable<TestCaseData> ChangePropertyUpdatesHasChangedTestCases()
+        {
+            yield return new TestCaseData(new Action<StandingOrderEntityImp>(r => r.Description = "My changed description"));
+            yield return new TestCaseData(new Action<StandingOrderEntityImp>(r => r.FirstBookDate = DateTime.MaxValue));
+            yield return new TestCaseData(new Action<StandingOrderEntityImp>(r => r.LastBookDate = DateTime.MaxValue));
+            yield return new TestCaseData(new Action<StandingOrderEntityImp>(r => r.LastBookedDate = DateTime.MaxValue));
+            yield return new TestCaseData(new Action<StandingOrderEntityImp>(r => r.MonthPeriodStep = 5));
+            yield return new TestCaseData(new Action<StandingOrderEntityImp>(r => r.ReferenceDay = 5));
+            yield return new TestCaseData(new Action<StandingOrderEntityImp>(r => r.ReferenceMonth = 5));
+            yield return new TestCaseData(new Action<StandingOrderEntityImp>(r => r.Value = 99999.99999));
+            yield return new TestCaseData(new Action<StandingOrderEntityImp>(r => r.Category = null));
+        }
+
+        [TestCaseSource("ChangePropertyUpdatesHasChangedTestCases")]
+        public void ChangePropertyUpdatesHasChanged(Action<StandingOrderEntityImp> changeObject)
+        {
+            var categories = Enumerable.Range(1, 3).Select(i => new CategoryEntityImp()).ToArray();
+            var element = new XElement("Request",
+                new XAttribute("Id", "TestId"),
+                new XAttribute("FirstBookDate", new DateTime(2014, 7, 4).ToString(CultureInfo.InvariantCulture)),
+                new XAttribute("ReferenceMonth", 1),
+                new XAttribute("ReferenceDay", 2),
+                new XAttribute("MonthPeriodStep", 3),
+                new XAttribute("Description", "TestDescription"),
+                new XAttribute("LastBookDate", new DateTime(2014, 7, 4)),
+                new XAttribute("LastBookedDate", new DateTime(2014, 7, 4)),
+                new XAttribute("Value", 12.77),
+                new XAttribute("CategoryId", categories.First().PersistentId));
+
+            var standingOrder = new StandingOrderEntityImp(element, categories);
+            Assert.That(standingOrder.HasChanged, Is.False);
+
+            changeObject(standingOrder);
+            Assert.That(standingOrder.HasChanged, Is.True);
         }
     }
 }
