@@ -14,12 +14,15 @@ namespace MoneyManager.Model
         private readonly List<RequestEntityImp> _allRequests;
         private readonly List<CategoryEntityImp> _allCategories;
         private readonly List<StandingOrderEntityImp> _allStandingOrders;
+        private readonly DataPersistenceHandler _persistenceHandler;
 
-        public RepositoryImp(ApplicationContext context)
+        public RepositoryImp(ApplicationContext context, DataPersistenceHandler persistenceHandler)
         {
             if (context == null) throw new ArgumentNullException("context");
+            if (persistenceHandler == null) throw new ArgumentNullException("persistenceHandler");
 
             _applicationContext = context;
+            _persistenceHandler = persistenceHandler;
             _allRequests = new List<RequestEntityImp>();
             _allCategories = new List<CategoryEntityImp>();
             _allStandingOrders = new List<StandingOrderEntityImp>();
@@ -96,6 +99,7 @@ namespace MoneyManager.Model
         public void Close()
         {
             EnsureRepositoryOpen("Close");
+            _persistenceHandler.WaitForAllTasksFinished();
 
             UnlockFile(FilePath);
             FilePath = null;

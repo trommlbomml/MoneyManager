@@ -16,9 +16,9 @@ namespace MoneyManager.Model.Tests
     {
         private readonly ApplicationContext _context = RepositoryTestsBase.CreateApplicationContextMockup(true);
 
-        private Repository CreateRepositoryFromFactory()
+        private Repository CreateRepository()
         {
-            return RepositoryFactory.CreateRepository(_context);
+            return new RepositoryImp(_context, Substitute.For<DataPersistenceHandler>());
         }
 
         [SetUp]
@@ -52,7 +52,7 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void CloseRepositoryWhenNotOpenedThrowsException()
         {
-            var repository = CreateRepositoryFromFactory();
+            var repository = CreateRepository();
             Assert.That(repository.Close, Throws.InstanceOf<ApplicationException>());
             Assert.That(repository.FilePath, Is.Null.Or.Empty);
         }
@@ -60,7 +60,7 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void CloseTwiceRepositoryThrowsException()
         {
-            var repository = CreateRepositoryFromFactory();
+            var repository = CreateRepository();
             repository.Create(RepositoryTestsBase.GetUniqueFilePath(), "DefaultName");
             repository.Close();
 
@@ -71,7 +71,7 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void OpenCreatedRepositoryThrowsException()
         {
-            var repository = CreateRepositoryFromFactory();
+            var repository = CreateRepository();
             var uniqueFilePath = RepositoryTestsBase.GetUniqueFilePath(true);
             repository.Create(uniqueFilePath, "DefaultName");
             
@@ -82,7 +82,7 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void CreateRepositoryTwiceThrowsException()
         {
-            var repository = CreateRepositoryFromFactory();
+            var repository = CreateRepository();
             repository.Create(RepositoryTestsBase.GetUniqueFilePath(), "DefaultName");
 
             Assert.That(() => repository.Create("", "DefaultName"), Throws.InstanceOf<ApplicationException>());
@@ -125,7 +125,7 @@ namespace MoneyManager.Model.Tests
         [TestCase(false)]
         public void CreateRepository(bool withExtension)
         {
-            var repository = CreateRepositoryFromFactory();
+            var repository = CreateRepository();
             var targetFilePathWithoutExtension = RepositoryTestsBase.GetUniqueFilePath();
             var targetFilePathWithExtension = targetFilePathWithoutExtension + SystemConstants.DatabaseExtension;
 
@@ -144,7 +144,7 @@ namespace MoneyManager.Model.Tests
         [TestCase(false)]
         public void CreateRepositoryWhenFileExistsThrowsException(bool withExtension)
         {
-            var repository = CreateRepositoryFromFactory();
+            var repository = CreateRepository();
             var targetFilePathWithoutExtension = RepositoryTestsBase.GetUniqueFilePath();
             var targetFilePathWithExtension = targetFilePathWithoutExtension + SystemConstants.DatabaseExtension;
 
@@ -161,7 +161,7 @@ namespace MoneyManager.Model.Tests
         [TestCase("\n   ")]
         public void CreateRepositoryWithEmptyNameThrowsExcpetion(string name)
         {
-            var repository = CreateRepositoryFromFactory();
+            var repository = CreateRepository();
 
             Assert.That(() => repository.Create(RepositoryTestsBase.GetUniqueFilePath(true), name), Throws.InstanceOf<ArgumentException>());
         }
@@ -170,7 +170,7 @@ namespace MoneyManager.Model.Tests
         [TestCase(false)]
         public void OpenCreatedRepository(bool close)
         {
-            var repository = CreateRepositoryFromFactory();
+            var repository = CreateRepository();
             var uniqueFilePath = RepositoryTestsBase.GetUniqueFilePath(true);
             repository.Create(uniqueFilePath, "Test");
             if (close) repository.Close();
@@ -181,7 +181,7 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void OpenTwiceThrowsException()
         {
-            var repository = CreateRepositoryFromFactory();
+            var repository = CreateRepository();
             var uniqueFilePath = RepositoryTestsBase.GetUniqueFilePath(true);
             repository.Create(uniqueFilePath, "Test");
             repository.Close();
@@ -194,7 +194,7 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void OpenRepositoryWhereFileDoesNotExistThrowsException()
         {
-            var repository = CreateRepositoryFromFactory();
+            var repository = CreateRepository();
             Assert.That(() => repository.Open(@"X:\test.mmdb"), Throws.InstanceOf<ApplicationException>());
             Assert.That(repository.IsOpen, Is.False);
         }

@@ -37,9 +37,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryEntityImp.cs" />
+    <Compile Include="DataPersistenceHandler.cs" />
+    <Compile Include="DataPersistenceHandlerAsyncImp.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SavingTask.cs" />
     <Compile Include="StandingOrderEntityImp.cs" />
     <Compile Include="RepositoryFactory.cs" />
     <Compile Include="RepositoryImp.Categories.cs" />

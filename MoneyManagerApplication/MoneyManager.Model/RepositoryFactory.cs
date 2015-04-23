@@ -6,7 +6,7 @@ namespace MoneyManager.Model
     {
         public static Repository CreateRepository(ApplicationContext context)
         {
-            return new RepositoryImp(context);
+            return new RepositoryImp(context, new DataPersistenceHandlerAsyncImp());
         }
     }
 }

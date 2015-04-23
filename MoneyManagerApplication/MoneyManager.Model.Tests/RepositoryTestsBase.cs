@@ -10,6 +10,7 @@ namespace MoneyManager.Model.Tests
     internal abstract class RepositoryTestsBase
     {
         protected string DatabaseFile { get; private set; }
+        protected DataPersistenceHandler PersistenceHandler { get; private set; }
 
         public static string GetUniqueFilePath(bool withExtension = false)
         {
@@ -30,7 +31,8 @@ namespace MoneyManager.Model.Tests
         public void Setup()
         {
             Context = CreateApplicationContextMockup(true);
-            Repository = new RepositoryImp(Context);
+            PersistenceHandler = Substitute.For<DataPersistenceHandler>();
+            Repository = new RepositoryImp(Context, PersistenceHandler);
             DatabaseFile = GetUniqueFilePath(true);
             Repository.Create(DatabaseFile, "DefaultName");
         }
