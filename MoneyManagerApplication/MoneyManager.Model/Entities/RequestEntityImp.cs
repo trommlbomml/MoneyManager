@@ -57,14 +57,9 @@ namespace MoneyManager.Model.Entities
             set { SetProperty(ref _category, value); }
         }
 
-        public XElement Serialize()
+        public RequestEntityPersistenceImp Clone()
         {
-            return new XElement("Request", 
-                new XAttribute("Id", PersistentId),
-                new XAttribute("Date", Date.ToString(CultureInfo.InvariantCulture)),
-                new XAttribute("Description", Description ?? ""),
-                new XAttribute("Value", Value.ToString(CultureInfo.InvariantCulture)),
-                new XAttribute("CategoryId", Category != null ? Category.PersistentId : ""));
+            return new RequestEntityPersistenceImp(this);
         }
     }
 }

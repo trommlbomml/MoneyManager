@@ -46,6 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\CategoryEntityImpTests.cs" />
+    <Compile Include="Entities\CategoryEntityPersistenceTests.cs" />
+    <Compile Include="Entities\RequestEntityPersistenceTests.cs" />
+    <Compile Include="Entities\StandingOrderEntityPersistenceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\StandingOrderEntityImpTests.cs" />
     <Compile Include="RepositoryCategoryTests.cs" />

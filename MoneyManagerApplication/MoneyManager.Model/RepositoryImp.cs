@@ -58,8 +58,13 @@ namespace MoneyManager.Model
 
             if (File.Exists(targetFilePath)) throw new ApplicationException("File already exists.");
 
-            InternalSafe(targetFilePath, name);
-
+            var xmlDocument = new XDocument(
+                new XElement("MoneyManagerAccount",
+                    new XAttribute("Name", name),
+                    new XElement("Categories"),
+                    new XElement("StandingOrders"),
+                    new XElement("Requests")));
+            xmlDocument.Save(targetFilePath);
             LockFile(targetFilePath);
 
             _currentRepositoryName = name;
@@ -78,7 +83,6 @@ namespace MoneyManager.Model
             var document = XDocument.Load(path);
 // ReSharper disable PossibleNullReferenceException
             _currentRepositoryName = document.Root.Attribute("Name").Value;
-
             _allCategories.AddRange(document.Root.Element("Categories").Elements("Category").Select(e => new CategoryEntityImp(e)));
             _allStandingOrders.AddRange(document.Root.Element("StandingOrders").Elements("StandingOrder").Select(e => new StandingOrderEntityImp(e, _allCategories)));
             _allRequests.AddRange(document.Root.Element("Requests").Elements("Request").Select(e => new RequestEntityImp(e, _allCategories)));
@@ -106,30 +110,7 @@ namespace MoneyManager.Model
             FilePath = null;
             ClearAll();
         }
-        
-        public void Save()
-        {
-            EnsureRepositoryOpen("Save");
 
-            InternalSafe(FilePath, _currentRepositoryName);
-
-            _applicationContext.UpdateRecentAccountInformation(FilePath);
-        }
-
-        private void InternalSafe(string fileName, string name)
-        {
-            var xmlDocument = new XDocument(
-                new XElement("MoneyManagerAccount",
-                    new XAttribute("Name", name),
-                    new XElement("Categories", _allCategories.Select(c => c.Serialize())),
-                    new XElement("StandingOrders", _allStandingOrders.Select(r => r.Serialize())),
-                    new XElement("Requests", _allRequests.Select(r => r.Serialize()))
-                    )
-                );
-
-            xmlDocument.Save(fileName);
-        }
-        
         internal void ClearAll()
         {
             _allRequests.Clear();

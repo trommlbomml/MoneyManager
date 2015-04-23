@@ -19,7 +19,6 @@ namespace MoneyManager.ViewModels.RequestManagement
         
         public CommandViewModel AddRequestCommand { get; private set; }
         public CommandViewModel DeleteRequestCommand { get; private set; }
-        public CommandViewModel SaveCommand { get; private set; }
         public CommandViewModel PreviousMonthCommand { get; private set; }
         public CommandViewModel NextMonthCommand { get; private set; }
         public CommandViewModel EditRequestCommand { get; private set; }
@@ -51,7 +50,6 @@ namespace MoneyManager.ViewModels.RequestManagement
             
             AddRequestCommand = new CommandViewModel(OnAddRequestCommand);
             DeleteRequestCommand = new CommandViewModel(OnDeleteRequestCommand);
-            SaveCommand = new CommandViewModel(OnSaveCommand);
             PreviousMonthCommand = new CommandViewModel(OnPreviousMonthCommand);
             NextMonthCommand = new CommandViewModel(OnNextMonthCommand);
             EditRequestCommand = new CommandViewModel(OnEditRequestCommand);
@@ -159,11 +157,7 @@ namespace MoneyManager.ViewModels.RequestManagement
 
             Application.WindowManager.ShowQuestion(Properties.Resources.RequestManagementChangeAccountQuestionCaption, 
                                                    Properties.Resources.RequestManagementChangeAccountQuestionMessage,
-                                                   () => 
-                                                   {
-                                                       OnSaveCommand();
-                                                       quitAction();
-                                                   }, quitAction);
+                                                   quitAction, quitAction);
         }
 
         private void OnEditRequestCommand()
@@ -247,11 +241,6 @@ namespace MoneyManager.ViewModels.RequestManagement
             UpdateCommandStates();
         }
 
-        private void OnSaveCommand()
-        {
-            Application.Repository.Save();
-        }
-
         private void OnDeleteRequestCommand()
         {
             Application.WindowManager.ShowQuestion(Properties.Resources.RequestManagementDeleteRequestQuestionCaption,
@@ -333,7 +322,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             var cancel = false;
             Application.WindowManager.ShowConfirmation(Properties.Resources.RequestManagementOnClosingRequestConfirmationCaption,
                                                        Properties.Resources.RequestManagementOnClosingRequestConfirmationMessage,
-                                                       OnSaveCommand, () => {}, () => { cancel = true; });
+                () => { }, () => {}, () => { cancel = true; });
 
             Application.Repository.Close();
 

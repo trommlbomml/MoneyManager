@@ -24,7 +24,6 @@
                 <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Add" Command="{Binding AddRequestCommand}" Padding="8" />
                 <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Edit" Command="{Binding EditRequestCommand}" Padding="8" />
                 <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Remove" Command="{Binding DeleteRequestCommand}" Padding="8" />
-                <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Save" Command="{Binding SaveCommand}" Padding="8" />
                 <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Edit Cat." Command="{Binding EditCategoriesCommand}" Padding="8" />
                 <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Edit RR." Command="{Binding EditStandingOrdersCommand}" Padding="8" />
                 <Button Style="{DynamicResource ToolbarButtonStyle}" Content="Switch" Command="{Binding SwitchAccountCommand}" Padding="8" />

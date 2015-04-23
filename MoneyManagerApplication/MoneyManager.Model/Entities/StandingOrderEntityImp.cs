@@ -128,25 +128,15 @@ namespace MoneyManager.Model.Entities
             return LastBookedDate.AddMonths(MonthPeriodStep);
         }
 
-        public XElement Serialize()
-        {
-            return new XElement("StandingOrder",
-                new XAttribute("Id", PersistentId),
-                new XAttribute("FirstBookDate", FirstBookDate.ToString(CultureInfo.InvariantCulture)),
-                new XAttribute("LastBookedDate", LastBookedDate.ToString(CultureInfo.InvariantCulture)),
-                new XAttribute("LastBookDate", LastBookDate.ToString(CultureInfo.InvariantCulture)),
-                new XAttribute("ReferenceMonth", ReferenceMonth),
-                new XAttribute("ReferenceDay", ReferenceDay),
-                new XAttribute("MonthPeriodStep", MonthPeriodStep),
-                new XAttribute("Description", Description ?? ""),
-                new XAttribute("Value", Value.ToString(CultureInfo.InvariantCulture)),
-                new XAttribute("CategoryId", Category != null ? Category.PersistentId : ""));
-        }
-
         public bool AnyMonthUpToIsInPeriod(int month)
         {
             var periodMonths = GetPeriodMonths();
             return Enumerable.Range(1, month).Any(periodMonths.Contains);
+        }
+
+        public StandingOrderEntityPersistence Clone()
+        {
+            return new StandingOrderEntityPersistence(this);
         }
     }
 }

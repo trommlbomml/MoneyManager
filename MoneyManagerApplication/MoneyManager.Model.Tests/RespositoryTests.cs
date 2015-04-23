@@ -50,30 +50,9 @@ namespace MoneyManager.Model.Tests
         }
 
         [Test]
-        public void SaveNotOpenedDatabaseThrowsExceptio()
-        {
-            var repository = RepositoryFactory.CreateRepository(Context);
-            Assert.That(repository.Save, Throws.InstanceOf<ApplicationException>());
-        }
-
-        [Test]
-        public void Save()
-        {
-            CreateRequestsInRepository(new[] { new DateTime(2014, 1, 1) }, new[] { 10 });
-
-            Context.ClearReceivedCalls();
-
-            Repository.Save();
-            RepositoryStateTests.AssertFileContentIsCorrect(DatabaseFile, Repository.Name, Repository.AllRequests);
-            Assert.That(Repository.FilePath, Is.EqualTo(DatabaseFile));
-            Context.Received(1).UpdateRecentAccountInformation(Repository.FilePath);
-        }
-
-        [Test]
         public void Close()
         {
             CreateRequestsInRepository(new[] { new DateTime(2014, 1, 1) }, new[] { 10 });
-            Repository.Save();
             Repository.Close();
 
             Assert.That(Repository.AllRequests, Is.Empty);
@@ -86,7 +65,6 @@ namespace MoneyManager.Model.Tests
         public void Open()
         {
             CreateRequestsInRepository(new[] { new DateTime(2014, 1, 1) }, new[] { 10 });
-            Repository.Save();
             Repository.Close();
             Context.ClearReceivedCalls();
 

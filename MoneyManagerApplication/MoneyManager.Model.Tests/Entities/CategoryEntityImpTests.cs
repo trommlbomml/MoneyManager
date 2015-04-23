@@ -19,20 +19,6 @@ namespace MoneyManager.Model.Tests.Entities
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Serialize(bool nameisNull)
-        {
-            var category = new CategoryEntityImp {Name = nameisNull ? null : "Category1"};
-
-            var serialized = category.Serialize();
-
-            Assert.That(serialized.Name.LocalName, Is.EqualTo("Category"));
-            Assert.That(serialized.Attributes().Count(), Is.EqualTo(2));
-            Assert.That(serialized.Attribute("Id").Value, Is.EqualTo(category.PersistentId));
-            Assert.That(serialized.Attribute("Name").Value, Is.EqualTo(nameisNull ? "" : category.Name));
-        }
-
-        [TestCase(true)]
-        [TestCase(false)]
         public void Deserialize(bool withCategory)
         {
             const string persistentId = "TestId";

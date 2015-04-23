@@ -151,10 +151,5 @@ namespace MoneyManager.Interfaces
         /// Updates all regulary Requests to 
         /// </summary>
         void UpdateStandingOrdersToCurrentMonth();
-
-        /// <summary>
-        /// Writes Repository to file.
-        /// </summary>
-        void Save();
     }
 }

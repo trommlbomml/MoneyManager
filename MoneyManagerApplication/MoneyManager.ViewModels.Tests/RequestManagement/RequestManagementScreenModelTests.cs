@@ -27,7 +27,6 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(screenModel.SwitchAccountCommand.IsEnabled, Is.True);
             Assert.That(screenModel.NextMonthCommand.IsEnabled, Is.EqualTo(!currentMonth));
             Assert.That(screenModel.PreviousMonthCommand.IsEnabled, Is.True);
-            Assert.That(screenModel.SaveCommand.IsEnabled, Is.True);
             Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.EqualTo(!currentMonth));
 
             Assert.That(screenModel.Month, Is.EqualTo(currentDate.Month));
@@ -173,18 +172,6 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             
             screenModel.Months.Value = currentMonth;
             Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.False);
-        }
-
-        [Test]
-        public void SaveCommand()
-        {
-            var screenModel = new RequestManagementPageViewModel(Application, 2014, 6);
-
-            Repository.ClearReceivedCalls();
-
-            screenModel.SaveCommand.Execute(null);
-            Repository.Received(1).Save();
-            ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>());
         }
 
         [Test]
@@ -429,15 +416,6 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Application.Repository.Received(1).Close();
             Assert.That(Application.ActivePage, Is.InstanceOf<AccountManagementPageViewModel>());
 
-            if (saveOnExit)
-            {
-                Application.Repository.Received(1).Save();
-            }
-            else
-            {
-                Application.Repository.DidNotReceive().Save();
-            }
-
             WindowManager.Received(1).ShowQuestion(Properties.Resources.RequestManagementChangeAccountQuestionCaption, 
                                                    Properties.Resources.RequestManagementChangeAccountQuestionMessage, Arg.Any<Action>(), Arg.Any<Action>());
         }
@@ -462,11 +440,6 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             WindowManager.Received(1).ShowConfirmation(Properties.Resources.RequestManagementOnClosingRequestConfirmationCaption, 
                                                        Properties.Resources.RequestManagementOnClosingRequestConfirmationMessage, 
                                                        Arg.Any<Action>(), Arg.Any<Action>(), Arg.Any<Action>());
-
-            if (yesNoCancel == null || yesNoCancel == false)
-            {
-                Repository.DidNotReceive().Save();
-            }
 
             Repository.Received(1).Close();
         }

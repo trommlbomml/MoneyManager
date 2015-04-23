@@ -24,10 +24,9 @@ namespace MoneyManager.Model.Entities
             _name = requestElement.Attribute("Name").Value;
         }
 
-        public XElement Serialize()
+        public CategoryEntityPersistenceImp Clone()
         {
-            return new XElement("Category", new XAttribute("Id", PersistentId),
-                                            new XAttribute("Name", Name ?? ""));
+            return new CategoryEntityPersistenceImp(this);
         }
     }
 }
