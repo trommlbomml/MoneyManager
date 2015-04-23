@@ -16,6 +16,7 @@ namespace MoneyManager.Model.Tests
             Assert.That(request.PersistentId, Is.Not.Null.Or.Empty);
             Assert.That(request.Description, Is.EqualTo(""));
             Assert.That(request.Category, Is.Null);
+            Assert.That(request.HasChanged, Is.True);
         }
 
         [TestCase(true)]
@@ -67,6 +68,7 @@ namespace MoneyManager.Model.Tests
             Assert.That(request.Date, Is.EqualTo(dateTime));
             Assert.That(request.Description, Is.EqualTo(description));
             Assert.That(request.Value, Is.EqualTo(value));
+            Assert.That(request.HasChanged, Is.False);
 
             var categoryToReference = withCategory ? categories.First() : null;
 

@@ -5,7 +5,13 @@ namespace MoneyManager.Model
 {
     internal class CategoryEntityImp : Entity, CategoryEntity
     {
-        public string Name { get; set; }
+        private string _name;
+
+        public string Name
+        {
+            get { return _name; }
+            set { SetProperty(ref _name, value); }
+        }
 
         public CategoryEntityImp()
         {
@@ -15,7 +21,7 @@ namespace MoneyManager.Model
         public CategoryEntityImp(XElement requestElement) :
             base(requestElement.Attribute("Id").Value)
         {
-            Name = requestElement.Attribute("Name").Value;
+            _name = requestElement.Attribute("Name").Value;
         }
 
         public XElement Serialize()

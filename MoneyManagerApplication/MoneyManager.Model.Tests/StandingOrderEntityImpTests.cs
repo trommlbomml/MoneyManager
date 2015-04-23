@@ -1,5 +1,8 @@
 ﻿
 using System;
+using System.Globalization;
+using System.Linq;
+using System.Xml.Linq;
 using NUnit.Framework;
 
 namespace MoneyManager.Model.Tests
@@ -7,6 +10,13 @@ namespace MoneyManager.Model.Tests
     [TestFixture]
     public class StandingOrderEntityImpTests
     {
+        [Test]
+        public void InitialState()
+        {
+            var standingOrder = new StandingOrderEntityImp();
+            Assert.That(standingOrder.HasChanged, Is.True);
+        }
+
         [TestCase(1, 1, 1, true)]
         [TestCase(1, 1, 2, true)]
         [TestCase(1, 1, 3, true)]
@@ -89,6 +99,45 @@ namespace MoneyManager.Model.Tests
             var nextDateTime = entity.GetNextPaymentDateTime();
 
             Assert.That(nextDateTime, Is.EqualTo(expectedDateTime));
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Deserialize(bool withCategory)
+        {
+            const string persistentId = "TestId";
+            var dateTime = new DateTime(2014, 7, 4);
+            const double value = 12.77;
+            const string description = "TestDescription";
+
+            var categories = Enumerable.Range(1, 3).Select(i => new CategoryEntityImp()).ToArray();
+            var categoryId = withCategory ? categories.First().PersistentId : "";
+            
+            var element = new XElement("Request",
+                new XAttribute("Id", persistentId),
+                new XAttribute("FirstBookDate", dateTime.ToString(CultureInfo.InvariantCulture)),
+                new XAttribute("ReferenceMonth", 1),
+                new XAttribute("ReferenceDay", 2),
+                new XAttribute("MonthPeriodStep", 3),
+                new XAttribute("Description", description),
+                new XAttribute("LastBookDate", dateTime),
+                new XAttribute("LastBookedDate", dateTime),
+                new XAttribute("Value", value),
+                new XAttribute("CategoryId", categoryId));
+
+            var standingOrder = new StandingOrderEntityImp(element, categories);
+
+            Assert.That(standingOrder.PersistentId, Is.EqualTo(persistentId));
+            Assert.That(standingOrder.FirstBookDate, Is.EqualTo(dateTime));
+            Assert.That(standingOrder.ReferenceMonth, Is.EqualTo(1));
+            Assert.That(standingOrder.ReferenceDay, Is.EqualTo(2));
+            Assert.That(standingOrder.MonthPeriodStep, Is.EqualTo(3));
+            Assert.That(standingOrder.Description, Is.EqualTo(description));
+            Assert.That(standingOrder.LastBookDate, Is.EqualTo(dateTime));
+            Assert.That(standingOrder.LastBookedDate, Is.EqualTo(dateTime));
+            Assert.That(standingOrder.Value, Is.EqualTo(value));
+            Assert.That(standingOrder.Category, Is.EqualTo(withCategory ? categories.First() : null));
+            Assert.That(standingOrder.HasChanged, Is.False);
         }
     }
 }
