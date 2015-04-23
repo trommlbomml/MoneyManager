@@ -93,14 +93,14 @@
         <UniformGrid Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Columns="2">
             <Button Content="{x:Static properties:Resources.RequestDialog_CreateCommandCaption}" 
                     Margin="5" 
-                    Padding="10,1" 
+                    Padding="10,4" 
                     Command="{Binding CreateRequestCommand}"
                     Click="OnCreateClicked"
                     IsDefault="True" />
             <Button Content="{x:Static properties:Resources.Window_CancelCommandCaption}" 
                     Margin="5" 
                     Click="OnCancelClicked"
-                    Padding="10,1" 
+                    Padding="10,4" 
                     IsCancel="True" />
         </UniformGrid>
        

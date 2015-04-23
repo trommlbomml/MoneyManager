@@ -54,13 +54,11 @@
                     <TextBlock FontSize="{DynamicResource Heading1FontSize}" Text="MoneyManager 2014" Margin="0,0,0,4"/>
                     <TextBlock FontSize="{DynamicResource ContentTextFontSize}" Text="Copyright Peter Friedland" />
                     <TextBlock FontSize="{DynamicResource ContentTextFontSize}" Text="Design Josephine Rosin" />
-                    <ContentControl ContentTemplate="{DynamicResource CheckMarkVectorIcon}" />
                 </StackPanel>
                 
             </Border>
             
             <TabControl Grid.Row="1" Margin="{DynamicResource TabControlMargin}">
-                
                 <TabItem Header="{x:Static properties:Resources.AccountManagementPage_TabItemHeaderNew}">
                     <Grid Background="{DynamicResource RecentAccountListItemBackgroundBrush}" Margin="{DynamicResource TabItemContentMargin}">
                         <Grid.RowDefinitions>

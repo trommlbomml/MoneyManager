@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MoneyManager.ViewModels.Framework
 {
@@ -28,7 +29,25 @@ namespace MoneyManager.ViewModels.Framework
 
         public void RemoveValue(TPropertyType value)
         {
-            _selectableValues.Remove(value);
+            var indexOfToDelete = _selectableValues.IndexOf(value);
+            var indexOfSelected = _selectableValues.IndexOf(Value);
+            
+            _selectableValues.RemoveAt(indexOfToDelete);
+            if (indexOfToDelete == indexOfSelected)
+            {
+                if (_selectableValues.Count == 0)
+                {
+                    Value = default(TPropertyType);
+                }
+                else if (indexOfSelected == _selectableValues.Count)
+                {
+                    Value = _selectableValues.Last();
+                }
+                else
+                {
+                    Value = _selectableValues[indexOfSelected];
+                }
+            }
         }
 
         public void SetRange(IEnumerable<TPropertyType> values)

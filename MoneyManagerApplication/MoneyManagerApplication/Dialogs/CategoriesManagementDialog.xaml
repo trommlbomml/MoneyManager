@@ -7,35 +7,54 @@
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         WindowStyle="SingleBorderWindow"
-        ResizeMode="NoResize"
-        SizeToContent="WidthAndHeight">
+        ResizeMode="CanResize"
+        MinWidth="150"
+        MinHeight="200"
+        Width="300"
+        Height="400">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListBox ItemsSource="{Binding Categories.SelectableValues}" 
-                 SelectedItem="{Binding Categories.Value, Mode=TwoWay}" >
-            <ListBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type requestManagement:CategoryEditViewModel}">
-                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="5" />
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        
-        <UniformGrid Grid.Column="1" Grid.Row="0" Rows="2" VerticalAlignment="Top">
+        <ScrollViewer Margin="5"
+                      CanContentScroll="True" 
+                      HorizontalScrollBarVisibility="Disabled" 
+                      VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Categories.SelectableValues}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type requestManagement:CategoryEditViewModel}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                            <Button Grid.Column="1" Content="-" Command="{Binding DeleteCommand}" Margin="2" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <UniformGrid Grid.Column="1" Grid.Row="0" Rows="2" VerticalAlignment="Top" Margin="5">
             <Button Content="+" Command="{Binding NewCategoryCommand}" />
-            <Button Content="-" Command="{Binding DeleteCategoryCommand}" />
         </UniformGrid>
         
-        <UniformGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+        <UniformGrid Columns="2" 
+                     Grid.Row="1"
+                     Grid.Column="0" 
+                     Grid.ColumnSpan="2" 
+                     HorizontalAlignment="Right"
+                     Margin="5">
             <Button Content="{x:Static properties:Resources.Window_OkCommandCaption}" 
-                    Command="{Binding OkCommand}" Click="OkButtonClick" />
+                    Command="{Binding OkCommand}" Click="OkButtonClick" Margin="0,0,5,0" />
             <Button Content="{x:Static properties:Resources.Window_CancelCommandCaption}" 
                     Click="CancelButtonClick" />
         </UniformGrid>

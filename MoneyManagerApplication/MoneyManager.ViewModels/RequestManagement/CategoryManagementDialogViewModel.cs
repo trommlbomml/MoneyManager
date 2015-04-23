@@ -18,16 +18,21 @@ namespace MoneyManager.ViewModels.RequestManagement
             Categories = new EnumeratedSingleValuedProperty<CategoryEditViewModel>();
             Categories.PropertyChanged += CategoriesOnPropertyChanged;
 
-            foreach (var categoryViewModel in application.Repository.QueryAllCategories().Select(c => new CategoryEditViewModel(c.PersistentId, c.Name)))
+            foreach (var categoryViewModel in application.Repository.QueryAllCategories().Select(c => new CategoryEditViewModel(c.PersistentId, c.Name, OnDeleteCategory)))
             {
                 Categories.AddValue(categoryViewModel);
             }
 
             OkCommand = new CommandViewModel(() => ok(this));
             NewCategoryCommand = new CommandViewModel(OnNewCategoryCommand);
-            DeleteCategoryCommand = new CommandViewModel(OnDeleteCategoryCommand);
 
             UpdateCommandStates();
+        }
+
+        private void OnDeleteCategory(CategoryEditViewModel categoryEditViewModel)
+        {
+            if (!string.IsNullOrEmpty(categoryEditViewModel.EntityId)) CategoriesToDelete.Add(categoryEditViewModel);
+            Categories.RemoveValue(categoryEditViewModel);
         }
 
         private void CategoriesOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -39,23 +44,14 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             OkCommand.IsEnabled = true;
             NewCategoryCommand.IsEnabled = true;
-            DeleteCategoryCommand.IsEnabled = Categories.Value != null;
-        }
-
-        private void OnDeleteCategoryCommand()
-        {
-            var selectedItem = Categories.Value;
-            if (!string.IsNullOrEmpty(selectedItem.EntityId)) CategoriesToDelete.Add(selectedItem);
-            Categories.RemoveSelectedValue();
         }
 
         private void OnNewCategoryCommand()
         {
-            Categories.AddValue(new CategoryEditViewModel(Properties.Resources.CategoryManagementNewCategoryDefaultName));
+            Categories.AddValue(new CategoryEditViewModel(Properties.Resources.CategoryManagementNewCategoryDefaultName, OnDeleteCategory));
         }
 
         public CommandViewModel OkCommand { get; private set; }
         public CommandViewModel NewCategoryCommand { get; private set; }
-        public CommandViewModel DeleteCategoryCommand { get; private set; }
     }
 }
