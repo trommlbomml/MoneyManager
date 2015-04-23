@@ -19,6 +19,7 @@ namespace MoneyManager.Model
             }
 
             _allRequests.Add(requestEntityImp);
+            _persistenceHandler.SaveChanges(new SavingTask(FilePath, requestEntityImp.Clone()));
         }
 
         public IEnumerable<RequestEntity> QueryRequestsForSingleMonth(int year, int month)
@@ -44,6 +45,7 @@ namespace MoneyManager.Model
 
             var request = _allRequests.Single(r => r.PersistentId == persistentId);
             SetRequestData(request, data);
+            _persistenceHandler.SaveChanges(new SavingTask(FilePath, request.Clone()));
         }
 
         public string CreateRequest(RequestEntityData data)
@@ -53,6 +55,7 @@ namespace MoneyManager.Model
             var request = new RequestEntityImp();
             SetRequestData(request, data);
             _allRequests.Add(request);
+            _persistenceHandler.SaveChanges(new SavingTask(FilePath, request.Clone()));
 
             return request.PersistentId;
         }
@@ -69,6 +72,7 @@ namespace MoneyManager.Model
         {
             EnsureRepositoryOpen("DeleteRequest");
             _allRequests.Remove(_allRequests.Single(r => r.PersistentId == persistentId));
+            _persistenceHandler.SaveChanges(new SavingTask(FilePath, persistentId));
         }
 
         public double CalculateSaldoForMonth(int year, int month)

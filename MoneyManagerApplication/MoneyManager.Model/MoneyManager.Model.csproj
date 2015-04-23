@@ -45,6 +45,7 @@
     <Compile Include="Entities\RequestEntityPersistenceImp.cs" />
     <Compile Include="Entities\StandingOrderEntityPersistence.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="PersistenceConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SavingTask.cs" />
     <Compile Include="Entities\StandingOrderEntityImp.cs" />

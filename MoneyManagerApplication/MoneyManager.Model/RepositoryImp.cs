@@ -61,9 +61,9 @@ namespace MoneyManager.Model
             var xmlDocument = new XDocument(
                 new XElement("MoneyManagerAccount",
                     new XAttribute("Name", name),
-                    new XElement("Categories"),
-                    new XElement("StandingOrders"),
-                    new XElement("Requests")));
+                    new XElement(PersistenceConstants.Categories),
+                    new XElement(PersistenceConstants.StandingOrders),
+                    new XElement(PersistenceConstants.Requests)));
             xmlDocument.Save(targetFilePath);
             LockFile(targetFilePath);
 

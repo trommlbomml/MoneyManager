@@ -17,6 +17,7 @@ namespace MoneyManager.Model
             }
 
             _allCategories.Add(categoryEntity);
+
         }
 
         public IEnumerable<CategoryEntity> QueryAllCategories()
@@ -32,6 +33,7 @@ namespace MoneyManager.Model
 
             var categoryImp = new CategoryEntityImp { Name = name };
             _allCategories.Add(categoryImp);
+            _persistenceHandler.SaveChanges(new SavingTask(FilePath, categoryImp.Clone()));
 
             return categoryImp.PersistentId;
         }
@@ -54,19 +56,26 @@ namespace MoneyManager.Model
             if (category == null) throw new ArgumentException(@"The category does not exist or more than once", "persistentId");
 
             category.Name = name;
+            _persistenceHandler.SaveChanges(new SavingTask(FilePath, category.Clone()));
         }
 
         public void DeleteCategory(string persistentId)
         {
             EnsureRepositoryOpen("CreateRequest");
 
+            var savingTask = new SavingTask(FilePath);
+
             var categoryEntityImp = _allCategories.Single(r => r.PersistentId == persistentId);
             _allCategories.Remove(categoryEntityImp);
+            savingTask.EntitiesToDelete.Add(categoryEntityImp.PersistentId);
 
             foreach (var request in _allRequests.Where(r => r.Category != null && r.Category.PersistentId == categoryEntityImp.PersistentId))
             {
                 request.Category = null;
+                savingTask.RequestsToUpdate.Add(request.Clone());
             }
+
+            _persistenceHandler.SaveChanges(savingTask);
         }
     }
 }

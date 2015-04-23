@@ -14,6 +14,7 @@ namespace MoneyManager.Model
             var standingOrder = new StandingOrderEntityImp();
             SetRequestEntityImpData(standingOrder, requestData);
             _allStandingOrders.Add(standingOrder);
+            _persistenceHandler.SaveChanges(new SavingTask(FilePath, standingOrder.Clone()));
 
             return standingOrder.PersistentId;
         }
@@ -29,6 +30,7 @@ namespace MoneyManager.Model
 
             var standingOrder = _allStandingOrders.Single(r => r.PersistentId == entityId);
             SetRequestEntityImpData(standingOrder, requestData);
+            _persistenceHandler.SaveChanges(new SavingTask(FilePath, standingOrder.Clone()));
         }
 
         public void DeleteStandingOrder(string entityId)
@@ -37,6 +39,7 @@ namespace MoneyManager.Model
 
             var standingOrderEntity = _allStandingOrders.Single(r => r.PersistentId == entityId);
             _allStandingOrders.Remove(standingOrderEntity);
+            _persistenceHandler.SaveChanges(new SavingTask(FilePath, entityId));
         }
 
         public StandingOrderEntity QueryStandingOrder(string entityId)
@@ -56,19 +59,26 @@ namespace MoneyManager.Model
         public void UpdateStandingOrdersToCurrentMonth()
         {
             var currentMonthLastDay = _applicationContext.Now.Date.LastDayOfMonth();
-            var requests = _allStandingOrders.Where(r => r.FirstBookDate.Date <= currentMonthLastDay).ToList();
+            var standingOrdersToUpdate = _allStandingOrders.Where(r => r.FirstBookDate.Date <= currentMonthLastDay).ToList();
 
-            foreach(var request in requests)
+            var task = new SavingTask(FilePath);
+
+            foreach(var standingOrder in standingOrdersToUpdate)
             {
-                var bookDate = request.GetNextPaymentDateTime();
+                var bookDate = standingOrder.GetNextPaymentDateTime();
                 while(bookDate != null && bookDate.Value <= currentMonthLastDay)
                 {
-                    var newRequest = request.CreateRequest(bookDate.Value);
+                    var newRequest = standingOrder.CreateRequest(bookDate.Value);
                     _allRequests.Add(newRequest);
-                    request.LastBookedDate = bookDate.Value;
-                    bookDate = request.GetNextPaymentDateTime();
+                    standingOrder.LastBookedDate = bookDate.Value;
+                    bookDate = standingOrder.GetNextPaymentDateTime();
+
+                    task.RequestsToUpdate.Add(newRequest.Clone());
+                    task.StandingOrdersToUpdate.Add(standingOrder.Clone());
                 }
             }
+
+            _persistenceHandler.SaveChanges(task);
         }
 
         private void SetRequestEntityImpData(StandingOrderEntityImp standingOrder, StandingOrderEntityData requestData)
