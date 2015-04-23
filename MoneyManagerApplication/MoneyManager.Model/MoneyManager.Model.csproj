@@ -36,20 +36,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CategoryEntityImp.cs" />
+    <Compile Include="Entities\CategoryEntityImp.cs" />
     <Compile Include="DataPersistenceHandler.cs" />
     <Compile Include="DataPersistenceHandlerAsyncImp.cs" />
-    <Compile Include="Entity.cs" />
+    <Compile Include="Entities\Entity.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SavingTask.cs" />
-    <Compile Include="StandingOrderEntityImp.cs" />
+    <Compile Include="Entities\StandingOrderEntityImp.cs" />
     <Compile Include="RepositoryFactory.cs" />
     <Compile Include="RepositoryImp.Categories.cs" />
     <Compile Include="RepositoryImp.cs" />
     <Compile Include="RepositoryImp.RegularyRequests.cs" />
     <Compile Include="RepositoryImp.Requests.cs" />
-    <Compile Include="RequestEntityImp.cs" />
+    <Compile Include="Entities\RequestEntityImp.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

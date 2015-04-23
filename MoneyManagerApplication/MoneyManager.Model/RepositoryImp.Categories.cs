@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MoneyManager.Interfaces;
+using MoneyManager.Model.Entities;
 
 namespace MoneyManager.Model
 {

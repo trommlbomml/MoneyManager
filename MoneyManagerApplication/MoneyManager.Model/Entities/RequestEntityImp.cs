@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using MoneyManager.Interfaces;
 
-namespace MoneyManager.Model
+namespace MoneyManager.Model.Entities
 {
     internal class RequestEntityImp : Entity, RequestEntity
     {

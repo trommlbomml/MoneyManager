@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MoneyManager.Model
+namespace MoneyManager.Model.Entities
 {
     public abstract class Entity
     {

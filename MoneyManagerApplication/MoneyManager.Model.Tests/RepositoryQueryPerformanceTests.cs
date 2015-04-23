@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using MoneyManager.Model.Entities;
 using NUnit.Framework;
 
 namespace MoneyManager.Model.Tests

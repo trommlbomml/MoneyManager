@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyManagerApplication", "MoneyManagerApplication\MoneyManagerApplication.csproj", "{9C7E4E83-621B-487A-99B9-B42C3FF28E68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyManager.Interfaces", "MoneyManager.Interfaces\MoneyManager.Interfaces.csproj", "{85BF5734-64B3-4964-871E-426F7467DD66}"
@@ -89,7 +91,6 @@ Global
 		{81635061-15BE-4E96-ACB0-5B44B10DD699}.Release|x86.ActiveCfg = Release|Any CPU
 		{E9F0EF13-BF48-4E0B-8F93-81CE5B34A240}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{E9F0EF13-BF48-4E0B-8F93-81CE5B34A240}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{E9F0EF13-BF48-4E0B-8F93-81CE5B34A240}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{E9F0EF13-BF48-4E0B-8F93-81CE5B34A240}.Debug|x86.ActiveCfg = Debug|x86
 		{E9F0EF13-BF48-4E0B-8F93-81CE5B34A240}.Debug|x86.Build.0 = Debug|x86
 		{E9F0EF13-BF48-4E0B-8F93-81CE5B34A240}.Release|Any CPU.ActiveCfg = Release|x86

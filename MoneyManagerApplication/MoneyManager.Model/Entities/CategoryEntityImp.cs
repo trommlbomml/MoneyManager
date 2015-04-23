@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
 using MoneyManager.Interfaces;
 
-namespace MoneyManager.Model
+namespace MoneyManager.Model.Entities
 {
     internal class CategoryEntityImp : Entity, CategoryEntity
     {

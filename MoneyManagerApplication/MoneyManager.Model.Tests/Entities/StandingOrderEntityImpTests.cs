@@ -1,12 +1,12 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
+using MoneyManager.Model.Entities;
 using NUnit.Framework;
 
-namespace MoneyManager.Model.Tests
+namespace MoneyManager.Model.Tests.Entities
 {
     [TestFixture]
     internal class StandingOrderEntityImpTests

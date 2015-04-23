@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
+using MoneyManager.Model.Entities;
 using NUnit.Framework;
 
-namespace MoneyManager.Model.Tests
+namespace MoneyManager.Model.Tests.Entities
 {
     [TestFixture]
     public class CategoryEntityImpTests

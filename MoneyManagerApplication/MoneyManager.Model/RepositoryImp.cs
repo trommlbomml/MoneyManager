@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using MoneyManager.Interfaces;
+using MoneyManager.Model.Entities;
 
 namespace MoneyManager.Model
 {

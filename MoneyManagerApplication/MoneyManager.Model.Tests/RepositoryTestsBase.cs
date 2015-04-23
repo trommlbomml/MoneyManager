@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using MoneyManager.Interfaces;
+using MoneyManager.Model.Entities;
 using NSubstitute;
 using NUnit.Framework;
 

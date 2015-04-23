@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using MoneyManager.Interfaces;
+using MoneyManager.Model.Entities;
 using NSubstitute;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
