@@ -37,6 +37,38 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type Button}" x:Key="RoundButtonWithImageStyle">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}" />
+        <Setter Property="Padding" Value="10,4"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Background="Transparent">
+                        <Ellipse x:Name="BorderEllipse"
+                                 SnapsToDevicePixels="True"
+                                 StrokeThickness="1" 
+                                 Stroke="#ff656565" 
+                                 Visibility="Hidden"
+                                 Fill="Transparent" 
+                                 Width="18" 
+                                 Height="18"/>
+                        <ContentPresenter HorizontalAlignment="Center" 
+                                        Margin="2"
+                                        VerticalAlignment="Center"
+                                        RecognizesAccessKey="True" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BorderEllipse" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="ToolbarButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -51,9 +83,18 @@
                         <ContentPresenter Margin="{TemplateBinding Padding}"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
+                            x:Name="ContentContainer"
                             TextBlock.FontWeight="Bold"
                             RecognizesAccessKey="True" />
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#FFC4DACA" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ContentContainer" Property="TextBlock.Foreground" Value="{DynamicResource VeryLightBackground}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -47,15 +47,23 @@
                     Margin="{DynamicResource HeaderMargin}"
                     Height="{DynamicResource HeaderHeight}" 
                     Background="{DynamicResource ThemebackgroundBrush}">
-
-                <StackPanel Margin="{DynamicResource HeaderTextContainerMargin}"
-                            Orientation="Vertical" 
-                            HorizontalAlignment="Right">
-                    <TextBlock FontSize="{DynamicResource Heading1FontSize}" Text="MoneyManager 2014" Margin="0,0,0,4"/>
-                    <TextBlock FontSize="{DynamicResource ContentTextFontSize}" Text="Copyright Peter Friedland" />
-                    <TextBlock FontSize="{DynamicResource ContentTextFontSize}" Text="Design Josephine Rosin" />
-                </StackPanel>
-                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <ContentControl ContentTemplate="{DynamicResource ApplicationLogo}" Margin="32,0" VerticalAlignment="Center" />
+                    
+                    <StackPanel Margin="{DynamicResource HeaderTextContainerMargin}"
+                                Orientation="Vertical" 
+                                Grid.Column="2">
+                        <TextBlock FontSize="{DynamicResource Heading1FontSize}" Text="{x:Static properties:Resources.AccountManagementPage_ApplicationTitle}" Margin="0,0,0,4"/>
+                        <TextBlock FontSize="{DynamicResource ContentTextFontSize}" Text="{x:Static properties:Resources.AccountManagementPage_CopyRightDeveloper}" />
+                        <TextBlock FontSize="{DynamicResource ContentTextFontSize}" Text="{x:Static properties:Resources.AccountManagementPage_DesignRight}" />
+                    </StackPanel>
+                </Grid>
             </Border>
             
             <TabControl Grid.Row="1" Margin="{DynamicResource TabControlMargin}">

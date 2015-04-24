@@ -240,4 +240,37 @@
   <data name="Window_OkCommandCaption" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="AccountManagementPage_ApplicationTitle" xml:space="preserve">
+    <value>MoneyManager 2015</value>
+  </data>
+  <data name="AccountManagementPage_CopyRightDeveloper" xml:space="preserve">
+    <value>Copyright Peter Friedland</value>
+  </data>
+  <data name="AccountManagementPage_DesignRight" xml:space="preserve">
+    <value>Designed von Josephine Rosin</value>
+  </data>
+  <data name="RequestManagementPage_AddRequest" xml:space="preserve">
+    <value>Neuer Eintrag</value>
+  </data>
+  <data name="RequestManagementPage_EditCategories" xml:space="preserve">
+    <value>Kategorien verwalten</value>
+  </data>
+  <data name="RequestManagementPage_EditRequest" xml:space="preserve">
+    <value>Eintrag bearbeiten</value>
+  </data>
+  <data name="RequestManagementPage_EditStandingOrders" xml:space="preserve">
+    <value>Daueraufträge verwalten</value>
+  </data>
+  <data name="RequestManagementPage_HeadingChooseSaldos" xml:space="preserve">
+    <value>Umsätze auswählen</value>
+  </data>
+  <data name="RequestManagementPage_Period" xml:space="preserve">
+    <value>Zeitraum</value>
+  </data>
+  <data name="RequestManagementPage_RemoveRequest" xml:space="preserve">
+    <value>Eintrag löschen</value>
+  </data>
+  <data name="RequestManagementPage_SwitchAccount" xml:space="preserve">
+    <value>Konto wechseln</value>
+  </data>
 </root>

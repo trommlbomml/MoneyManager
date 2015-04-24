@@ -136,9 +136,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="VectorIcons\checkmark.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="VectorIcons\VectorIcons.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

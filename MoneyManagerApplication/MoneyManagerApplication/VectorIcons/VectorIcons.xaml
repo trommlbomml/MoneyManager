@@ -1,0 +1,64 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DataTemplate x:Key="ArrowLeft">
+        <Viewbox Width="8" Height="8">
+            <Canvas Width="172.578" Height="199.250">
+                <Path Fill="#ff656565" Data="F1 M 86.289,49.793 L -0.000,99.585 L 86.266,149.418 L 172.532,199.250 L 172.555,99.625 L 172.578,0.000 L 86.289,49.793 Z"/>
+            </Canvas>
+        </Viewbox>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="ArrowRight">
+        <Viewbox Width="8" Height="8">
+            <Canvas Width="172.578" Height="199.250">
+                <Path Fill="#ff656565" Data="F1 M 86.289,49.793 L 172.578,99.585 L 86.312,149.418 L 0.046,199.250 L 0.023,99.625 L -0.000,0.000 L 86.289,49.793 Z"/>
+            </Canvas>
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CheckMarkVectorIcon">
+        <Viewbox Width="16.045" Height="11.742">
+            <Canvas Width="16.045" Height="11.742">
+                <Path StrokeThickness="2.0" 
+                    Stroke="#ff191919" 
+                    StrokeStartLineCap="Round" 
+                    StrokeEndLineCap="Round" 
+                    StrokeLineJoin="Round" 
+                    Data="F1 M 15.045,1.000 L 5.459,10.742"/>
+                <Path StrokeThickness="2.0" 
+                    Stroke="#ff191919" 
+                    StrokeStartLineCap="Round" 
+                    StrokeEndLineCap="Round" 
+                    StrokeLineJoin="Round" 
+                    Data="F1 M 5.459,10.742 L 1.000,3.914"/>
+            </Canvas>
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ApplicationLogo">
+        <Viewbox Width="128.000" Height="128.000">
+            <Canvas Width="64.000" Height="64.000">
+                <Canvas>
+
+                    <!-- Ebene 1/<Rechteck> -->
+                    <Path Fill="#ff006736" Data="F1 M 64.000,12.000 C 64.000,5.373 58.627,0.000 52.000,0.000 L 12.000,0.000 C 5.373,0.000 0.000,5.373 0.000,12.000 L 0.000,52.000 C 0.000,58.627 5.373,64.000 12.000,64.000 L 52.000,64.000 C 58.627,64.000 64.000,58.627 64.000,52.000 L 64.000,12.000 Z"/>
+
+                    <!-- Ebene 1/<Pfad> -->
+                    <Path Fill="#ffffffff" Data="F1 M 60.185,44.572 C 51.480,41.656 9.295,55.135 8.163,48.702 L 2.903,24.762 C 11.122,28.454 49.689,17.924 53.437,22.532 C 55.078,24.550 60.185,44.572 60.185,44.572 Z"/>
+
+                    <!-- Ebene 1/<Pfad> -->
+                    <Path Fill="#ff006736" Data="F1 M 60.908,38.585 C 52.203,35.669 10.018,49.148 8.886,42.715 L 3.626,18.775 C 11.845,22.467 50.412,11.937 54.160,16.545 C 55.801,18.563 60.908,38.585 60.908,38.585 Z"/>
+
+                    <!-- Ebene 1/<Pfad> -->
+                    <Path Fill="#ffffffff" Data="F1 M 61.745,33.848 C 53.040,30.932 10.855,44.411 9.723,37.978 L 4.464,14.038 C 12.683,17.730 51.250,7.200 54.997,11.808 C 56.638,13.826 61.745,33.848 61.745,33.848 Z"/>
+
+                    <!-- Ebene 1/â‚¬ -->
+                    <TextBlock Foreground="#ff006736" RenderTransform="0.988,-0.157,0.157,0.988,0.000,0.000" Canvas.Left="21" Canvas.Top="11" FontSize="29.57" FontFamily="Myriad Pro">€</TextBlock>
+
+                </Canvas>
+            </Canvas>
+        </Viewbox>
+    </DataTemplate>
+
+</ResourceDictionary>
