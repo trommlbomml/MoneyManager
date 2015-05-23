@@ -170,7 +170,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             {
                 Date = requestDialog.DateProperty.Value,
                 Description = requestDialog.DescriptionProperty.Value,
-                Value = requestDialog.ValueProperty.Value,
+                Value = requestDialog.CalculateValue,
                 CategoryPersistentId = requestDialog.Categories.Value != null ? requestDialog.Categories.Value.EntityId : null
             };
             Application.Repository.UpdateRequest(currentRequestEntityId, requestEntityData);
@@ -259,7 +259,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             {
                 Date = requestDialog.DateProperty.Value,
                 Description = requestDialog.DescriptionProperty.Value,
-                Value = requestDialog.ValueProperty.Value,
+                Value = requestDialog.CalculateValue,
                 CategoryPersistentId = requestDialog.Categories.Value != null ? requestDialog.Categories.Value.EntityId : null
             });
 

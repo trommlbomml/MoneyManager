@@ -58,6 +58,7 @@
     <Compile Include="ApplicationSettings\ApplicationContextImp.cs" />
     <Compile Include="Converters\BoolInverseConverter.cs" />
     <Compile Include="Converters\MonthPeriodToNameConverter.cs" />
+    <Compile Include="Converters\RequestKindToNameConverter.cs" />
     <Compile Include="Converters\UnifyTabWidthConverter.cs" />
     <Compile Include="Dialogs\CategoriesManagementDialog.xaml.cs">
       <DependentUpon>CategoriesManagementDialog.xaml</DependentUpon>
@@ -70,6 +71,11 @@
       <DependentUpon>RequestDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\Commands.cs" />
+    <Compile Include="Properties\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="WindowManagerImp.cs" />
     <Page Include="Dialogs\CategoriesManagementDialog.xaml">
       <SubType>Designer</SubType>
@@ -148,11 +154,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -160,7 +161,7 @@
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

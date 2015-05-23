@@ -273,4 +273,13 @@
   <data name="RequestManagementPage_SwitchAccount" xml:space="preserve">
     <value>Konto wechseln</value>
   </data>
+  <data name="RequestDialog_LabelRequestKind" xml:space="preserve">
+    <value>Art</value>
+  </data>
+  <data name="RequestKindName_Earning" xml:space="preserve">
+    <value>Einnahme</value>
+  </data>
+  <data name="RequestKindName_Expenditure" xml:space="preserve">
+    <value>Ausgabe</value>
+  </data>
 </root>

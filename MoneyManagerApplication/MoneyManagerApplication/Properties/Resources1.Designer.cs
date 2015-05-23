@@ -259,11 +259,38 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Art.
+        /// </summary>
+        public static string RequestDialog_LabelRequestKind {
+            get {
+                return ResourceManager.GetString("RequestDialog_LabelRequestKind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Betrag.
         /// </summary>
         public static string RequestDialog_LabelValue {
             get {
                 return ResourceManager.GetString("RequestDialog_LabelValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Einnahme.
+        /// </summary>
+        public static string RequestKindName_Earning {
+            get {
+                return ResourceManager.GetString("RequestKindName_Earning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ausgabe.
+        /// </summary>
+        public static string RequestKindName_Expenditure {
+            get {
+                return ResourceManager.GetString("RequestKindName_Expenditure", resourceCulture);
             }
         }
         

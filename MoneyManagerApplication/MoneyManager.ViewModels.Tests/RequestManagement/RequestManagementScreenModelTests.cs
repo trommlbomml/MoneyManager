@@ -196,13 +196,14 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(requestDialogViewModel.ValueProperty.Value, Is.EqualTo(0.0d));
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public void AddRequestCommandWithCreateRequestExecuted(bool isCategorySelected)
+        [TestCase(false, 11.1)]
+        [TestCase(true, 11.1)]
+        [TestCase(false, -11.1)]
+        [TestCase(true, -11.1)]
+        public void AddRequestCommandWithCreateRequestExecuted(bool isCategorySelected, double expectedValue)
         {
             var expectedDate = new DateTime(2014, 6, 14);
             const string entityIdOfRequest = "NewEntityId";
-            const double expectedValue = 11.2;
             const string expectedDescription = "TestDescription";
 
             object dialogViewModel = null;
@@ -222,7 +223,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
 
             var requestDialogViewModel = (RequestDialogViewModel)dialogViewModel;
             requestDialogViewModel.DescriptionProperty.Value = expectedDescription;
-            requestDialogViewModel.ValueProperty.Value = expectedValue;
+            requestDialogViewModel.ValueProperty.Value = Math.Abs(expectedValue);
             requestDialogViewModel.DateProperty.Value = expectedDate;
             if (isCategorySelected)
             {

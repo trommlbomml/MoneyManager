@@ -4,12 +4,19 @@ using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels.RequestManagement
 {
+    public enum RequestKind
+    {
+        Earning,
+        Expenditure
+    }
+
     public class RequestDialogViewModel : ViewModel
     {
         private DateTime _firstPossibleDate;
         private DateTime _lastPossibleDate;
         private string _dateAsString;
         private string _caption;
+        private double _calculateValue;
 
         public RequestDialogViewModel(ApplicationViewModel application, int year, int month, Action<RequestDialogViewModel> onOk)
         {
@@ -27,8 +34,9 @@ namespace MoneyManager.ViewModels.RequestManagement
             InitializeViewModel(application, request.Date.Year, request.Date.Month, selectedCategoryId, onOk);
 
             DescriptionProperty.Value = request.Description;
-            ValueProperty.Value = request.Value;
+            ValueProperty.Value = Math.Abs(request.Value);
             DateProperty.Value = request.Date;
+            RequestKind.Value = request.Value > 0 ? RequestManagement.RequestKind.Earning : RequestManagement.RequestKind.Expenditure;
         }
         
         private void InitializeViewModel(ApplicationViewModel application, int year, int month, string selectedCategoryId, Action<RequestDialogViewModel> onOk)
@@ -38,8 +46,12 @@ namespace MoneyManager.ViewModels.RequestManagement
             ValueProperty = new SingleValuedProperty<double>();
             DateProperty = new SingleValuedProperty<DateTime>();
             CreateRequestCommand = new CommandViewModel(() => onOk(this));
+            RequestKind = new EnumeratedSingleValuedProperty<RequestKind>();
+            RequestKind.SetRange(Enum.GetValues(typeof(RequestKind)).Cast<RequestKind>());
+            RequestKind.Value = RequestManagement.RequestKind.Expenditure; 
 
             DateProperty.OnValueChanged += DatePropertyOnOnValueChanged;
+            RequestKind.OnValueChanged += RequestKindOnOnValueChanged;
             ValueProperty.Validate = ValidateValueProperty;
             ValueProperty.OnIsValidChanged += ValuePropertyOnOnIsValidChanged;
 
@@ -61,8 +73,14 @@ namespace MoneyManager.ViewModels.RequestManagement
             UpdateCommandStates();
         }
 
+        private void RequestKindOnOnValueChanged()
+        {
+            UpdateCalculatedProperties();
+        }
+
         private void ValuePropertyOnOnIsValidChanged()
         {
+            UpdateCalculatedProperties();
             UpdateCommandStates();
         }
 
@@ -76,6 +94,12 @@ namespace MoneyManager.ViewModels.RequestManagement
             UpdateLocalizedProperties();
         }
 
+        private void UpdateCalculatedProperties()
+        {
+            CalculateValue = ValueProperty.Value *
+                             (RequestKind.Value == RequestManagement.RequestKind.Expenditure ? -1.0 : 1.0);
+        }
+
         private string ValidateValueProperty()
         {
             return ValueProperty.Value <= 0.0 ? Properties.Resources.RequestDialogViewModel_ValuePropertyValidationError : null;
@@ -84,6 +108,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         public CommandViewModel CreateRequestCommand { get; private set; }
 
         public EnumeratedSingleValuedProperty<CategoryViewModel> Categories { get; private set; }
+        public EnumeratedSingleValuedProperty<RequestKind> RequestKind { get; private set; } 
         public SingleValuedProperty<string> DescriptionProperty { get; private set; }
         public SingleValuedProperty<double> ValueProperty { get; private set; }
         public SingleValuedProperty<DateTime> DateProperty { get; private set; } 
@@ -91,6 +116,12 @@ namespace MoneyManager.ViewModels.RequestManagement
         private void UpdateLocalizedProperties()
         {
             DateAsString = string.Format(Properties.Resources.RequestDayOfMonthFormat, DateProperty.Value);
+        }
+
+        public double CalculateValue
+        {
+            get { return _calculateValue; }
+            private set { SetBackingField("CalculateValue", ref _calculateValue, value); }
         }
 
         public string DateAsString
