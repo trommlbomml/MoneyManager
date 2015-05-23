@@ -74,8 +74,8 @@ namespace MoneyManager.Model
                     bookDate = standingOrder.GetNextPaymentDateTime();
 
                     task.RequestsToUpdate.Add(newRequest.Clone());
-                    task.StandingOrdersToUpdate.Add(standingOrder.Clone());
                 }
+                task.StandingOrdersToUpdate.Add(standingOrder.Clone());
             }
 
             _persistenceHandler.SaveChanges(task);

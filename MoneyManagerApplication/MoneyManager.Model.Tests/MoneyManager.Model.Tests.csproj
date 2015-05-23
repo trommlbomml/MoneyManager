@@ -55,6 +55,7 @@
     <Compile Include="RepositoryFactoryTests.cs" />
     <Compile Include="RepositoryQueryPerformanceTests.cs" />
     <Compile Include="RepositoryRequestTests.cs" />
+    <Compile Include="RepositoryStandingOrderTests.cs" />
     <Compile Include="RepositoryStateTests.cs" />
     <Compile Include="RepositoryTestsBase.cs" />
     <Compile Include="Entities\RequestEntityImpTests.cs" />
