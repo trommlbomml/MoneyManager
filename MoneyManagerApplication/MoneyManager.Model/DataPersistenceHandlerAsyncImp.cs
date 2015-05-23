@@ -63,7 +63,7 @@ namespace MoneyManager.Model
             {
                 if (TryRemoveElementFromParentById(document, PersistenceConstants.Categories, entityToDelete)) continue;
                 if (TryRemoveElementFromParentById(document, PersistenceConstants.StandingOrders, entityToDelete)) continue;
-                TryRemoveElementFromParentById(document, PersistenceConstants.StandingOrders, entityToDelete);
+                TryRemoveElementFromParentById(document, PersistenceConstants.Requests, entityToDelete);
             }
 
             foreach (var categoryEntity in task.CategoriesToUpdate)
