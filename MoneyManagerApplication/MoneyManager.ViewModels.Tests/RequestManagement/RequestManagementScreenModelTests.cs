@@ -189,11 +189,11 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             var requestDialogViewModel = (RequestDialogViewModel) dialogViewModel;
 
             Assert.That(requestDialogViewModel.Caption, Is.EqualTo(Properties.Resources.RequestDialogCaptionCreate));
-            Assert.That(requestDialogViewModel.CreateRequestCommand.IsEnabled, Is.True);
-            Assert.That(requestDialogViewModel.Date, Is.EqualTo(new DateTime(2014, 6, 1)));
+            Assert.That(requestDialogViewModel.CreateRequestCommand.IsEnabled, Is.False);
+            Assert.That(requestDialogViewModel.DateProperty.Value, Is.EqualTo(new DateTime(2014, 6, 1)));
             Assert.That(requestDialogViewModel.FirstPossibleDate, Is.EqualTo(new DateTime(2014, 6, 1)));
             Assert.That(requestDialogViewModel.LastPossibleDate, Is.EqualTo(new DateTime(2014, 6, 30)));
-            Assert.That(requestDialogViewModel.Value, Is.EqualTo(0.0d));
+            Assert.That(requestDialogViewModel.ValueProperty.Value, Is.EqualTo(0.0d));
         }
 
         [TestCase(false)]
@@ -221,9 +221,9 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             screenModel.AddRequestCommand.Execute(null);
 
             var requestDialogViewModel = (RequestDialogViewModel)dialogViewModel;
-            requestDialogViewModel.Description = expectedDescription;
-            requestDialogViewModel.Value = expectedValue;
-            requestDialogViewModel.Date = expectedDate;
+            requestDialogViewModel.DescriptionProperty.Value = expectedDescription;
+            requestDialogViewModel.ValueProperty.Value = expectedValue;
+            requestDialogViewModel.DateProperty.Value = expectedDate;
             if (isCategorySelected)
             {
                 requestDialogViewModel.Categories.Value = requestDialogViewModel.Categories.SelectableValues.First();
@@ -364,7 +364,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             var requestDialogViewModel = (RequestDialogViewModel)dialogViewModel;
 
             Assert.That(requestDialogViewModel.Caption, Is.EqualTo(Properties.Resources.RequestDialogCaptionEdit));
-            Assert.That(requestDialogViewModel.CreateRequestCommand.IsEnabled, Is.True);
+            Assert.That(requestDialogViewModel.CreateRequestCommand.IsEnabled, Is.False);
         }
 
         [Test]
@@ -386,16 +386,16 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
 
             var dialog = (RequestDialogViewModel) dialogViewModel;
 
-            var newDate = dialog.Date.AddDays(2);
-            dialog.Date = newDate;
-            dialog.Description = "New Description added";
-            dialog.Value = 77.77;
+            var newDate = dialog.DateProperty.Value.AddDays(2);
+            dialog.DateProperty.Value = newDate;
+            dialog.DescriptionProperty.Value = "New Description added";
+            dialog.ValueProperty.Value = 77.77;
 
             Application.Repository.ClearReceivedCalls();
             dialog.CreateRequestCommand.Execute(null);
 
-            Application.Repository.Received(1).UpdateRequest(currentRequestEntityId, 
-                Arg.Is<RequestEntityData>(r => r.Description == "New Description added" && Math.Abs(r.Value - 77.77) < double.Epsilon && dialog.Date == newDate));
+            Application.Repository.Received(1).UpdateRequest(currentRequestEntityId,
+                Arg.Is<RequestEntityData>(r => r.Description == "New Description added" && Math.Abs(r.Value - 77.77) < double.Epsilon && dialog.DateProperty.Value == newDate));
 
             Application.Repository.Received(1).CalculateSaldoForMonth(2014, 6);
         }

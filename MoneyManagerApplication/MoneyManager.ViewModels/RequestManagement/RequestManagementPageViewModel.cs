@@ -158,10 +158,7 @@ namespace MoneyManager.ViewModels.RequestManagement
 
             var viewModel = new RequestDialogViewModel(Application, currentRequest.EntityId, OnEditRequest)
             {
-                Caption = Properties.Resources.RequestDialogCaptionEdit,
-                Date = currentRequest.Date,
-                Description = currentRequest.Description,
-                Value = currentRequest.Value
+                Caption = Properties.Resources.RequestDialogCaptionEdit
             };
             Application.WindowManager.ShowDialog(viewModel);
         }
@@ -171,9 +168,9 @@ namespace MoneyManager.ViewModels.RequestManagement
             var currentRequestEntityId = Requests.Value.EntityId;
             var requestEntityData = new RequestEntityData
             {
-                Date = requestDialog.Date,
-                Description = requestDialog.Description,
-                Value = requestDialog.Value,
+                Date = requestDialog.DateProperty.Value,
+                Description = requestDialog.DescriptionProperty.Value,
+                Value = requestDialog.ValueProperty.Value,
                 CategoryPersistentId = requestDialog.Categories.Value != null ? requestDialog.Categories.Value.EntityId : null
             };
             Application.Repository.UpdateRequest(currentRequestEntityId, requestEntityData);
@@ -260,9 +257,9 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             var requestEntityId = Application.Repository.CreateRequest(new RequestEntityData
             {
-                Date = requestDialog.Date,
-                Description = requestDialog.Description,
-                Value = requestDialog.Value,
+                Date = requestDialog.DateProperty.Value,
+                Description = requestDialog.DescriptionProperty.Value,
+                Value = requestDialog.ValueProperty.Value,
                 CategoryPersistentId = requestDialog.Categories.Value != null ? requestDialog.Categories.Value.EntityId : null
             });
 

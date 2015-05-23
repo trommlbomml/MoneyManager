@@ -350,6 +350,15 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bitte geben Sie einen Betrag an..
+        /// </summary>
+        public static string RequestDialogViewModel_ValuePropertyValidationError {
+            get {
+                return ResourceManager.GetString("RequestDialogViewModel_ValuePropertyValidationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Transaktion löschen.
         /// </summary>
         public static string RequestManagementDeleteRequestQuestionCaption {

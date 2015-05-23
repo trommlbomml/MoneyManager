@@ -214,6 +214,9 @@ Möchten Sie den Verweis aus der Liste entfernen?</value>
   <data name="RequestDialogCaptionEdit" xml:space="preserve">
     <value>Transaktion bearbeiten</value>
   </data>
+  <data name="RequestDialogViewModel_ValuePropertyValidationError" xml:space="preserve">
+    <value>Bitte geben Sie einen Betrag an.</value>
+  </data>
   <data name="RequestManagementDeleteRequestQuestionCaption" xml:space="preserve">
     <value>Transaktion löschen</value>
   </data>

@@ -22,10 +22,22 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             var requestDialog = new RequestDialogViewModel(Application, year, month, d => { });
             Assert.That(requestDialog.FirstPossibleDate, Is.EqualTo(new DateTime(year, month, 1)));
             Assert.That(requestDialog.LastPossibleDate, Is.EqualTo(new DateTime(year, month, DateTime.DaysInMonth(year, month))));
-            Assert.That(requestDialog.Date, Is.EqualTo(new DateTime(year, month, 1)));
-            Assert.That(requestDialog.CreateRequestCommand.IsEnabled, Is.True);
+            Assert.That(requestDialog.DateProperty.Value, Is.EqualTo(new DateTime(year, month, 1)));
+            Assert.That(requestDialog.CreateRequestCommand.IsEnabled, Is.False);
             Assert.That(requestDialog.DateAsString, Is.EqualTo(string.Format(Properties.Resources.RequestDayOfMonthFormat, new DateTime(year, month, 1))));
-            Assert.That(requestDialog.Value, Is.EqualTo(0.0d));
+            Assert.That(requestDialog.ValueProperty.Value, Is.EqualTo(0.0d));
+        }
+
+        [TestCase(0.0, false)]
+        [TestCase(-10.0, false)]
+        [TestCase(1.0, false)]
+        public void Validates(double value, bool isValid)
+        {
+            var requestDialog = new RequestDialogViewModel(Application, 2014, 6, d => { });
+            requestDialog.ValueProperty.Value = value;
+
+            Assert.That(requestDialog.CreateRequestCommand.IsEnabled, Is.EqualTo(isValid));
+            Assert.That(requestDialog.ValueProperty.IsValid, Is.EqualTo(isValid));
         }
 
         [TestCase(0)]
@@ -52,7 +64,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
         {
             var requestDialog = new RequestDialogViewModel(Application, 2014, 6, o => { });
 
-            requestDialog.Date = requestDialog.Date + TimeSpan.FromDays(1);
+            requestDialog.DateProperty.Value = requestDialog.DateProperty.Value + TimeSpan.FromDays(1);
             Assert.That(requestDialog.DateAsString, Is.EqualTo(string.Format(Properties.Resources.RequestDayOfMonthFormat, new DateTime(2014, 6, 2))));
         }
     }

@@ -6,9 +6,6 @@ namespace MoneyManager.ViewModels.RequestManagement
 {
     public class RequestDialogViewModel : ViewModel
     {
-        private string _description;
-        private double _value;
-        private DateTime _date;
         private DateTime _firstPossibleDate;
         private DateTime _lastPossibleDate;
         private string _dateAsString;
@@ -19,27 +16,36 @@ namespace MoneyManager.ViewModels.RequestManagement
             if (month < 1 || month > 12) throw new ArgumentException(@"Month index must be in range 1 to 12", "month");
 
             InitializeViewModel(application, year, month, null, onOk);
+
+            DateProperty.Value = new DateTime(year, month, 1);
         }
 
         public RequestDialogViewModel(ApplicationViewModel application, string persistentId, Action<RequestDialogViewModel> onOk)
         {
             var request = application.Repository.QueryRequest(persistentId);
-            Description = request.Description;
-            Value = request.Value;
-            Date = request.Date;
-
             var selectedCategoryId = request.Category != null ? request.Category.PersistentId : null;
-
             InitializeViewModel(application, request.Date.Year, request.Date.Month, selectedCategoryId, onOk);
+
+            DescriptionProperty.Value = request.Description;
+            ValueProperty.Value = request.Value;
+            DateProperty.Value = request.Date;
         }
         
         private void InitializeViewModel(ApplicationViewModel application, int year, int month, string selectedCategoryId, Action<RequestDialogViewModel> onOk)
         {
-            Date = new DateTime(year, month, 1);
+            Categories = new EnumeratedSingleValuedProperty<CategoryViewModel>();
+            DescriptionProperty = new SingleValuedProperty<string>();
+            ValueProperty = new SingleValuedProperty<double>();
+            DateProperty = new SingleValuedProperty<DateTime>();
+            CreateRequestCommand = new CommandViewModel(() => onOk(this));
+
+            DateProperty.OnValueChanged += DatePropertyOnOnValueChanged;
+            ValueProperty.Validate = ValidateValueProperty;
+            ValueProperty.OnIsValidChanged += ValuePropertyOnOnIsValidChanged;
+
             FirstPossibleDate = new DateTime(year, month, 1);
             LastPossibleDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
-            Categories = new EnumeratedSingleValuedProperty<CategoryViewModel>();
-
+            
             foreach (var category in application.Repository.QueryAllCategories().Select(c => new CategoryViewModel(application, c.PersistentId)).OrderBy(c => c.Name))
             {
                 Categories.AddValue(category);
@@ -51,54 +57,58 @@ namespace MoneyManager.ViewModels.RequestManagement
                 Categories.Value = Categories.SelectableValues.Single(c => c.EntityId == selectedCategoryId);
             }
 
-            CreateRequestCommand = new CommandViewModel(() => onOk(this));
-
             UpdateLocalizedProperties();
+            UpdateCommandStates();
+        }
+
+        private void ValuePropertyOnOnIsValidChanged()
+        {
+            UpdateCommandStates();
+        }
+
+        private void UpdateCommandStates()
+        {
+            CreateRequestCommand.IsEnabled = ValueProperty.IsValid;
+        }
+
+        private void DatePropertyOnOnValueChanged()
+        {
+            UpdateLocalizedProperties();
+        }
+
+        private string ValidateValueProperty()
+        {
+            return ValueProperty.Value <= 0.0 ? Properties.Resources.RequestDialogViewModel_ValuePropertyValidationError : null;
         }
 
         public CommandViewModel CreateRequestCommand { get; private set; }
 
         public EnumeratedSingleValuedProperty<CategoryViewModel> Categories { get; private set; }
-
-        public string Description
-        {
-            get { return _description; }
-            set { SetBackingField("Description", ref _description, value); }
-        }
-
-        public double Value
-        {
-            get { return _value; }
-            set { SetBackingField("Value", ref _value, value); }
-        }
-
-        public DateTime Date
-        {
-            get { return _date; }
-            set { SetBackingField("Date", ref _date, value, o => UpdateLocalizedProperties()); }
-        }
+        public SingleValuedProperty<string> DescriptionProperty { get; private set; }
+        public SingleValuedProperty<double> ValueProperty { get; private set; }
+        public SingleValuedProperty<DateTime> DateProperty { get; private set; } 
 
         private void UpdateLocalizedProperties()
         {
-            DateAsString = string.Format(Properties.Resources.RequestDayOfMonthFormat, Date);
+            DateAsString = string.Format(Properties.Resources.RequestDayOfMonthFormat, DateProperty.Value);
         }
 
         public string DateAsString
         {
             get { return _dateAsString; }
-            set { SetBackingField("DateAsString", ref _dateAsString, value); }
+            private set { SetBackingField("DateAsString", ref _dateAsString, value); }
         }
 
         public DateTime FirstPossibleDate
         {
             get { return _firstPossibleDate; }
-            set { SetBackingField("FirstPossibleDate", ref _firstPossibleDate, value); }
+            private set { SetBackingField("FirstPossibleDate", ref _firstPossibleDate, value); }
         }
 
         public DateTime LastPossibleDate
         {
             get { return _lastPossibleDate; }
-            set { SetBackingField("LastPossibleDate", ref _lastPossibleDate, value); }
+            private set { SetBackingField("LastPossibleDate", ref _lastPossibleDate, value); }
         }
 
         public string Caption

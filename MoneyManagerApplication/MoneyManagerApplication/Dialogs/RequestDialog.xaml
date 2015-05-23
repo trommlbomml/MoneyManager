@@ -31,7 +31,7 @@
                Margin="5"
                HorizontalAlignment="Right"
                Grid.Column="0" />
-        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding DescriptionProperty.Value, UpdateSourceTrigger=PropertyChanged}" 
                  x:Name="FirstTextBox"
                  Grid.Row="0" 
                  Margin="5"
@@ -60,13 +60,24 @@
                Grid.Row="2" 
                HorizontalAlignment="Right"
                Grid.Column="0" />
-        <xctk:DecimalUpDown Margin="5"
+
+
+        <StackPanel Grid.Row="2" 
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+            <xctk:DecimalUpDown Margin="5"
                             HorizontalAlignment="Left"
                             FormatString="C"
-                            Grid.Row="2" 
-                            Grid.Column="1" 
                             Width="100"
-                            Value="{Binding Value, UpdateSourceTrigger=PropertyChanged, ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
+                            Minimum="0.0"
+                            Value="{Binding ValueProperty.Value, 
+                                            UpdateSourceTrigger=PropertyChanged, 
+                                            ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture},
+                                            ValidatesOnDataErrors=True}" />
+
+            <TextBlock Text="{Binding ValueProperty.ErrorMessage}" Style="{DynamicResource ValidationText}" />
+        </StackPanel>
+        
 
         <Label Content="{x:Static properties:Resources.RequestDialog_LabelDayOfMonth}" 
                Margin="5"
@@ -84,7 +95,7 @@
                   Margin="5"
                   HorizontalAlignment="Left"
                   IsTodayHighlighted="True" 
-                  SelectedDate="{Binding Date}"
+                  SelectedDate="{Binding DateProperty.Value}"
                   SelectionMode="SingleDate"
                   DisplayDateStart="{Binding FirstPossibleDate}"
                   DisplayDateEnd="{Binding LastPossibleDate}"
