@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MoneyManager.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace MoneyManager.Model.Tests
@@ -67,6 +68,7 @@ namespace MoneyManager.Model.Tests
         {
             var originalRequest = CreateRequestInRepository(DateTime.Now.Date, "Testdescription", 12.75);
             var persistentId = originalRequest.PersistentId;
+            PersistenceHandler.ClearReceivedCalls();
 
             var newData = new RequestEntityData
             {
@@ -80,6 +82,12 @@ namespace MoneyManager.Model.Tests
 
             Assert.That(queriedRequest.Description, Is.EqualTo("New Description"));
             Assert.That(queriedRequest.Value, Is.EqualTo(11.11));
+
+            PersistenceHandler.Received(1).SaveChanges(Arg.Is<SavingTask>(t => t.RequestsToUpdate.Count == 1 &&
+                                                                               t.CategoriesToUpdate.Count == 0 &&
+                                                                               t.EntitiesToDelete.Count == 0 &&
+                                                                               t.StandingOrdersToUpdate.Count == 0 &&
+                                                                               t.FilePath == DatabaseFile));
         }
 
         [Test]
@@ -110,6 +118,7 @@ namespace MoneyManager.Model.Tests
                 CategoryPersistentId = withCategory ? categoryEntity.PersistentId : null
             };
 
+            PersistenceHandler.ClearReceivedCalls();
             var persistentId = Repository.CreateRequest(requestData);
 
             var createdRequest = Repository.QueryRequest(persistentId);
@@ -126,6 +135,12 @@ namespace MoneyManager.Model.Tests
             {
                 Assert.That(createdRequest.Category, Is.Null);
             }
+
+            PersistenceHandler.Received(1).SaveChanges(Arg.Is<SavingTask>(t => t.RequestsToUpdate.Count == 1 &&
+                                                                               t.CategoriesToUpdate.Count == 0 &&
+                                                                               t.EntitiesToDelete.Count == 0 &&
+                                                                               t.StandingOrdersToUpdate.Count == 0 &&
+                                                                               t.FilePath == DatabaseFile));
         }
 
         [Test]
@@ -142,6 +157,12 @@ namespace MoneyManager.Model.Tests
 
             Assert.That(persistentIdsAfterDelete.Length, Is.EqualTo(9));
             CollectionAssert.AreEquivalent(allRequestIdsBeforeDelete.Except(new[] { requestPersistentIdToDelete }), persistentIdsAfterDelete);
+
+            PersistenceHandler.Received(1).SaveChanges(Arg.Is<SavingTask>(t => t.RequestsToUpdate.Count == 0 &&
+                                                                               t.CategoriesToUpdate.Count == 0 &&
+                                                                               t.EntitiesToDelete.Count == 1 &&
+                                                                               t.StandingOrdersToUpdate.Count == 0 &&
+                                                                               t.FilePath == DatabaseFile));
         }
     }
 }
