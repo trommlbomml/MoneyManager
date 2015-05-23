@@ -7,6 +7,7 @@
         xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         WindowStartupLocation="CenterOwner"
+        Icon="../logo.ico"
         ShowInTaskbar="False"
         Width="640"
         Height="400"

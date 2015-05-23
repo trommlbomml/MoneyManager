@@ -8,6 +8,7 @@
         xmlns:converters="clr-namespace:MoneyManagerApplication.Converters"
         Title="{Binding Caption}" 
         WindowStartupLocation="CenterOwner"
+        Icon="../logo.ico"
         ShowInTaskbar="False"
         WindowStyle="SingleBorderWindow"
         ResizeMode="NoResize"
