@@ -67,5 +67,16 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             requestDialog.DateProperty.Value = requestDialog.DateProperty.Value + TimeSpan.FromDays(1);
             Assert.That(requestDialog.DateAsString, Is.EqualTo(string.Format(Properties.Resources.RequestDayOfMonthFormat, new DateTime(2014, 6, 2))));
         }
+
+        [Test]
+        public void ChangeValueUpdatesCalculatedValue()
+        {
+            var requestDialog = new RequestDialogViewModel(Application, 2014, 6, o => { });
+            requestDialog.RequestKind.Value = RequestKind.Expenditure;
+            requestDialog.ValueProperty.Value = 2;
+            requestDialog.ValueProperty.Value = 20;
+
+            Assert.That(requestDialog.CalculateValue, Is.EqualTo(-20.0));
+        }
     }
 }

@@ -54,6 +54,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             RequestKind.OnValueChanged += RequestKindOnOnValueChanged;
             ValueProperty.Validate = ValidateValueProperty;
             ValueProperty.OnIsValidChanged += ValuePropertyOnOnIsValidChanged;
+            ValueProperty.OnValueChanged += ValuePropertyOnOnValueChanged;
 
             FirstPossibleDate = new DateTime(year, month, 1);
             LastPossibleDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
@@ -71,6 +72,11 @@ namespace MoneyManager.ViewModels.RequestManagement
 
             UpdateLocalizedProperties();
             UpdateCommandStates();
+        }
+
+        private void ValuePropertyOnOnValueChanged()
+        {
+            UpdateCalculatedProperties();
         }
 
         private void RequestKindOnOnValueChanged()
