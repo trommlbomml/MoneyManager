@@ -119,6 +119,7 @@
                   SelectionMode="Single"
                   IsEnabled="{Binding Details.IsInEditMode, Converter={x:Static converters:BoolInverseConverter.Instance}, FallbackValue=true}">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="{x:Static properties:Resources.StandingOrderDialog_GridColmnHeader_State}" Binding="{Binding StateAsString}" Width="Auto" />
                 <DataGridTextColumn Header="{x:Static properties:Resources.StandingOrderDialog_GridColmnHeader_Description}" Binding="{Binding Description}" Width="*" />
                 <DataGridTextColumn Header="{x:Static properties:Resources.StandingOrderDialog_GridColmnHeader_Value}" Binding="{Binding ValueAsString}" Width="Auto" />
                 <DataGridTextColumn Header="{x:Static properties:Resources.StandingOrderDialog_GridColmnHeader_MonthPeroid}" Binding="{Binding MonthPeriodAsString}" Width="Auto" />
@@ -126,7 +127,7 @@
         </DataGrid>
         
         <Border Grid.Row="2" BorderThickness="1" Margin="2" BorderBrush="Black">
-            <ContentControl Content="{Binding Details}"></ContentControl>
+            <ContentControl Content="{Binding Details}" />
         </Border>
         
         <Button Grid.Row="3" 

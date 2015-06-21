@@ -19,17 +19,12 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         {
             _application = application;
             StandingOrders = new EnumeratedSingleValuedProperty<StandingOrderEntityViewModel>();
-            StandingOrders.PropertyChanged += OnStandingOrderPropertyChanged;
+            StandingOrders.OnValueChanged += OnStandingOrdersValueChangd;
 
-            foreach (var requestPersistentId in application.Repository.QueryAllStandingOrderEntities().Select(r => r.PersistentId))
+            foreach (var standingOrderEntity in application.Repository.QueryAllStandingOrderEntities().Select(r => new StandingOrderEntityViewModel(application, r.PersistentId)))
             {
-                var request = new StandingOrderEntityViewModel(application, requestPersistentId);
-                StandingOrders.AddValue(request);
-            }
-
-            foreach (var request in StandingOrders.SelectableValues)
-            {
-                request.Refresh();
+                standingOrderEntity.Refresh();
+                StandingOrders.AddValue(standingOrderEntity);
             }
 
             CreateStandingOrderCommand = new CommandViewModel(OnCreateStandingOrderCommand);
@@ -38,17 +33,16 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             UpdateCommandStates();
         }
 
+        private void OnStandingOrdersValueChangd()
+        {
+            UpdateDetails();
+            UpdateCommandStates();
+        }
+
         public StandingOrderDetailsViewModel Details
         {
             get { return _details; }
             set { SetBackingField("Details", ref _details, value, o => UpdateCommandStates()); }
-        }
-
-        private void OnStandingOrderPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != "Value") return;
-            UpdateDetails();
-            UpdateCommandStates();
         }
 
         private void UpdateDetails()

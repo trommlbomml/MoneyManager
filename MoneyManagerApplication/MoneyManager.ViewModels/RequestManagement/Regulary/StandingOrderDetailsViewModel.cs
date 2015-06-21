@@ -78,7 +78,8 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
                 CategoryEntityId = Categories.Value != null ? Categories.Value.EntityId : null,
                 FirstBookDate = FirstBookDate,
                 ReferenceMonth = FirstBookDate.Month,
-                ReferenceDay = FirstBookDate.Day
+                ReferenceDay = FirstBookDate.Day,
+                PaymentCount = IsEndingTransactionProperty.Value ? PaymentsProperty.Value : (int?) null
             };
         }
 

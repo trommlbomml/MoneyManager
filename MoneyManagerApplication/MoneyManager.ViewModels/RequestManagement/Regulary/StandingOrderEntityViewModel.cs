@@ -1,15 +1,9 @@
 ﻿using System;
+using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels.RequestManagement.Regulary
 {
-    public enum StandingOrderState
-    {
-        InActive,
-        Active,
-        Finished
-    }
-
     public class StandingOrderEntityViewModel : EntityViewModel
     {
         private string _description;
@@ -19,6 +13,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         private string _valueAsString;
         private string _monthPeriodAsString;
         private StandingOrderState _state;
+        private string _stateAsString;
 
         public StandingOrderEntityViewModel(ApplicationViewModel application, string entityId) : base(application, entityId)
         {
@@ -31,6 +26,8 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             Category = request.Category != null ? request.Category.Name : Properties.Resources.NoCategory;
             Value = request.Value;
             MonthPeriod = request.MonthPeriodStep;
+            State = request.State;
+            UpdateStateAsString();
         }
 
         public string Description
@@ -60,7 +57,29 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         public StandingOrderState State
         {
             get { return _state; }
-            private set { SetBackingField("State", ref _state, value); }
+            private set { SetBackingField("State", ref _state, value, o => UpdateStateAsString()); }
+        }
+
+        private void UpdateStateAsString()
+        {
+            switch (State)
+            {
+                case StandingOrderState.InActive:
+                    StateAsString = Properties.Resources.StandingOrderEntityViewModel_StateInactive;
+                    break;
+                case StandingOrderState.Active:
+                    StateAsString = Properties.Resources.StandingOrderEntityViewModel_StateActive;
+                    break;
+                case StandingOrderState.Finished:
+                    StateAsString = Properties.Resources.StandingOrderEntityViewModel_StateFinished;
+                    break;
+            }
+        }
+
+        public string StateAsString
+        {
+            get { return _stateAsString; }
+            private set { SetBackingField("StateAsString", ref _stateAsString, value); }
         }
 
         private void UpdateMonthPeriodAsString()

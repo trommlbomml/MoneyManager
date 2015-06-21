@@ -232,4 +232,13 @@ Möchten Sie den Verweis aus der Liste entfernen?</value>
   <data name="RequestManagementPageCaptionFormat" xml:space="preserve">
     <value>Transaktionsverwaltung - {0}</value>
   </data>
+  <data name="StandingOrderEntityViewModel_StateActive" xml:space="preserve">
+    <value>Aktiv</value>
+  </data>
+  <data name="StandingOrderEntityViewModel_StateFinished" xml:space="preserve">
+    <value>Abgeschlossen</value>
+  </data>
+  <data name="StandingOrderEntityViewModel_StateInactive" xml:space="preserve">
+    <value>Inaktiv</value>
+  </data>
 </root>

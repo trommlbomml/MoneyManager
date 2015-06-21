@@ -402,5 +402,32 @@ namespace MoneyManager.ViewModels.Properties {
                 return ResourceManager.GetString("RequestManagementPageCaptionFormat", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aktiv.
+        /// </summary>
+        public static string StandingOrderEntityViewModel_StateActive {
+            get {
+                return ResourceManager.GetString("StandingOrderEntityViewModel_StateActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abgeschlossen.
+        /// </summary>
+        public static string StandingOrderEntityViewModel_StateFinished {
+            get {
+                return ResourceManager.GetString("StandingOrderEntityViewModel_StateFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inaktiv.
+        /// </summary>
+        public static string StandingOrderEntityViewModel_StateInactive {
+            get {
+                return ResourceManager.GetString("StandingOrderEntityViewModel_StateInactive", resourceCulture);
+            }
+        }
     }
 }

@@ -493,6 +493,15 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Zustand.
+        /// </summary>
+        public static string StandingOrderDialog_GridColmnHeader_State {
+            get {
+                return ResourceManager.GetString("StandingOrderDialog_GridColmnHeader_State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Betrag.
         /// </summary>
         public static string StandingOrderDialog_GridColmnHeader_Value {

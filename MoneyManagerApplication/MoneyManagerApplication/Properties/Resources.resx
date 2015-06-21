@@ -282,4 +282,7 @@
   <data name="RequestKindName_Expenditure" xml:space="preserve">
     <value>Ausgabe</value>
   </data>
+  <data name="StandingOrderDialog_GridColmnHeader_State" xml:space="preserve">
+    <value>Zustand</value>
+  </data>
 </root>

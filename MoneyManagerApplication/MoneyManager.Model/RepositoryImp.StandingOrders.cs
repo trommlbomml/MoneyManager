@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.Model.Entities;
@@ -81,18 +82,28 @@ namespace MoneyManager.Model
             _persistenceHandler.SaveChanges(task);
         }
 
-        private void SetRequestEntityImpData(StandingOrderEntityImp standingOrder, StandingOrderEntityData requestData)
+        private void SetRequestEntityImpData(StandingOrderEntityImp standingOrder, StandingOrderEntityData data)
         {
-            standingOrder.Description = requestData.Description;
-            standingOrder.FirstBookDate = requestData.FirstBookDate;
-            standingOrder.MonthPeriodStep = requestData.MonthPeriodStep;
-            standingOrder.ReferenceDay = requestData.ReferenceDay;
-            standingOrder.ReferenceMonth = requestData.ReferenceMonth;
-            standingOrder.Value = requestData.Value;
+            standingOrder.Description = data.Description;
+            standingOrder.FirstBookDate = data.FirstBookDate;
+            standingOrder.MonthPeriodStep = data.MonthPeriodStep;
+            standingOrder.ReferenceDay = data.ReferenceDay;
+            standingOrder.ReferenceMonth = data.ReferenceMonth;
+            standingOrder.Value = data.Value;
 
-            if (!string.IsNullOrEmpty(requestData.CategoryEntityId))
+            if (data.PaymentCount.HasValue)
             {
-                standingOrder.Category = _allCategories.Single(c => c.PersistentId == requestData.CategoryEntityId);
+                var monthsAddToFirstBookDate = data.MonthPeriodStep * data.PaymentCount.Value;
+                standingOrder.LastBookDate = standingOrder.FirstBookDate.AddMonths(monthsAddToFirstBookDate);
+            }
+            else
+            {
+                standingOrder.LastBookDate = DateTime.MaxValue;
+            }
+
+            if (!string.IsNullOrEmpty(data.CategoryEntityId))
+            {
+                standingOrder.Category = _allCategories.Single(c => c.PersistentId == data.CategoryEntityId);
             }
         }
     }

@@ -8,6 +8,7 @@ namespace MoneyManager.Interfaces
         public int ReferenceMonth { get; set; }
         public int ReferenceDay { get; set; }
         public int MonthPeriodStep { get; set; }
+        public int? PaymentCount { get; set; }
         public double Value { get; set; }
         public string Description { get; set; }
         public string CategoryEntityId { get; set; }
