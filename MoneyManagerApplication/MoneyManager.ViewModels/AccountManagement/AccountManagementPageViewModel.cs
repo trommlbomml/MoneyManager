@@ -22,6 +22,8 @@ namespace MoneyManager.ViewModels.AccountManagement
             OpenAccountCommand = new CommandViewModel(OnOpenAccountCommand);
             SelectFileCommand = new CommandViewModel(OnSelectFileCommand);
 
+            NewAccountNameProperty.OnValueChanged += UpdateCommandStates;
+
             UpdateCommandStates();
 
             Caption = Properties.Resources.AccountManagementPageCaption;
@@ -94,14 +96,25 @@ namespace MoneyManager.ViewModels.AccountManagement
 
         private void OnOpenAccountCommand()
         {
-            ExecuteWithErrorHandling(() =>
+            string filePath = string.Empty;
+            try
             {
-                var result = Application.WindowManager.ShowOpenFileDialog(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Properties.Resources.AccountManagementFilterOpenAccount);
-                if (string.IsNullOrEmpty(result)) return;
-                Application.Repository.Open(result);
+                filePath = Application.WindowManager.ShowOpenFileDialog(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Properties.Resources.AccountManagementFilterOpenAccount);
+                if (string.IsNullOrEmpty(filePath)) return;
+                Application.Repository.Open(filePath);
                 Application.Repository.UpdateStandingOrdersToCurrentMonth();
                 Application.ActivateRequestmanagementPage();
-            });
+            }
+            catch (FileLockedException)
+            {
+                var message = string.Format(Properties.Resources.RecentAccountLockedFormat, filePath);
+                Application.WindowManager.ShowError(Properties.Resources.ErrorOpenRecentAccount, message);
+            }
+            catch (Exception ex)
+            {
+                var message = string.Format(Properties.Resources.RecentAccountUnexpectedErrorFormat, ex.Message);
+                Application.WindowManager.ShowError(Properties.Resources.ErrorOpenRecentAccount, message);
+            }
         }
 
         private void OnOpenRecentAccountCommand(RecentAccountViewModel account)

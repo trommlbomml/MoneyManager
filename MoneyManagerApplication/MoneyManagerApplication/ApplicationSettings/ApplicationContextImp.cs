@@ -87,8 +87,7 @@ namespace MoneyManagerApplication.ApplicationSettings
         public DateTime Now { get { return DateTime.Now; } }
         public bool LockFile(string filePath)
         {
-            var containingFolder = Path.GetDirectoryName(filePath);
-            var targetFolder = Path.Combine(containingFolder ?? "", LockFolderName);
+            var targetFolder = GetTargetFolderPath(filePath);
 
             if (Directory.Exists(targetFolder)) return false;
 
@@ -101,10 +100,16 @@ namespace MoneyManagerApplication.ApplicationSettings
         {
             if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath)) return;
 
-            var containingFolder = Path.GetDirectoryName(filePath);
-            var targetFolder = Path.Combine(containingFolder ?? "", LockFolderName);
+            var targetFolder = GetTargetFolderPath(filePath);
 
             if (Directory.Exists(targetFolder)) Directory.Delete(targetFolder);
+        }
+
+        private string GetTargetFolderPath(string filePath)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(filePath);
+            var containingFolder = Path.GetDirectoryName(filePath) ?? "";
+            return Path.Combine(containingFolder, LockFolderName + "_" + fileName);
         }
     }
 }
