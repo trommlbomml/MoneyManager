@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
@@ -69,7 +70,13 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void OnEditStandingOrdersCommand()
         {
-            Application.WindowManager.ShowDialog(new StandingOrderManagementViewModel(Application));
+            Application.WindowManager.ShowDialog(new StandingOrderManagementViewModel(Application, OnStandingOrderUpdated));
+        }
+
+        private void OnStandingOrderUpdated()
+        {
+            UpdateCurrentMonth();
+            UpdateCommandStates();
         }
 
         private void OnGotoCurrentMonthCommand()

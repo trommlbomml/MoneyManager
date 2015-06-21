@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
@@ -8,6 +9,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
     public class StandingOrderManagementViewModel : ViewModel
     {
         private readonly ApplicationViewModel _application;
+        private readonly Action _onStandingOrderUpdated;
         private StandingOrderDetailsViewModel _details;
 
         public EnumeratedSingleValuedProperty<StandingOrderEntityViewModel> StandingOrders { get; private set; }
@@ -15,9 +17,10 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         public CommandViewModel CreateStandingOrderCommand { get; private set; }
         public CommandViewModel DeleteStandingOrderCommand { get; private set; }
 
-        public StandingOrderManagementViewModel(ApplicationViewModel application)
+        public StandingOrderManagementViewModel(ApplicationViewModel application, Action onStandingOrderUpdated)
         {
             _application = application;
+            _onStandingOrderUpdated = onStandingOrderUpdated;
             StandingOrders = new EnumeratedSingleValuedProperty<StandingOrderEntityViewModel>();
             StandingOrders.OnValueChanged += OnStandingOrdersValueChangd;
 
@@ -83,6 +86,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             Details.IsInEditMode = false;
             _application.Repository.UpdateStandingOrdersToCurrentMonth();
             UpdateCommandStates();
+            _onStandingOrderUpdated();
         }
 
         private void OnCancelRequestDetails(StandingOrderDetailsViewModel details)
