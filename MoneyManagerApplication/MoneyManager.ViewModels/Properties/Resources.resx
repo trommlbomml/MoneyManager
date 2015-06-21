@@ -224,6 +224,18 @@ Kontaktieren Sie den Entwickler.</value>
   <data name="RequestDialogViewModel_ValuePropertyValidationError" xml:space="preserve">
     <value>Bitte geben Sie einen Betrag an.</value>
   </data>
+  <data name="RequestDialog_ButtonApply" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="RequestDialog_ButtonCancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="RequestDialog_ButtonClose" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="RequestDialog_ButtonCreate" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
   <data name="RequestManagementDeleteRequestQuestionCaption" xml:space="preserve">
     <value>Transaktion löschen</value>
   </data>

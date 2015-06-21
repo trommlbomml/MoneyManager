@@ -351,6 +351,42 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string RequestDialog_ButtonApply {
+            get {
+                return ResourceManager.GetString("RequestDialog_ButtonApply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abbrechen.
+        /// </summary>
+        public static string RequestDialog_ButtonCancel {
+            get {
+                return ResourceManager.GetString("RequestDialog_ButtonCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schließen.
+        /// </summary>
+        public static string RequestDialog_ButtonClose {
+            get {
+                return ResourceManager.GetString("RequestDialog_ButtonClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Erstellen.
+        /// </summary>
+        public static string RequestDialog_ButtonCreate {
+            get {
+                return ResourceManager.GetString("RequestDialog_ButtonCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Transaktion anlegen.
         /// </summary>
         public static string RequestDialogCaptionCreate {

@@ -204,9 +204,6 @@
   <data name="StandingOrderDialog_Value" xml:space="preserve">
     <value>Betrag</value>
   </data>
-  <data name="RequestDialog_CreateCommandCaption" xml:space="preserve">
-    <value>Erstellen</value>
-  </data>
   <data name="RequestDialog_LabelCategory" xml:space="preserve">
     <value>Kategorie</value>
   </data>

@@ -232,15 +232,6 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Erstellen.
-        /// </summary>
-        public static string RequestDialog_CreateCommandCaption {
-            get {
-                return ResourceManager.GetString("RequestDialog_CreateCommandCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Kategorie.
         /// </summary>
         public static string RequestDialog_LabelCategory {

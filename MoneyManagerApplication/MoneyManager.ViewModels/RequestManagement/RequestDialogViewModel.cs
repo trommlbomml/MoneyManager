@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Security;
 using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels.RequestManagement
 {
-    public enum RequestKind
-    {
-        Earning,
-        Expenditure
-    }
-
     public class RequestDialogViewModel : ViewModel
     {
         private DateTime _firstPossibleDate;
@@ -17,6 +12,9 @@ namespace MoneyManager.ViewModels.RequestManagement
         private string _dateAsString;
         private string _caption;
         private double _calculateValue;
+        private Action<RequestDialogViewModel> _onOk;
+        private string _createCommandCaption;
+        private string _cancelCommandCaption;
 
         public RequestDialogViewModel(ApplicationViewModel application, int year, int month, Action<RequestDialogViewModel> onOk)
         {
@@ -25,6 +23,9 @@ namespace MoneyManager.ViewModels.RequestManagement
             InitializeViewModel(application, year, month, null, onOk);
 
             DateProperty.Value = new DateTime(year, month, 1);
+            IsEditingExistingRequest = false;
+            CreateCommandCaption = Properties.Resources.RequestDialog_ButtonCreate;
+            CancelCommandCaption = Properties.Resources.RequestDialog_ButtonClose;
         }
 
         public RequestDialogViewModel(ApplicationViewModel application, string persistentId, Action<RequestDialogViewModel> onOk)
@@ -37,18 +38,20 @@ namespace MoneyManager.ViewModels.RequestManagement
             ValueProperty.Value = Math.Abs(request.Value);
             DateProperty.Value = request.Date;
             RequestKind.Value = request.Value > 0 ? RequestManagement.RequestKind.Earning : RequestManagement.RequestKind.Expenditure;
+            IsEditingExistingRequest = true;
+            CreateCommandCaption = Properties.Resources.RequestDialog_ButtonApply;
+            CancelCommandCaption = Properties.Resources.RequestDialog_ButtonCancel;
         }
         
         private void InitializeViewModel(ApplicationViewModel application, int year, int month, string selectedCategoryId, Action<RequestDialogViewModel> onOk)
         {
+            _onOk = onOk;
             Categories = new EnumeratedSingleValuedProperty<CategoryViewModel>();
             DescriptionProperty = new SingleValuedProperty<string>();
             ValueProperty = new SingleValuedProperty<double>();
             DateProperty = new SingleValuedProperty<DateTime>();
-            CreateRequestCommand = new CommandViewModel(() => onOk(this));
+            CreateRequestCommand = new CommandViewModel(OnCreateRequestCommand);
             RequestKind = new EnumeratedSingleValuedProperty<RequestKind>();
-            RequestKind.SetRange(Enum.GetValues(typeof(RequestKind)).Cast<RequestKind>());
-            RequestKind.Value = RequestManagement.RequestKind.Expenditure; 
 
             DateProperty.OnValueChanged += DatePropertyOnOnValueChanged;
             RequestKind.OnValueChanged += RequestKindOnOnValueChanged;
@@ -58,6 +61,8 @@ namespace MoneyManager.ViewModels.RequestManagement
 
             FirstPossibleDate = new DateTime(year, month, 1);
             LastPossibleDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+            RequestKind.SetRange(Enum.GetValues(typeof(RequestKind)).Cast<RequestKind>());
+            RequestKind.Value = RequestManagement.RequestKind.Expenditure; 
             
             foreach (var category in application.Repository.QueryAllCategories().Select(c => new CategoryViewModel(application, c.PersistentId)).OrderBy(c => c.Name))
             {
@@ -72,6 +77,14 @@ namespace MoneyManager.ViewModels.RequestManagement
 
             UpdateLocalizedProperties();
             UpdateCommandStates();
+        }
+
+        private void OnCreateRequestCommand()
+        {
+            _onOk(this);
+            Categories.Value = null;
+            DescriptionProperty.Value = string.Empty;
+            ValueProperty.Value = 0.0;
         }
 
         private void ValuePropertyOnOnValueChanged()
@@ -152,6 +165,20 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             get { return _caption; }
             set { SetBackingField("Caption", ref _caption, value); }
+        }
+
+        public bool IsEditingExistingRequest { get; private set; }
+
+        public string CreateCommandCaption
+        {
+            get { return _createCommandCaption; }
+            private set { SetBackingField("CreateCommandCaption", ref _createCommandCaption, value); }
+        }
+
+        public string CancelCommandCaption
+        {
+            get { return _cancelCommandCaption; }
+            private set { SetBackingField("CancelCommandCaption", ref _cancelCommandCaption, value); }
         }
     }
 }

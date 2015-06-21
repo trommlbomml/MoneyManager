@@ -52,6 +52,7 @@
     <Compile Include="RequestManagement\Regulary\StandingOrderEntityViewModel.cs" />
     <Compile Include="RequestManagement\Regulary\StandingOrderManagementViewModel.cs" />
     <Compile Include="RequestManagement\RequestDialogViewModel.cs" />
+    <Compile Include="RequestManagement\RequestKind.cs" />
     <Compile Include="RequestManagement\RequestManagementPageViewModel.cs" />
     <Compile Include="RequestManagement\RequestViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
