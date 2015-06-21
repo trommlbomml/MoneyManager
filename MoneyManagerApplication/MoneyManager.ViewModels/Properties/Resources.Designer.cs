@@ -79,7 +79,7 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Moneymanager - Accountverwaltung.
+        ///   Looks up a localized string similar to Moneymanager - Kontoverwaltung.
         /// </summary>
         public static string AccountManagementPageCaption {
             get {
@@ -88,7 +88,7 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bestehenden Account entfernen.
+        ///   Looks up a localized string similar to Bestehendes Konto entfernen.
         /// </summary>
         public static string AccountManagementRemoveAccountCaption {
             get {
@@ -97,7 +97,7 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Möchten Sie wirklich den bestehenden Account aus der Liste entfernen? Die Datei wird dabei nicht gelöscht..
+        ///   Looks up a localized string similar to Möchten Sie wirklich das Konto aus der Liste entfernen? Die Datei wird dabei nicht gelöscht..
         /// </summary>
         public static string AccountManagementRemoveAccountMessage {
             get {
@@ -304,7 +304,7 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Der angegebene Account unter &apos;{0}&apos; kann nicht geöffnet werden.
+        ///   Looks up a localized string similar to Das Konto &apos;{0}&apos; kann nicht geöffnet werden.
         ///Möchten Sie den Verweis aus der Liste entfernen?.
         /// </summary>
         public static string RemoveRecentAccountMessageFormat {
