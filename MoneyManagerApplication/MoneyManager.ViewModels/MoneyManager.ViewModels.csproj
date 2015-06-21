@@ -36,7 +36,6 @@
   <ItemGroup>
     <Compile Include="AccountManagement\AccountManagementPageViewModel.cs" />
     <Compile Include="ApplicationViewModel.cs" />
-    <Compile Include="AccountManagement\CreateAccountDialogViewModel.cs" />
     <Compile Include="Framework\CommandViewModel.cs" />
     <Compile Include="Framework\EntityViewModel.cs" />
     <Compile Include="Framework\EnumeratedSingleValuedProperty.cs" />

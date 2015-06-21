@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountManagement\AccountManagementPageViewModelTests.cs" />
-    <Compile Include="AccountManagement\CreateAccountDialogViewModelTests.cs" />
     <Compile Include="ApplicationViewModelTests.cs" />
     <Compile Include="EnumeratedSingleValuedPropertyTests.cs" />
     <Compile Include="Framework\CommandViewModelTests.cs" />
