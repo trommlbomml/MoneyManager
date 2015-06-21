@@ -178,6 +178,15 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Neu.
+        /// </summary>
+        public static string CategoryManagementWindow_ButtonNew {
+            get {
+                return ResourceManager.GetString("CategoryManagementWindow_ButtonNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kategorieverwaltung.
         /// </summary>
         public static string CategoryManagementWindow_Title {

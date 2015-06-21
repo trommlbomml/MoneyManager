@@ -285,4 +285,7 @@
   <data name="StandingOrderDialog_GridColmnHeader_State" xml:space="preserve">
     <value>Zustand</value>
   </data>
+  <data name="CategoryManagementWindow_ButtonNew" xml:space="preserve">
+    <value>Neu</value>
+  </data>
 </root>

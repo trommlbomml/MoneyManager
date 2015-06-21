@@ -70,6 +70,12 @@ namespace MoneyManager.Model
             _currentRepositoryName = name;
             FilePath = targetFilePath;
             _applicationContext.UpdateRecentAccountInformation(FilePath);
+
+            CreateCategory("Versicherung");
+            CreateCategory("Nahrungsmittel");
+            CreateCategory("Hobby");
+            CreateCategory("Krankenkasse");
+            CreateCategory("Rechnung");
         }
 
         public void Open(string path)

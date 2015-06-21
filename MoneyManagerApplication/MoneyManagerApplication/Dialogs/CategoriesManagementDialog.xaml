@@ -36,9 +36,10 @@
                             <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                             
                             <Button Grid.Column="1" 
-                                    Content="-" 
                                     Command="{Binding DeleteCommand}" 
-                                    Margin="2" />
+                                    Margin="2" >
+                                <ContentControl ContentTemplate="{DynamicResource DeleteIcon}" />
+                            </Button>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -46,8 +47,11 @@
         </ScrollViewer>
 
         <DockPanel Grid.Row="1">
-            
-            <Button Content="@Neu" DockPanel.Dock="Left" Command="{Binding NewCategoryCommand}" Margin="5" />
+
+            <Button Content="{x:Static properties:Resources.CategoryManagementWindow_ButtonNew}" 
+                    DockPanel.Dock="Left" 
+                    Command="{Binding NewCategoryCommand}" 
+                    Margin="5" />
             
             <UniformGrid DockPanel.Dock="Right"
                          Columns="2" 
