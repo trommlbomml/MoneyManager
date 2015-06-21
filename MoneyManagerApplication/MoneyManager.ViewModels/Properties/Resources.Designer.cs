@@ -124,6 +124,15 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fehler beim Öffnen des Konto.
+        /// </summary>
+        public static string ErrorOpenRecentAccount {
+            get {
+                return ResourceManager.GetString("ErrorOpenRecentAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0:dddd, dd. MMMM yyyy HH:mm}.
         /// </summary>
         public static string LastAccesDateFormat {
@@ -295,21 +304,31 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Verweis entfernen.
+        ///   Looks up a localized string similar to Das Konto &apos;{0}&apos; wird bereits von einem anderen Programm verwendet. Schließen Sie dieses Programm oder verwenden Sie das bereits geöffnete Programm, um Ihr Konto zu bearbeiten..
         /// </summary>
-        public static string RemoveRecentAccountMessageCaption {
+        public static string RecentAccountLockedFormat {
             get {
-                return ResourceManager.GetString("RemoveRecentAccountMessageCaption", resourceCulture);
+                return ResourceManager.GetString("RecentAccountLockedFormat", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Das Konto &apos;{0}&apos; kann nicht geöffnet werden.
+        ///   Looks up a localized string similar to Das Konto &apos;{0}&apos; kann nicht gefunden werden.
         ///Möchten Sie den Verweis aus der Liste entfernen?.
         /// </summary>
-        public static string RemoveRecentAccountMessageFormat {
+        public static string RecentAccountNotFoundFormat {
             get {
-                return ResourceManager.GetString("RemoveRecentAccountMessageFormat", resourceCulture);
+                return ResourceManager.GetString("RecentAccountNotFoundFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ein unerwarteter Fehler ist aufgetreten: {0}
+        ///Kontaktieren Sie den Entwickler..
+        /// </summary>
+        public static string RecentAccountUnexpectedErrorFormat {
+            get {
+                return ResourceManager.GetString("RecentAccountUnexpectedErrorFormat", resourceCulture);
             }
         }
         

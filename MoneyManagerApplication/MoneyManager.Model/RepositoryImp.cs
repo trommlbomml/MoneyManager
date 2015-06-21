@@ -39,7 +39,7 @@ namespace MoneyManager.Model
 
         private void LockFile(string filePath)
         {
-            if (!_applicationContext.LockFile(filePath)) throw new ApplicationException(string.Format(Properties.Resources.ErrorLockingFile, filePath));
+            if (!_applicationContext.LockFile(filePath)) throw new FileLockedException();
         }
 
         private void UnlockFile(string filePath)
@@ -75,7 +75,7 @@ namespace MoneyManager.Model
         public void Open(string path)
         {
             if (!string.IsNullOrEmpty(FilePath)) throw new ApplicationException("Repository already open. Close first to open.");
-            if (!File.Exists(path)) throw new ApplicationException("Path does not exist.");
+            if (!File.Exists(path)) throw new FileNotFoundException("Path does not exist.");
 
             LockFile(path);
             FilePath = path;

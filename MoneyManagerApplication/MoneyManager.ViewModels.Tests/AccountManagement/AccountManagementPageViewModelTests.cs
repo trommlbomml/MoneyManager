@@ -172,7 +172,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
                 CreateRecentAccountInformation(accountPath, new DateTime(2014, 4, 1)),
             };
             ApplicationContext.RecentAccounts.Returns(values.AsReadOnly());
-            Repository.When(r => r.Open(Arg.Any<string>())).Do(c => { throw new Exception("Text"); });
+            Repository.When(r => r.Open(Arg.Any<string>())).Do(c => { throw new FileNotFoundException("Text"); });
             
             if (answerYes) 
             {
@@ -186,8 +186,8 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             Repository.Received(1).Open(accountPath);
             ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>());
 
-            WindowManager.Received(1).ShowQuestion(Properties.Resources.RemoveRecentAccountMessageCaption, 
-                                                   string.Format(Properties.Resources.RemoveRecentAccountMessageFormat, accountPath), 
+            WindowManager.Received(1).ShowQuestion(Properties.Resources.ErrorOpenRecentAccount,
+                                                   string.Format(Properties.Resources.RecentAccountNotFoundFormat, accountPath), 
                                                    Arg.Any<Action>(), Arg.Any<Action>());
 
             if (answerYes)

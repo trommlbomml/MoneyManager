@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="ApplicationContext.cs" />
     <Compile Include="CategoryEntity.cs" />
+    <Compile Include="FileLockedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecentAccountInformation.cs" />
     <Compile Include="StandingOrderEntity.cs" />

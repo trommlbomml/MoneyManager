@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels.AccountManagement
@@ -71,7 +73,7 @@ namespace MoneyManager.ViewModels.AccountManagement
             }, () => { });
         }
 
-        private void ExecuteWithErrorHandling(Action action, Action onError = null)
+        private void ExecuteWithErrorHandling(Action action, Action<Exception> onError = null)
         {
             try
             {
@@ -85,7 +87,7 @@ namespace MoneyManager.ViewModels.AccountManagement
                 }
                 else
                 {
-                    onError();
+                    onError(ex);
                 }
             }
         }
@@ -104,23 +106,33 @@ namespace MoneyManager.ViewModels.AccountManagement
 
         private void OnOpenRecentAccountCommand(RecentAccountViewModel account)
         {
-            ExecuteWithErrorHandling(() =>
+            try
             {
                 Application.Repository.Open(account.Path);
                 Application.Repository.UpdateStandingOrdersToCurrentMonth();
-                Application.ActivateRequestmanagementPage(); 
-            }, () => HandleOpenRecentFailed(account));
-        }
-
-        private void HandleOpenRecentFailed(RecentAccountViewModel account)
-        {
-            Application.WindowManager.ShowQuestion(Properties.Resources.RemoveRecentAccountMessageCaption,
-                string.Format(Properties.Resources.RemoveRecentAccountMessageFormat, account.Path),
-                () =>
-                {
-                    Application.ApplicationContext.DeleteRecentAccountInformation(account.Path);
-                    _accounts.Remove(account);
-                }, () => {});
+                Application.ActivateRequestmanagementPage();
+            }
+            catch (FileLockedException)
+            {
+                var message = string.Format(Properties.Resources.RecentAccountLockedFormat, account.Path);
+                Application.WindowManager.ShowError(Properties.Resources.ErrorOpenRecentAccount, message);
+            }
+            catch (FileNotFoundException)
+            {
+                var message = string.Format(Properties.Resources.RecentAccountNotFoundFormat, account.Path);
+                Application.WindowManager.ShowQuestion(Properties.Resources.ErrorOpenRecentAccount,
+                                                       message,
+                                                        () =>
+                                                        {
+                                                            Application.ApplicationContext.DeleteRecentAccountInformation(account.Path);
+                                                            _accounts.Remove(account);
+                                                        }, () => { });
+            }
+            catch (Exception ex)
+            {
+                var message = string.Format(Properties.Resources.RecentAccountUnexpectedErrorFormat, ex.Message);
+                Application.WindowManager.ShowError(Properties.Resources.ErrorOpenRecentAccount, message);
+            }
         }
         
         private void OnCreateNewAccountCommand()

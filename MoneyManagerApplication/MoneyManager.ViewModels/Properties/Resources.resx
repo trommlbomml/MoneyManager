@@ -138,6 +138,9 @@
   <data name="CustomMonthsFormat" xml:space="preserve">
     <value>Alle {0} Monate</value>
   </data>
+  <data name="ErrorOpenRecentAccount" xml:space="preserve">
+    <value>Fehler beim Öffnen des Konto</value>
+  </data>
   <data name="LastAccesDateFormat" xml:space="preserve">
     <value>{0:dddd, dd. MMMM yyyy HH:mm}</value>
   </data>
@@ -195,12 +198,16 @@
   <data name="PerYear" xml:space="preserve">
     <value>Einmal im Jahr</value>
   </data>
-  <data name="RemoveRecentAccountMessageCaption" xml:space="preserve">
-    <value>Verweis entfernen</value>
+  <data name="RecentAccountLockedFormat" xml:space="preserve">
+    <value>Das Konto '{0}' wird bereits von einem anderen Programm verwendet. Schließen Sie dieses Programm oder verwenden Sie das bereits geöffnete Programm, um Ihr Konto zu bearbeiten.</value>
   </data>
-  <data name="RemoveRecentAccountMessageFormat" xml:space="preserve">
-    <value>Das Konto '{0}' kann nicht geöffnet werden.
+  <data name="RecentAccountNotFoundFormat" xml:space="preserve">
+    <value>Das Konto '{0}' kann nicht gefunden werden.
 Möchten Sie den Verweis aus der Liste entfernen?</value>
+  </data>
+  <data name="RecentAccountUnexpectedErrorFormat" xml:space="preserve">
+    <value>Ein unerwarteter Fehler ist aufgetreten: {0}
+Kontaktieren Sie den Entwickler.</value>
   </data>
   <data name="RequestDateFormat" xml:space="preserve">
     <value>{0:dd.MM.yyyy}</value>

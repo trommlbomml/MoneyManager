@@ -224,6 +224,9 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             var requestDialogViewModel = (RequestDialogViewModel)dialogViewModel;
             requestDialogViewModel.DescriptionProperty.Value = expectedDescription;
             requestDialogViewModel.ValueProperty.Value = Math.Abs(expectedValue);
+            requestDialogViewModel.RequestKind.Value = expectedValue < 0.0
+                ? RequestKind.Expenditure
+                : RequestKind.Earning;
             requestDialogViewModel.DateProperty.Value = expectedDate;
             if (isCategorySelected)
             {
@@ -368,8 +371,9 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(requestDialogViewModel.CreateRequestCommand.IsEnabled, Is.False);
         }
 
-        [Test]
-        public void EditRequest()
+        [TestCase(RequestKind.Earning)]
+        [TestCase(RequestKind.Expenditure)]
+        public void EditRequest(RequestKind requestKind)
         {
             DefineRequestsForMonth(2014, 6, 1);
             var screenModel = new RequestManagementPageViewModel(Application, 2014, 6);
@@ -390,13 +394,16 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             var newDate = dialog.DateProperty.Value.AddDays(2);
             dialog.DateProperty.Value = newDate;
             dialog.DescriptionProperty.Value = "New Description added";
+            dialog.RequestKind.Value = requestKind;
             dialog.ValueProperty.Value = 77.77;
 
             Application.Repository.ClearReceivedCalls();
             dialog.CreateRequestCommand.Execute(null);
 
+            var expectedValue = requestKind == RequestKind.Earning ? 77.77 : -77.77;
+
             Application.Repository.Received(1).UpdateRequest(currentRequestEntityId,
-                Arg.Is<RequestEntityData>(r => r.Description == "New Description added" && Math.Abs(r.Value - 77.77) < double.Epsilon && dialog.DateProperty.Value == newDate));
+                Arg.Is<RequestEntityData>(r => r.Description == "New Description added" && Math.Abs(r.Value - expectedValue) < double.Epsilon && dialog.DateProperty.Value == newDate));
 
             Application.Repository.Received(1).CalculateSaldoForMonth(2014, 6);
         }
