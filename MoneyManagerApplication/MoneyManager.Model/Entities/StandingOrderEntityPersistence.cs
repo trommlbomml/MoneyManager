@@ -18,6 +18,8 @@ namespace MoneyManager.Model.Entities
         public string Description { get; private set; }
         public CategoryEntity Category { get; private set; }
 
+        public StandingOrderState State { get{throw new InvalidOperationException("Calculated Property");} }
+
         public StandingOrderEntityPersistence(StandingOrderEntity entity)
         {
             PersistentId = entity.PersistentId;

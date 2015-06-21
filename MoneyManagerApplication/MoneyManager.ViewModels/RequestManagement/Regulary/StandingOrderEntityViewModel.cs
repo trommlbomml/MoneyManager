@@ -3,6 +3,13 @@ using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels.RequestManagement.Regulary
 {
+    public enum StandingOrderState
+    {
+        InActive,
+        Active,
+        Finished
+    }
+
     public class StandingOrderEntityViewModel : EntityViewModel
     {
         private string _description;
@@ -11,6 +18,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         private double _value;
         private string _valueAsString;
         private string _monthPeriodAsString;
+        private StandingOrderState _state;
 
         public StandingOrderEntityViewModel(ApplicationViewModel application, string entityId) : base(application, entityId)
         {
@@ -47,6 +55,12 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         {
             get { return _monthPeriod; }
             set { SetBackingField("MonthPeroid", ref _monthPeriod, value, o => UpdateMonthPeriodAsString()); }
+        }
+
+        public StandingOrderState State
+        {
+            get { return _state; }
+            private set { SetBackingField("State", ref _state, value); }
         }
 
         private void UpdateMonthPeriodAsString()

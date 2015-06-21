@@ -49,9 +49,9 @@
     <Compile Include="Framework\ViewModel.cs" />
     <Compile Include="AccountManagement\RecentAccountViewModel.cs" />
     <Compile Include="RequestManagement\Regulary\MonthPeriod.cs" />
-    <Compile Include="RequestManagement\Regulary\RegularyRequestDetailsViewModel.cs" />
-    <Compile Include="RequestManagement\Regulary\RegularyRequestEntityViewModel.cs" />
-    <Compile Include="RequestManagement\Regulary\RegularyRequestManagementViewModel.cs" />
+    <Compile Include="RequestManagement\Regulary\StandingOrderDetailsViewModel.cs" />
+    <Compile Include="RequestManagement\Regulary\StandingOrderEntityViewModel.cs" />
+    <Compile Include="RequestManagement\Regulary\StandingOrderManagementViewModel.cs" />
     <Compile Include="RequestManagement\RequestDialogViewModel.cs" />
     <Compile Include="RequestManagement\RequestManagementPageViewModel.cs" />
     <Compile Include="RequestManagement\RequestViewModel.cs" />

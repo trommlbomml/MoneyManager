@@ -91,6 +91,16 @@ namespace MoneyManager.Model.Entities
             set { SetProperty(ref _description, value); }
         }
 
+        public StandingOrderState State
+        {
+            get
+            {
+                if  (LastBookedDate.Date < FirstBookDate.Date) return StandingOrderState.InActive;
+                if (LastBookedDate.Date >= LastBookDate.Date) return StandingOrderState.Finished;
+                return StandingOrderState.Active;
+            }
+        }
+
         public CategoryEntity Category
         {
             get { return _category; }

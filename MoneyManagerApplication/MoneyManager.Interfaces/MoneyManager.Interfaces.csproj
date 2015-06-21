@@ -38,11 +38,12 @@
     <Compile Include="CategoryEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecentAccountInformation.cs" />
-    <Compile Include="RegularyRequestEntity.cs" />
-    <Compile Include="RegularyRequestEntityData.cs" />
+    <Compile Include="StandingOrderEntity.cs" />
+    <Compile Include="StandingOrderEntityData.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="RequestEntityData.cs" />
     <Compile Include="RequestEntity.cs" />
+    <Compile Include="StandingOrderState.cs" />
     <Compile Include="SystemConstants.cs" />
     <Compile Include="WindowManager.cs" />
   </ItemGroup>

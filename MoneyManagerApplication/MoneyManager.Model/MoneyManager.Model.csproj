@@ -52,7 +52,7 @@
     <Compile Include="RepositoryFactory.cs" />
     <Compile Include="RepositoryImp.Categories.cs" />
     <Compile Include="RepositoryImp.cs" />
-    <Compile Include="RepositoryImp.RegularyRequests.cs" />
+    <Compile Include="RepositoryImp.StandingOrders.cs" />
     <Compile Include="RepositoryImp.Requests.cs" />
     <Compile Include="Entities\RequestEntityImp.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

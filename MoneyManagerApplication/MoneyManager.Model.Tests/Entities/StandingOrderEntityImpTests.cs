@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
+using MoneyManager.Interfaces;
 using MoneyManager.Model.Entities;
 using NUnit.Framework;
 
@@ -100,6 +101,31 @@ namespace MoneyManager.Model.Tests.Entities
             var nextDateTime = entity.GetNextPaymentDateTime();
 
             Assert.That(nextDateTime, Is.EqualTo(expectedDateTime));
+        }
+
+        protected static IEnumerable<TestCaseData> StateIsCalculatedCorrectlyTestCases()
+        {
+            yield return new TestCaseData(new DateTime(2014, 4, 1), new DateTime(2014, 10, 1), DateTime.MinValue, StandingOrderState.InActive);
+            yield return new TestCaseData(new DateTime(2014, 4, 1), new DateTime(2014, 10, 1), new DateTime(2014, 3, 1), StandingOrderState.InActive);
+            yield return new TestCaseData(new DateTime(2014, 4, 1), new DateTime(2014, 10, 1), new DateTime(2014, 4, 1), StandingOrderState.Active);
+            yield return new TestCaseData(new DateTime(2014, 4, 1), new DateTime(2014, 10, 1), new DateTime(2014, 5, 1), StandingOrderState.Active);
+            yield return new TestCaseData(new DateTime(2014, 4, 1), new DateTime(2014, 10, 1), new DateTime(2014, 10, 1), StandingOrderState.Finished);
+        }
+
+        [TestCaseSource("StateIsCalculatedCorrectlyTestCases")]
+        public void StateIsCalculatedCorrectly(DateTime firstBookDate, DateTime lastBookDate, DateTime lastBookedDate, StandingOrderState expectedState)
+        {
+            var entity = new StandingOrderEntityImp
+            {
+                MonthPeriodStep = 1,
+                ReferenceDay = 1,
+                ReferenceMonth = 4,
+                FirstBookDate = firstBookDate,
+                LastBookDate = lastBookDate,
+                LastBookedDate = lastBookedDate
+            };
+
+            Assert.That(entity.State, Is.EqualTo(expectedState));
         }
 
         [TestCase(true)]

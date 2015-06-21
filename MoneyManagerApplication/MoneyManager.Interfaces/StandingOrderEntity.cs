@@ -53,6 +53,11 @@ namespace MoneyManager.Interfaces
         string Description { get; }
 
         /// <summary>
+        /// Zustand des Dauerauftrages.
+        /// </summary>
+        StandingOrderState State { get; }
+
+        /// <summary>
         /// Category.
         /// </summary>
         CategoryEntity Category { get; }
