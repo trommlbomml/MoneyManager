@@ -62,13 +62,13 @@ namespace MoneyManager.ViewModels.RequestManagement
             FirstPossibleDate = new DateTime(year, month, 1);
             LastPossibleDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
             RequestKind.SetRange(Enum.GetValues(typeof(RequestKind)).Cast<RequestKind>());
-            RequestKind.Value = RequestManagement.RequestKind.Expenditure; 
-            
-            foreach (var category in application.Repository.QueryAllCategories().Select(c => new CategoryViewModel(application, c.PersistentId)).OrderBy(c => c.Name))
-            {
-                Categories.AddValue(category);
-                category.Refresh();
-            }
+            RequestKind.Value = RequestManagement.RequestKind.Expenditure;
+
+            var categories = application.Repository.QueryAllCategories()
+                                                   .Select(c => new CategoryViewModel(application, c.PersistentId))
+                                                   .ToList();
+            categories.ForEach(c => c.Refresh());
+            Categories.SetRange(categories.OrderBy(c => c.Name));
 
             if (!string.IsNullOrEmpty(selectedCategoryId))
             {
