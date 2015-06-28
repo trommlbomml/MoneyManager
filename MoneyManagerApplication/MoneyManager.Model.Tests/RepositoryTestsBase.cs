@@ -36,6 +36,7 @@ namespace MoneyManager.Model.Tests
             Repository = new RepositoryImp(Context, PersistenceHandler);
             DatabaseFile = GetUniqueFilePath(true);
             Repository.Create(DatabaseFile, "DefaultName");
+            PersistenceHandler.ClearReceivedCalls();
         }
 
         [TearDown]
@@ -82,6 +83,7 @@ namespace MoneyManager.Model.Tests
             {
                 Repository.AddCategory(categoryEntityImp);
             }
+            PersistenceHandler.ClearReceivedCalls();
             return allCategories;
         }
     }

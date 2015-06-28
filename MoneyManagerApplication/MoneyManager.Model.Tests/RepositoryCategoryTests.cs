@@ -13,11 +13,8 @@ namespace MoneyManager.Model.Tests
         [Test]
         public void QueryAllCategories()
         {
-            var allCategories = CreateCategoriesInRepository(5);
-
             var categories = Repository.QueryAllCategories().ToArray();
-            Assert.That(categories.Length, Is.EqualTo(allCategories.Length));
-            Assert.That(categories.OrderBy(c => c.Name).Select(c => c.PersistentId), Is.EqualTo(allCategories.Select(c => c.PersistentId)));
+            Assert.That(categories.Length, Is.EqualTo(5));
         }
 
         [Test]
@@ -27,10 +24,9 @@ namespace MoneyManager.Model.Tests
             var persistentId = originalCategory.PersistentId;
 
             Repository.AddCategory(originalCategory);
-
             Repository.UpdateCategory(persistentId, "New Category Name");
 
-            var categoryQueried = Repository.QueryAllCategories().First();
+            var categoryQueried = Repository.QueryCategory(persistentId);
 
             Assert.That(categoryQueried.PersistentId, Is.EqualTo(persistentId));
             Assert.That(categoryQueried.Name, Is.EqualTo("New Category Name"));
@@ -76,7 +72,7 @@ namespace MoneyManager.Model.Tests
 
             var persistentIdsAfterDelete = Repository.QueryAllCategories().Select(c => c.PersistentId).ToArray();
 
-            Assert.That(persistentIdsAfterDelete.Length, Is.EqualTo(4));
+            Assert.That(persistentIdsAfterDelete.Length, Is.EqualTo(9));
             CollectionAssert.AreEquivalent(allCategoryIdsBeforeDelete.Except(new[] { categoryPersistentIdToDelete }), persistentIdsAfterDelete);
 
             PersistenceHandler.Received(1).SaveChanges(Arg.Is<SavingTask>(t => t.RequestsToUpdate.Count == 0 &&

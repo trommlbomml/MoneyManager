@@ -196,7 +196,7 @@ namespace MoneyManager.Model.Tests
         public void OpenRepositoryWhereFileDoesNotExistThrowsException()
         {
             var repository = CreateRepository();
-            Assert.That(() => repository.Open(@"X:\test.mmdb"), Throws.InstanceOf<ApplicationException>());
+            Assert.That(() => repository.Open(@"X:\test.mmdb"), Throws.InstanceOf<FileNotFoundException>());
             Assert.That(repository.IsOpen, Is.False);
         }
     }
