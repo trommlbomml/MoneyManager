@@ -459,6 +459,15 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;Unbefristeter Dauerauftrag&gt;.
+        /// </summary>
+        public static string StandingOrderDialog_NoLastBookDate {
+            get {
+                return ResourceManager.GetString("StandingOrderDialog_NoLastBookDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Aktiv.
         /// </summary>
         public static string StandingOrderEntityViewModel_StateActive {

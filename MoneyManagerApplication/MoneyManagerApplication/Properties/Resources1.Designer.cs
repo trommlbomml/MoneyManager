@@ -439,6 +439,24 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Anzahl der Buchungen.
+        /// </summary>
+        public static string StandingOrderDialog_BookCount {
+            get {
+                return ResourceManager.GetString("StandingOrderDialog_BookCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Buchungen.
+        /// </summary>
+        public static string StandingOrderDialog_BookingCount {
+            get {
+                return ResourceManager.GetString("StandingOrderDialog_BookingCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Verwerfen.
         /// </summary>
         public static string StandingOrderDialog_Cancel {
@@ -493,7 +511,16 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Erste Buchung.
+        ///   Looks up a localized string similar to Befristet:.
+        /// </summary>
+        public static string StandingOrderDialog_EndingTransaction {
+            get {
+                return ResourceManager.GetString("StandingOrderDialog_EndingTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Buchung.
         /// </summary>
         public static string StandingOrderDialog_FirstBookDate {
             get {
@@ -534,6 +561,15 @@ namespace MoneyManagerApplication.Properties {
         public static string StandingOrderDialog_GridColmnHeader_Value {
             get {
                 return ResourceManager.GetString("StandingOrderDialog_GridColmnHeader_Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Letzte Buchung.
+        /// </summary>
+        public static string StandingOrderDialog_LastBooking {
+            get {
+                return ResourceManager.GetString("StandingOrderDialog_LastBooking", resourceCulture);
             }
         }
         

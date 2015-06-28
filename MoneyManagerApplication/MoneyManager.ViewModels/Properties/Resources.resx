@@ -251,6 +251,9 @@ Kontaktieren Sie den Entwickler.</value>
   <data name="RequestManagementPageCaptionFormat" xml:space="preserve">
     <value>Transaktionsverwaltung - {0}</value>
   </data>
+  <data name="StandingOrderDialog_NoLastBookDate" xml:space="preserve">
+    <value>&lt;Unbefristeter Dauerauftrag&gt;</value>
+  </data>
   <data name="StandingOrderEntityViewModel_StateActive" xml:space="preserve">
     <value>Aktiv</value>
   </data>

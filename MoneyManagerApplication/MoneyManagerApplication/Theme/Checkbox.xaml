@@ -9,7 +9,7 @@
                 <ControlTemplate TargetType="CheckBox">
                     <BulletDecorator Background="Transparent">
                         <BulletDecorator.Bullet>
-                            <Grid>
+                            <Grid VerticalAlignment="Bottom">
                                 <Border x:Name="Border"  
                                       Width="13" 
                                       Height="13" 

@@ -18,7 +18,6 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         <Style TargetType="{x:Type ComboBoxItem}" x:Key="MonthItemStyle">
-            <Setter Property="Visibility" Value="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </Style>
 
         <DataTemplate DataType="{x:Type regulary:StandingOrderDetailsViewModel}">
@@ -37,74 +36,162 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
-                <Label Content="{x:Static properties:Resources.StandingOrderDialog_Description}" Grid.Column="0" Grid.Row="0" />
-                <TextBox Text="{Binding Description}" Grid.Column="1" Grid.Row="0" IsEnabled="{Binding IsInEditMode}"/>
+                <Label Content="{x:Static properties:Resources.StandingOrderDialog_Description}" 
+                       Margin="5"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       Grid.Column="0" 
+                       Grid.Row="0" />
+                <TextBox Text="{Binding DescriptionProperty.Value}" 
+                         Margin="5"
+                         Grid.Column="1" 
+                         VerticalAlignment="Center"
+                         Grid.Row="0" 
+                         IsEnabled="{Binding IsInEditMode}"/>
 
-                <Label Content="{x:Static properties:Resources.StandingOrderDialog_Period}" Grid.Column="0" Grid.Row="1" />
+                <Label Content="{x:Static properties:Resources.StandingOrderDialog_Category}" 
+                       Margin="5"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       Grid.Column="0" 
+                       Width="Auto"
+                       Grid.Row="1" />
                 <ComboBox Grid.Column="1" 
                           Grid.Row="1" 
+                          Margin="5"
                           IsEnabled="{Binding IsInEditMode}"
-                          ItemContainerStyle="{StaticResource MonthItemStyle}"
-                          ItemsSource="{Binding MonthPeriods.SelectableValues}" 
-                          SelectedValue="{Binding MonthPeriods.Value}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=., Converter={x:Static converters:MonthPeriodToNameConverter.Instance}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-
-                <Label Content="{x:Static properties:Resources.StandingOrderDialog_Value}" Grid.Column="0" Grid.Row="2" />
-                <xctk:DecimalUpDown Margin="5"
-                            HorizontalAlignment="Left"
-                            FormatString="C"
-                            IsEnabled="{Binding IsInEditMode}"
-                            Grid.Column="1"
-                            Grid.Row="2"
-                            Width="100"
-                            Value="{Binding Value, UpdateSourceTrigger=PropertyChanged, ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
-
-                <Label Content="{x:Static properties:Resources.StandingOrderDialog_Category}" Grid.Column="0" Grid.Row="3" />
-                <ComboBox Grid.Column="1" 
-                          Grid.Row="3" 
-                          IsEnabled="{Binding IsInEditMode}"
+                          VerticalAlignment="Center"
                           DisplayMemberPath="Name"
                           ItemsSource="{Binding Categories.SelectableValues}" 
                           SelectedValue="{Binding Categories.Value, UpdateSourceTrigger=PropertyChanged}" />
 
-                <Label Content="{x:Static properties:Resources.StandingOrderDialog_FirstBookDate}" Grid.Column="0" Grid.Row="4" />
-                <DatePicker Grid.Column="1" 
-                            Grid.Row="4" 
-                            IsEnabled="{Binding IsInEditMode}" 
-                            SelectedDate="{Binding FirstBookDate, UpdateSourceTrigger=PropertyChanged}" />
-               
-                <CheckBox Grid.Row="5" 
-                          Grid.Column="1" 
-                          Content="@Befristete Transaktion" 
-                          IsChecked="{Binding IsEndingTransactionProperty.Value}"
-                          IsEnabled="{Binding IsEndingTransactionProperty.IsEnabled}" />
-
-                <Label Content="@Letztes Abbuchungsdatum" Grid.Column="0" Grid.Row="6" />
-                <Label Content="{Binding LastBookDateAsString}" Grid.Column="1" Grid.Row="6" />
-
-                <Label Content="@Buchungsanzahl" Grid.Column="0" Grid.Row="7" />
-                <xctk:DecimalUpDown Margin="5"
-                            HorizontalAlignment="Left"
+                <Label Content="{x:Static properties:Resources.StandingOrderDialog_Value}" 
+                       Margin="5"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       Grid.Column="0" 
+                       Grid.Row="2" />
+                <StackPanel Grid.Row="2" 
                             Grid.Column="1"
-                            Grid.Row="7"
+                            Orientation="Horizontal">
+                    <xctk:DecimalUpDown Margin="5"
+                            HorizontalAlignment="Left"
+                            FormatString="C"
+                            IsEnabled="{Binding IsInEditMode}"
+                            Minimum="0"
                             Width="100"
+                            Value="{Binding ValueProperty.Value, 
+                                            UpdateSourceTrigger=PropertyChanged, 
+                                            ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture},
+                                            ValidatesOnDataErrors=True}" />
+                    
+                    <Grid>
+
+                        <ComboBox Margin="5"
+                                  Visibility="{Binding ValueProperty.ErrorMessage, Converter={x:Static converters:StringSetToHiddenConverter.Instance}}"
+                                  ItemContainerStyle="{StaticResource MonthItemStyle}"
+                                  ItemsSource="{Binding RequestKind.SelectableValues}"
+                                  SelectedItem="{Binding RequestKind.Value}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=.,Converter={x:Static converters:RequestKindToNameConverter.Instance}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <TextBlock Margin="5" 
+                                   Text="{Binding ValueProperty.ErrorMessage}" 
+                                   Style="{DynamicResource ValidationText}" />
+                    </Grid>
+                </StackPanel>
+
+                <Label Content="{x:Static properties:Resources.StandingOrderDialog_FirstBookDate}" 
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       Margin="5"
+                       Grid.Column="0" 
+                       Grid.Row="5" />
+                <StackPanel Grid.Column="1" 
+                             Grid.Row="5"
+                            Orientation="Horizontal">
+                    <DatePicker
+                            Margin="5"
+                            Width="100"
+                            VerticalAlignment="Center"
+                            IsEnabled="{Binding IsInEditMode}" 
+                            SelectedDate="{Binding FirstBookDateProperty.Value, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <ComboBox Margin="5"
+                              IsEnabled="{Binding IsInEditMode}"
+                              VerticalAlignment="Center"
+                              ItemContainerStyle="{StaticResource MonthItemStyle}"
+                              ItemsSource="{Binding MonthPeriods.SelectableValues}" 
+                              SelectedValue="{Binding MonthPeriods.Value}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=., Converter={x:Static converters:MonthPeriodToNameConverter.Instance}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <CheckBox Margin="5"
+                              VerticalAlignment="Center"
+                              Content="{x:Static properties:Resources.StandingOrderDialog_EndingTransaction}" 
+                              IsChecked="{Binding IsEndingTransactionProperty.Value}"
+                              IsEnabled="{Binding IsEndingTransactionProperty.IsEnabled}" />
+
+                    <xctk:DecimalUpDown Margin="0,5,5,5"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding IsEndingTransactionProperty.Value, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Width="50"
                             Minimum="1"
                             IsEnabled="{Binding PaymentsProperty.IsEnabled}"
                             Value="{Binding PaymentsProperty.Value, UpdateSourceTrigger=PropertyChanged}" />
 
-                <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Label Visibility="{Binding IsEndingTransactionProperty.Value, Converter={StaticResource BooleanToVisibilityConverter}}"
+                           Content="{x:Static properties:Resources.StandingOrderDialog_BookingCount}" 
+                           Margin="5" 
+                           VerticalAlignment="Center" />
+
+                </StackPanel>
+
+
+               <Label Content="{x:Static properties:Resources.StandingOrderDialog_LastBooking}" 
+                      Margin="5"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Center" 
+                      Grid.Column="0" 
+                      Grid.Row="6" />
+
+                <Grid Grid.Column="1"
+                      Grid.Row="6">
+                    <TextBox 
+                         Margin="5"
+                         Width="100"
+                         HorizontalAlignment="Left"
+                         Text="{Binding LastBookDateAsString}"
+                         IsReadOnlyCaretVisible="False"
+                         Visibility="{Binding IsEndingTransactionProperty.Value, Converter={StaticResource BooleanToVisibilityConverter}}"
+                         IsReadOnly="True" />
+
+                    <TextBlock HorizontalAlignment="Left" 
+                               Margin="5" 
+                               Visibility="Hidden"
+                               Text="{Binding LastBookDateAsString}" />
+                </Grid>
+                
+
+                <StackPanel Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button Content="{x:Static properties:Resources.StandingOrderDialog_Save}" Command="{Binding SaveCommand}" />
                     <Button Content="{x:Static properties:Resources.StandingOrderDialog_Cancel}" Command="{Binding CancelCommand}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
+        
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

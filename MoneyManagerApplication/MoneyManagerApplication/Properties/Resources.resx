@@ -181,7 +181,7 @@
     <value>Bearbeiten</value>
   </data>
   <data name="StandingOrderDialog_FirstBookDate" xml:space="preserve">
-    <value>Erste Buchung</value>
+    <value>Buchung</value>
   </data>
   <data name="StandingOrderDialog_GridColmnHeader_Description" xml:space="preserve">
     <value>Beschreibung</value>
@@ -302,5 +302,17 @@
   </data>
   <data name="StandingOrders_WindowTitle" xml:space="preserve">
     <value>Daueraufträge verwalten</value>
+  </data>
+  <data name="StandingOrderDialog_BookCount" xml:space="preserve">
+    <value>Anzahl der Buchungen</value>
+  </data>
+  <data name="StandingOrderDialog_EndingTransaction" xml:space="preserve">
+    <value>Befristet:</value>
+  </data>
+  <data name="StandingOrderDialog_LastBooking" xml:space="preserve">
+    <value>Letzte Buchung</value>
+  </data>
+  <data name="StandingOrderDialog_BookingCount" xml:space="preserve">
+    <value>Buchungen</value>
   </data>
 </root>
