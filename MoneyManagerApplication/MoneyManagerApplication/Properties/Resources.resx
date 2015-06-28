@@ -294,4 +294,13 @@
   <data name="CreatedRequestDialog_WindowTitle" xml:space="preserve">
     <value>Startinformation</value>
   </data>
+  <data name="StandingOrders_ChooseStandingOrder" xml:space="preserve">
+    <value>Daueraufträge verwalten</value>
+  </data>
+  <data name="StandingOrders_ShowFinishedStandingOrders" xml:space="preserve">
+    <value>Abgeschlossene Aufträge anzeigen</value>
+  </data>
+  <data name="StandingOrders_WindowTitle" xml:space="preserve">
+    <value>Daueraufträge verwalten</value>
+  </data>
 </root>

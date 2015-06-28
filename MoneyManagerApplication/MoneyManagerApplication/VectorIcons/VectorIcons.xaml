@@ -17,7 +17,7 @@
         </Viewbox>
     </DataTemplate>
 
-    <DataTemplate x:Key="CheckMarkVectorIcon">
+    <DataTemplate x:Key="CheckMark">
         <Viewbox Width="16.045" Height="11.742">
             <Canvas Width="16.045" Height="11.742">
                 <Path StrokeThickness="2.0" 

@@ -6,13 +6,21 @@
         xmlns:regulary="clr-namespace:MoneyManager.ViewModels.RequestManagement.Regulary;assembly=MoneyManager.ViewModels"
         xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:interfaces="clr-namespace:MoneyManager.Interfaces;assembly=MoneyManager.Interfaces"
         WindowStartupLocation="CenterOwner"
         Icon="../logo.ico"
         ShowInTaskbar="False"
-        Width="640"
-        Height="400"
+        Width="800"
+        Height="500"
+        Title="{x:Static properties:Resources.StandingOrders_WindowTitle}"
         WindowStyle="SingleBorderWindow">
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <Style TargetType="{x:Type ComboBoxItem}" x:Key="MonthItemStyle">
+            <Setter Property="Visibility" Value="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </Style>
+
         <DataTemplate DataType="{x:Type regulary:StandingOrderDetailsViewModel}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -38,6 +46,7 @@
                 <ComboBox Grid.Column="1" 
                           Grid.Row="1" 
                           IsEnabled="{Binding IsInEditMode}"
+                          ItemContainerStyle="{StaticResource MonthItemStyle}"
                           ItemsSource="{Binding MonthPeriods.SelectableValues}" 
                           SelectedValue="{Binding MonthPeriods.Value}">
                     <ComboBox.ItemTemplate>
@@ -100,17 +109,39 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
-        <StackPanel Orientation="Horizontal">
-            <Button Content="{x:Static properties:Resources.StandingOrderDialog_New}" Command="{Binding CreateStandingOrderCommand}" />
-            <Button Content="{x:Static properties:Resources.StandingOrderDialog_Delete}" Command="{Binding DeleteStandingOrderCommand}" />
+
+        <StackPanel Orientation="Horizontal" 
+                    Background="{DynamicResource ThemebackgroundBrush}" 
+                    Margin="0,5">
+            <Button Style="{DynamicResource ToolbarButtonStyle}" 
+                    Content="{x:Static properties:Resources.StandingOrderDialog_New}" 
+                    Command="{Binding CreateStandingOrderCommand}" 
+                    Padding="8" />
+            <Button Style="{DynamicResource ToolbarButtonStyle}" 
+                    Content="{x:Static properties:Resources.StandingOrderDialog_Delete}" 
+                    Command="{Binding DeleteStandingOrderCommand}" 
+                    Padding="8" />
         </StackPanel>
-        
-        <DataGrid Grid.Row="1" 
+
+        <Border Grid.Row="1" 
+                Background="{DynamicResource VeryLightBackground}" 
+                Margin="0,5" 
+                VerticalAlignment="Stretch">
+            <TextBlock Text="{x:Static properties:Resources.StandingOrders_ChooseStandingOrder}" 
+                        FontWeight="Bold" 
+                        Margin="4"/>
+        </Border>
+
+        <CheckBox Grid.Row="2" 
+                  Margin="10" 
+                  Content="{x:Static properties:Resources.StandingOrders_ShowFinishedStandingOrders}" />
+
+        <DataGrid Grid.Row="3"
                   ItemsSource="{Binding StandingOrders.SelectableValues}" 
                   SelectedItem="{Binding StandingOrders.Value, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" 
@@ -119,21 +150,66 @@
                   SelectionMode="Single"
                   IsEnabled="{Binding Details.IsInEditMode, Converter={x:Static converters:BoolInverseConverter.Instance}, FallbackValue=true}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static properties:Resources.StandingOrderDialog_GridColmnHeader_State}" Binding="{Binding StateAsString}" Width="Auto" />
+                <DataGridTemplateColumn Header="{x:Static properties:Resources.StandingOrderDialog_GridColmnHeader_State}" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type regulary:StandingOrderEntityViewModel}">
+                            <StackPanel Orientation="Horizontal">
+                                <Grid>
+                                    <Ellipse x:Name="InactiveCircle" 
+                                             Visibility="Collapsed" 
+                                             Width="12" 
+                                             Height="12" 
+                                             Margin="2,0" 
+                                             SnapsToDevicePixels="True"
+                                             VerticalAlignment="Center" 
+                                             Fill="White" 
+                                             Stroke="{DynamicResource LightBackground}"
+                                             StrokeThickness="1" />
+                                    <Ellipse x:Name="ActiveCircle" 
+                                             Visibility="Collapsed" 
+                                             Width="12"
+                                             Height="12" 
+                                             SnapsToDevicePixels="True"
+                                             Margin="2,0" 
+                                             VerticalAlignment="Center" 
+                                             Fill="ForestGreen" 
+                                             Stroke="{DynamicResource LightBackground}"
+                                             StrokeThickness="1" />
+                                    <Ellipse x:Name="CompletedCircle"
+                                             Visibility="Collapsed" 
+                                             Width="12" 
+                                             SnapsToDevicePixels="True"
+                                             Height="12" 
+                                             Margin="2,0" 
+                                             VerticalAlignment="Center" 
+                                             Fill="Gray" 
+                                             Stroke="{DynamicResource LightBackground}"
+                                             StrokeThickness="1" />
+                                </Grid>
+                                <TextBlock Text="{Binding StateAsString}" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding State}" Value="{x:Static interfaces:StandingOrderState.InActive}">
+                                    <Setter TargetName="InactiveCircle" Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding State}" Value="{x:Static interfaces:StandingOrderState.Active}">
+                                    <Setter TargetName="ActiveCircle" Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding State}" Value="{x:Static interfaces:StandingOrderState.Finished}">
+                                    <Setter TargetName="CompletedCircle" Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="{x:Static properties:Resources.StandingOrderDialog_GridColmnHeader_Description}" Binding="{Binding Description}" Width="*" />
                 <DataGridTextColumn Header="{x:Static properties:Resources.StandingOrderDialog_GridColmnHeader_Value}" Binding="{Binding ValueAsString}" Width="Auto" />
                 <DataGridTextColumn Header="{x:Static properties:Resources.StandingOrderDialog_GridColmnHeader_MonthPeroid}" Binding="{Binding MonthPeriodAsString}" Width="Auto" />
             </DataGrid.Columns>
         </DataGrid>
-        
-        <Border Grid.Row="2" BorderThickness="1" Margin="2" BorderBrush="Black">
-            <ContentControl Content="{Binding Details}" />
-        </Border>
-        
-        <Button Grid.Row="3" 
-                Click="CloseCommandClicked"
-                IsEnabled="{Binding Details.IsInEditMode, Converter={x:Static converters:BoolInverseConverter.Instance}, FallbackValue=true}"
-                HorizontalAlignment="Right" 
-                Content="{x:Static properties:Resources.StandingOrderDialog_Close}" Margin="2" Padding="15,2" />
+
+        <ContentControl Grid.Row="4" Content="{Binding Details}" />
     </Grid>
+
+
 </Window>

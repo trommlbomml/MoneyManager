@@ -574,6 +574,33 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Daueraufträge verwalten.
+        /// </summary>
+        public static string StandingOrders_ChooseStandingOrder {
+            get {
+                return ResourceManager.GetString("StandingOrders_ChooseStandingOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abgeschlossene Aufträge anzeigen.
+        /// </summary>
+        public static string StandingOrders_ShowFinishedStandingOrders {
+            get {
+                return ResourceManager.GetString("StandingOrders_ShowFinishedStandingOrders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Daueraufträge verwalten.
+        /// </summary>
+        public static string StandingOrders_WindowTitle {
+            get {
+                return ResourceManager.GetString("StandingOrders_WindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Abbrechen.
         /// </summary>
         public static string Window_CancelCommandCaption {
