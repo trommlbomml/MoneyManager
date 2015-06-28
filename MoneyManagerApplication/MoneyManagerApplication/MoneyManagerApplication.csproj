@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationSettings\ApplicationContextImp.cs" />
     <Compile Include="Converters\BoolInverseConverter.cs" />
+    <Compile Include="Converters\BoolToHiddenConverter.cs" />
     <Compile Include="Converters\MonthPeriodToNameConverter.cs" />
     <Compile Include="Converters\RequestKindToNameConverter.cs" />
     <Compile Include="Converters\StringSetToHiddenConverter.cs" />
