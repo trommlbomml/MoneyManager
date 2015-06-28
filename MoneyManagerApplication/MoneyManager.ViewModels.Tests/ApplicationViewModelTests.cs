@@ -1,4 +1,5 @@
 ﻿using MoneyManager.ViewModels.RequestManagement;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace MoneyManager.ViewModels.Tests
@@ -17,12 +18,13 @@ namespace MoneyManager.ViewModels.Tests
             Assert.That(application.ActivePage, Is.Null);
         }
 
-        [Test]
-        public void ActivateRequestManagementScreen()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void ActivateRequestManagementScreen(bool hasRequests)
         {
             var application = new ApplicationViewModel(Repository, ApplicationContext, WindowManager);
 
-            application.ActivateRequestmanagementPage();
+            application.ActivateRequestmanagementPage(hasRequests ? new [] {"TestEntity"} : null);
 
             var currentDateTime = ApplicationContext.Now;
 
@@ -31,6 +33,15 @@ namespace MoneyManager.ViewModels.Tests
             var activeScreen = (RequestManagementPageViewModel) application.ActivePage;
             Assert.That(activeScreen.Year, Is.EqualTo(currentDateTime.Year));
             Assert.That(activeScreen.Month, Is.EqualTo(currentDateTime.Month));
+
+            if (hasRequests)
+            {
+                WindowManager.Received(1).ShowDialog(Arg.Is<CreatedRequestsDialogViewModel>(r => r.CreatedRequests.Count == 1 && r.CreatedRequests[0].EntityId == "TestEntity"));
+            }
+            else
+            {
+                WindowManager.DidNotReceiveWithAnyArgs().ShowDialog(Arg.Any<object>());
+            }
         }
 
         [Test]

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Interop;
 using Microsoft.Win32;
 using MoneyManager.Interfaces;
+using MoneyManager.ViewModels;
 using MoneyManager.ViewModels.RequestManagement;
 using MoneyManager.ViewModels.RequestManagement.Regulary;
 using MoneyManagerApplication.Dialogs;
@@ -26,6 +27,7 @@ namespace MoneyManagerApplication
             {typeof (RequestDialogViewModel), () => new RequestDialog()},
             {typeof (CategoryManagementDialogViewModel), () => new CategoriesManagementDialog()},
             {typeof (StandingOrderManagementViewModel), () => new StandingOrderDialog()},
+            {typeof (CreatedRequestsDialogViewModel), () => new CreatedRequestsDialog()},
         };
 
         private static Window GetWindowFromViewModelType(Type type)

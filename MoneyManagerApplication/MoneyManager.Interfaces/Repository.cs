@@ -148,8 +148,9 @@ namespace MoneyManager.Interfaces
         double CalculateSaldoForMonth(int year, int month);
 
         /// <summary>
-        /// Updates all regulary Requests to 
+        /// Updates all regulary Requests to the current month and returns all created requests.
         /// </summary>
-        void UpdateStandingOrdersToCurrentMonth();
+        /// <returns>newly created Request-Entities.</returns>
+        string[] UpdateStandingOrdersToCurrentMonth();
     }
 }

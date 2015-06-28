@@ -62,7 +62,7 @@ namespace MoneyManager.Model.Tests
             });
             PersistenceHandler.ClearReceivedCalls();
             
-            Repository.UpdateStandingOrdersToCurrentMonth();
+            var requestIds = Repository.UpdateStandingOrdersToCurrentMonth();
 
             var requests = Repository.AllRequests.OrderBy(r => r.Date).ToArray();
             Assert.That(requests.Length, Is.EqualTo(7));
@@ -81,6 +81,9 @@ namespace MoneyManager.Model.Tests
                                                                                t.EntitiesToDelete.Count == 0 &&
                                                                                t.StandingOrdersToUpdate.Count == 1 &&
                                                                                t.FilePath == DatabaseFile));
+
+            Assert.That(requestIds.Length, Is.EqualTo(7));
+            CollectionAssert.AreEquivalent(requestIds, requests.Select(r => r.PersistentId).ToArray());
         }
     }
 }

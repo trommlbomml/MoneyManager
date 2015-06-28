@@ -196,6 +196,33 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Seit dem Sie das letzten Mal Ihre Finanzen verwaltet haben sind folgende Daueraufträge automatisch für Sie eingetragen worden:.
+        /// </summary>
+        public static string CreatedRequestDialog_Description {
+            get {
+                return ResourceManager.GetString("CreatedRequestDialog_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Willkommen zurück!.
+        /// </summary>
+        public static string CreatedRequestDialog_Title {
+            get {
+                return ResourceManager.GetString("CreatedRequestDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Startinformation.
+        /// </summary>
+        public static string CreatedRequestDialog_WindowTitle {
+            get {
+                return ResourceManager.GetString("CreatedRequestDialog_WindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Halbjährlich.
         /// </summary>
         public static string PeriodName_HalfYearly {

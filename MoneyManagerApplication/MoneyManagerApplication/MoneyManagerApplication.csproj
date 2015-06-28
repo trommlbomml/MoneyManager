@@ -64,6 +64,9 @@
       <DependentUpon>CategoriesManagementDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ApplicationSettings\RecentAccountInformationImp.cs" />
+    <Compile Include="Dialogs\CreatedRequestsDialog.xaml.cs">
+      <DependentUpon>CreatedRequestsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\RegularyRequestDialog.xaml.cs">
       <DependentUpon>RegularyRequestDialog.xaml</DependentUpon>
     </Compile>
@@ -78,6 +81,10 @@
     </Compile>
     <Compile Include="WindowManagerImp.cs" />
     <Page Include="Dialogs\CategoriesManagementDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\CreatedRequestsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

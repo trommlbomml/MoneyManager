@@ -1,0 +1,73 @@
+﻿<Window x:Class="MoneyManagerApplication.Dialogs.CreatedRequestsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:properties="clr-namespace:MoneyManagerApplication.Properties"
+        Title="{x:Static properties:Resources.CreatedRequestDialog_WindowTitle}" 
+        WindowStartupLocation="CenterOwner"
+        Icon="../logo.ico"
+        ShowInTaskbar="False"
+        Width="640"
+        SizeToContent="Height"
+        MinHeight="300"
+        ResizeMode="NoResize"
+        WindowStyle="SingleBorderWindow">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" 
+               FontSize="{DynamicResource Heading1FontSize}" 
+               Margin="5"
+               Text="{x:Static properties:Resources.CreatedRequestDialog_Title}"/>
+        <TextBlock Grid.Row="1" 
+                   Margin="5"
+                   TextWrapping="Wrap"
+                   FontSize="{DynamicResource ContentTextFontSize}" 
+                   Text="{x:Static properties:Resources.CreatedRequestDialog_Description}" />
+
+        <DataGrid Grid.Row="2" 
+                  Margin="5"
+                  ItemsSource="{Binding CreatedRequests}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False" 
+                  CanUserDeleteRows="False" 
+                  CanUserReorderColumns="False" 
+                  CanUserResizeRows="False" 
+                  CanUserSortColumns="True"
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{x:Static properties:Resources.RequestManagementPage_DataGridColumnDate}" 
+                                        IsReadOnly="True"
+                                        Binding="{Binding DateAsString}" 
+                                        Width="Auto" />
+                <DataGridTextColumn Header="{x:Static properties:Resources.RequestManagementPage_DataGridColumnCategory}" 
+                                        IsReadOnly="True"
+                                        Binding="{Binding Category}"
+                                        Width="Auto"/>
+                <DataGridTextColumn Header="{x:Static properties:Resources.RequestManagementPage_DataGridColumnDescription}" 
+                                        IsReadOnly="True"
+                                        Binding="{Binding Description}"
+                                        Width="*"/>
+                <DataGridTextColumn Header="{x:Static properties:Resources.RequestManagementPage_DataGridColumnValue}" 
+                                        IsReadOnly="True"
+                                        Binding="{Binding ValueAsString}"
+                                        Width="Auto">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <DockPanel Grid.Row="3" Margin="5">
+            <Button Content="OK" Click="OnClickOk" DockPanel.Dock="Right" HorizontalAlignment="Right" Padding="30,5" />
+        </DockPanel>
+        
+    </Grid>
+</Window>

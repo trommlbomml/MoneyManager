@@ -57,12 +57,14 @@ namespace MoneyManager.Model
             return _allStandingOrders;
         }
 
-        public void UpdateStandingOrdersToCurrentMonth()
+        public string[] UpdateStandingOrdersToCurrentMonth()
         {
             var currentMonthLastDay = _applicationContext.Now.Date.LastDayOfMonth();
             var standingOrdersToUpdate = _allStandingOrders.Where(r => r.FirstBookDate.Date <= currentMonthLastDay).ToList();
 
             var task = new SavingTask(FilePath);
+
+            var newCreatedRequestsEntityIds = new List<string>();
 
             foreach(var standingOrder in standingOrdersToUpdate)
             {
@@ -71,6 +73,7 @@ namespace MoneyManager.Model
                 {
                     var newRequest = standingOrder.CreateRequest(bookDate.Value);
                     _allRequests.Add(newRequest);
+                    newCreatedRequestsEntityIds.Add(newRequest.PersistentId);
                     standingOrder.LastBookedDate = bookDate.Value;
                     bookDate = standingOrder.GetNextPaymentDateTime();
 
@@ -80,6 +83,8 @@ namespace MoneyManager.Model
             }
 
             _persistenceHandler.SaveChanges(task);
+
+            return newCreatedRequestsEntityIds.ToArray();
         }
 
         private void SetRequestEntityImpData(StandingOrderEntityImp standingOrder, StandingOrderEntityData data)

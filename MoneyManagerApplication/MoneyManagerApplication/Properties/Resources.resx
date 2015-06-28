@@ -285,4 +285,13 @@
   <data name="CategoryManagementWindow_ButtonNew" xml:space="preserve">
     <value>Neu</value>
   </data>
+  <data name="CreatedRequestDialog_Description" xml:space="preserve">
+    <value>Seit dem Sie das letzten Mal Ihre Finanzen verwaltet haben sind folgende Daueraufträge automatisch für Sie eingetragen worden:</value>
+  </data>
+  <data name="CreatedRequestDialog_Title" xml:space="preserve">
+    <value>Willkommen zurück!</value>
+  </data>
+  <data name="CreatedRequestDialog_WindowTitle" xml:space="preserve">
+    <value>Startinformation</value>
+  </data>
 </root>

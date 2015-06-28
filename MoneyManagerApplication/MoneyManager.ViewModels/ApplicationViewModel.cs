@@ -20,16 +20,21 @@ namespace MoneyManager.ViewModels
             if (applicationContext == null) throw new ArgumentNullException("applicationContext");
             if (windowManager == null) throw new ArgumentNullException("windowManager");
 
-            Repository = repository;
+            Repository = repository;    
             WindowManager = windowManager;
             ApplicationContext = applicationContext;
         }
 
-        public void ActivateRequestmanagementPage()
+        public void ActivateRequestmanagementPage(string[] createdRequests)
         {
             var currentDateTime = ApplicationContext.Now;
             var requestManagementScreen = new RequestManagementPageViewModel(this, currentDateTime.Year, currentDateTime.Month);
             ActivePage = requestManagementScreen;
+
+            if (createdRequests != null && createdRequests.Length > 0)
+            {
+                WindowManager.ShowDialog(new CreatedRequestsDialogViewModel(this, createdRequests));
+            }
         }
 
         public void ActivateAccountManagementPage()
