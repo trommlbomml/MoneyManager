@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using MoneyManager.Interfaces;
@@ -155,8 +156,8 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
 
             var viewModel = new AccountManagementPageViewModel(Application);
             viewModel.OpenAccountCommand.Execute(null);
-            
-            WindowManager.Received(1).ShowError("Error", "TestMessage");
+
+            WindowManager.Received(1).ShowError(Properties.Resources.ErrorOpenRecentAccount,string.Format(Properties.Resources.RecentAccountUnexpectedErrorFormat, "TestMessage"));
             Repository.Received(1).Open(Arg.Any<string>());
             ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(Arg.Any<string>());
             Assert.That(Application.ActivePage, Is.Not.InstanceOf<RequestManagementPageViewModel>());

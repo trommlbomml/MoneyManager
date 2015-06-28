@@ -6,6 +6,7 @@ namespace MoneyManager.ViewModels.RequestManagement
     {
         private string _name;
         private int _index;
+        private bool _isEnabled;
 
         public MonthNameViewModel(string name, int index)
         {
@@ -23,6 +24,12 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             get { return _name; }
             private set { SetBackingField("Name", ref _name, value); }
+        }
+
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { SetBackingField("IsEnabled", ref _isEnabled, value); }
         }
     }
 }

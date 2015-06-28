@@ -7,6 +7,10 @@
     
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     
+    <Style TargetType="{x:Type ComboBoxItem}" x:Key="MonthItemStyle">
+        <Setter Property="Visibility" Value="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+    </Style>
+    
     <DataTemplate DataType="{x:Type requestManagement:RequestManagementPageViewModel}">
         <Grid>
             <Grid.RowDefinitions>
@@ -79,10 +83,12 @@
                 <ComboBox ItemsSource="{Binding Months.SelectableValues}"
                           SelectedItem="{Binding Months.Value}" 
                           DisplayMemberPath="Name" 
+                          ItemContainerStyle="{StaticResource MonthItemStyle}"
                           Margin="2"
                           Width="120" />
                 <xctk:LongUpDown Value="{Binding Year}" 
                                  Width="60" 
+                                 Maximum="{Binding Application.ApplicationContext.Now.Year}"
                                  Margin="2" />
                 <Button Command="{Binding NextMonthCommand}" 
                         Visibility="{Binding NextMonthCommand.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
