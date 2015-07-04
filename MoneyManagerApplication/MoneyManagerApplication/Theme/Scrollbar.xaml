@@ -100,9 +100,11 @@
                 <ColumnDefinition Width="0.00001*" />
                 <ColumnDefinition MaxWidth="18" />
             </Grid.ColumnDefinitions>
-            <Border Grid.ColumnSpan="3" 
-                    CornerRadius="2"
-                    Background="#F0F0F0" />
+            <Border Grid.RowSpan="3"
+                    CornerRadius="0"
+                    BorderBrush="{DynamicResource LightBackground}"
+                    BorderThickness="2"
+                    Background="{DynamicResource VeryLightBackground}" />
             <RepeatButton Grid.Column="0"
                           Style="{StaticResource ScrollBarLineButton}"
                           Width="18"
@@ -115,7 +117,7 @@
                     <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageLeftCommand" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
-                    <Thumb Style="{StaticResource ScrollBarThumb}" Margin="0,1,0,1" BorderBrush="Orange" Background="Gold" />
+                    <Thumb Style="{StaticResource ScrollBarThumb}" BorderBrush="White" Background="{DynamicResource DarkBackground}" />
                 </Track.Thumb>
                 <Track.IncreaseRepeatButton>
                     <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageRightCommand" />

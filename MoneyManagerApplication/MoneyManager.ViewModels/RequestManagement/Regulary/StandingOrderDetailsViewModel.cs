@@ -12,6 +12,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         private readonly ApplicationViewModel _application;
         private string _lastBookDateAsString;
         private double _calculateValue;
+        private string _caption;
 
         public EnumeratedSingleValuedProperty<MonthPeriod> MonthPeriods { get; private set; }
         public EnumeratedSingleValuedProperty<CategoryViewModel> Categories { get; private set; }
@@ -59,9 +60,15 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
             RequestKind.SetRange(Enum.GetValues(typeof(RequestKind)).Cast<RequestKind>());
             RequestKind.Value = RequestManagement.RequestKind.Expenditure;
-
-
+            
             UpdateCommandStates();
+            UpdateCaption();
+        }
+
+        public string Caption
+        {
+            get { return _caption; }
+            private set { SetBackingField("Caption", ref _caption, value); }
         }
 
         private string ValidateValueProperty()
@@ -176,8 +183,13 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
         public string EntityId
         {
-            get { return _entityId; }
-             set { SetBackingField("EntityId", ref _entityId, value); }
+             get { return _entityId; }
+             set { SetBackingField("EntityId", ref _entityId, value, s => UpdateCaption()); }
+        }
+
+        private void UpdateCaption()
+        {
+            Caption = string.IsNullOrEmpty(EntityId) ? "Dauerauftrag anlegen" : "Dauerauftrag";
         }
 
         private void UpdateCalculatedProperties()
