@@ -13,7 +13,7 @@
     <SolidColorBrush x:Key="ThemebackgroundBrush" Color="#FF99C0A3" />
 
     <!-- AccountManagement Resources -->
-    <system:Double x:Key="HeaderHeight">180.0</system:Double>
+    <system:Double x:Key="HeaderHeight">140.0</system:Double>
 
     <Thickness x:Key="TabControlMargin" Top="10" Left="30" Right="30" Bottom="30" />
     <Thickness x:Key="HeaderMargin" Top="20" Left="0" Right="0" Bottom="0" />
@@ -28,6 +28,7 @@
     <Thickness x:Key="RecentAccountItemElementMargin" Left="4" Right="4" Top="4" Bottom="4" />
     
     <!-- Controls -->
-    <SolidColorBrush x:Key="ButtonNormalBackgroundBrush" Color="#FFB3B3B3" />
+    <SolidColorBrush x:Key="ButtonNormalBackgroundBrush" Color="#FFE0E0E0" />
+    <SolidColorBrush x:Key="ButtonHoverBackgroundBrush" Color="#FFB3B3B3" />
     
 </ResourceDictionary>

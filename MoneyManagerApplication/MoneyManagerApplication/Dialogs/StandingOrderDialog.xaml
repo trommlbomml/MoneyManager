@@ -251,7 +251,7 @@
                   ItemsSource="{Binding StandingOrders.SelectableValues}" 
                   SelectedItem="{Binding StandingOrders.Value, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" 
-                  Margin="2" 
+                  Margin="10,2" 
                   IsReadOnly="True" 
                   SelectionMode="Single"
                   IsEnabled="{Binding Details.IsInEditMode, Converter={x:Static converters:BoolInverseConverter.Instance}, FallbackValue=true}">
@@ -296,7 +296,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <ContentControl Grid.Row="4" Content="{Binding Details}" />
+        <ContentControl Grid.Row="4" Content="{Binding Details}" Margin="10,0,10,10" />
     </Grid>
 
 

@@ -79,6 +79,15 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hier können Sie ein neues Konto anlegen. Geben Sie einen Namen ein, wählen Sie einen Speicherort und klicken sie dann auf Erstellen..
+        /// </summary>
+        public static string AccountManagementPage_CreateAccountDescription {
+            get {
+                return ResourceManager.GetString("AccountManagementPage_CreateAccountDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Erstellen.
         /// </summary>
         public static string AccountManagementPage_CreateCommandCaption {

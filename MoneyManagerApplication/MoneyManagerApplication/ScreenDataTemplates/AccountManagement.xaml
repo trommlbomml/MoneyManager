@@ -49,12 +49,12 @@
                     Background="{DynamicResource ThemebackgroundBrush}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     
-                    <ContentControl ContentTemplate="{DynamicResource ApplicationLogo}" Margin="32,0" VerticalAlignment="Center" />
+                    <ContentControl Grid.Column="1" ContentTemplate="{DynamicResource ApplicationLogo}" Margin="32,0" VerticalAlignment="Top" />
                     
                     <StackPanel Margin="{DynamicResource HeaderTextContainerMargin}"
                                 Orientation="Vertical" 
@@ -73,6 +73,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -80,30 +81,37 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         
-                        <Label Grid.Row="0" 
-                               Grid.Column="0" 
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Right"
-                               Margin="{DynamicResource NewAccountControlMargin}"
-                               Content="{x:Static properties:Resources.AccountManagementPage_LabelName}" />
-                        <TextBox Grid.Row="0" 
-                                 Grid.Column="1" 
-                                 Grid.ColumnSpan="2"
-                                 Margin="{DynamicResource NewAccountControlMargin}"
-                                 Text="{Binding NewAccountNameProperty.Value, UpdateSourceTrigger=PropertyChanged}" />
-
+                        <TextBlock FontSize="16"
+                                   Grid.ColumnSpan="3"
+                                   TextWrapping="Wrap"
+                                   FontWeight="Regular"
+                                   Margin="{DynamicResource NewAccountControlMargin}"
+                                   Text="{x:Static properties:Resources.AccountManagementPage_CreateAccountDescription}"/>
+                        
                         <Label Grid.Row="1" 
                                Grid.Column="0" 
                                VerticalAlignment="Center"
                                HorizontalAlignment="Right"
                                Margin="{DynamicResource NewAccountControlMargin}"
-                               Content="{x:Static properties:Resources.AccountManagementPage_LabelFilePath}" />
+                               Content="{x:Static properties:Resources.AccountManagementPage_LabelName}" />
                         <TextBox Grid.Row="1" 
+                                 Grid.Column="1" 
+                                 Grid.ColumnSpan="2"
+                                 Margin="{DynamicResource NewAccountControlMargin}"
+                                 Text="{Binding NewAccountNameProperty.Value, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <Label Grid.Row="2" 
+                               Grid.Column="0" 
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right"
+                               Margin="{DynamicResource NewAccountControlMargin}"
+                               Content="{x:Static properties:Resources.AccountManagementPage_LabelFilePath}" />
+                        <TextBox Grid.Row="2" 
                                  Grid.Column="1" 
                                  Margin="{DynamicResource NewAccountControlMargin}"
                                  Text="{Binding NewAccountFilePath, UpdateSourceTrigger=PropertyChanged}" 
                                  IsReadOnly="True" />
-                        <Button Grid.Row="1" 
+                        <Button Grid.Row="2" 
                                 Grid.Column="2" 
                                 Margin="{DynamicResource NewAccountControlButtonMargin}"
                                 Content="{x:Static properties:Resources.AccountManagementPage_SelectFileCommandCaption}" 
@@ -111,7 +119,7 @@
 
                         <Button Grid.ColumnSpan="2" 
                                 Grid.Column="1" 
-                                Grid.Row="2" 
+                                Grid.Row="3" 
                                 Margin="{DynamicResource NewAccountControlMargin}"
                                 HorizontalAlignment="Right"
                                 Padding="40,5"

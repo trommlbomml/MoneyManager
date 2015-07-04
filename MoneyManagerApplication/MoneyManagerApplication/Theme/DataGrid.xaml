@@ -228,6 +228,7 @@
                         <Border x:Name="columnHeaderBorder" Background="{DynamicResource LightBackground}" Padding="5" BorderThickness="1,1,1,0" BorderBrush="White">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               TextBlock.FontWeight="Bold"
+                                              TextBlock.Foreground="White"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
