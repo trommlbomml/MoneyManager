@@ -124,6 +124,15 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keine Konten gefunden. Erstellen Sie zuerst ein Konto oder verwenden Sie durchsuchen, um Ihr Konto auszuwählen. Diese Konten werden danach hier zum sofortigen Öffnen angezeigt..
+        /// </summary>
+        public static string AccountManagementPage_NoRecentAccountsDescription {
+            get {
+                return ResourceManager.GetString("AccountManagementPage_NoRecentAccountsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Durchsuchen.
         /// </summary>
         public static string AccountManagementPage_OpenAccountCommandCaption {

@@ -315,4 +315,7 @@
   <data name="StandingOrderDialog_BookingCount" xml:space="preserve">
     <value>Buchungen</value>
   </data>
+  <data name="AccountManagementPage_NoRecentAccountsDescription" xml:space="preserve">
+    <value>Keine Konten gefunden. Erstellen Sie zuerst ein Konto oder verwenden Sie durchsuchen, um Ihr Konto auszuwählen. Diese Konten werden danach hier zum sofortigen Öffnen angezeigt.</value>
+  </data>
 </root>

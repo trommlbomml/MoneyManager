@@ -126,14 +126,40 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
-                        <ScrollViewer Grid.Row="0"
-                                      HorizontalScrollBarVisibility="Disabled" 
-                                      VerticalScrollBarVisibility="Auto">
-                            <ItemsControl Margin="{DynamicResource TabItemContentMargin}"
-                                  ItemsSource="{Binding Accounts}" 
-                                  ItemContainerStyle="{StaticResource RecentAccountsContainerStyle}"
-                                  ItemTemplate="{StaticResource RecentAccountsItemTemplate}" />
-                        </ScrollViewer>
+                        <Grid>
+                            <TextBlock Text="{x:Static properties:Resources.AccountManagementPage_NoRecentAccountsDescription}"
+                                       Margin="20"
+                                       FontSize="18"
+                                       TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Accounts.Count}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <ScrollViewer Grid.Row="0"
+                                          HorizontalScrollBarVisibility="Disabled" 
+                                          VerticalScrollBarVisibility="Auto">
+                                <ItemsControl Margin="{DynamicResource TabItemContentMargin}"
+                                      ItemsSource="{Binding Accounts}" 
+                                      ItemContainerStyle="{StaticResource RecentAccountsContainerStyle}"
+                                      ItemTemplate="{StaticResource RecentAccountsItemTemplate}" />
+                                <ScrollViewer.Style>
+                                    <Style TargetType="{x:Type ScrollViewer}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Accounts.Count}" Value="0">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ScrollViewer.Style>
+                            </ScrollViewer>
+                        </Grid>
                         <Button Content="{x:Static properties:Resources.AccountManagementPage_OpenAccountCommandCaption}"
                                 Grid.Row="1" 
                                 Command="{Binding OpenAccountCommand}"

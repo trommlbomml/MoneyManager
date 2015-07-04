@@ -79,6 +79,15 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Neues Konto.
+        /// </summary>
+        public static string AccountManagementPage_DefaultAccountName {
+            get {
+                return ResourceManager.GetString("AccountManagementPage_DefaultAccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Moneymanager - Kontoverwaltung.
         /// </summary>
         public static string AccountManagementPageCaption {

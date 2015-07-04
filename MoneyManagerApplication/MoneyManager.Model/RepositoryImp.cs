@@ -10,6 +10,8 @@ namespace MoneyManager.Model
 {
     internal partial class RepositoryImp : Repository, IDisposable
     {
+        public const string CurrentFileVersionNumber = "1.0";
+
         private string _currentRepositoryName;
         private readonly ApplicationContext _applicationContext;
         private readonly List<RequestEntityImp> _allRequests;
@@ -61,6 +63,7 @@ namespace MoneyManager.Model
             var xmlDocument = new XDocument(
                 new XElement("MoneyManagerAccount",
                     new XAttribute("Name", name),
+                    new XAttribute("Version", CurrentFileVersionNumber),
                     new XElement(PersistenceConstants.Categories),
                     new XElement(PersistenceConstants.StandingOrders),
                     new XElement(PersistenceConstants.Requests)));

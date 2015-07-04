@@ -126,6 +126,9 @@
   <data name="AccountManagementPageCaption" xml:space="preserve">
     <value>Moneymanager - Kontoverwaltung</value>
   </data>
+  <data name="AccountManagementPage_DefaultAccountName" xml:space="preserve">
+    <value>Neues Konto</value>
+  </data>
   <data name="AccountManagementRemoveAccountCaption" xml:space="preserve">
     <value>Bestehendes Konto entfernen</value>
   </data>

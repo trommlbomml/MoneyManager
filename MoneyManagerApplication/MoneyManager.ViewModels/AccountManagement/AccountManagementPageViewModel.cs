@@ -45,7 +45,10 @@ namespace MoneyManager.ViewModels.AccountManagement
 
         private void OnSelectFileCommand()
         {
-            var result = Application.WindowManager.ShowSaveFileDialog(System.IO.Path.GetDirectoryName(NewAccountFilePath), NewAccountFilePath, Properties.Resources.AccountManagementFilterOpenAccount);
+            var fileName = string.IsNullOrWhiteSpace(NewAccountNameProperty.Value)
+                ? Properties.Resources.AccountManagementPage_DefaultAccountName
+                : NewAccountNameProperty.Value;
+            var result = Application.WindowManager.ShowSaveFileDialog(Path.GetDirectoryName(NewAccountFilePath), fileName, Properties.Resources.AccountManagementFilterOpenAccount);
             if (!string.IsNullOrEmpty(result)) NewAccountFilePath = result;
         }
 
