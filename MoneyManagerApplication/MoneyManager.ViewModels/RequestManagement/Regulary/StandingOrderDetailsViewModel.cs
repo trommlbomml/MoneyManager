@@ -189,7 +189,8 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
         private void UpdateCaption()
         {
-            Caption = string.IsNullOrEmpty(EntityId) ? "Dauerauftrag anlegen" : "Dauerauftrag";
+            Caption = string.IsNullOrEmpty(EntityId) ? Properties.Resources.StandingOrderDetailsViewModel_NewStandingOrderCaption 
+                                                     : Properties.Resources.StandingOrderDetailsViewModel_ExistingStandingOrderCaption;
         }
 
         private void UpdateCalculatedProperties()

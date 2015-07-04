@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
@@ -10,8 +11,10 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         private readonly ApplicationViewModel _application;
         private readonly Action _onStandingOrderUpdated;
         private StandingOrderDetailsViewModel _details;
+        private List<StandingOrderEntityViewModel> _allStandingOrders;
 
         public EnumeratedSingleValuedProperty<StandingOrderEntityViewModel> StandingOrders { get; private set; }
+        public SingleValuedProperty<bool> ShowFinishedProperty { get; private set; } 
 
         public CommandViewModel CreateStandingOrderCommand { get; private set; }
         public CommandViewModel DeleteStandingOrderCommand { get; private set; }
@@ -23,16 +26,46 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             StandingOrders = new EnumeratedSingleValuedProperty<StandingOrderEntityViewModel>();
             StandingOrders.OnValueChanged += OnStandingOrdersValueChangd;
 
-            foreach (var standingOrderEntity in application.Repository.QueryAllStandingOrderEntities().Select(r => new StandingOrderEntityViewModel(application, r.PersistentId)))
-            {
-                standingOrderEntity.Refresh();
-                StandingOrders.AddValue(standingOrderEntity);
-            }
+            _allStandingOrders =
+                application.Repository.QueryAllStandingOrderEntities()
+                    .Select(r => new StandingOrderEntityViewModel(application, r.PersistentId)).ToList();
 
+            _allStandingOrders.ForEach(s => s.Refresh());
             CreateStandingOrderCommand = new CommandViewModel(OnCreateStandingOrderCommand);
             DeleteStandingOrderCommand = new CommandViewModel(OnDeleteStandingOrderCommand);
+            ShowFinishedProperty = new SingleValuedProperty<bool>();
 
+            ShowFinishedProperty.OnValueChanged += ShowFinishedPropertyOnOnValueChanged;
+
+            UpdateStandingOrdersWithFiltering();
             UpdateCommandStates();
+        }
+
+        private void ShowFinishedPropertyOnOnValueChanged()
+        {
+            UpdateStandingOrdersWithFiltering();
+        }
+
+        private void UpdateStandingOrdersWithFiltering()
+        {
+            var oldSelected = StandingOrders.Value;
+
+            var available = _allStandingOrders.Where(IsMatchingFilterCriteria);
+            StandingOrders.SetRange(available);
+
+            if (oldSelected == null || StandingOrders.SelectableValues.Any(s => s.EntityId == oldSelected.EntityId))
+            {
+                StandingOrders.Value = oldSelected;
+            }
+            else
+            {
+                StandingOrders.Value = null;
+            }
+        }
+
+        private bool IsMatchingFilterCriteria(StandingOrderEntityViewModel standingOrder)
+        {
+            return ShowFinishedProperty.Value || standingOrder.State != StandingOrderState.Finished;
         }
 
         private void OnStandingOrdersValueChangd()

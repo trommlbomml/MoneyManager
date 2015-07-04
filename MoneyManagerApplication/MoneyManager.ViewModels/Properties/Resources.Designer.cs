@@ -459,6 +459,24 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dauerauftrag.
+        /// </summary>
+        public static string StandingOrderDetailsViewModel_ExistingStandingOrderCaption {
+            get {
+                return ResourceManager.GetString("StandingOrderDetailsViewModel_ExistingStandingOrderCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dauerauftrag anlegen.
+        /// </summary>
+        public static string StandingOrderDetailsViewModel_NewStandingOrderCaption {
+            get {
+                return ResourceManager.GetString("StandingOrderDetailsViewModel_NewStandingOrderCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;Unbefristeter Dauerauftrag&gt;.
         /// </summary>
         public static string StandingOrderDialog_NoLastBookDate {

@@ -251,6 +251,12 @@ Kontaktieren Sie den Entwickler.</value>
   <data name="RequestManagementPageCaptionFormat" xml:space="preserve">
     <value>Transaktionsverwaltung - {0}</value>
   </data>
+  <data name="StandingOrderDetailsViewModel_ExistingStandingOrderCaption" xml:space="preserve">
+    <value>Dauerauftrag</value>
+  </data>
+  <data name="StandingOrderDetailsViewModel_NewStandingOrderCaption" xml:space="preserve">
+    <value>Dauerauftrag anlegen</value>
+  </data>
   <data name="StandingOrderDialog_NoLastBookDate" xml:space="preserve">
     <value>&lt;Unbefristeter Dauerauftrag&gt;</value>
   </data>
