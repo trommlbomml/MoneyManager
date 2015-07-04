@@ -71,11 +71,11 @@ namespace MoneyManager.Model
             FilePath = targetFilePath;
             _applicationContext.UpdateRecentAccountInformation(FilePath);
 
-            CreateCategory("Versicherung");
-            CreateCategory("Nahrungsmittel");
-            CreateCategory("Hobby");
-            CreateCategory("Krankenkasse");
-            CreateCategory("Rechnung");
+            CreateCategory(Properties.Resources.DefaultCategory_Food);
+            CreateCategory(Properties.Resources.DefaultCategory_Hobby);
+            CreateCategory(Properties.Resources.DefaultCategory_Insurance);
+            CreateCategory(Properties.Resources.DefaultCategory_Payment);
+            CreateCategory(Properties.Resources.DefaultCategory_Surgery);
         }
 
         public void Open(string path)

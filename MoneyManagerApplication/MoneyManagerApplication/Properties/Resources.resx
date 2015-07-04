@@ -181,7 +181,7 @@
     <value>Bearbeiten</value>
   </data>
   <data name="StandingOrderDialog_FirstBookDate" xml:space="preserve">
-    <value>Buchung</value>
+    <value>Buchung ab</value>
   </data>
   <data name="StandingOrderDialog_GridColmnHeader_Description" xml:space="preserve">
     <value>Beschreibung</value>

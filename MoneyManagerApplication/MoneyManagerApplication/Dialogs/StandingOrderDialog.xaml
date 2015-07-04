@@ -15,7 +15,6 @@
         Title="{x:Static properties:Resources.StandingOrders_WindowTitle}"
         WindowStyle="SingleBorderWindow">
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         <Style TargetType="{x:Type Ellipse}" x:Key="StateEllipse">
             <Setter Property="Width" Value="12" />
@@ -115,6 +114,7 @@
                         </ComboBox>
 
                         <TextBlock Margin="5" 
+                                   Visibility="{Binding ValueProperty.ErrorMessage, Converter={x:Static converters:StringNullOrEmptyToCollapsedConverter.Instance}}"
                                    Text="{Binding ValueProperty.ErrorMessage}" 
                                    Style="{DynamicResource ValidationText}" />
                     </Grid>

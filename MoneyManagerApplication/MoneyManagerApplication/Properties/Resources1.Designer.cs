@@ -520,7 +520,7 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Buchung.
+        ///   Looks up a localized string similar to Buchung ab.
         /// </summary>
         public static string StandingOrderDialog_FirstBookDate {
             get {

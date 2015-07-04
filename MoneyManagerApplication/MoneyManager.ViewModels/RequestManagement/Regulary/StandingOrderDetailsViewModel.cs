@@ -51,12 +51,10 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             {
                 MonthPeriods.AddValue(value);
             }
-            
-            foreach (var category in application.Repository.QueryAllCategories().Select(c => new CategoryViewModel(application, c.PersistentId)))
-            {
-                Categories.AddValue(category);
-                category.Refresh();
-            }
+
+            var allCategoryViewModels = application.Repository.QueryAllCategories().Select(c => new CategoryViewModel(application, c.PersistentId)).ToList();
+            allCategoryViewModels.ForEach(a => a.Refresh());
+            Categories.SetRange(allCategoryViewModels.OrderBy(c => c.Name));
             FirstBookDateProperty.Value = application.ApplicationContext.Now.Date;
 
             RequestKind.SetRange(Enum.GetValues(typeof(RequestKind)).Cast<RequestKind>());

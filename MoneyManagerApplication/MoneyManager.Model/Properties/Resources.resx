@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DefaultCategory_Food" xml:space="preserve">
+    <value>Nahrungsmittel</value>
+  </data>
+  <data name="DefaultCategory_Hobby" xml:space="preserve">
+    <value>Hobby</value>
+  </data>
+  <data name="DefaultCategory_Insurance" xml:space="preserve">
+    <value>Versicherung</value>
+  </data>
+  <data name="DefaultCategory_Payment" xml:space="preserve">
+    <value>Rechnung</value>
+  </data>
+  <data name="DefaultCategory_Surgery" xml:space="preserve">
+    <value>Krankenkasse</value>
+  </data>
   <data name="ErrorLockingFile" xml:space="preserve">
     <value>Die Datei {0} ist bereits in Benutzung. Bitte prüfen Sie, dass keine anderen MoneyManager-programme offen sind.</value>
   </data>

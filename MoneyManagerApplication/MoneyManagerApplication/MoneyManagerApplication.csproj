@@ -60,6 +60,7 @@
     <Compile Include="Converters\BoolToHiddenConverter.cs" />
     <Compile Include="Converters\MonthPeriodToNameConverter.cs" />
     <Compile Include="Converters\RequestKindToNameConverter.cs" />
+    <Compile Include="Converters\StringNullOrEmptyToCollapsedConverter.cs" />
     <Compile Include="Converters\StringSetToHiddenConverter.cs" />
     <Compile Include="Converters\UnifyTabWidthConverter.cs" />
     <Compile Include="Dialogs\CategoriesManagementDialog.xaml.cs">
