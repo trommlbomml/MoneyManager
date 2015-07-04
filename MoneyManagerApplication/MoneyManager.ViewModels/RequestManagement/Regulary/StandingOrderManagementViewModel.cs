@@ -72,18 +72,17 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
                 Details.EntityId = entityId;
 
                 var requestEntityViewModel = new StandingOrderEntityViewModel(_application, entityId);
-                requestEntityViewModel.Refresh();
                 StandingOrders.AddValue(requestEntityViewModel);
                 StandingOrders.Value = requestEntityViewModel;
             }
             else
             {
                 _application.Repository.UpdateStandingOrder(Details.EntityId, entityData);
-                StandingOrders.Value.Refresh();
             }
 
             Details.IsInEditMode = false;
             _application.Repository.UpdateStandingOrdersToCurrentMonth();
+            StandingOrders.Value.Refresh();
             UpdateCommandStates();
             _onStandingOrderUpdated();
         }
