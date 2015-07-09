@@ -44,6 +44,11 @@
       <DirectoryRef Id="INSTALLLOCATION">
         <Component Id="MoneyManagerApplication.exe" Guid="8C88FEE9-42E1-455C-A47F-39789B0271A7">
           <File Id="MoneyManagerApplication.exe" Source="..\MoneyManagerApplication\bin\Release\MoneyManagerApplication.exe" KeyPath="yes" Checksum="yes" Compressed="yes" />
+          <ProgId Id="MoneyManagerApplication.exe" Description="MoneyManager Konto">
+            <Extension Id="mmdb" ContentType="application/whatever">
+              <Verb Id="open" Command="open" TargetFile="MoneyManagerApplication.exe" Argument="&quot;%1&quot;"/>
+            </Extension>
+          </ProgId>
         </Component>
 
         <Component Id="MoneyManager.Interfaces.dll" Guid="34B0C53F-8F07-414A-8A0D-4982F481126E">

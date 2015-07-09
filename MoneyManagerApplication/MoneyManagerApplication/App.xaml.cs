@@ -14,9 +14,17 @@ namespace MoneyManagerApplication
             var repository = RepositoryFactory.CreateRepository(applicationContextImp);
             var applicationViewModel = new ApplicationViewModel(repository, applicationContextImp, new WindowManagerImp());
             var mainWindow = new MainWindow { DataContext = applicationViewModel };
-
-            applicationViewModel.ActivateAccountManagementPage();
             MainWindow = mainWindow;
+
+            if (e.Args.Length == 1)
+            {
+                applicationViewModel.StartWithAutoLogon(e.Args[0]);
+            }
+            else
+            {
+                applicationViewModel.ActivateAccountManagementPage();
+            }
+            
             MainWindow.Show();
         }
     }

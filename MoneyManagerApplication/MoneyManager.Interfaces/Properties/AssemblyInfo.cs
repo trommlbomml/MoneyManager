@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MoneyManager.Interfaces")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyProduct("MoneyManager.Interfaces")]
+[assembly: AssemblyDescription("Eine Anwendung für Transaktionsverwaltung")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MoneyManager.Interfaces")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCopyright("Copyright © Peter Friedland/Josephine Rosin 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

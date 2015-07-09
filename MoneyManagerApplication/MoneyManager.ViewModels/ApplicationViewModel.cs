@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.AccountManagement;
 using MoneyManager.ViewModels.Framework;
@@ -23,6 +24,38 @@ namespace MoneyManager.ViewModels
             Repository = repository;    
             WindowManager = windowManager;
             ApplicationContext = applicationContext;
+        }
+
+        public void StartWithAutoLogon(string moneyManagerFilePath)
+        {
+            var success = false;
+            try
+            {
+                Repository.Open(moneyManagerFilePath);
+                var createdRequests = Repository.UpdateStandingOrdersToCurrentMonth();
+                ActivateRequestmanagementPage(createdRequests);
+                success = true;
+            }
+            catch (FileNotFoundException)
+            {
+                var message = string.Format("Datei '{0}' konnte nicht gefunden werden. Wählen Sie Datei erneut aus.", moneyManagerFilePath);
+                WindowManager.ShowError(Properties.Resources.ErrorOpenRecentAccount, message);
+            }
+            catch (FileLockedException)
+            {
+                var message = string.Format(Properties.Resources.RecentAccountLockedFormat, moneyManagerFilePath);
+                WindowManager.ShowError(Properties.Resources.ErrorOpenRecentAccount, message);
+            }
+            catch (Exception ex)
+            {
+                var message = string.Format(Properties.Resources.RecentAccountUnexpectedErrorFormat, ex.Message);
+                WindowManager.ShowError(Properties.Resources.ErrorOpenRecentAccount, message);
+            }
+
+            if (!success)
+            {
+                ActivateAccountManagementPage();
+            }
         }
 
         public void ActivateRequestmanagementPage(string[] createdRequests)
