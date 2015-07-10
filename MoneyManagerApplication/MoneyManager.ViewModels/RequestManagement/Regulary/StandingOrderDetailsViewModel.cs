@@ -130,7 +130,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             return new StandingOrderEntityData
             {
                 Description = DescriptionProperty.Value,
-                Value = ValueProperty.Value,
+                Value = ValueProperty.Value * (RequestKind.Value == RequestManagement.RequestKind.Earning ? 1.0 : -1.0),
                 MonthPeriodStep = GetPeriodFromEnum(MonthPeriods.Value),
                 CategoryEntityId = Categories.Value != null ? Categories.Value.EntityId : null,
                 FirstBookDate = FirstBookDateProperty.Value,

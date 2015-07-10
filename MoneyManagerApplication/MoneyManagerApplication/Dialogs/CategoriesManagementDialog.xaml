@@ -9,7 +9,6 @@
         WindowStyle="SingleBorderWindow"
         ResizeMode="CanResize"
         MinWidth="200"
-        Background="{DynamicResource VeryLightBackground}"
         MinHeight="150"
         Width="400"
         Icon="../logo.ico"
