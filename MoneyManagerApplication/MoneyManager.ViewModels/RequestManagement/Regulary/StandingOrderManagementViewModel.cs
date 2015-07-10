@@ -135,8 +135,11 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
         private void OnDeleteStandingOrderCommand()
         {
-            _application.Repository.DeleteStandingOrder(StandingOrders.Value.EntityId);
-            StandingOrders.RemoveSelectedValue();
+            _application.WindowManager.ShowQuestion(Properties.Resources.StandingOrderManagement_DeleteCaption, Properties.Resources.StandingOrderManagement_DeleteMessage, 
+                () => {
+                    _application.Repository.DeleteStandingOrder(StandingOrders.Value.EntityId);
+                    StandingOrders.RemoveSelectedValue(); 
+                }, () => {});
         }
 
         private void OnCreateStandingOrderCommand()

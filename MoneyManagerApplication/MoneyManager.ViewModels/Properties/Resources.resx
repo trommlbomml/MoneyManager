@@ -272,4 +272,10 @@ Kontaktieren Sie den Entwickler.</value>
   <data name="StandingOrderEntityViewModel_StateInactive" xml:space="preserve">
     <value>Inaktiv</value>
   </data>
+  <data name="StandingOrderManagement_DeleteCaption" xml:space="preserve">
+    <value>Dauerauftrag löschen</value>
+  </data>
+  <data name="StandingOrderManagement_DeleteMessage" xml:space="preserve">
+    <value>Möchten Sie den ausgewählten Dauerauftrag wirklich löschen? Die bereits eingetragenen Transaktionen bleiben erhalten.</value>
+  </data>
 </root>

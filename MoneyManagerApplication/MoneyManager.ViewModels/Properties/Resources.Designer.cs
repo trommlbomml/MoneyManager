@@ -520,5 +520,23 @@ namespace MoneyManager.ViewModels.Properties {
                 return ResourceManager.GetString("StandingOrderEntityViewModel_StateInactive", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dauerauftrag löschen.
+        /// </summary>
+        public static string StandingOrderManagement_DeleteCaption {
+            get {
+                return ResourceManager.GetString("StandingOrderManagement_DeleteCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Möchten Sie den ausgewählten Dauerauftrag wirklich löschen? Die bereits eingetragenen Transaktionen bleiben erhalten..
+        /// </summary>
+        public static string StandingOrderManagement_DeleteMessage {
+            get {
+                return ResourceManager.GetString("StandingOrderManagement_DeleteMessage", resourceCulture);
+            }
+        }
     }
 }
