@@ -57,6 +57,7 @@
     <Compile Include="RequestManagement\RequestDialogViewModelTests.cs" />
     <Compile Include="RequestManagement\RequestManagementScreenModelTests.cs" />
     <Compile Include="RequestManagement\RequestViewModelTests.cs" />
+    <Compile Include="RequestManagement\StandingOrderManagementViewModelTests.cs" />
     <Compile Include="ViewModelTestsBase.cs" />
   </ItemGroup>
   <ItemGroup>

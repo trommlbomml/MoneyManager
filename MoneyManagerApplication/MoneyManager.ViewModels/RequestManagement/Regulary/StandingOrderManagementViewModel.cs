@@ -107,6 +107,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
                 var requestEntityViewModel = new StandingOrderEntityViewModel(_application, entityId);
                 StandingOrders.AddValue(requestEntityViewModel);
                 StandingOrders.Value = requestEntityViewModel;
+                _allStandingOrders.Add(requestEntityViewModel);
             }
             else
             {
@@ -135,11 +136,16 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
 
         private void OnDeleteStandingOrderCommand()
         {
-            _application.WindowManager.ShowQuestion(Properties.Resources.StandingOrderManagement_DeleteCaption, Properties.Resources.StandingOrderManagement_DeleteMessage, 
-                () => {
-                    _application.Repository.DeleteStandingOrder(StandingOrders.Value.EntityId);
-                    StandingOrders.RemoveSelectedValue(); 
-                }, () => {});
+            _application.WindowManager.ShowQuestion(Properties.Resources.StandingOrderManagement_DeleteCaption,
+                Properties.Resources.StandingOrderManagement_DeleteMessage, DeleteStandingOrder, () => { });
+        }
+
+        private void DeleteStandingOrder()
+        {
+            var standingOrderEntityViewModel = StandingOrders.Value;
+            _application.Repository.DeleteStandingOrder(standingOrderEntityViewModel.EntityId);
+            _allStandingOrders.Remove(standingOrderEntityViewModel);
+            StandingOrders.RemoveSelectedValue();
         }
 
         private void OnCreateStandingOrderCommand()
