@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.AccountManagement;
 using MoneyManager.ViewModels.RequestManagement;
@@ -106,7 +107,7 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             viewModel.Accounts.First().OpenCommand.Execute(null);
 
             Repository.Received(1).Open(@"C:\test\test.txt");
-            Repository.Received(1).UpdateStandingOrdersToCurrentMonth();
+            Repository.Received(1).UpdateStandingOrdersToCurrentMonth(ApplicationContext.Now.Year, ApplicationContext.Now.Month);
             ApplicationContext.DidNotReceiveWithAnyArgs().UpdateRecentAccountInformation(@"C:\test\test.txt");
             Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
         }
@@ -135,13 +136,13 @@ namespace MoneyManager.ViewModels.Tests.AccountManagement
             if (accept)
             {
                 Repository.Received(1).Open(expectedPath);
-                Repository.Received(1).UpdateStandingOrdersToCurrentMonth();
+                Repository.Received(1).UpdateStandingOrdersToCurrentMonth(ApplicationContext.Now.Year, ApplicationContext.Now.Month);
                 Assert.That(Application.ActivePage, Is.InstanceOf<RequestManagementPageViewModel>());
             }
             else
             {
                 Repository.DidNotReceiveWithAnyArgs().Open(Arg.Any<string>());
-                Repository.DidNotReceiveWithAnyArgs().UpdateStandingOrdersToCurrentMonth();
+                Repository.DidNotReceiveWithAnyArgs().UpdateStandingOrdersToCurrentMonth(ApplicationContext.Now.Year, ApplicationContext.Now.Month);
                 Assert.That(Application.ActivePage, Is.Not.InstanceOf<RequestManagementPageViewModel>());
             }
 

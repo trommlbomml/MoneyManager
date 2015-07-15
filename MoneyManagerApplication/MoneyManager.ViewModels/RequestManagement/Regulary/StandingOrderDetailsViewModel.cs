@@ -150,7 +150,19 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             MonthPeriods.Value = GetEnumFromPeriod(request.MonthPeriodStep);
             Categories.Value = request.Category != null ? Categories.SelectableValues.Single(c => c.EntityId == request.Category.PersistentId) : null;
             RequestKind.Value = request.Value > 0 ? RequestManagement.RequestKind.Earning : RequestManagement.RequestKind.Expenditure;
+            IsEndingTransactionProperty.Value = MonthDifference(DateTime.MaxValue, request.LastBookDate) > 0;
+
+            if (IsEndingTransactionProperty.Value)
+            {
+                PaymentsProperty.Value = MonthDifference(request.LastBookDate, request.FirstBookDate);
+            }
         }
+
+        private static int MonthDifference(DateTime lValue, DateTime rValue)
+        {
+            return (lValue.Month - rValue.Month) + 12 * (lValue.Year - rValue.Year);
+        }
+
 
         public double CalculateValue
         {

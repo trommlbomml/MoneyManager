@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.Framework;
@@ -64,21 +65,8 @@ namespace MoneyManager.ViewModels.RequestManagement
             UpdateCurrentMonth();
             UpdateCommandStates();
             UpdateSaldoAsString();
-            UpdateMonthsIsEnabled();
 
             Caption = string.Format(Properties.Resources.RequestManagementPageCaptionFormat, Application.Repository.Name);
-        }
-
-        private void UpdateMonthsIsEnabled()
-        {
-            var maxAvailableMonth = Application.ApplicationContext.Now.Year == Year
-                ? Application.ApplicationContext.Now.Month
-                : 12;
-
-            for (var i = 1; i <= 12; i++)
-            {
-                Months.SelectableValues.ElementAt(i - 1).IsEnabled = i <= maxAvailableMonth;
-            }
         }
 
         private void OnEditStandingOrdersCommand()
@@ -115,14 +103,7 @@ namespace MoneyManager.ViewModels.RequestManagement
 
         private void YearChanged()
         {
-            UpdateMonthsIsEnabled();
-
-            if (!Months.Value.IsEnabled)
-            {
-                Months.Value = Months.SelectableValues.Last(m => m.IsEnabled);
-            }
-
-            UpdateCurrentMonth();
+            UpdateCurrentMonth(true);
             UpdateCommandStates();
         }
 
@@ -218,7 +199,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             if (_preventUpdateCurrentMonth) return;
 
-            UpdateCurrentMonth();
+            UpdateCurrentMonth(true);
             UpdateCommandStates();
         }
 
@@ -237,7 +218,7 @@ namespace MoneyManager.ViewModels.RequestManagement
             }
             _preventUpdateCurrentMonth = false;
 
-            UpdateCurrentMonth();
+            UpdateCurrentMonth(true);
             UpdateCommandStates();
         }
 
@@ -307,12 +288,18 @@ namespace MoneyManager.ViewModels.RequestManagement
             DeleteRequestCommand.IsEnabled = isRequestSelected && !isStandingOrder;
             EditRequestCommand.IsEnabled = isRequestSelected && !isStandingOrder;
             GotoCurrentMonthCommand.IsEnabled = !isCurrentMonthSelected;
-            NextMonthCommand.IsEnabled = !isCurrentMonthSelected;
         }
 
-        private void UpdateCurrentMonth()
+        private void UpdateCurrentMonth(bool updateStandingOrders = false)
         {
             if (_preventUpdateCurrentMonth) return;
+
+            var sw = Stopwatch.StartNew();
+
+            if (updateStandingOrders)
+            {
+                Application.Repository.UpdateStandingOrdersToCurrentMonth(Year, Month);
+            }
 
             var requests = Application.Repository.QueryRequestsForSingleMonth(Year, Month)
                                                  .Select(CreateRequestViewModelFromEntity)
@@ -321,6 +308,8 @@ namespace MoneyManager.ViewModels.RequestManagement
             Requests.SetRange(requests);
 
             UpdateSaldoForCurrentMonth();
+
+            Debug.WriteLine("UpdateCurrentMonth update standing Orders={0}, {1}ms", updateStandingOrders, sw.ElapsedMilliseconds);
         }
 
         private RequestViewModel CreateRequestViewModelFromEntity(RequestEntity requestEntity)

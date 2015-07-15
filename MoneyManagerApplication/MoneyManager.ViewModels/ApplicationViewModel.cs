@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Mime;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.AccountManagement;
 using MoneyManager.ViewModels.Framework;
@@ -32,7 +33,7 @@ namespace MoneyManager.ViewModels
             try
             {
                 Repository.Open(moneyManagerFilePath);
-                var createdRequests = Repository.UpdateStandingOrdersToCurrentMonth();
+                var createdRequests = Repository.UpdateStandingOrdersToCurrentMonth(ApplicationContext.Now.Year, ApplicationContext.Now.Month);
                 ActivateRequestmanagementPage(createdRequests);
                 success = true;
             }

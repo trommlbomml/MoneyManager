@@ -57,9 +57,9 @@ namespace MoneyManager.Model
             return _allStandingOrders;
         }
 
-        public string[] UpdateStandingOrdersToCurrentMonth()
+        public string[] UpdateStandingOrdersToCurrentMonth(int year, int month)
         {
-            var currentMonthLastDay = _applicationContext.Now.Date.LastDayOfMonth();
+            var currentMonthLastDay = new DateTime(year, month,1).LastDayOfMonth();
             var standingOrdersToUpdate = _allStandingOrders.Where(r => r.FirstBookDate.Date <= currentMonthLastDay).ToList();
 
             var task = new SavingTask(FilePath);

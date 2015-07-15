@@ -62,7 +62,7 @@ namespace MoneyManager.Model.Tests
             });
             PersistenceHandler.ClearReceivedCalls();
             
-            var requestIds = Repository.UpdateStandingOrdersToCurrentMonth();
+            var requestIds = Repository.UpdateStandingOrdersToCurrentMonth(2015, 8);
 
             var requests = Repository.AllRequests.OrderBy(r => r.Date).ToArray();
             Assert.That(requests.Length, Is.EqualTo(7));

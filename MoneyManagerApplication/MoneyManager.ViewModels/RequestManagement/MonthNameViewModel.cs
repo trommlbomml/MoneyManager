@@ -12,6 +12,7 @@ namespace MoneyManager.ViewModels.RequestManagement
         {
             Name = name;
             Index = index;
+            IsEnabled = true;
         }
 
         public int Index

@@ -88,8 +88,10 @@
                           Width="120" />
                 <xctk:LongUpDown Value="{Binding Year}" 
                                  Width="60" 
-                                 Maximum="{Binding Application.ApplicationContext.Now.Year}"
+                                 Minimum="1900"
+                                 Maximum="3000"
                                  Margin="2" />
+                <Button Command="{Binding GotoCurrentMonthCommand}" Content="@Heute" Margin="2" />
                 <Button Command="{Binding NextMonthCommand}" 
                         Visibility="{Binding NextMonthCommand.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
                         Style="{DynamicResource RoundButtonWithImageStyle}">

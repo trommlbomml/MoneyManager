@@ -151,6 +151,6 @@ namespace MoneyManager.Interfaces
         /// Updates all regulary Requests to the current month and returns all created requests.
         /// </summary>
         /// <returns>newly created Request-Entities.</returns>
-        string[] UpdateStandingOrdersToCurrentMonth();
+        string[] UpdateStandingOrdersToCurrentMonth(int year, int month);
     }
 }

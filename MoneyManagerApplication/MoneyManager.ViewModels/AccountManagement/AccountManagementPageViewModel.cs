@@ -107,7 +107,7 @@ namespace MoneyManager.ViewModels.AccountManagement
                 filePath = Application.WindowManager.ShowOpenFileDialog(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Properties.Resources.AccountManagementFilterOpenAccount);
                 if (string.IsNullOrEmpty(filePath)) return;
                 Application.Repository.Open(filePath);
-                var createdRequests = Application.Repository.UpdateStandingOrdersToCurrentMonth();
+                var createdRequests = UpdateStandingOrdersToCurrentMonth();
                 Application.ActivateRequestmanagementPage(createdRequests);
             }
             catch (FileLockedException)
@@ -122,12 +122,17 @@ namespace MoneyManager.ViewModels.AccountManagement
             }
         }
 
+        private string[] UpdateStandingOrdersToCurrentMonth()
+        {
+            return Application.Repository.UpdateStandingOrdersToCurrentMonth(Application.ApplicationContext.Now.Year, Application.ApplicationContext.Now.Month);
+        }
+
         private void OnOpenRecentAccountCommand(RecentAccountViewModel account)
         {
             try
             {
                 Application.Repository.Open(account.Path);
-                var createdRequests = Application.Repository.UpdateStandingOrdersToCurrentMonth();
+                var createdRequests = UpdateStandingOrdersToCurrentMonth();
                 Application.ActivateRequestmanagementPage(createdRequests);
             }
             catch (FileLockedException)

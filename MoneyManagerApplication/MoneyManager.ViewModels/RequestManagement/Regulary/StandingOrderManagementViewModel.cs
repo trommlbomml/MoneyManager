@@ -115,7 +115,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             }
 
             Details.IsInEditMode = false;
-            _application.Repository.UpdateStandingOrdersToCurrentMonth();
+            _application.Repository.UpdateStandingOrdersToCurrentMonth(_application.ApplicationContext.Now.Year, _application.ApplicationContext.Now.Month);
             StandingOrders.Value.Refresh();
             UpdateCommandStates();
             _onStandingOrderUpdated();
