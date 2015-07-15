@@ -144,6 +144,9 @@
   <data name="ErrorOpenRecentAccount" xml:space="preserve">
     <value>Fehler beim Öffnen des Konto</value>
   </data>
+  <data name="EveryTwoMonths" xml:space="preserve">
+    <value>Alle 2 Monate</value>
+  </data>
   <data name="LastAccesDateFormat" xml:space="preserve">
     <value>{0:dddd, dd. MMMM yyyy HH:mm}</value>
   </data>

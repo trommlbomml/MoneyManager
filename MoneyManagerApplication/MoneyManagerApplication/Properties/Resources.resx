@@ -321,4 +321,7 @@
   <data name="AccountManagementPage_NoRecentAccountsDescription" xml:space="preserve">
     <value>Keine Konten gefunden. Erstellen Sie zuerst ein Konto oder verwenden Sie durchsuchen, um Ihr Konto auszuwählen. Diese Konten werden danach hier zum sofortigen Öffnen angezeigt.</value>
   </data>
+  <data name="PeriodName_TwoMonthly" xml:space="preserve">
+    <value>Alle 2 Monate</value>
+  </data>
 </root>

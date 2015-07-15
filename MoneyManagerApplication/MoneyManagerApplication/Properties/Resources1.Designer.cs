@@ -268,6 +268,15 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alle 2 Monate.
+        /// </summary>
+        public static string PeriodName_TwoMonthly {
+            get {
+                return ResourceManager.GetString("PeriodName_TwoMonthly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Jährlich.
         /// </summary>
         public static string PeriodName_Yearly {

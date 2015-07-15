@@ -114,6 +114,8 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             {
                 case MonthPeriod.Monthly:
                     return 1;
+                case MonthPeriod.TwoMonthly:
+                    return 2;
                 case MonthPeriod.Quarterly:
                     return 3;
                 case MonthPeriod.HalfYearly:
@@ -162,6 +164,8 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
             {
                 case 1:
                     return MonthPeriod.Monthly;
+                case 2:
+                    return MonthPeriod.TwoMonthly;
                 case 3:
                     return MonthPeriod.Quarterly;
                 case 6:

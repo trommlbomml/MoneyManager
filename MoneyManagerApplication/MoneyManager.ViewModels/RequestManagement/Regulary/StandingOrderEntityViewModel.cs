@@ -89,6 +89,9 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
                 case 1:
                     MonthPeriodAsString = Properties.Resources.OncePerMonth;
                     break;
+                case 2:
+                    MonthPeriodAsString = Properties.Resources.EveryTwoMonths;
+                    break;
                 case 3:
                     MonthPeriodAsString = Properties.Resources.PerQuarter;
                     break;

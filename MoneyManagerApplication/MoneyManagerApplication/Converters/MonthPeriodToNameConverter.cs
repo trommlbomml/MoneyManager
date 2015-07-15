@@ -18,6 +18,8 @@ namespace MoneyManagerApplication.Converters
             {
                 case MonthPeriod.Monthly:
                     return Properties.Resources.PeriodName_Monthly;
+                case MonthPeriod.TwoMonthly:
+                    return Properties.Resources.PeriodName_TwoMonthly;
                 case MonthPeriod.Quarterly:
                     return Properties.Resources.PeriodName_Quarterly;
                 case MonthPeriod.HalfYearly:
