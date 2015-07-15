@@ -22,7 +22,7 @@ namespace MoneyManager.Model.Tests
 
             var allCategories = Enumerable.Range(1, categoriesCount).Select(i => new CategoryEntityImp { Name = string.Format("Category {0}", i) }).ToArray();
 
-            var allStandingOrders = Enumerable.Range(1, standingOrders).Select(i => new StandingOrderEntityImp
+            var allStandingOrders = Enumerable.Range(1, standingOrders).Select(i => new StandingOrderEntityImp(Context)
             {
                 Category = allCategories.ElementAt(random.Next(0, categoriesCount)),
                 FirstBookDate = startDateTime,

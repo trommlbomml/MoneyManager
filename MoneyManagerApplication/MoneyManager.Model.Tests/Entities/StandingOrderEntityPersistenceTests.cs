@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
+using MoneyManager.Interfaces;
 using MoneyManager.Model.Entities;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace MoneyManager.Model.Tests.Entities
@@ -8,12 +10,20 @@ namespace MoneyManager.Model.Tests.Entities
     [TestFixture]
     class StandingOrderEntityPersistenceTests
     {
+        public ApplicationContext ApplicationContext { get; set; }
+
+        public void Setup()
+        {
+            ApplicationContext = Substitute.For<ApplicationContext>();
+            ApplicationContext.Now.Returns(new DateTime(2014, 6, 5));
+        }
+
         [TestCase(true)]
         [TestCase(false)]
         public void Serialize(bool hasCategory)
         {
             var category = new CategoryEntityImp();
-            var standingOrder = new StandingOrderEntityImp
+            var standingOrder = new StandingOrderEntityImp(ApplicationContext)
             {
                 Category = hasCategory ? category : null,
                 Description =  "Test",
@@ -44,7 +54,7 @@ namespace MoneyManager.Model.Tests.Entities
         public void ConstructorWorks(bool hasCategory)
         {
             var category = new CategoryEntityImp();
-            var standingOrder = new StandingOrderEntityImp
+            var standingOrder = new StandingOrderEntityImp(ApplicationContext)
             {
                 Category = hasCategory ? category : null,
                 Description = "Test",

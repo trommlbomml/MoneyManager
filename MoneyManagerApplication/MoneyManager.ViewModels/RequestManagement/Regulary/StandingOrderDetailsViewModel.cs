@@ -146,6 +146,7 @@ namespace MoneyManager.ViewModels.RequestManagement.Regulary
         {
             var request = _application.Repository.QueryStandingOrder(EntityId);
             DescriptionProperty.Value = request.Description;
+            FirstBookDateProperty.Value = request.FirstBookDate;
             ValueProperty.Value = Math.Abs(request.Value);
             MonthPeriods.Value = GetEnumFromPeriod(request.MonthPeriodStep);
             Categories.Value = request.Category != null ? Categories.SelectableValues.Single(c => c.EntityId == request.Category.PersistentId) : null;

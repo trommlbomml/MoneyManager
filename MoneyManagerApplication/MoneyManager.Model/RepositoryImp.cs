@@ -93,7 +93,7 @@ namespace MoneyManager.Model
 // ReSharper disable PossibleNullReferenceException
             _currentRepositoryName = document.Root.Attribute("Name").Value;
             _allCategories.AddRange(document.Root.Element("Categories").Elements("Category").Select(e => new CategoryEntityImp(e)));
-            _allStandingOrders.AddRange(document.Root.Element("StandingOrders").Elements("StandingOrder").Select(e => new StandingOrderEntityImp(e, _allCategories)));
+            _allStandingOrders.AddRange(document.Root.Element("StandingOrders").Elements("StandingOrder").Select(e => new StandingOrderEntityImp(_applicationContext, e, _allCategories)));
             _allRequests.AddRange(document.Root.Element("Requests").Elements("Request").Select(e => new RequestEntityImp(e, _allCategories)));
 
 // ReSharper restore PossibleNullReferenceException

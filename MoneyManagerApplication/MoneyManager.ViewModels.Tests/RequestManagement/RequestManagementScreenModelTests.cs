@@ -25,7 +25,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(screenModel.DeleteRequestCommand.IsEnabled, Is.False);
             Assert.That(screenModel.EditRequestCommand.IsEnabled, Is.False);
             Assert.That(screenModel.SwitchAccountCommand.IsEnabled, Is.True);
-            Assert.That(screenModel.NextMonthCommand.IsEnabled, Is.EqualTo(!currentMonth));
+            Assert.That(screenModel.NextMonthCommand.IsEnabled, Is.True);
             Assert.That(screenModel.PreviousMonthCommand.IsEnabled, Is.True);
             Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.EqualTo(!currentMonth));
 
@@ -120,7 +120,7 @@ namespace MoneyManager.ViewModels.Tests.RequestManagement
             Assert.That(screenModel.Year, Is.EqualTo(currentDate.Year));
             Assert.That(screenModel.Months.Value, Is.EqualTo(screenModel.Months.SelectableValues.Single(s => s.Index == ApplicationContext.Now.Month)));
             Assert.That(screenModel.GotoCurrentMonthCommand.IsEnabled, Is.False);
-            Assert.That(screenModel.NextMonthCommand.IsEnabled, Is.False);
+            Assert.That(screenModel.NextMonthCommand.IsEnabled, Is.True);
         }
 
         [TestCase(2013, 4, 2013, 3 )]

@@ -12,7 +12,7 @@ namespace MoneyManager.Model
         {
             EnsureRepositoryOpen("CreateStandingOrder");
 
-            var standingOrder = new StandingOrderEntityImp();
+            var standingOrder = new StandingOrderEntityImp(_applicationContext);
             SetRequestEntityImpData(standingOrder, requestData);
             _allStandingOrders.Add(standingOrder);
             _persistenceHandler.SaveChanges(new SavingTask(FilePath, standingOrder.Clone()));

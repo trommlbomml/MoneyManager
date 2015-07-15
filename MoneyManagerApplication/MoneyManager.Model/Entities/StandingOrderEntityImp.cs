@@ -9,6 +9,7 @@ namespace MoneyManager.Model.Entities
 {
     class StandingOrderEntityImp : Entity, StandingOrderEntity
     {
+        private readonly ApplicationContext _applicationContext;
         private DateTime _firstBookDate;
         private DateTime _lastBookedDate;
         private DateTime _lastBookDate;
@@ -19,15 +20,18 @@ namespace MoneyManager.Model.Entities
         private string _description;
         private CategoryEntity _category;
 
-        public StandingOrderEntityImp()
+        public StandingOrderEntityImp(ApplicationContext applicationContext)
         {
+            _applicationContext = applicationContext;
+
             Description = string.Empty;
             LastBookDate = DateTime.MaxValue;
         }
 
-        public StandingOrderEntityImp(XElement standingOrderElement, IEnumerable<CategoryEntity> categories):
+        public StandingOrderEntityImp(ApplicationContext applicationContext, XElement standingOrderElement, IEnumerable<CategoryEntity> categories):
             base(standingOrderElement.Attribute("Id").Value)
         {
+            _applicationContext = applicationContext;
             _firstBookDate = DateTime.Parse(standingOrderElement.Attribute("FirstBookDate").Value, CultureInfo.InvariantCulture);
             _referenceMonth = int.Parse(standingOrderElement.Attribute("ReferenceMonth").Value);
             _referenceDay = int.Parse(standingOrderElement.Attribute("ReferenceDay").Value);
@@ -95,8 +99,8 @@ namespace MoneyManager.Model.Entities
         {
             get
             {
-                if  (LastBookedDate.Date < FirstBookDate.Date) return StandingOrderState.InActive;
-                if (LastBookedDate.Date >= LastBookDate.Date) return StandingOrderState.Finished;
+                if (_applicationContext.Now.Date < FirstBookDate.Date) return StandingOrderState.InActive;
+                if (_applicationContext.Now.Date >= LastBookDate.Date) return StandingOrderState.Finished;
                 return StandingOrderState.Active;
             }
         }

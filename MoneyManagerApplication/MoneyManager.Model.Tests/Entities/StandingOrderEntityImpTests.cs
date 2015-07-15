@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using MoneyManager.Interfaces;
 using MoneyManager.Model.Entities;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace MoneyManager.Model.Tests.Entities
@@ -12,10 +13,19 @@ namespace MoneyManager.Model.Tests.Entities
     [TestFixture]
     internal class StandingOrderEntityImpTests
     {
+        public ApplicationContext ApplicationContext { get; set; }
+
+        [SetUp]
+        public void Setup()
+        {
+            ApplicationContext = Substitute.For<ApplicationContext>();
+            ApplicationContext.Now.Returns(new DateTime(2014, 6, 5));
+        }
+
         [Test]
         public void InitialState()
         {
-            var standingOrder = new StandingOrderEntityImp();
+            var standingOrder = new StandingOrderEntityImp(ApplicationContext);
             Assert.That(standingOrder.HasChanged, Is.True);
         }
 
@@ -42,7 +52,7 @@ namespace MoneyManager.Model.Tests.Entities
         [TestCase(12, 4, 5, false)]
         public void IsMonthOfPeriod(int period, int referenceMonth, int month, bool expectedIsPeriodMonth)
         {
-            var entity = new StandingOrderEntityImp
+            var entity = new StandingOrderEntityImp(ApplicationContext)
             {
                 MonthPeriodStep = period,
                 ReferenceDay = 1,
@@ -55,7 +65,7 @@ namespace MoneyManager.Model.Tests.Entities
         [Test]
         public void GetNextPeriodDateTimeForFirstCall([Values(1,3,6,12)]int period)
         {
-            var entity = new StandingOrderEntityImp
+            var entity = new StandingOrderEntityImp(ApplicationContext)
             {
                 MonthPeriodStep = period,
                 ReferenceDay = 1,
@@ -72,7 +82,7 @@ namespace MoneyManager.Model.Tests.Entities
         [Test]
         public void GetNextPeriodForLastBookDateReturnsNull([Values(1, 3, 6, 12)]int period)
         {
-            var entity = new StandingOrderEntityImp
+            var entity = new StandingOrderEntityImp(ApplicationContext)
             {
                 MonthPeriodStep = period,
                 ReferenceDay = 1,
@@ -88,7 +98,7 @@ namespace MoneyManager.Model.Tests.Entities
         [Test]
         public void GetNextPeriodDateTime([Values(1, 3, 6, 12)]int period)
         {
-            var entity = new StandingOrderEntityImp
+            var entity = new StandingOrderEntityImp(ApplicationContext)
             {
                 MonthPeriodStep = period,
                 ReferenceDay = 1,
@@ -115,14 +125,15 @@ namespace MoneyManager.Model.Tests.Entities
         [TestCaseSource("StateIsCalculatedCorrectlyTestCases")]
         public void StateIsCalculatedCorrectly(DateTime firstBookDate, DateTime lastBookDate, DateTime lastBookedDate, StandingOrderState expectedState)
         {
-            var entity = new StandingOrderEntityImp
+            ApplicationContext.Now.Returns(lastBookedDate);
+
+            var entity = new StandingOrderEntityImp(ApplicationContext)
             {
                 MonthPeriodStep = 1,
                 ReferenceDay = 1,
                 ReferenceMonth = 4,
                 FirstBookDate = firstBookDate,
-                LastBookDate = lastBookDate,
-                LastBookedDate = lastBookedDate
+                LastBookDate = lastBookDate
             };
 
             Assert.That(entity.State, Is.EqualTo(expectedState));
@@ -152,7 +163,7 @@ namespace MoneyManager.Model.Tests.Entities
                 new XAttribute("Value", value),
                 new XAttribute("CategoryId", categoryId));
 
-            var standingOrder = new StandingOrderEntityImp(element, categories);
+            var standingOrder = new StandingOrderEntityImp(ApplicationContext, element, categories);
 
             Assert.That(standingOrder.PersistentId, Is.EqualTo(persistentId));
             Assert.That(standingOrder.FirstBookDate, Is.EqualTo(dateTime));
@@ -196,7 +207,7 @@ namespace MoneyManager.Model.Tests.Entities
                 new XAttribute("Value", 12.77),
                 new XAttribute("CategoryId", categories.First().PersistentId));
 
-            var standingOrder = new StandingOrderEntityImp(element, categories);
+            var standingOrder = new StandingOrderEntityImp(ApplicationContext, element, categories);
             Assert.That(standingOrder.HasChanged, Is.False);
 
             changeObject(standingOrder);
