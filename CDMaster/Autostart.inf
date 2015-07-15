@@ -1,0 +1,3 @@
+[AutoRun]
+OPEN=MoneyManager.Installer.msi
+ICON=logo.ico
