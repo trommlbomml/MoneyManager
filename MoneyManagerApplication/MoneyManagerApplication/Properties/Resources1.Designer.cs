@@ -97,7 +97,7 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Designed von Josephine Rosin.
+        ///   Looks up a localized string similar to Design Josephine Rosin.
         /// </summary>
         public static string AccountManagementPage_DesignRight {
             get {

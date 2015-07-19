@@ -18,6 +18,9 @@ namespace MoneyManagerApplication.ApplicationSettings
             _recentAccountInformation = new List<RecentAccountInformation>();
             ParseRecentAccounts();
             RecentAccounts = _recentAccountInformation.AsReadOnly();
+
+            var assembly = typeof (ApplicationContextImp).Assembly;
+            ApplicationVersion = assembly.GetName().Version;
         }
 
         private void ParseRecentAccounts()
@@ -85,6 +88,8 @@ namespace MoneyManagerApplication.ApplicationSettings
         }
 
         public DateTime Now { get { return DateTime.Now; } }
+        public Version ApplicationVersion { get; private set; }
+
         public bool LockFile(string filePath)
         {
             var targetFolder = GetTargetFolderPath(filePath);

@@ -31,6 +31,11 @@ namespace MoneyManager.Interfaces
         DateTime Now { get; }
 
         /// <summary>
+        /// Version der Anwendung.
+        /// </summary>
+        Version ApplicationVersion { get; }
+
+        /// <summary>
         /// Lock File for usage.
         /// </summary>
         /// <param name="filePath"></param>

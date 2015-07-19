@@ -11,6 +11,7 @@ namespace MoneyManager.ViewModels
     public class ApplicationViewModel : ViewModel
     {
         private PageViewModel _activePage;
+        private string _versionAsString;
 
         public Repository Repository { get; private set; }
         public WindowManager WindowManager { get; private set; }
@@ -25,6 +26,13 @@ namespace MoneyManager.ViewModels
             Repository = repository;    
             WindowManager = windowManager;
             ApplicationContext = applicationContext;
+            VersionAsString = string.Format(Properties.Resources.ApplicationVersionFormat, applicationContext.ApplicationVersion.ToString(2));
+        }
+
+        public string VersionAsString
+        {
+            get { return _versionAsString; }
+            private set { SetBackingField("VersionAsString", ref _versionAsString, value); }
         }
 
         public void StartWithAutoLogon(string moneyManagerFilePath)

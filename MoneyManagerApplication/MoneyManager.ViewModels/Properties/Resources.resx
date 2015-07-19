@@ -135,6 +135,9 @@
   <data name="AccountManagementRemoveAccountMessage" xml:space="preserve">
     <value>Möchten Sie wirklich das Konto aus der Liste entfernen? Die Datei wird dabei nicht gelöscht.</value>
   </data>
+  <data name="ApplicationVersionFormat" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
   <data name="CategoryManagementNewCategoryDefaultName" xml:space="preserve">
     <value>Neue Kategorie</value>
   </data>

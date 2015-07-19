@@ -115,6 +115,15 @@ namespace MoneyManager.ViewModels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Version {0}.
+        /// </summary>
+        public static string ApplicationVersionFormat {
+            get {
+                return ResourceManager.GetString("ApplicationVersionFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Neue Kategorie.
         /// </summary>
         public static string CategoryManagementNewCategoryDefaultName {
