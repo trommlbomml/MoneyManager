@@ -324,4 +324,7 @@
   <data name="PeriodName_TwoMonthly" xml:space="preserve">
     <value>Alle 2 Monate</value>
   </data>
+  <data name="RequestManagementPage_Today" xml:space="preserve">
+    <value>Heute</value>
+  </data>
 </root>

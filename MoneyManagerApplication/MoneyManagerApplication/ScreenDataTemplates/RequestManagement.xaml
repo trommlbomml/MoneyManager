@@ -91,7 +91,7 @@
                                  Minimum="1900"
                                  Maximum="3000"
                                  Margin="2" />
-                <Button Command="{Binding GotoCurrentMonthCommand}" Content="@Heute" Margin="2" />
+                <Button Command="{Binding GotoCurrentMonthCommand}" Content="{x:Static properties:Resources.RequestManagementPage_Today}" Margin="2" />
                 <Button Command="{Binding NextMonthCommand}" 
                         Visibility="{Binding NextMonthCommand.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
                         Style="{DynamicResource RoundButtonWithImageStyle}">

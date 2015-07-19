@@ -466,6 +466,15 @@ namespace MoneyManagerApplication.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Heute.
+        /// </summary>
+        public static string RequestManagementPage_Today {
+            get {
+                return ResourceManager.GetString("RequestManagementPage_Today", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Anzahl der Buchungen.
         /// </summary>
         public static string StandingOrderDialog_BookCount {
