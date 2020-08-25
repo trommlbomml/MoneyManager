@@ -178,7 +178,6 @@
 
                 </StackPanel>
 
-
                <Label Content="{x:Static properties:Resources.StandingOrderDialog_LastBooking}" 
                       Margin="5"
                       Visibility="{Binding IsEndingTransactionProperty.Value, Converter={x:Static converters:BoolToHiddenConverter.Instance}}"
@@ -193,7 +192,7 @@
                          Width="100"
                          Visibility="{Binding IsEndingTransactionProperty.Value, Converter={x:Static converters:BoolToHiddenConverter.Instance}}"
                          HorizontalAlignment="Left"
-                         Text="{Binding LastBookDateAsString}"
+                         Text="{Binding LastBookDateAsString, Mode=OneWay}"
                          IsReadOnlyCaretVisible="False"
                          IsReadOnly="True" />
 

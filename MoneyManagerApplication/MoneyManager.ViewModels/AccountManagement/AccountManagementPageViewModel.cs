@@ -40,7 +40,7 @@ namespace MoneyManager.ViewModels.AccountManagement
         public string NewAccountFilePath
         {
             get { return _newAccountFilePath; }
-            internal set { SetBackingField("NewAccountFilePath", ref _newAccountFilePath, value, o => UpdateCommandStates()); }
+            set { SetBackingField("NewAccountFilePath", ref _newAccountFilePath, value, o => UpdateCommandStates()); }
         }
 
         private void OnSelectFileCommand()

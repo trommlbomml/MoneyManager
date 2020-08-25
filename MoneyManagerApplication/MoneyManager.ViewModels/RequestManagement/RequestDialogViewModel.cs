@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Security;
 using MoneyManager.ViewModels.Framework;
 
 namespace MoneyManager.ViewModels.RequestManagement
@@ -140,25 +139,25 @@ namespace MoneyManager.ViewModels.RequestManagement
         public double CalculateValue
         {
             get { return _calculateValue; }
-            private set { SetBackingField("CalculateValue", ref _calculateValue, value); }
+            set { SetBackingField("CalculateValue", ref _calculateValue, value); }
         }
 
         public string DateAsString
         {
             get { return _dateAsString; }
-            private set { SetBackingField("DateAsString", ref _dateAsString, value); }
+            set { SetBackingField("DateAsString", ref _dateAsString, value); }
         }
 
         public DateTime FirstPossibleDate
         {
             get { return _firstPossibleDate; }
-            private set { SetBackingField("FirstPossibleDate", ref _firstPossibleDate, value); }
+            set { SetBackingField("FirstPossibleDate", ref _firstPossibleDate, value); }
         }
 
         public DateTime LastPossibleDate
         {
             get { return _lastPossibleDate; }
-            private set { SetBackingField("LastPossibleDate", ref _lastPossibleDate, value); }
+            set { SetBackingField("LastPossibleDate", ref _lastPossibleDate, value); }
         }
 
         public string Caption
