@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net.Mime;
 using MoneyManager.Interfaces;
 using MoneyManager.ViewModels.AccountManagement;
 using MoneyManager.ViewModels.Framework;
@@ -13,9 +12,9 @@ namespace MoneyManager.ViewModels
         private PageViewModel _activePage;
         private string _versionAsString;
 
-        public Repository Repository { get; private set; }
-        public WindowManager WindowManager { get; private set; }
-        public ApplicationContext ApplicationContext { get; private set; }
+        public Repository Repository { get; }
+        public WindowManager WindowManager { get; }
+        public ApplicationContext ApplicationContext { get; }
 
         public ApplicationViewModel(Repository repository, ApplicationContext applicationContext, WindowManager windowManager)
         {

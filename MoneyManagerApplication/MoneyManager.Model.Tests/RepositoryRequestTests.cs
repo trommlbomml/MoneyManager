@@ -10,7 +10,7 @@ namespace MoneyManager.Model.Tests
     [TestFixture]
     internal class RepositoryRequestTests : RepositoryTestsBase
     {
-        protected IEnumerable<TestCaseData> QueryRequestsForSingleMonthTestCases()
+        protected static IEnumerable<TestCaseData> QueryRequestsForSingleMonthTestCases()
         {
             yield return new TestCaseData(new[] { new DateTime(2014, 6, 1) },
                                           new[] { 10 },
